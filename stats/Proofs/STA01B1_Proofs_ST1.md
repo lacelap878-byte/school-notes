@@ -218,6 +218,9 @@ The isolation of $p$ mirrors section 8. Because $p$ appears inside the standard 
 $$\left(\hat{p} - z_{\alpha/2}\sqrt{\frac{\hat{p}\hat{q}}{n}}, \ \ \hat{p} + z_{\alpha/2}\sqrt{\frac{\hat{p}\hat{q}}{n}}\right)$$
 Large-sample validity: $n\hat{p} > 10$ and $n\hat{q} > 10$.
 
+> [!note] This traditional interval is the examinable one (added)
+> The interval above is the traditional Wald interval, equation 7.11, and it is the only proportion interval this course tests. The textbook also carries an adjusted (score) interval with extra $z^2$ terms, used in Examples 7.8 and 7.9 only to show that the traditional interval already agrees closely for reasonable $n$. That adjusted form is comparison material, not required: do not use it for either the interval or the sample size in section 11. Assessment instruction: use equation 7.11, not 7.10.
+
 ---
 
 ## 11. Sample size formulas
@@ -232,7 +235,7 @@ For a proportion (rearranging the section 10 half-width). From $E = z_{\alpha/2}
 $$n = \frac{z_{\alpha/2}^2\,\hat{p}\hat{q}}{E^2}$$
 When no prior estimate of $p$ exists, use $\hat{p} = 0.5$: the product $\hat{p}\hat{q}$ is a downward parabola in $\hat{p}$ peaking at $0.5$ with value $\tfrac14$, so $\hat{p} = 0.5$ produces the largest required $n$. Whatever the true $p$ turns out to be, this $n$ is guaranteed large enough. (Rearrangements shown via examples in [[STA01B1_Notes_S3_Statistical_Intervals]] under "Confidence level, precision, sample size" and "Confidence interval for a population proportion".)
 
-N.B "within" gives $E$ directly, "width" gives $2E$ so divide by 2 first. This course uses the traditional proportion CI formula, not the adjusted one, for sample size work.
+N.B "within" gives $E$ directly, "width" gives $2E$ so divide by 2 first. This sample size uses the traditional proportion formula (equation 7.11 from section 10), not the adjusted one.
 
 ---
 
