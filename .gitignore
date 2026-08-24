@@ -3,13 +3,8 @@
 .obsidian/workspace-mobile.json
 .obsidian/cache
 
-# Plugin installed code and per-device settings (differ by device, cause pull conflicts if tracked)
-.obsidian/plugins/*/main.js
-.obsidian/plugins/*/manifest.json
-.obsidian/plugins/*/styles.css
+# Plugin per-device settings (safe to regenerate, not needed for rendering)
 .obsidian/plugins/*/data.json
-.obsidian/community-plugins.json
-.obsidian/core-plugins.json
 
 # OS junk
 .DS_Store
