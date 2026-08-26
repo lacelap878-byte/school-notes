@@ -10,6 +10,7 @@ tags: []
 - [[MAT01B1_Notes_S1_CalculusApplications]]
 - [[MAT01B1_Proofs_ST1]]
 - [[MAT01B1_Notes_S2_DerivativeIntegralReference]]
+- [[MAT01B1_Notes_S3_IntegrationExamples]]
 
 ## Condensed concept pass
 
@@ -33,13 +34,18 @@ tags: []
 
 **$\sin^n\cos^m$ and $\tan^n\sec^m$.** Strip one factor for the substitution's $du$, convert the rest with a Pythagorean identity. The $\tan^n\sec^m$, $n$ even $m$ odd case needs the secant reduction formula. (see: [[MAT01B1_Notes_S2_DerivativeIntegralReference#Products and quotients of trig functions]])
 
+**Derivatives of inverse trig and inverse hyperbolic functions.** Both families come from implicit differentiation plus a Pythagorean or hyperbolic identity, the trig set picks up an absolute value from a domain sign split that the hyperbolic set never needs. (see: [[MAT01B1_Proofs_ST1#Derivatives of inverse trig functions]], [[MAT01B1_Proofs_ST1#Derivatives of inverse hyperbolic functions]])
+
 **Improper integrals.** Type I (infinite interval) and Type II (asymptote in the interval) both defined as a limit. $p$-integral test and Comparison Test decide convergence when the antiderivative is hard or impossible. (see: [[MAT01B1_Notes_S1_CalculusApplications#Improper integrals (added)]])
 
 ## Worked example notebook
 - $x^3-3x^2$ sign chart and concavity, (source: [[MAT01B1_Notes_S1_CalculusApplications#Curve sketching (added)]])
-- $\int \frac{3x+5}{(x-1)(x+2)}\,dx$, partial fractions, distinct linear factors, (source: [[MAT01B1_Notes_S2_DerivativeIntegralReference#Partial fractions]])
-- $\int \sin^3x\cos^2x\,dx$, $n$ odd case, (source: [[MAT01B1_Notes_S2_DerivativeIntegralReference#Products and quotients of trig functions]])
-- $\int \tan^2x\sec^3x\,dx$, $n$ even $m$ odd case via reduction formula, (source: [[MAT01B1_Notes_S2_DerivativeIntegralReference#Products and quotients of trig functions]])
+- $\int xe^x\,dx$, Integration by Parts via LIATE, (source: [[MAT01B1_Notes_S3_IntegrationExamples#Integration by Parts]])
+- $\int \frac{dx}{\sqrt{9-x^2}}$, trig substitution, (source: [[MAT01B1_Notes_S3_IntegrationExamples#Trig Substitution]])
+- $\int \frac{3x+5}{(x-1)(x+2)}\,dx$, partial fractions, distinct linear factors, (source: [[MAT01B1_Notes_S3_IntegrationExamples#Partial Fractions]])
+- $\int \sin^3x\cos^2x\,dx$, $n$ odd case, (source: [[MAT01B1_Notes_S3_IntegrationExamples#$\sin^n x \cos^m x$]])
+- $\int \tan^3x\sec^3x\,dx$, $\int \tan^2x\sec^4x\,dx$, $\int \tan^2x\sec^3x\,dx$, the three $\tan^n\sec^m$ cases, (source: [[MAT01B1_Notes_S3_IntegrationExamples#$\tan^n x \sec^m x$]])
+- Strategy recognition: u-sub into IBP, trig identity vs trig substitution, partial fractions vs trig substitution, (source: [[MAT01B1_Notes_S3_IntegrationExamples#Miscellaneous: mixing and matching strategies]])
 - $\int_1^{\infty}\frac{1}{x^2}\,dx$, Type I convergent, (source: [[MAT01B1_Notes_S1_CalculusApplications#Improper integrals (added)]])
 - $\int_0^1\frac{1}{\sqrt{x}}\,dx$, Type II convergent, (source: [[MAT01B1_Notes_S1_CalculusApplications#Improper integrals (added)]])
 - $\int_1^{\infty}\frac{1}{\sqrt{x^3+1}}\,dx$, Comparison Test, (source: [[MAT01B1_Notes_S1_CalculusApplications#Improper integrals (added)]])

@@ -42,13 +42,13 @@ y=x^{3}-3x^{2}
 
 ## Integration techniques
 
-All formulas referenced here (the exact statements of IBP, trig substitutions, partial fractions, and the reduction cases) live in [[MAT01B1_Notes_S2_DerivativeIntegralReference]], this section is about when and why to reach for each one, not the formulas themselves.
+All formulas referenced here (the exact statements of IBP, trig substitutions, partial fractions, and the reduction cases) live in [[MAT01B1_Notes_S2_DerivativeIntegralReference]], worked examples for each live in [[MAT01B1_Notes_S3_IntegrationExamples]], this section is about when and why to reach for each one, not the formulas or the worked mechanics.
 
 **Integration by Parts** is the product rule run in reverse. It's the tool when the integrand is a product of two functions of different types (a polynomial times an exponential, a log by itself, an inverse trig function by itself) where no substitution collapses it into something simpler. See [[MAT01B1_Notes_S2_DerivativeIntegralReference#Integration by Parts]] for the formula and the LIATE guide for picking $u$.
 
 **Trig substitution** is the tool specifically for a square root of a sum or difference of squares sitting under the integral sign, $\sqrt{a^2-b^2x^2}$, $\sqrt{b^2x^2-a^2}$, or $\sqrt{a^2+b^2x^2}$. The substitution turns the root into a single trig function via a Pythagorean identity, removing it entirely. See [[MAT01B1_Notes_S2_DerivativeIntegralReference#Trig substitutions]].
 
-**Partial fractions** is for a rational function (one polynomial divided by another) where nothing simplifies directly. The idea: any such fraction can be broken back apart into the simpler fractions that would have been added together to make it, and each of those simpler pieces integrates using the log or arctan patterns already in the reference tables. See [[MAT01B1_Notes_S2_DerivativeIntegralReference#Partial fractions]] for the decomposition table and a worked example.
+**Partial fractions** is for a rational function (one polynomial divided by another) where nothing simplifies directly. The idea: any such fraction can be broken back apart into the simpler fractions that would have been added together to make it, and each of those simpler pieces integrates using the log or arctan patterns already in the reference tables. See [[MAT01B1_Notes_S2_DerivativeIntegralReference#Partial fractions]] for the decomposition table, and [[MAT01B1_Notes_S3_IntegrationExamples#Partial Fractions]] for a worked example.
 
 **Products and quotients of trig functions** ($\sin^n x\cos^m x$, $\tan^n x\sec^m x$) get handled by stripping one factor out to serve as the substitution's $du$, then converting everything else to match the remaining variable using a Pythagorean identity. The full case breakdown, including the case the original reference sheet left unexplained ($\tan^n x\sec^m x$ with $n$ even and $m$ odd, which needs the secant reduction formula), is in [[MAT01B1_Notes_S2_DerivativeIntegralReference#Products and quotients of trig functions]].
 
@@ -96,3 +96,4 @@ Notice these point in opposite directions: for the infinite interval, a *steeper
 ## See also
 - [[MAT01B1_Proofs_ST1]]
 - [[MAT01B1_Notes_S2_DerivativeIntegralReference]]
+- [[MAT01B1_Notes_S3_IntegrationExamples]]

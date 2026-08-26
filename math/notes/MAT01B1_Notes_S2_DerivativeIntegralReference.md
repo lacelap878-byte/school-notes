@@ -82,6 +82,8 @@ $$
 
 > [!note] (added) $\sin^{-1}x$ means arcsine
 > $\sin^{-1}x$ (also written $\arcsin x$) is the **inverse sine function**: the angle whose sine is $x$. It is not $\frac{1}{\sin x}$, that would be written $\csc x$ or $(\sin x)^{-1}$. Same convention for all six inverse trig functions above.
+>
+> Full derivations of all six are in [[MAT01B1_Proofs_ST1#Derivatives of inverse trig functions]].
 
 ### Exponential and logarithm functions
 
@@ -109,6 +111,32 @@ $$
 
 > [!note] (added) Hyperbolic functions, in one line
 > $\sinh x = \dfrac{e^x - e^{-x}}{2}$ and $\cosh x = \dfrac{e^x + e^{-x}}{2}$, built from $e^x$ directly, which is why none of their derivatives carry a minus sign the way the "co" trig functions do (except $\operatorname{sech}$ and $\operatorname{csch}$'s derivatives, by direct analogy with $\sec$ and $\csc$).
+
+### Inverse hyperbolic functions (added, absent from the source entirely)
+
+$$
+\sinh^{-1}x = \ln\!\left(x+\sqrt{x^2+1}\right), \; x \in \mathbb{R} \qquad \frac{d}{dx}\big[\sinh^{-1}x\big] = \frac{1}{\sqrt{x^2+1}}
+$$
+$$
+\cosh^{-1}x = \ln\!\left(x+\sqrt{x^2-1}\right), \; x \ge 1 \qquad \frac{d}{dx}\big[\cosh^{-1}x\big] = \frac{1}{\sqrt{x^2-1}}, \; x>1
+$$
+$$
+\tanh^{-1}x = \frac{1}{2}\ln\!\left(\frac{1+x}{1-x}\right), \; |x|<1 \qquad \frac{d}{dx}\big[\tanh^{-1}x\big] = \frac{1}{1-x^2}, \; |x|<1
+$$
+$$
+\coth^{-1}x = \frac{1}{2}\ln\!\left(\frac{x+1}{x-1}\right), \; |x|>1 \qquad \frac{d}{dx}\big[\coth^{-1}x\big] = \frac{1}{1-x^2}, \; |x|>1
+$$
+$$
+\operatorname{sech}^{-1}x = \ln\!\left(\frac{1}{x}+\sqrt{\frac{1}{x^2}-1}\right), \; 0<x\le1 \qquad \frac{d}{dx}\big[\operatorname{sech}^{-1}x\big] = -\frac{1}{x\sqrt{1-x^2}}, \; 0<x<1
+$$
+$$
+\operatorname{csch}^{-1}x = \ln\!\left(\frac{1}{x}+\sqrt{\frac{1}{x^2}+1}\right), \; x\ne0 \qquad \frac{d}{dx}\big[\operatorname{csch}^{-1}x\big] = -\frac{1}{|x|\sqrt{x^2+1}}, \; x\ne0
+$$
+
+> [!note] (added) Same formula, two different domains
+> $\tanh^{-1}x$ and $\coth^{-1}x$ have the identical derivative formula $\frac{1}{1-x^2}$, the split is entirely in where each is defined: $\tanh^{-1}$ lives strictly inside $(-1,1)$, $\coth^{-1}$ strictly outside $[-1,1]$. Neither one covers $|x|=1$, where both blow up.
+>
+> Full derivations of all six are in [[MAT01B1_Proofs_ST1#Derivatives of inverse hyperbolic functions]].
 
 ## Integrals
 
@@ -215,15 +243,6 @@ For $\displaystyle\int \frac{P(x)}{Q(x)}\,dx$ where $\deg P < \deg Q$: factor $Q
 > [!note] (added) $\deg P < \deg Q$ means what, exactly
 > $\deg P$ ("degree of $P$") is the highest power of $x$ appearing in that polynomial. The condition $\deg P < \deg Q$ (numerator's highest power smaller than denominator's) is what makes the fraction "proper." If it isn't, do polynomial long division first, split off a polynomial plus a proper remainder fraction, and only the remainder gets a P.F.D.
 
-**(added) Worked example (composite).** $\displaystyle\int \frac{3x+5}{(x-1)(x+2)}\,dx$. Denominator is two distinct linear factors, so
-$$
-\frac{3x+5}{(x-1)(x+2)} = \frac{A}{x-1} + \frac{B}{x+2}.
-$$
-Multiplying through: $3x+5 = A(x+2) + B(x-1)$. Setting $x=1$: $8 = 3A \Rightarrow A = \tfrac{8}{3}$. Setting $x=-2$: $-1 = -3B \Rightarrow B = \tfrac{1}{3}$. So
-$$
-\int \frac{3x+5}{(x-1)(x+2)}\,dx = \frac{8}{3}\ln|x-1| + \frac{1}{3}\ln|x+2| + c.
-$$
-
 ## Products and quotients of trig functions
 
 ### $\int \sin^n x \cos^m x\,dx$
@@ -232,11 +251,6 @@ $$
 2. **$m$ odd.** Strip one cosine out, convert the rest to sines using $\cos^2 x = 1 - \sin^2 x$, then substitute $u = \sin x$.
 3. **$n$ and $m$ both odd.** Use either 1. or 2.
 4. **$n$ and $m$ both even.** Use double angle ($\sin 2x = 2\sin x\cos x$) and/or half angle ($\sin^2 x = \tfrac{1-\cos 2x}{2}$, $\cos^2 x = \tfrac{1+\cos 2x}{2}$) formulas to reduce the integral into an integrable form.
-
-**(added) Worked example (composite), $n$ odd case.** $\displaystyle\int \sin^3 x \cos^2 x\,dx$. Strip one sine: $\sin^3 x = \sin x \cdot \sin^2 x = \sin x(1-\cos^2 x)$. So the integral becomes $\int \sin x(1-\cos^2 x)\cos^2 x\,dx$. Let $u=\cos x$, $du=-\sin x\,dx$:
-$$
-\int \sin x(1-\cos^2x)\cos^2x\,dx = -\int (1-u^2)u^2\,du = -\int (u^2-u^4)\,du = -\frac{u^3}{3}+\frac{u^5}{5}+c = -\frac{\cos^3x}{3}+\frac{\cos^5x}{5}+c.
-$$
 
 ### $\int \tan^n x \sec^m x\,dx$ (added: expanded well beyond the source, this is where the original sheet stayed thin)
 
@@ -275,25 +289,9 @@ $$
 
 which rearranges to the boxed formula above. Applied repeatedly, it drops the power by 2 each time until it reaches $\int \sec x\,dx = \ln|\sec x+\tan x|+c$ (odd $k$, matches case 4) or $\int \sec^0x\,dx = \int dx = x+c$ (even $k$, doesn't arise in case 4 since $k$ stays odd throughout, but is the base case for the general formula).
 
-**(added) Worked example (composite), case 4.** $\displaystyle\int \tan^2x\sec^3x\,dx$. Here $n=2$ (even), $m=3$ (odd). Replace $\tan^2x=\sec^2x-1$:
-$$
-\int \tan^2x\sec^3x\,dx = \int (\sec^2x-1)\sec^3x\,dx = \int \sec^5x\,dx - \int \sec^3x\,dx.
-$$
-Apply the reduction formula with $k=5$:
-$$
-\int \sec^5x\,dx = \frac{\sec^3x\tan x}{4} + \frac{3}{4}\int \sec^3x\,dx.
-$$
-So
-$$
-\int \tan^2x\sec^3x\,dx = \frac{\sec^3x\tan x}{4} + \frac{3}{4}\int \sec^3x\,dx - \int \sec^3x\,dx = \frac{\sec^3x\tan x}{4} - \frac{1}{4}\int \sec^3x\,dx.
-$$
-Using the table value $\int \sec^3x\,dx = \tfrac{1}{2}\big(\sec x\tan x + \ln|\sec x+\tan x|\big)+c$ from the reference table above:
-$$
-\int \tan^2x\sec^3x\,dx = \frac{\sec^3x\tan x}{4} - \frac{1}{8}\Big(\sec x\tan x + \ln|\sec x+\tan x|\Big) + c.
-$$
-
 **(added) The $\int \cot^nx\csc^mx\,dx$ family** works identically to $\tan^n\sec^m$, symmetrically, using $\cot^2x=\csc^2x-1$, $\dfrac{d}{dx}[\cot x]=-\csc^2x$, and $\dfrac{d}{dx}[\csc x]=-\csc x\cot x$. Every case above transfers directly with the sign changes those two derivatives bring.
 
 ## See also
 - [[MAT01B1_Notes_S1_CalculusApplications]]
+- [[MAT01B1_Notes_S3_IntegrationExamples]]
 - [[MAT01B1_Proofs_ST1]]
