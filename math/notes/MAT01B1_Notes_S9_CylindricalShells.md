@@ -73,7 +73,7 @@ $$
 V=\int_0^1(2\pi x)(x-x^2)\,dx=2\pi\int_0^1(x^2-x^3)\,dx=2\pi\left[\frac{x^3}{3}-\frac{x^4}{4}\right]_0^1=\frac{\pi}{6}.
 $$
 
-N.B This is the same two curves as the washer example in [[MAT01B1_Notes_S8_Volumes#Worked example: washer method]], but rotated about the $y$-axis here instead of the $x$-axis, so the two results ($\pi/6$ here versus $2\pi/15$ there) are not meant to match, they're different solids.
+N.B This is the same two curves as the washer example in [[MAT01B1_Notes_S8_Volumes#Worked example: washer method (source, slides 17 to 18)|washer method example]], but rotated about the $y$-axis here instead of the $x$-axis, so the two results ($\pi/6$ here versus $2\pi/15$ there) are not meant to match, they're different solids.
 
 ## Worked example: disk vs. shell for the same solid (source, slides 17 to 18)
 
@@ -83,7 +83,7 @@ $$
 V=\int_0^1(2\pi y)(1-y^2)\,dy=2\pi\int_0^1(y-y^3)\,dy=2\pi\left[\frac{y^2}{2}-\frac{y^4}{4}\right]_0^1=\frac{\pi}{2}.
 $$
 
-Same answer as [[MAT01B1_Notes_S8_Volumes#Worked example: disk method, rotating about the $x$-axis]], which used the disk method on the identical solid. (source note) In this particular problem, the disk method was simpler, the shell method isn't automatically the better choice, it's a tool for when slicing perpendicular to the axis is the hard direction.
+Same answer as [[MAT01B1_Notes_S8_Volumes#Worked example: disk method, rotating about the $x$-axis (source, slides 13 to 14)|disk method example]], which used the disk method on the identical solid. (source note) In this particular problem, the disk method was simpler, the shell method isn't automatically the better choice, it's a tool for when slicing perpendicular to the axis is the hard direction.
 
 ## Worked example: shells about a vertical line other than the axis (source, slides 19 to 20)
 

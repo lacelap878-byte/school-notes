@@ -169,6 +169,19 @@ $$
 
 The orthogonal trajectories of the parabolas $x=ky^2$ are the family of ellipses $x^2+\tfrac{y^2}{2}=C$ ($C>0$).
 
+```desmos-graph
+left=-4; right=4;
+top=3; bottom=-3;
+---
+x=0.3y^{2}
+x=-0.3y^{2}
+x=0.8y^{2}
+x=-0.8y^{2}
+x^{2}+\frac{y^{2}}{2}=1
+x^{2}+\frac{y^{2}}{2}=2
+x^{2}+\frac{y^{2}}{2}=4
+```
+
 (source aside) Orthogonal trajectories show up across physics: lines of force in an electrostatic field are orthogonal to lines of constant potential, and streamlines in aerodynamics are orthogonal to velocity-equipotential curves.
 
 ## See also

@@ -43,7 +43,7 @@ $$
 A=\int_c^d\big[f(y)-g(y)\big]\,dy.
 $$
 
-N.B Whether to slice vertically ($dx$) or horizontally ($dy$) is a choice made for convenience: pick whichever way the boundary curves are already naturally written as functions, so you avoid solving for the other variable. The same "which variable is easier" judgement call comes up again, in a bigger way, when choosing between disks/washers and cylindrical shells for volumes (see: [[MAT01B1_Notes_S9_CylindricalShells#Disks/washers vs cylindrical shells]]).
+N.B Whether to slice vertically ($dx$) or horizontally ($dy$) is a choice made for convenience: pick whichever way the boundary curves are already naturally written as functions, so you avoid solving for the other variable. The same "which variable is easier" judgement call comes up again, in a bigger way, when choosing between disks/washers and cylindrical shells for volumes (see: [[MAT01B1_Notes_S9_CylindricalShells#Disks/washers vs cylindrical shells (source, slides 21 to 22)|disks/washers vs. shells]]).
 
 ## Worked example: region between $e^x$ and $x$ (source, slides 7 to 8)
 
@@ -53,6 +53,14 @@ $$
 A=\int_0^1(e^x-x)\,dx=\left[e^x-\tfrac12x^2\right]_0^1=\left(e-\tfrac12\right)-1=e-1.5.
 $$
 
+```desmos-graph
+left=-0.3; right=1.3;
+top=3; bottom=-0.3;
+---
+y=e^{x}\left\{0\le x\le1\right\}
+y=x\left\{0\le x\le1\right\}
+```
+
 ## Worked example: region between two parabolas (source, slides 9 to 10)
 
 Area enclosed by $y=x^2$ and $y=2x-x^2$. Intersections: $x^2=2x-x^2\Rightarrow 2x^2-2x=0\Rightarrow x=0,1$.
@@ -60,6 +68,14 @@ Area enclosed by $y=x^2$ and $y=2x-x^2$. Intersections: $x^2=2x-x^2\Rightarrow 2
 $$
 A=\int_0^1\big[(2x-x^2)-x^2\big]\,dx=2\int_0^1(x-x^2)\,dx=2\left[\frac{x^2}{2}-\frac{x^3}{3}\right]_0^1=2\left(\frac12-\frac13\right)=\frac13.
 $$
+
+```desmos-graph
+left=-0.3; right=1.3;
+top=1.3; bottom=-0.3;
+---
+y=x^{2}
+y=2x-x^{2}
+```
 
 ## Worked example: curves with no exact intersection point (source, slides 11 to 13)
 

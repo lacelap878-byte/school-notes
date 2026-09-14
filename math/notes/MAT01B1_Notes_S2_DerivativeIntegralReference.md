@@ -83,7 +83,7 @@ $$
 > [!note] (added) $\sin^{-1}x$ means arcsine
 > $\sin^{-1}x$ (also written $\arcsin x$) is the **inverse sine function**: the angle whose sine is $x$. It is not $\frac{1}{\sin x}$, that would be written $\csc x$ or $(\sin x)^{-1}$. Same convention for all six inverse trig functions above.
 >
-> Full derivations of all six are in [[MAT01B1_Proofs_ST1#Derivatives of inverse trig functions]].
+> Full derivations of all six are in [[MAT01B1_Proofs_ST1#Derivatives of inverse trig functions (added, absent from the source entirely)|derivatives of inverse trig functions]].
 
 ### Exponential and logarithm functions
 
@@ -136,7 +136,7 @@ $$
 > [!note] (added) Same formula, two different domains
 > $\tanh^{-1}x$ and $\coth^{-1}x$ have the identical derivative formula $\frac{1}{1-x^2}$, the split is entirely in where each is defined: $\tanh^{-1}$ lives strictly inside $(-1,1)$, $\coth^{-1}$ strictly outside $[-1,1]$. Neither one covers $|x|=1$, where both blow up.
 >
-> Full derivations of all six are in [[MAT01B1_Proofs_ST1#Derivatives of inverse hyperbolic functions]].
+> Full derivations of all six are in [[MAT01B1_Proofs_ST1#Derivatives of inverse hyperbolic functions (added, absent from the source entirely)|derivatives of inverse hyperbolic functions]].
 
 ## Integrals
 

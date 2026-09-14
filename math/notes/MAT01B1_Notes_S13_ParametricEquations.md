@@ -45,7 +45,7 @@ so $(x,y)$ moves on the unit circle. Here $t$ is literally the angle shown in th
 
 $x=\sin2t$, $y=\cos2t$, $0\le t\le2\pi$. Again $x^2+y^2=\sin^22t+\cos^22t=1$, the same unit circle. But now, as $t$ increases from $0$ to $2\pi$, the point starts at $(0,1)$ and goes around the circle **twice**, in the **clockwise** direction.
 
-N.B Two different parametrizations traced out the identical set of points here, only the starting point, direction, and number of times around differ. This matters: a curve's *shape* and its *parametrization* are genuinely different pieces of information, and this exact pair of examples is reused in [[MAT01B1_Notes_S14_CalculusWithParametricEquations#Worked example: arc length of the unit circle, two parametrizations|S14's arc length section]] to show why the distinction matters for calculus done on the curve.
+N.B Two different parametrizations traced out the identical set of points here, only the starting point, direction, and number of times around differ. This matters: a curve's *shape* and its *parametrization* are genuinely different pieces of information, and this exact pair of examples is reused in [[MAT01B1_Notes_S14_CalculusWithParametricEquations#Worked example: arc length of the unit circle, two parametrizations (source, slides 20 to 21)|S14's arc length section]] to show why the distinction matters for calculus done on the curve.
 
 ## Worked example: the cycloid (source, slides 10 to 12)
 
@@ -73,6 +73,13 @@ x=r(\theta-\sin\theta),\qquad y=r(1-\cos\theta),\qquad\theta\in\mathbb R.
 $$
 
 One full arch (one complete rotation of the circle) corresponds to $0\le\theta\le2\pi$. The derivation above was carried out for $0<\theta<\pi/2$, but the resulting equations are valid for every value of $\theta$.
+
+```desmos-graph
+left=-1; right=14;
+top=3; bottom=-0.5;
+---
+(t-\sin(t),1-\cos(t))\left\{0\le t\le4\pi\right\}
+```
 
 ## See also
 - [[MAT01B1_Notes_S14_CalculusWithParametricEquations]] (tangents, area, arc length, surface area for these curves)

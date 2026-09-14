@@ -129,11 +129,11 @@ $$
 - $f',g'$ continuous on $[\alpha,\beta]$
 - $C$ traversed exactly once as $t$ runs from $\alpha$ to $\beta$
 
-N.B "Traversed exactly once" is doing real work here, it's exactly the condition that failed in [[MAT01B1_Notes_S13_ParametricEquations#Worked example: the unit circle, traced twice|S13's second unit-circle parametrization]]; the next example shows what happens to $L$ when it's violated.
+N.B "Traversed exactly once" is doing real work here, it's exactly the condition that failed in [[MAT01B1_Notes_S13_ParametricEquations#Worked example: the unit circle, traced twice (source, slide 9)|S13's second unit-circle parametrization]]; the next example shows what happens to $L$ when it's violated.
 
 ## Worked example: arc length of the unit circle, two parametrizations (source, slides 20 to 21)
 
-**Traced once** ($x=\cos t$, $y=\sin t$, $0\le t\le2\pi$, from [[MAT01B1_Notes_S13_ParametricEquations#Worked example: the unit circle, traced once|S13]]): $dx/dt=-\sin t$, $dy/dt=\cos t$,
+**Traced once** ($x=\cos t$, $y=\sin t$, $0\le t\le2\pi$, from [[MAT01B1_Notes_S13_ParametricEquations#Worked example: the unit circle, traced once (source, slides 7 to 8)|S13]]): $dx/dt=-\sin t$, $dy/dt=\cos t$,
 
 $$
 L=\int_0^{2\pi}\sqrt{\sin^2t+\cos^2t}\,dt=\int_0^{2\pi}dt=2\pi,
@@ -141,7 +141,7 @@ $$
 
 as expected for a unit circle.
 
-**Traced twice** ($x=\sin2t$, $y=\cos2t$, $0\le t\le2\pi$, from [[MAT01B1_Notes_S13_ParametricEquations#Worked example: the unit circle, traced twice|S13]]): $dx/dt=2\cos2t$, $dy/dt=-2\sin2t$,
+**Traced twice** ($x=\sin2t$, $y=\cos2t$, $0\le t\le2\pi$, from [[MAT01B1_Notes_S13_ParametricEquations#Worked example: the unit circle, traced twice (source, slide 9)|S13]]): $dx/dt=2\cos2t$, $dy/dt=-2\sin2t$,
 
 $$
 L=\int_0^{2\pi}\sqrt{4\cos^22t+4\sin^22t}\,dt=\int_0^{2\pi}2\,dt=4\pi,

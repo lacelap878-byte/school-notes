@@ -54,6 +54,14 @@ $$
 
 Closed Interval Method: $A'(x)=1200-4x=0\Rightarrow x=300$. $A(0)=0$, $A(300)=180\,000$, $A(600)=0$. Maximum at $x=300$: depth 300 m, width 600 m. $A''(x)=-4<0$ confirms the graph is concave down, consistent with $x=300$ being an absolute maximum.
 
+```desmos-graph
+left=-50; right=650;
+top=200000; bottom=-20000;
+---
+y=1200x-2x^{2}\left\{0\le x\le600\right\}
+(300,180000)
+```
+
 ## Worked example: minimum-surface-area can (source, slides 10 to 14)
 
 A cylindrical can must hold 1 L ($1000\text{ cm}^3$); minimize the total surface area (top, bottom, side).

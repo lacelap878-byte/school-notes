@@ -81,11 +81,25 @@ $$
 
 a circle centered at $(1,0)$ with radius $1$.
 
+```desmos-graph
+left=-2; right=3;
+top=1.5; bottom=-1.5;
+---
+r=2\cos(\theta)
+```
+
 ## Worked example: $r=\cos2\theta$, the four-leaved rose (source, slides 18 to 19)
 
 (source note) The slides describe this by first sketching $r=\cos2\theta$ as an ordinary Cartesian graph (with $\theta$ on the horizontal axis and $r$ on the vertical), the way "Example 7" is said to have done just before it, though that particular example's own content isn't included in these slides. Reading that Cartesian graph tells you how $r$ behaves in each interval of $\theta$, which is then converted into the polar picture piece by piece:
 
 As $\theta$ increases from $0$ to $\pi/4$, $r$ decreases from $1$ to $0$, tracing one petal in the region near the polar axis. As $\theta$ increases from $\pi/4$ to $\pi/2$, $r$ goes from $0$ back up to $1$ in magnitude, but since $r$ is negative on this stretch, that portion of the curve is drawn on the *opposite* side of the pole, in the third quadrant rather than the first. Continuing this analysis around the rest of $0\le\theta\le2\pi$ traces out the remaining petals. The resulting curve has four loops and is called a **four-leaved rose**.
+
+```desmos-graph
+left=-1.3; right=1.3;
+top=1.3; bottom=-1.3;
+---
+r=\cos(2\theta)
+```
 
 ## See also
 - [[MAT01B1_Notes_S13_ParametricEquations]] (another way of describing curves outside the $y=f(x)$ framework)

@@ -34,7 +34,7 @@ tags: []
 
 **$\sin^n\cos^m$ and $\tan^n\sec^m$.** Strip one factor for the substitution's $du$, convert the rest with a Pythagorean identity. The $\tan^n\sec^m$, $n$ even $m$ odd case needs the secant reduction formula. (see: [[MAT01B1_Notes_S2_DerivativeIntegralReference#Products and quotients of trig functions]])
 
-**Derivatives of inverse trig and inverse hyperbolic functions.** Both families come from implicit differentiation plus a Pythagorean or hyperbolic identity, the trig set picks up an absolute value from a domain sign split that the hyperbolic set never needs. (see: [[MAT01B1_Proofs_ST1#Derivatives of inverse trig functions]], [[MAT01B1_Proofs_ST1#Derivatives of inverse hyperbolic functions]])
+**Derivatives of inverse trig and inverse hyperbolic functions.** Both families come from implicit differentiation plus a Pythagorean or hyperbolic identity, the trig set picks up an absolute value from a domain sign split that the hyperbolic set never needs. (see: [[MAT01B1_Proofs_ST1#Derivatives of inverse trig functions (added, absent from the source entirely)|derivatives of inverse trig functions]], [[MAT01B1_Proofs_ST1#Derivatives of inverse hyperbolic functions (added, absent from the source entirely)|derivatives of inverse hyperbolic functions]])
 
 **Improper integrals.** Type I (infinite interval) and Type II (asymptote in the interval) both defined as a limit. $p$-integral test and Comparison Test decide convergence when the antiderivative is hard or impossible. (see: [[MAT01B1_Notes_S1_CalculusApplications#Improper integrals (added)]])
 
