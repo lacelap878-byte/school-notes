@@ -97,3 +97,6 @@ Notice these point in opposite directions: for the infinite interval, a *steeper
 - [[MAT01B1_Proofs_ST1]]
 - [[MAT01B1_Notes_S2_DerivativeIntegralReference]]
 - [[MAT01B1_Notes_S3_IntegrationExamples]]
+- [[MAT01B1_Notes_S5_OptimizationProblems]] (the extremum theory above applied directly to optimization problems)
+- [[MAT01B1_Notes_S6_MVTForIntegrals]] (integral counterpart of the Mean Value Theorem)
+- [[MAT01B1_Notes_S12_LinearDifferentialEquations]] (a different non-elementary integral, $\int e^{x^2}\,dx$, handled via the Fundamental Theorem of Calculus rather than the Comparison Test used above)

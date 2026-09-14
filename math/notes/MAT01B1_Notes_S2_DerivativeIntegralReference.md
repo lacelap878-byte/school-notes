@@ -295,3 +295,6 @@ which rearranges to the boxed formula above. Applied repeatedly, it drops the po
 - [[MAT01B1_Notes_S1_CalculusApplications]]
 - [[MAT01B1_Notes_S3_IntegrationExamples]]
 - [[MAT01B1_Proofs_ST1]]
+- [[MAT01B1_Notes_S7_AreaBetweenCurves]], [[MAT01B1_Notes_S8_Volumes]], [[MAT01B1_Notes_S9_CylindricalShells]] (basic integral formulas applied to areas and volumes)
+- [[MAT01B1_Notes_S11_SeparableDifferentialEquations]], [[MAT01B1_Notes_S12_LinearDifferentialEquations]] (Chain Rule and Product Rule underlying both solution methods)
+- [[MAT01B1_Notes_S14_CalculusWithParametricEquations]] (Chain Rule for parametric tangents, Substitution Rule for parametric area and arc length)

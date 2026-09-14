@@ -96,7 +96,7 @@ $$
 f'(c) = \frac{f(b)-f(a)}{b-a}.
 $$
 
--> the constant helper function trick above is reused directly in Theorem 5 (see: Theorem 5 and Corollary 7).
+-> the constant helper function trick above is reused directly in Theorem 5 (see: Theorem 5 and Corollary 7). The integral counterpart of this theorem, guaranteeing a point where a function's value equals its average value rather than a point where its rate equals its average rate, is in [[MAT01B1_Notes_S6_MVTForIntegrals]].
 
 ## Theorem 5 and Corollary 7
 
@@ -178,3 +178,6 @@ Same implicit differentiation approach as the inverse trig set, but using the hy
 ## See also
 - [[MAT01B1_Notes_S1_CalculusApplications]]
 - [[MAT01B1_Notes_S2_DerivativeIntegralReference]]
+- [[MAT01B1_Notes_S5_OptimizationProblems]] (Fermat's Theorem used to justify the First Derivative Test for Absolute Extreme Values)
+- [[MAT01B1_Notes_S6_MVTForIntegrals]] (Mean Value Theorem, integral counterpart)
+- [[MAT01B1_Notes_S14_CalculusWithParametricEquations]] (Mean Value Theorem applied twice, once to each of two functions, to derive parametric arc length)
