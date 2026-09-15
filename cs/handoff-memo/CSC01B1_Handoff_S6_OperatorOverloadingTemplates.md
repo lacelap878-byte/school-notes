@@ -32,10 +32,12 @@ This session (S6) covered CSC01B1 Lecture 5 across 7 live parts:
 
 After Part 7, several follow-up questions were worked through and folded into Block 3: the two-object mechanics of post-increment vs the one-object mechanics of pre-increment; why `[]` needs both a const and nonconst overload; the actual (narrow) scope of when operator overloading is required rather than optional; whether the compiler default `=` copies members regardless of access specifier (it does); and the distinction between the assignment operator and the copy constructor.
 
+A further round of follow-up on templates specifically was also worked through and folded into Block 3, with compiled-and-run examples throughout: the point of templates versus hand-written function overloading (worked example, `maxOf<Type>`); that `vector<int>` and other standard-library containers use the identical `template <class Type>` mechanism as a hand-written class template, not a special built-in syntax; that `std::max` and `std::sort` are function templates in the same sense as `maxOf<Type>`; the scope boundary of a `template <class Type>` declaration (applies only to the one declaration directly beneath it, demonstrated with an actual compiler error when violated); and why class templates appeared to skip declaring `Type` for member functions (they didn't, the template header just covers the whole class body when member functions are written inline, and must be repeated per function when defined outside the class body).
+
 S1 to S5: content summaries not available this session.
 
 ## 5. LAST POSITION
-Part 7 of 7, complete. Closing follow-up Q&A also complete. Session closed via Memo.
+Part 7 of 7, complete. Closing follow-up Q&A on operators, then a further round on templates specifically, both complete. Session closed via Memo (updated).
 
 ## 6. PARKED ITEMS
 None.

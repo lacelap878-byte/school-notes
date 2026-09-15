@@ -2,7 +2,7 @@
 module: CSC01B1
 topic: Operator Overloading and Templates
 session: S6
-tags: [definition, worked-example, common-mistake, exam-flagged, struggle]
+tags: [definition, worked-example, common-mistake, exam-flagged, struggle, added]
 ---
 
 # Operator Overloading and Templates
@@ -340,6 +340,77 @@ class declaration
 - A template instantiation can be created with either a built-in or a user-defined type.
 - The function members of a class template are themselves considered function templates.
 
+> [!question]- Struggle: where does a template declaration "stop"? #struggle
+> `template <class Type>` applies to exactly **one** declaration: the single function or single class written directly beneath it. The moment that declaration's body closes, the template's scope is over — `Type` is not a real, floating type name available anywhere else in the file, it only exists within the one declaration the header introduced.
+>
+> Proven directly: adding an ordinary function right after a function template compiles fine and has no access to `Type` at all —
+> ```cpp
+> template <class Type>
+> Type maxOf(Type a, Type b) { return (a > b) ? a : b; }
+>
+> int square(int x) { return x * x; }   // ordinary function, unrelated to the template above
+> ```
+> Trying to reuse `Type` outside that scope fails to compile, with the compiler saying exactly that: #added
+> ```cpp
+> Type square(Type x) { return x * x; }   // ERROR: 'Type' does not name a type
+> ```
+> `error: 'Type' does not name a type`
+
+> [!question]- Struggle: why didn't the class template need "Type" written for every member function? #struggle
+> It did — go back and look: `Box(Type initial)`, `Type getContents() const`, and `void setContents(Type value)` all use `Type` explicitly. What was skipped was restating `template <class Type>` before each individual member function.
+>
+> The reason: `template <class Type>` written once above `class Box` covers the **entire class body** that follows, including every member function written **inline inside** the class definition. Those member functions are physically inside the scope that one header line opened, so they don't need their own copy of it.
+>
+> That stops being true the moment a member function's *definition* is written **outside** the class body (a style choice, seen already with `className::operator+` and friends throughout this lecture). Outside the class, the definition is back at file scope, so the template header has to be repeated for each member function, and the class name must be qualified as `Box<Type>::`, not plain `Box::`, since `Box` on its own isn't a complete type until paired with one: #added
+> ```cpp
+> template <class Type>
+> class Box
+> {
+> public:
+>     Box(Type initial);          // declared here, defined outside below
+>     Type getContents() const;   // declared here, defined outside below
+> private:
+>     Type contents;
+> };
+>
+> template <class Type>              // repeated, per member function
+> Box<Type>::Box(Type initial) : contents(initial) {}
+>
+> template <class Type>              // repeated again
+> Type Box<Type>::getContents() const { return contents; }
+> ```
+> Both styles (inline in the class, or split out with the header repeated) compile to the same behaviour; this is exactly why the next section's advice about keeping the class definition and every repeated `template <class Type>` member definition together in one header matters, the compiler needs to see all of it at compile time regardless of which style is used.
+
+> [!example]- Worked example: this is the same mechanism as `std::vector` and `std::max` #worked-example #added
+> `vector<int>`, `map`, `string`, and most of the standard library aren't special built-in language features, they're class templates someone else already wrote, using this exact syntax:
+> ```cpp
+> vector<int> nums = {10, 20, 30};
+> Box<int> intBox(42);
+> ```
+> `<int>` is filling in `vector`'s own `Type` parameter, the same way `<int>` fills in `Box`'s. `vector` is shaped, in simplified skeleton, like:
+> ```cpp
+> template <class Type>
+> class vector
+> {
+> public:
+>     void push_back(Type value);
+>     Type& operator[](int index);
+> private:
+>     Type* data;   // a pointer member -- which is exactly why vector needs
+>                    // the overloaded =, copy constructor, and destructor
+>                    // trio from the pointer-member-variables section
+> };
+> ```
+> Function templates work the same way one level down. `std::max` is essentially the `maxOf` written earlier in this session:
+> ```cpp
+> template <class Type>
+> const Type& max(const Type& a, const Type& b)
+> {
+>     return (a < b) ? b : a;
+> }
+> ```
+> `std::sort` is the same idea doing more work: one function template body that reorders `vector<int>`, `vector<double>`, `vector<string>`, or anything whose elements support `<`, without a version written per type.
+
 ### Header File and Implementation File of a Class Template
 
 > [!important] Key asymmetry #exam-flagged
@@ -360,3 +431,6 @@ Whichever layout is used, the function definitions and the client code end up co
 - `[]` needs both a const and nonconst overload so it works whether the object itself is const.
 - Copy constructor fires on creation of a new object from an existing one; assignment fires on an already-existing object. Both default to memberwise copy, both break under pointer members.
 - Template parameters are resolved at **compile time**, which is why template implementation files can't be compiled independently of client code.
+- `template <class Type>` covers exactly one declaration beneath it (one function, one class, or one out-of-class member definition); it never carries over to whatever comes next in the file.
+- Inside a class body, one `template <class Type>` line covers every inline member function. Outside the class body, each member function definition needs the header repeated, plus `ClassName<Type>::`.
+- `vector`, `map`, `string`, `max`, `sort` are ordinary templates, not language magic — the exact same `template <class Type>` mechanism covered in this lecture.
