@@ -10,7 +10,7 @@ tags: [definition, formula, theorem, worked-example, common-mistake, added]
 Kinematics describes motion; dynamics asks what force produced it, or, given a force, what motion follows. Every example in this chapter solves the same equation, $m\ddot{\vec r}=\vec F$, or its momentum form $\dfrac{d\vec p}{dt}=\vec F$ (defined in: [[APM01B1_Notes_S1_PolarIntrinsicCoordinates#Newton's second law and the path equation]]), the differences between examples are entirely in what kind of object $\vec F$ is: a constant, a function of $t$, a function of $v$, or a function of $r$. That classification, taken directly from the source's own end-of-chapter recap, is the map for this whole chapter:
 
 > [!note] Roadmap
-> - $\vec F = \text{const}$ or $\vec F=\vec F(t)$ -> direct integration (see: [[APM01B1_Notes_S1_PolarIntrinsicCoordinates#Two edge cases for solving m double dot vec r equals vec F]], and Time-dependent force below)
+> - $\vec F = \text{const}$ or $\vec F=\vec F(t)$ -> direct integration (see: [[APM01B1_Notes_S1_PolarIntrinsicCoordinates#Two edge cases for solving $m\ddot{\vec r}=\vec F$]], and Time-dependent force below)
 > - $\vec F=\vec F(v)$ -> use $a=\dfrac{dv}{dt}=v\dfrac{dv}{dr}$, gives an exponential or power-law solution (see: Speed-dependent force below)
 > - $\vec F=\vec F(r)$ -> ansatz/guess a solution and verify it, e.g. $r=\sin\omega t$ (see: Position-dependent force below)
 > - Not every $\vec F=m\vec a$ is solvable analytically.
@@ -135,7 +135,7 @@ $$\vec F = -k(x-x_0)\,\hat x$$
 \begin{document}
 \begin{tikzpicture}[scale=1]
   \draw (0,0) -- (0,1.2);
-  \draw[decorate,decoration={coil,aspect=0.3,segment length=4pt}] (0,0.6) -- (2,0.6);
+  \draw (0,0.6) -- (0.25,0.6) -- (0.5,0.9) -- (0.75,0.3) -- (1.0,0.9) -- (1.25,0.3) -- (1.5,0.9) -- (1.75,0.3) -- (2,0.6);
   \draw (2,0) rectangle (3,1.2);
   \node at (2.5,0.6) {$m$};
 \end{tikzpicture}
@@ -187,7 +187,7 @@ Two particles of mass $m_1,m_2$, connected by a spring of stiffness $k$ and natu
 \begin{tikzpicture}[scale=1]
   \draw (0,0) rectangle (1,0.8);
   \node at (0.5,0.4) {$m_1$};
-  \draw[decorate,decoration={coil,aspect=0.3,segment length=4pt}] (1,0.4) -- (3,0.4);
+  \draw (1,0.4) -- (1.25,0.4) -- (1.5,0.7) -- (1.75,0.1) -- (2.0,0.7) -- (2.25,0.1) -- (2.5,0.7) -- (2.75,0.1) -- (3,0.4);
   \draw (3,0) rectangle (4,0.8);
   \node at (3.5,0.4) {$m_2$};
   \draw (-0.3,0) -- (4.3,0);
@@ -254,7 +254,9 @@ A mass hangs from a spring of natural length $r_0$, free to swing at angle $\the
 \begin{document}
 \begin{tikzpicture}[scale=1]
   \draw (0,1.2) -- (-1.5,1.2);
-  \draw[decorate,decoration={coil,aspect=0.3,segment length=4pt}] (0,1.2) -- (0.9,-0.4);
+  \begin{scope}[shift={(0,1.2)}, rotate=-60.64]
+    \draw (0,0) -- (0.23,0) -- (0.46,0.15) -- (0.69,-0.15) -- (0.92,0.15) -- (1.15,-0.15) -- (1.38,0.15) -- (1.61,-0.15) -- (1.836,0);
+  \end{scope}
   \filldraw (0.9,-0.4) circle (2.5pt);
   \draw[dashed] (0,1.2) -- (0,-1);
   \draw (0,0.5) arc (270:305:0.7);
@@ -263,7 +265,7 @@ A mass hangs from a spring of natural length $r_0$, free to swing at angle $\the
 \end{document}
 ```
 
-The resultant force is spring plus gravity, $\vec F_{res}=\vec F_{spring}+\vec F_g=-k(r-r_0)\hat r+mg\hat y$. Before applying $\vec F=m\vec a$, $\hat y$ must be written in terms of the moving basis $\hat r,\hat\theta$: from $\hat r=\cos\theta\hat x+\sin\theta\hat y$ and $\hat\theta=-\sin\theta\hat x+\cos\theta\hat y$ (defined in: [[APM01B1_Notes_S1_PolarIntrinsicCoordinates#Polar coordinates why hat r hat theta are needed]]),
+The resultant force is spring plus gravity, $\vec F_{res}=\vec F_{spring}+\vec F_g=-k(r-r_0)\hat r+mg\hat y$. Before applying $\vec F=m\vec a$, $\hat y$ must be written in terms of the moving basis $\hat r,\hat\theta$: from $\hat r=\cos\theta\hat x+\sin\theta\hat y$ and $\hat\theta=-\sin\theta\hat x+\cos\theta\hat y$ (defined in: [[APM01B1_Notes_S1_PolarIntrinsicCoordinates#Polar coordinates: why $\hat r, \hat\theta$ are needed]]),
 
 $$\sin\theta\,\hat r+\cos\theta\,\hat\theta = \hat y$$
 

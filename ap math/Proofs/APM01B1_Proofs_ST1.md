@@ -38,7 +38,7 @@ $$\frac{d\hat\theta}{dt} = -\dot\theta\cos\theta\,\hat x-\dot\theta\sin\theta\,\
 
 $$\therefore \frac{d\hat r}{dt}=\dot\theta\,\hat\theta, \qquad \frac{d\hat\theta}{dt}=-\dot\theta\,\hat r \qquad\blacksquare$$
 
-(see: [[APM01B1_Notes_S1_PolarIntrinsicCoordinates#Time derivatives of hat r and hat theta]] for surrounding context)
+(see: [[APM01B1_Notes_S1_PolarIntrinsicCoordinates#Time derivatives of $\hat r$ and $\hat\theta$]] for surrounding context)
 
 ## Velocity and acceleration in polar coordinates
 
@@ -111,7 +111,7 @@ $$\frac{d\hat n}{dt} = \frac{d\hat n}{d\psi}\cdot\frac{d\psi}{ds}\cdot\frac{ds}{
 
 $$\therefore \frac{d\hat T}{dt}=\frac{v}{\rho}\hat n, \qquad \frac{d\hat n}{dt}=-\frac{v}{\rho}\hat T \qquad\blacksquare$$
 
-(see: [[APM01B1_Notes_S1_PolarIntrinsicCoordinates#Time derivatives of hat T and hat n]])
+(see: [[APM01B1_Notes_S1_PolarIntrinsicCoordinates#Time derivatives of $\hat T$ and $\hat n$]])
 
 ## Acceleration in tangential-normal coordinates
 
@@ -169,7 +169,7 @@ $$\vec r(t) = \frac{-mg\hat z\,t^2}{2m}+(\hat x+2\hat y+3\hat z)t$$
 
 $$\therefore \vec r(t) = t\,\hat x+2t\,\hat y+\left(3t-\tfrac12 gt^2\right)\hat z \qquad\blacksquare$$
 
-(see: [[APM01B1_Notes_S1_PolarIntrinsicCoordinates#Worked example constant force vec F equals negative mg hat z]])
+(see: [[APM01B1_Notes_S1_PolarIntrinsicCoordinates#Worked example: constant force, $\vec F = -mg\hat z$]])
 
 ## Angle identity from $\hat r,\hat\theta$ projections (Q4-style)
 
