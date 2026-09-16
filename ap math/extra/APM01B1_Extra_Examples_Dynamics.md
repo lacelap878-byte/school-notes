@@ -23,16 +23,18 @@ The notebook itself (see [[APM01B1_Summary_ST2#Material covered]]) records this 
 A $100\,\text{kg}$ crate is released at $t=0$ from an aircraft moving horizontally at $\vec v_0=100\hat x\,\text{m/s}$, at height $200\,\text{m}$, air resistance neglected.
 
 ```tikz
+\usepackage{tikz}
+\usepackage{amsmath}
 \begin{document}
 \begin{tikzpicture}[scale=1]
   \draw[->] (0,0) -- (5.5,0) node[right] {$\hat x$};
   \draw[->] (0,0) -- (0,3.5) node[above] {$\hat y$};
   \draw[dashed] (0,3) -- (4,3);
-  \draw (0.7,2.8) rectangle (1.3,3.2);
-  \node at (1,3) {$m$};
+  \node[draw, fill=gray!20] at (1,3) {$m$};
   \draw[->, thick] (1.4,3) -- (2.4,3) node[right] {$\vec v_0$};
   \draw[->, thick] (1,2.6) -- (1,1.8) node[right] {$\vec g$};
-  \node at (-0.6,1.5) {$200$ m};
+  \node at (-0.4,1.5) {$200\,\text{m}$};
+  \draw[<->] (-0.15,0) -- (-0.15,3);
 \end{tikzpicture}
 \end{document}
 ```

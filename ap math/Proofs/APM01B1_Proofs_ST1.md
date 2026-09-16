@@ -22,7 +22,7 @@ $$\hat r = \cos\theta\,\hat x+\sin\theta\,\hat y, \qquad \hat\theta=-\sin\theta\
   \draw[->] (-0.3,0) -- (3,0) node[right] {$x$};
   \draw[->] (0,-0.3) -- (0,3) node[above] {$y$};
   \draw[->, thick, blue] (0,0) -- (1.88,0.68) node[right] {$\hat r(\theta)$};
-  \draw[->, thick, cyan] (0,0) -- (1.41,1.41) node[above] {$\hat r(\theta+d\theta)$};
+  \draw[->, thick, blue!60] (0,0) -- (1.41,1.41) node[above] {$\hat r(\theta+d\theta)$};
   \draw (0.5,0) arc (0:20:0.5);
   \node at (0.62,0.13) {$\theta$};
   \draw[->, thick, red, dashed] (1.88,0.68) -- (1.41,1.41) node[midway, right] {$d\hat r$};
@@ -89,7 +89,7 @@ With respect to arc length: $\dfrac{d\hat T}{d\psi}=\hat n$, $\dfrac{d\hat n}{d\
 ```tikz
 \begin{document}
 \begin{tikzpicture}[scale=1.1]
-  \draw[thick] (0,0) -- (1.5,0.3) -- (2.4,0.9) -- (3.6,1.4);
+  \draw[thick] (0,0) to[out=15,in=200] (3.6,1.4);
   \draw[->, thick, blue] (0,0) -- (0.75,0.14);
   \draw[->, thick, blue] (3.6,1.4) -- (4.3,1.75);
   \node[left] at (-0.15,-0.05) {$\psi$};

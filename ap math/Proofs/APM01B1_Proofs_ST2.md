@@ -104,10 +104,10 @@ $$\therefore\ \omega=\sqrt{\frac km} \qquad\blacksquare$$
 
 ```tikz
 \begin{document}
-\begin{tikzpicture}[scale=1]
+\begin{tikzpicture}[domain=0:6]
   \draw[->] (0,0) -- (6,0) node[right] {$t$};
   \draw[->] (0,-1.5) -- (0,1.5) node[above] {$\xi$};
-  \draw[thick, blue] (0,0) -- (0.5,1) -- (1,0) -- (1.5,-1) -- (2,0) -- (2.5,1) -- (3,0) -- (3.5,-1) -- (4,0) -- (4.5,1) -- (5,0) -- (5.5,-1) -- (6,0);
+  \draw[thick, blue, samples=80] plot (\x, {cos((\x*2) r)});
 \end{tikzpicture}
 \end{document}
 ```

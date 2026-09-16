@@ -132,10 +132,12 @@ Hooke's law gives the spring force
 $$\vec F = -k(x-x_0)\,\hat x$$
 
 ```tikz
+\usepackage{tikz}
+\usetikzlibrary{decorations.pathmorphing}
 \begin{document}
 \begin{tikzpicture}[scale=1]
   \draw (0,0) -- (0,1.2);
-  \draw (0,0.6) -- (0.25,0.6) -- (0.5,0.9) -- (0.75,0.3) -- (1.0,0.9) -- (1.25,0.3) -- (1.5,0.9) -- (1.75,0.3) -- (2,0.6);
+  \draw[decorate,decoration={coil,aspect=0.3,segment length=4pt}] (0,0.6) -- (2,0.6);
   \draw (2,0) rectangle (3,1.2);
   \node at (2.5,0.6) {$m$};
 \end{tikzpicture}
@@ -183,11 +185,13 @@ $$x(t) = A\cos\!\left(\sqrt{\tfrac km}\,t\right) + B\sin\!\left(\sqrt{\tfrac km}
 Two particles of mass $m_1,m_2$, connected by a spring of stiffness $k$ and natural length $L_0$, rest on a smooth horizontal surface with $x_2>x_1$.
 
 ```tikz
+\usepackage{tikz}
+\usetikzlibrary{decorations.pathmorphing}
 \begin{document}
 \begin{tikzpicture}[scale=1]
   \draw (0,0) rectangle (1,0.8);
   \node at (0.5,0.4) {$m_1$};
-  \draw (1,0.4) -- (1.25,0.4) -- (1.5,0.7) -- (1.75,0.1) -- (2.0,0.7) -- (2.25,0.1) -- (2.5,0.7) -- (2.75,0.1) -- (3,0.4);
+  \draw[decorate,decoration={coil,aspect=0.3,segment length=4pt}] (1,0.4) -- (3,0.4);
   \draw (3,0) rectangle (4,0.8);
   \node at (3.5,0.4) {$m_2$};
   \draw (-0.3,0) -- (4.3,0);
@@ -251,10 +255,12 @@ $$v_{centre} = \omega R = \sqrt{\frac gR}\,R = \sqrt{gR}$$
 A mass hangs from a spring of natural length $r_0$, free to swing at angle $\theta$ from the vertical:
 
 ```tikz
+\usepackage{tikz}
+\usetikzlibrary{decorations.pathmorphing}
 \begin{document}
 \begin{tikzpicture}[scale=1]
   \draw (0,1.2) -- (-1.5,1.2);
-  \draw (0,1.2) -- (0.9,-0.4);
+  \draw[decorate,decoration={coil,aspect=0.3,segment length=4pt}] (0,1.2) -- (0.9,-0.4);
   \filldraw (0.9,-0.4) circle (2.5pt);
   \draw[dashed] (0,1.2) -- (0,-1);
   \draw (0,0.5) arc (270:305:0.7);

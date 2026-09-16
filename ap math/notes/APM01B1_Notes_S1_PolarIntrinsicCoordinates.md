@@ -231,7 +231,7 @@ $$\hat T\times\hat n = \hat z, \qquad \hat n\times\hat z=\hat T, \qquad \hat z\t
 \begin{tikzpicture}[scale=1.2]
   \draw[->] (-0.5,0) -- (4,0) node[right] {$x$};
   \draw[->] (0,-0.5) -- (0,3) node[above] {$y$};
-  \draw[thick] (0,0.3) -- (1.3,0.9) -- (2.2,1.5) -- (3.5,2.2);
+  \draw[thick] (0,0.3) to[out=20,in=200] (3.5,2.2);
   \filldraw (2.2,1.5) circle (1.5pt);
   \draw[->, thick, blue] (2.2,1.5) -- (2.9,1.95) node[right] {$\hat T$};
   \draw[->, thick, red] (2.2,1.5) -- (1.75,2.15) node[above] {$\hat n$};
