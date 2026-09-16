@@ -31,7 +31,7 @@ A $100\,\text{kg}$ crate is released at $t=0$ from an aircraft moving horizontal
   \node[draw, fill=gray!20] at (1,3) {$m$};
   \draw[->, thick] (1.4,3) -- (2.4,3) node[right] {$\vec v_0$};
   \draw[->, thick] (1,2.6) -- (1,1.8) node[right] {$\vec g$};
-  \node at (-0.4,1.5) {$200\,\text{m}$};
+  \node at (-0.4,1.5) {$200$ m};
   \draw[<->] (-0.15,0) -- (-0.15,3);
 \end{tikzpicture}
 \end{document}
