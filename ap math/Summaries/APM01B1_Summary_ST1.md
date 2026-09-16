@@ -43,13 +43,11 @@ Personal notebook photos, 26 pages, Direct-source mode (no existing CDG session 
   \draw[->, thick, blue] (0,0) -- (1.7,1.2) node[right] {$\hat r$};
   \draw[->, thick, red] (0,0) -- (-0.85,1.2) node[above] {$\hat\theta$};
   \node at (1,-1) {Polar: anchored to origin};
-  \begin{scope}[xshift=5.5cm]
-    \draw[thick] (-0.5,0.3) to[out=20,in=200] (3,1.8);
-    \filldraw (1.2,0.85) circle (1.2pt);
-    \draw[->, thick, blue] (1.2,0.85) -- (2.0,1.35) node[right] {$\hat T$};
-    \draw[->, thick, red] (1.2,0.85) -- (0.7,1.65) node[above] {$\hat n$};
-    \node at (1.2,-1) {Intrinsic: anchored to the path};
-  \end{scope}
+  \draw[thick] (5,0.3) -- (6.2,1.0) -- (7.5,0.6) -- (8.5,1.8);
+  \filldraw (6.7,0.85) circle (1.2pt);
+  \draw[->, thick, blue] (6.7,0.85) -- (7.5,1.35) node[right] {$\hat T$};
+  \draw[->, thick, red] (6.7,0.85) -- (6.2,1.65) node[above] {$\hat n$};
+  \node at (6.7,-1) {Intrinsic: anchored to the path};
 \end{tikzpicture}
 \end{document}
 ```

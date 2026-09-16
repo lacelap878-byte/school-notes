@@ -254,9 +254,7 @@ A mass hangs from a spring of natural length $r_0$, free to swing at angle $\the
 \begin{document}
 \begin{tikzpicture}[scale=1]
   \draw (0,1.2) -- (-1.5,1.2);
-  \begin{scope}[shift={(0,1.2)}, rotate=-60.64]
-    \draw (0,0) -- (0.23,0) -- (0.46,0.15) -- (0.69,-0.15) -- (0.92,0.15) -- (1.15,-0.15) -- (1.38,0.15) -- (1.61,-0.15) -- (1.836,0);
-  \end{scope}
+  \draw (0,1.2) -- (0.9,-0.4);
   \filldraw (0.9,-0.4) circle (2.5pt);
   \draw[dashed] (0,1.2) -- (0,-1);
   \draw (0,0.5) arc (270:305:0.7);

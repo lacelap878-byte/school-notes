@@ -107,7 +107,7 @@ $$\therefore\ \omega=\sqrt{\frac km} \qquad\blacksquare$$
 \begin{tikzpicture}[scale=1]
   \draw[->] (0,0) -- (6,0) node[right] {$t$};
   \draw[->] (0,-1.5) -- (0,1.5) node[above] {$\xi$};
-  \draw[thick, blue, domain=0:6, samples=80] plot (\x, {cos(\x*120)});
+  \draw[thick, blue] (0,0) -- (0.5,1) -- (1,0) -- (1.5,-1) -- (2,0) -- (2.5,1) -- (3,0) -- (3.5,-1) -- (4,0) -- (4.5,1) -- (5,0) -- (5.5,-1) -- (6,0);
 \end{tikzpicture}
 \end{document}
 ```
