@@ -434,3 +434,19 @@ Whichever layout is used, the function definitions and the client code end up co
 - `template <class Type>` covers exactly one declaration beneath it (one function, one class, or one out-of-class member definition); it never carries over to whatever comes next in the file.
 - Inside a class body, one `template <class Type>` line covers every inline member function. Outside the class body, each member function definition needs the header repeated, plus `ClassName<Type>::`.
 - `vector`, `map`, `string`, `max`, `sort` are ordinary templates, not language magic — the exact same `template <class Type>` mechanism covered in this lecture.
+
+## Operator Overloading Quick Reference
+
+| Operator | Mutates the Calling Object? | Member or Non-Member | Can it be a Friend? | When to use Friend vs Member | Example Implementation |
+|---|---|---|---|---|---|
+| `==` | No — builds and returns a `bool`, operands untouched | Non-Member (Friend), typical | Yes | Friend keeps both operands symmetric; there's no reason for one object to "own" the comparison over the other | `friend bool operator==(const className&,`<br>`                        const className&);` |
+| `[]` (read & write) | No directly — returns a reference; the non-const version lets the *caller* mutate through it | **Must be Member** | No — forced | Leftmost operand is always the class object; grouped with `()`, `->`, `=` as always-member | `Type& operator[](int index);`<br>`const Type& operator[](int index) const;` |
+| `+` | No — builds and returns a new object, operands untouched | Either (design choice) | Yes | Member if the left operand is always the class type; Friend when you want both operands treated symmetrically | `className operator+(const className& other) const;` *(member)*<br>`friend className operator+(const className&,`<br>`                            const className&);` *(friend)* |
+| `--` prefix | **Yes** — decrements `*this`, then returns it | Member, typical | Yes | Member is simplest: no parameters needed, operand is `this` | `className operator--();`<br>`{ //decrement the object`<br>`  return *this; }` |
+| `--` postfix | **Yes** — decrements `*this`, but returns the pre-decrement copy | Member, typical | Yes | Same tradeoff as prefix; the dummy `int` only exists to distinguish the signature | `className operator--(int u);`<br>`{ className temp = *this;`<br>`  //decrement the object`<br>`  return temp; }` |
+| `++` prefix | **Yes** — increments `*this`, then returns it | Member, typical | Yes | Member is simplest: no parameters needed, operand is `this` | `className operator++();`<br>`{ //increment the object`<br>`  return *this; }` |
+| `++` postfix | **Yes** — increments `*this`, but returns the pre-increment copy | Member, typical | Yes | Same tradeoff as prefix; the dummy `int` only exists to distinguish the signature | `className operator++(int u);`<br>`{ className temp = *this;`<br>`  //increment the object`<br>`  return temp; }` |
+| `<<` | No — the class object (`cObject`) is passed `const`, only the stream is touched | **Must be Non-Member (Friend)** | Yes — forced | Leftmost operand is `ostream`, never the class type | `friend ostream& operator<<(ostream&,`<br>`                            const className&);` |
+
+> [!important] The one line to remember for `++`/`--` #exam-flagged
+> Prefix and postfix differ in exactly two places: the dummy `int` parameter in the signature, and what gets returned — prefix returns `*this` **after** mutating; postfix saves a `temp` copy **before** mutating and returns that instead.
