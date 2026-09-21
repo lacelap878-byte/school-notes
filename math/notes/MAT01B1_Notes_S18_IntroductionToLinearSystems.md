@@ -1,7 +1,7 @@
 ---
 module: MAT01B1
 topic: Introduction to Systems of Linear Equations
-session: S16
+session: S18
 tags: [definition, formula, worked-example]
 ---
 
@@ -124,7 +124,7 @@ $$
 \left[\begin{array}{ccc|c}1&0&0&1\\0&1&0&2\\0&0&1&3\end{array}\right]
 $$
 
-The solution $x=1,\ y=2,\ z=3$ is now evident just by reading the matrix. N.B This last step, clearing out everything above each leading $1$, is exactly the extra work that turns row echelon form into the more powerful *reduced* row echelon form used throughout [[MAT01B1_Notes_S17_GaussianElimination]].
+The solution $x=1,\ y=2,\ z=3$ is now evident just by reading the matrix. N.B This last step, clearing out everything above each leading $1$, is exactly the extra work that turns row echelon form into the more powerful *reduced* row echelon form used throughout [[MAT01B1_Notes_S19_GaussianElimination]].
 
 ## Self-check (source, slides 27 to 28)
 
@@ -143,5 +143,5 @@ Solve (answers as given in the source, no worked derivation shown there):
 (c) $2x+4y-6z=2,\ -x-2y+3z=-1,\ x+y+z=3$ $\Rightarrow (x,y,z)=(5,-2,0)+t(-5,4,1)$
 
 ## See also
-- [[MAT01B1_Notes_S17_GaussianElimination]]
-- [[MAT01B1_Notes_S18_MatricesAndMatrixOperations]] (names the coefficient matrix $A$ and the vector form $A\bar x=\bar b$ for the systems introduced here)
+- [[MAT01B1_Notes_S19_GaussianElimination]]
+- [[MAT01B1_Notes_S20_MatricesAndMatrixOperations]] (names the coefficient matrix $A$ and the vector form $A\bar x=\bar b$ for the systems introduced here)

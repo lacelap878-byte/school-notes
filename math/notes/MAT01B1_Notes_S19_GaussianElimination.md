@@ -1,7 +1,7 @@
 ---
 module: MAT01B1
 topic: Gaussian Elimination
-session: S17
+session: S19
 tags: [definition, theorem, formula, worked-example]
 ---
 
@@ -11,7 +11,7 @@ Source: Dr K, §1.2 Gaussian Elimination (slides 1 to 41), University of Johanne
 
 ## Goal
 
-Develop a systematic procedure, built entirely from [[MAT01B1_Notes_S16_IntroductionToLinearSystems#Elementary row operations|elementary row operations]], for reducing an augmented matrix so that the solution of the corresponding system can be read off by inspection.
+Develop a systematic procedure, built entirely from [[MAT01B1_Notes_S18_IntroductionToLinearSystems#Elementary row operations|elementary row operations]], for reducing an augmented matrix so that the solution of the corresponding system can be read off by inspection.
 
 ## Row echelon form
 
@@ -22,7 +22,7 @@ Develop a systematic procedure, built entirely from [[MAT01B1_Notes_S16_Introduc
 
 **Definition.** A matrix is in **reduced row echelon form** if, in addition, every column containing a leading $1$ has zeros everywhere else in that column.
 
-N.B The point of the extra condition is purely practical: reduced row echelon form lets the solution be read straight off the matrix, without doing back-substitution, exactly the payoff seen at the end of [[MAT01B1_Notes_S16_IntroductionToLinearSystems#Worked example: solving by row operations (source, slides 23 to 26)|S16's worked example]].
+N.B The point of the extra condition is purely practical: reduced row echelon form lets the solution be read straight off the matrix, without doing back-substitution, exactly the payoff seen at the end of [[MAT01B1_Notes_S18_IntroductionToLinearSystems#Worked example: solving by row operations (source, slides 23 to 26)|S18's worked example]].
 
 ## Worked example: classifying matrices (source, slide 7)
 
@@ -274,5 +274,5 @@ Concepts to know: reduced row echelon form, row echelon form, leading $1$, leadi
 Skills to have: recognise row echelon form vs. reduced row echelon form vs. neither; construct solutions from an augmented matrix already in (reduced) row echelon form; use Gaussian elimination and Gauss-Jordan elimination to find the general solution of a system; analyse homogeneous systems using the Free Variable Theorem.
 
 ## See also
-- [[MAT01B1_Notes_S16_IntroductionToLinearSystems]]
-- [[MAT01B1_Notes_S18_MatricesAndMatrixOperations]] (matrix algebra: addition, multiplication, transpose, trace, on the same matrices row-reduced here)
+- [[MAT01B1_Notes_S18_IntroductionToLinearSystems]]
+- [[MAT01B1_Notes_S20_MatricesAndMatrixOperations]] (matrix algebra: addition, multiplication, transpose, trace, on the same matrices row-reduced here)

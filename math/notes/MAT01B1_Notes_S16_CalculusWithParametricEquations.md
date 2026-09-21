@@ -1,7 +1,7 @@
 ---
 module: MAT01B1
 topic: Calculus with Parametric Equations
-session: S14
+session: S16
 tags: [theorem, formula, worked-example]
 ---
 
@@ -99,7 +99,7 @@ $$
 
 ## Arc length of a parametric curve
 
-For $y=F(x)$, $a\le x\le b$ with $F'$ continuous, arc length is (quoted here from §8.1 Arc Length, not yet in this vault)
+For $y=F(x)$, $a\le x\le b$ with $F'$ continuous, arc length is (from [[MAT01B1_Notes_S11_ArcLength#The Arc Length Formula (source, slides 7 to 9)|The Arc Length Formula]])
 
 $$
 L=\int_a^b\sqrt{1+\left(\frac{dy}{dx}\right)^2}\,dx.
@@ -129,11 +129,11 @@ $$
 - $f',g'$ continuous on $[\alpha,\beta]$
 - $C$ traversed exactly once as $t$ runs from $\alpha$ to $\beta$
 
-N.B "Traversed exactly once" is doing real work here, it's exactly the condition that failed in [[MAT01B1_Notes_S13_ParametricEquations#Worked example: the unit circle, traced twice (source, slide 9)|S13's second unit-circle parametrization]]; the next example shows what happens to $L$ when it's violated.
+N.B "Traversed exactly once" is doing real work here, it's exactly the condition that failed in [[MAT01B1_Notes_S15_ParametricEquations#Worked example: the unit circle, traced twice (source, slide 9)|S15's second unit-circle parametrization]]; the next example shows what happens to $L$ when it's violated.
 
 ## Worked example: arc length of the unit circle, two parametrizations (source, slides 20 to 21)
 
-**Traced once** ($x=\cos t$, $y=\sin t$, $0\le t\le2\pi$, from [[MAT01B1_Notes_S13_ParametricEquations#Worked example: the unit circle, traced once (source, slides 7 to 8)|S13]]): $dx/dt=-\sin t$, $dy/dt=\cos t$,
+**Traced once** ($x=\cos t$, $y=\sin t$, $0\le t\le2\pi$, from [[MAT01B1_Notes_S15_ParametricEquations#Worked example: the unit circle, traced once (source, slides 7 to 8)|S15]]): $dx/dt=-\sin t$, $dy/dt=\cos t$,
 
 $$
 L=\int_0^{2\pi}\sqrt{\sin^2t+\cos^2t}\,dt=\int_0^{2\pi}dt=2\pi,
@@ -141,7 +141,7 @@ $$
 
 as expected for a unit circle.
 
-**Traced twice** ($x=\sin2t$, $y=\cos2t$, $0\le t\le2\pi$, from [[MAT01B1_Notes_S13_ParametricEquations#Worked example: the unit circle, traced twice (source, slide 9)|S13]]): $dx/dt=2\cos2t$, $dy/dt=-2\sin2t$,
+**Traced twice** ($x=\sin2t$, $y=\cos2t$, $0\le t\le2\pi$, from [[MAT01B1_Notes_S15_ParametricEquations#Worked example: the unit circle, traced twice (source, slide 9)|S15]]): $dx/dt=2\cos2t$, $dy/dt=-2\sin2t$,
 
 $$
 L=\int_0^{2\pi}\sqrt{4\cos^22t+4\sin^22t}\,dt=\int_0^{2\pi}2\,dt=4\pi,
@@ -165,7 +165,7 @@ $$
 
 ## Surface area
 
-Adapting the arc-length idea (the source refers to this as Formula 8.2.5, also not yet in this vault): for $C$: $x=f(t)$, $y=g(t)$, $\alpha\le t\le\beta$, with $f',g'$ continuous, $g(t)\ge0$, traversed once, rotated about the $x$-axis, the surface area is
+Adapting the arc-length idea (the source refers to this as Formula 8.2.5; the $y=f(x)$ version it adapts is built up in [[MAT01B1_Notes_S12_SurfaceAreaOfRevolution#Building the surface area formula (source, slides 7 to 10)|Building the surface area formula]]): for $C$: $x=f(t)$, $y=g(t)$, $\alpha\le t\le\beta$, with $f',g'$ continuous, $g(t)\ge0$, traversed once, rotated about the $x$-axis, the surface area is
 
 $$
 S=\int_\alpha^\beta2\pi y\sqrt{\left(\frac{dx}{dt}\right)^2+\left(\frac{dy}{dt}\right)^2}\,dt,
@@ -182,6 +182,8 @@ S=\int_0^\pi2\pi r\sin t\sqrt{(-r\sin t)^2+(r\cos t)^2}\,dt=2\pi\int_0^\pi r\sin
 $$
 
 ## See also
-- [[MAT01B1_Notes_S13_ParametricEquations]]
+- [[MAT01B1_Notes_S15_ParametricEquations]]
+- [[MAT01B1_Notes_S11_ArcLength]] (the arc length formula for $y=f(x)$ that the parametric version generalises)
+- [[MAT01B1_Notes_S12_SurfaceAreaOfRevolution]] (the surface area formula for $y=f(x)$)
 - [[MAT01B1_Proofs_ST1#Mean Value Theorem]] (used twice in the arc length derivation above, once for $f$, once for $g$)
 - [[MAT01B1_Notes_S2_DerivativeIntegralReference]] (Chain Rule, Substitution Rule)

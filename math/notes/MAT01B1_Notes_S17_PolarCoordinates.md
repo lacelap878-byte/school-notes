@@ -1,7 +1,7 @@
 ---
 module: MAT01B1
 topic: Polar Coordinates
-session: S15
+session: S17
 tags: [definition, formula, worked-example]
 ---
 
@@ -102,5 +102,5 @@ r=\cos(2\theta)
 ```
 
 ## See also
-- [[MAT01B1_Notes_S13_ParametricEquations]] (another way of describing curves outside the $y=f(x)$ framework)
-- [[MAT01B1_Notes_S14_CalculusWithParametricEquations]]
+- [[MAT01B1_Notes_S15_ParametricEquations]] (another way of describing curves outside the $y=f(x)$ framework)
+- [[MAT01B1_Notes_S16_CalculusWithParametricEquations]]

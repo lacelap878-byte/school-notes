@@ -180,4 +180,5 @@ Same implicit differentiation approach as the inverse trig set, but using the hy
 - [[MAT01B1_Notes_S2_DerivativeIntegralReference]]
 - [[MAT01B1_Notes_S5_OptimizationProblems]] (Fermat's Theorem used to justify the First Derivative Test for Absolute Extreme Values)
 - [[MAT01B1_Notes_S6_MVTForIntegrals]] (Mean Value Theorem, integral counterpart)
-- [[MAT01B1_Notes_S14_CalculusWithParametricEquations]] (Mean Value Theorem applied twice, once to each of two functions, to derive parametric arc length)
+- [[MAT01B1_Notes_S11_ArcLength#The Arc Length Formula (source, slides 7 to 9)|MAT01B1_Notes_S11_ArcLength]] (Mean Value Theorem used to derive the Arc Length Formula for $y=f(x)$)
+- [[MAT01B1_Notes_S16_CalculusWithParametricEquations]] (Mean Value Theorem applied twice, once to each of two functions, to derive parametric arc length)

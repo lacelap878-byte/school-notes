@@ -1,7 +1,7 @@
 ---
 module: MAT01B1
 topic: Curves Defined by Parametric Equations
-session: S13
+session: S15
 tags: [definition, formula, worked-example]
 ---
 
@@ -45,7 +45,7 @@ so $(x,y)$ moves on the unit circle. Here $t$ is literally the angle shown in th
 
 $x=\sin2t$, $y=\cos2t$, $0\le t\le2\pi$. Again $x^2+y^2=\sin^22t+\cos^22t=1$, the same unit circle. But now, as $t$ increases from $0$ to $2\pi$, the point starts at $(0,1)$ and goes around the circle **twice**, in the **clockwise** direction.
 
-N.B Two different parametrizations traced out the identical set of points here, only the starting point, direction, and number of times around differ. This matters: a curve's *shape* and its *parametrization* are genuinely different pieces of information, and this exact pair of examples is reused in [[MAT01B1_Notes_S14_CalculusWithParametricEquations#Worked example: arc length of the unit circle, two parametrizations (source, slides 20 to 21)|S14's arc length section]] to show why the distinction matters for calculus done on the curve.
+N.B Two different parametrizations traced out the identical set of points here, only the starting point, direction, and number of times around differ. This matters: a curve's *shape* and its *parametrization* are genuinely different pieces of information, and this exact pair of examples is reused in [[MAT01B1_Notes_S16_CalculusWithParametricEquations#Worked example: arc length of the unit circle, two parametrizations (source, slides 20 to 21)|S16's arc length section]] to show why the distinction matters for calculus done on the curve.
 
 ## Worked example: the cycloid (source, slides 10 to 12)
 
@@ -82,5 +82,5 @@ top=3; bottom=-0.5;
 ```
 
 ## See also
-- [[MAT01B1_Notes_S14_CalculusWithParametricEquations]] (tangents, area, arc length, surface area for these curves)
+- [[MAT01B1_Notes_S16_CalculusWithParametricEquations]] (tangents, area, arc length, surface area for these curves)
 - [[MAT01B1_Notes_S2_DerivativeIntegralReference]]

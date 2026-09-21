@@ -1,7 +1,7 @@
 ---
 module: MAT01B1
 topic: Matrices and Matrix Operations
-session: S18
+session: S20
 tags: [definition, theorem, formula, worked-example]
 ---
 
@@ -146,7 +146,7 @@ $$
 A\bar x=\bar b,
 $$
 
-where $A=[a_{ij}]$ is the **coefficient matrix**, $\bar x$ is the column of unknowns, and $\bar b$ is the column of constants. Adjoining $\bar b$ to $A$ as a final column recovers the [[MAT01B1_Notes_S16_IntroductionToLinearSystems#Augmented matrices|augmented matrix]] $[A\mid\bar b]$ already defined in S16, this section just names the coefficient matrix $A$ and the vector form $A\bar x=\bar b$ explicitly.
+where $A=[a_{ij}]$ is the **coefficient matrix**, $\bar x$ is the column of unknowns, and $\bar b$ is the column of constants. Adjoining $\bar b$ to $A$ as a final column recovers the [[MAT01B1_Notes_S18_IntroductionToLinearSystems#Augmented matrices|augmented matrix]] $[A\mid\bar b]$ already defined in S18, this section just names the coefficient matrix $A$ and the vector form $A\bar x=\bar b$ explicitly.
 
 ## Self-check (source, slides 26, 30)
 
@@ -173,5 +173,5 @@ Skills to have: determine the size of a matrix; identify its row and column vect
 15. If $B$ has a column of zeros, then so does $BA$, whenever this product is defined.
 
 ## See also
-- [[MAT01B1_Notes_S16_IntroductionToLinearSystems]]
-- [[MAT01B1_Notes_S17_GaussianElimination]]
+- [[MAT01B1_Notes_S18_IntroductionToLinearSystems]]
+- [[MAT01B1_Notes_S19_GaussianElimination]]

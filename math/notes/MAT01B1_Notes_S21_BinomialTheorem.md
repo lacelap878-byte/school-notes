@@ -1,7 +1,7 @@
 ---
 module: MAT01B1
 topic: The Binomial Theorem
-session: S19
+session: S21
 tags: [theorem, formula, worked-example]
 ---
 

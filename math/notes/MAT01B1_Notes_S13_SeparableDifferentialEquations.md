@@ -1,7 +1,7 @@
 ---
 module: MAT01B1
 topic: Separable Differential Equations
-session: S11
+session: S13
 tags: [definition, formula, worked-example]
 ---
 
@@ -185,6 +185,6 @@ x^{2}+\frac{y^{2}}{2}=4
 (source aside) Orthogonal trajectories show up across physics: lines of force in an electrostatic field are orthogonal to lines of constant potential, and streamlines in aerodynamics are orthogonal to velocity-equipotential curves.
 
 ## See also
-- [[MAT01B1_Notes_S12_LinearDifferentialEquations]] (the next technique, for equations that aren't separable)
+- [[MAT01B1_Notes_S14_LinearDifferentialEquations]] (the next technique, for equations that aren't separable)
 - [[MAT01B1_Notes_S2_DerivativeIntegralReference]] (Chain Rule, Quotient Rule, antiderivative formulas used throughout)
 - [[MAT01B1_Proofs_ST1#Theorem 5 and Corollary 7]] (the reasoning behind the $+C$ appearing in every general solution above)

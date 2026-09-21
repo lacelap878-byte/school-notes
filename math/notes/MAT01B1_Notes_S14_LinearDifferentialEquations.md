@@ -1,7 +1,7 @@
 ---
 module: MAT01B1
 topic: Linear Differential Equations
-session: S12
+session: S14
 tags: [definition, theorem, formula, worked-example]
 ---
 
@@ -19,7 +19,7 @@ $$
 
 where $P$ and $Q$ are continuous functions on a given interval.
 
-**Example (source, slide 2).** $xy'+y=2x$ is linear: for $x\ne0$ it rewrites as $y'+\dfrac1xy=2$, matching the standard form with $P(x)=1/x$, $Q(x)=2$. This equation is *not* separable, unlike everything in [[MAT01B1_Notes_S11_SeparableDifferentialEquations]], it needs a different technique entirely.
+**Example (source, slide 2).** $xy'+y=2x$ is linear: for $x\ne0$ it rewrites as $y'+\dfrac1xy=2$, matching the standard form with $P(x)=1/x$, $Q(x)=2$. This equation is *not* separable, unlike everything in [[MAT01B1_Notes_S13_SeparableDifferentialEquations]], it needs a different technique entirely.
 
 ## Building the integrating factor (source, slides 3 to 7)
 
@@ -49,7 +49,7 @@ $$
 I(x)P(x)=I'(x)=\frac{dI}{dx}.
 $$
 
-This is itself a separable equation ([[MAT01B1_Notes_S11_SeparableDifferentialEquations#Separable equations|separable equations]]):
+This is itself a separable equation ([[MAT01B1_Notes_S13_SeparableDifferentialEquations#Separable equations|separable equations]]):
 
 $$
 \frac{dI}{I}=P(x)\,dx \;\Rightarrow\; \int\frac{dI}{I}=\int P(x)\,dx \;\Rightarrow\; \ln|I|=\int P(x)\,dx \;\Rightarrow\; I=Ae^{\int P(x)\,dx},
@@ -130,6 +130,6 @@ $$
 N.B This is the same situation as $\displaystyle\int_1^\infty\frac1{x^2}\,dx$-type reasoning being about *evaluating* an integral even without an elementary antiderivative, compare [[MAT01B1_Notes_S1_CalculusApplications#Improper integrals (added)]]: here, the Fundamental Theorem of Calculus is used to name the antiderivative as a definite integral with a variable upper limit, rather than to evaluate a number.
 
 ## See also
-- [[MAT01B1_Notes_S11_SeparableDifferentialEquations]]
+- [[MAT01B1_Notes_S13_SeparableDifferentialEquations]]
 - [[MAT01B1_Notes_S2_DerivativeIntegralReference]] (Product Rule, basic integral formulas)
 - [[MAT01B1_Proofs_ST1#Theorem 5 and Corollary 7]] (why the $+C$ appears in each general solution)
