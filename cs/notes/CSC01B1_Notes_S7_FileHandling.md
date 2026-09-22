@@ -224,32 +224,72 @@ A genuinely **abstract class** (pure virtual function present) cannot be instant
 
 **DLL characteristics.** Several kinds exist (regular Win32, COM, ActiveX). Functions exported by ordinal and optionally by name. A DLL loads into the **same address space** as the calling application, so pointer-based data can pass safely across the boundary. Can often be called cross-language.
 
-**Example DLL header:**
+**Example DLL header, full walkthrough (this is the entire `example_dll.h`, line by line):**
+```cpp
+#ifndef EXAMPLE_DLL_H
+#define EXAMPLE_DLL_H
+```
+- Standard **include guard**: if this header ever gets `#include`d twice in the same compilation (directly or via two other headers that both include it), the second inclusion is skipped entirely — `EXAMPLE_DLL_H` is already defined by then, so everything up to the matching `#endif` at the bottom is ignored the second time round. Not DLL-specific — this is the same include-guard pattern used for any header — but essential here since this header will genuinely be pulled in from more than one place (the DLL's own `.cpp`, and any client `.cpp` that uses the DLL).
+
 ```cpp
 #ifdef BUILDING_EXAMPLE_DLL
   #define EXAMPLE_DLL __declspec(dllexport)   // building the DLL → export symbols
 #else
   #define EXAMPLE_DLL __declspec(dllimport)   // using the DLL → import symbols
 #endif
+```
+- Defines a **macro named `EXAMPLE_DLL`** that expands to either `__declspec(dllexport)` or `__declspec(dllimport)`, depending on whether `BUILDING_EXAMPLE_DLL` is defined at compile time. Every function/class declaration below then just writes `EXAMPLE_DLL` in front of it — one macro name standing in for "whichever of export/import applies to this build."
 
-extern "C" {
+```cpp
+extern "C"
+{
     void __stdcall EXAMPLE_DLL c_greet(const char *s);
     int EXAMPLE_DLL c_power(int a, int b);
 }
-void EXAMPLE_DLL cpp_greet(void);   // name mangled — C++-only caller
-class EXAMPLE_DLL Greeter { ... };  // name mangled — C++-only caller
 ```
+- Two plain functions, wrapped in `extern "C"` (no mangling → callable from C or any language) and marked `EXAMPLE_DLL` (expands to export/import as above) and `__stdcall` (Win32 calling convention) on `c_greet`.
+
+```cpp
+// This function's name will be mangled during DLL compilation
+void EXAMPLE_DLL cpp_greet(void);
+
+// This class' name will be mangled during DLL compilation
+class EXAMPLE_DLL Greeter
+{
+public:
+    Greeter() {};
+    virtual ~Greeter() {};
+    void greet(void);
+};
+
+#endif
+```
+- `cpp_greet` and the `Greeter` class are **still exported/imported** (via `EXAMPLE_DLL`) but **not** wrapped in `extern "C"` — so their names *are* mangled, meaning only other C++ code can call them (a C caller, or `GetProcAddress` by plain name, would have no way to guess the mangled symbol). This is a deliberate design choice on the slide, not an oversight: `cpp_greet` is offered as a C++-only convenience alongside the C-callable `c_greet`/`c_power`, and `Greeter` couldn't be `extern "C"` at all even if you wanted it to be — C has no classes for `extern "C"` to correspond to.
+- Final `#endif` closes the include guard opened at the top.
 `BUILDING_EXAMPLE_DLL` is defined only while compiling the DLL itself, so the same header switches between export and import. `extern "C"` disables C++ name mangling, making functions callable from C (or other languages) — but only applies to plain functions; a class can never be `extern "C"`, since C has no classes for it to correspond to. `__stdcall` is the calling convention the Win32 API uses.
 
-**Compiling a DLL (MinGW):**
+**`__declspec(dllexport)`/`dllimport` — mechanically, not just as boilerplate.** These aren't decoration; they change what the compiler/linker actually produce. `dllexport` tells the compiler to add that symbol's name to the DLL's **export table** — a literal list, baked into the compiled `.dll`, of symbols other programs are permitted to look up. `dllimport` tells the compiler not to assume the symbol is defined locally, and instead generate code that fetches its address from an external DLL's import table at load time. The same header is read in two different roles — once while compiling the DLL itself (export mode), once by a client program calling into an already-built DLL (import mode) — and `#ifdef BUILDING_EXAMPLE_DLL` is exactly what selects which role applies.
+
+**`extern "C"` — the specific problem it solves.** C++ **mangles** function names to support overloading: `c_power(int,int)` doesn't compile down to the literal symbol `c_power`, but to something like `_Z7c_poweri i` encoding the parameter types (exact scheme is compiler/version-specific). That's invisible within one C++ program, but breaks DLL interoperability — another program (C, Python, a different C++ compiler) has no way to predict that mangled name. `extern "C"` disables mangling for those declarations, so the exported symbol is the stable literal string `"c_power"`, lookupable by name from any language. This is precisely why it can only wrap plain functions: mangling exists *because of* C++ overloading, and a class was never a C-style symbol to begin with, so there's nothing for `extern "C"` to "un-mangle" there.
+
+**`__stdcall` — the concrete failure it prevents.** A calling convention fixes two things: which side (caller or callee) cleans up the stack after a call, and in what order arguments are pushed. Caller and callee disagreeing on either corrupts the stack at runtime — wrong values, crashes — often with **no compile error**, since the mismatch is purely at the binary calling level. `__stdcall` means "callee cleans the stack, arguments pushed right-to-left," matching every Win32 API DLL; a DLL meant to be called the way Windows API functions are called must match that convention explicitly rather than relying on the compiler's own default (often `__cdecl`, caller-cleans).
+
+**Compiling a DLL (MinGW), flag by flag:**
 ```
 g++ -c -DBUILDING_EXAMPLE_DLL example_dll.cpp
+```
+- `-c`: compile to an object file (`.o`) only, no linking yet.
+- `-DBUILDING_EXAMPLE_DLL`: defines that macro from the command line — equivalent to `#define BUILDING_EXAMPLE_DLL` at the top of the file — this is literally what flips the header to export mode for this build.
+```
 g++ -shared -o example_dll.dll example_dll.o -Wl,--out-implib,libexample_dll.a
 ```
+- `-shared`: tells the linker to produce a shared library (a DLL), not a standalone executable.
+- `-o example_dll.dll`: names the output file.
+- `-Wl,--out-implib,libexample_dll.a`: passes `--out-implib` through to the underlying linker (`ld`), also producing an **import library** (`.a`) — the file an implicit-linking client links against (`-lexample_dll`) so the compiler knows what symbols exist and where to resolve them, without the DLL's actual code being copied in.
 
-**Implicit linking.** Client needs **both** the `.dll` and the `.h`; compiled/linked at compile time via the linker (`-lexample_dll`); resolved automatically when the program loads.
+**Implicit linking.** Client needs **both** the `.dll` and the `.h`; compiled/linked at compile time via the linker (`-lexample_dll`); resolved automatically when the program loads. This is a **hard dependency**: if the DLL isn't present at launch, Windows refuses to start the program at all. Suits a DLL that's a required, known-in-advance part of the program.
 
-**Explicit linking.** No `.h` needed at all — resolved **at runtime**, by name:
+**Explicit linking.** No `.h` needed at all — resolved **at runtime**, by name. Used for plugin systems, optional features, or choosing between DLL versions/paths at runtime — the program **can start even if the DLL is missing**, check success (`if (hndlLibrary)`, `if (power)`), and degrade gracefully instead of refusing to launch — at the cost of more manual bookkeeping (`LoadLibrary`/`GetProcAddress`/`FreeLibrary`):
 ```cpp
 typedef int (*TwoIntsToInt)(int, int);
 TwoIntsToInt power = NULL;
@@ -262,6 +302,8 @@ if (hndlLibrary)
 }
 ```
 `LoadLibrary` → handle to the DLL; `GetProcAddress` → looks up a function **by name string**, returns its address cast to a matching function-pointer type; `FreeLibrary` → unloads it. Implicit and explicit linking are genuinely separate mechanisms — implicit resolves everything before the program runs (needs the header), explicit resolves everything while already running (needs only a string name).
+
+> (see: S1 Foundation Topics, section 14, "Function pointers") `power` here is an ordinary function pointer, no different in kind from `m` in S1's `average` example or `op` in S1's second worked example — declare a variable of function-pointer type, assign a function's address to it, call through it. The only new part in this DLL context is *where* the address comes from: not a function named directly in source, but whatever `GetProcAddress` returns after looking a name up in an already-loaded DLL at runtime.
 
 **DllMain.** Optional entry point for code that should run at specific points in a DLL's life-cycle (loaded, unloaded, etc.).
 
