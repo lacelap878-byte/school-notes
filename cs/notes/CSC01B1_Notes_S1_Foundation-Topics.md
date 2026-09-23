@@ -428,7 +428,7 @@ int main()
 ```
 `op` is a single variable that can point at *either* `add` or `multiply` — which one it actually calls is decided at runtime by whatever was last assigned to it, not fixed at compile time.
 
-> (see: S7 File Handling, "Files for Logic" — DLLs) This is exactly the mechanism explicit DLL linking uses. `GetProcAddress` looks a function up by name at runtime and hands back its address; that address is stored in a function pointer (`TwoIntsToInt power = (TwoIntsToInt)GetProcAddress(hndlLibrary, "c_power");`) and called through it (`power(2, 4)`) — identical shape to `op` above, just with the function's address coming from a loaded DLL instead of being assigned directly in source.
+> (see: [[CSC01B1_Notes_S7_FileHandling]] — "Files for Logic", DLLs) This is exactly the mechanism explicit DLL linking uses. `GetProcAddress` looks a function up by name at runtime and hands back its address; that address is stored in a function pointer (`TwoIntsToInt power = (TwoIntsToInt)GetProcAddress(hndlLibrary, "c_power");`) and called through it (`power(2, 4)`) — identical shape to `op` above, just with the function's address coming from a loaded DLL instead of being assigned directly in source.
 
 ---
 
