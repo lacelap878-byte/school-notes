@@ -303,7 +303,7 @@ if (hndlLibrary)
 ```
 `LoadLibrary` → handle to the DLL; `GetProcAddress` → looks up a function **by name string**, returns its address cast to a matching function-pointer type; `FreeLibrary` → unloads it. Implicit and explicit linking are genuinely separate mechanisms — implicit resolves everything before the program runs (needs the header), explicit resolves everything while already running (needs only a string name).
 
-> (see: [[CSC01B1_Notes_S1_Foundation-Topics]], section 14, "Function pointers") `power` here is an ordinary function pointer, no different in kind from `m` in S1's `average` example or `op` in S1's second worked example — declare a variable of function-pointer type, assign a function's address to it, call through it. The only new part in this DLL context is *where* the address comes from: not a function named directly in source, but whatever `GetProcAddress` returns after looking a name up in an already-loaded DLL at runtime.
+> (see: [[CSC01B1_Notes_S1_Foundation-Topics#14. Function pointers]]) `power` here is an ordinary function pointer, no different in kind from `m` in S1's `average` example or `op` in S1's second worked example — declare a variable of function-pointer type, assign a function's address to it, call through it. The only new part in this DLL context is *where* the address comes from: not a function named directly in source, but whatever `GetProcAddress` returns after looking a name up in an already-loaded DLL at runtime.
 
 **DllMain.** Optional entry point for code that should run at specific points in a DLL's life-cycle (loaded, unloaded, etc.).
 
