@@ -105,3 +105,4 @@ N.B with lower and upper limits differing by more than a factor of two, this int
 - [[STA01B1_Notes_S1_Statistics_and_Sampling_Distributions]] — CLT and its rule of thumb, the large-sample justification this chapter's small-sample case can't rely on.
 - [[STA01B1_Notes_S2_Point_Estimation]] — standard error, the building block for both the $t$ interval and the prediction interval here.
 - [[STA01B1_Notes_S3_Statistical_Intervals]] — large-sample CI for $\mu$ using $z_{\alpha/2}$, the direct predecessor this note's $t_{\alpha/2,n-1}$ replaces for small $n$.
+- [[STA01B1_Notes_S5_Hypothesis_Testing]] — hypothesis testing stays with $Z$ for both its known-$\sigma$ and large-sample cases; the $t$ distribution introduced here is the natural next step for a small-sample unknown-$\sigma$ test, not yet covered.

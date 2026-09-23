@@ -17,7 +17,6 @@ noun
 A proposed explanation made on the basis of limited evidence as a
 starting point for further investigation.
 ```
-
 ```
 A statistical hypothesis is a claim or assertion either about
 - the value of a single parameter (population characteristic or
@@ -25,12 +24,13 @@ A statistical hypothesis is a claim or assertion either about
 - about the values of several parameters,
 - or about the form of an entire probability distribution.
 ```
+Every test in this note is the single-parameter case, written $\theta$.
 
 In any hypothesis-testing problem there are two contradictory hypotheses under consideration, and the objective is to decide, based on sample information, which is correct. One claim is initially favoured and only rejected if sample evidence contradicts it and provides strong support for the alternative.
 
-(aside) Court trial analogy: the judge must decide guilty or innocent. The person is assumed innocent to begin with, the state presents evidence trying to convince the judge to reject that assumption and conclude guilt. The presumption of innocence plays the role of $H_0$, guilt the role of $H_a$, evidence has to be strong enough to overturn the starting assumption, not merely suggest it.
+(aside) Court trial analogy: the judge must decide guilty or innocent. The person is assumed innocent to begin with, the state presents evidence trying to convince the judge to reject that assumption and conclude guilt. The presumption of innocence plays the role of $H_0$, guilt the role of $H_a$. The analogy stops at how the decision is made: a judge weighs evidence by judgment, a test decides by a fixed rule (see: Test procedures).
 
-### Definitions
+### Null and alternative hypothesis
 ```
 The null hypothesis, denoted by H0, is the claim that is initially
 assumed to be true.
@@ -49,16 +49,18 @@ then:
 - Fail to reject H0
 ```
 
-> [!warning] "Fail to reject" is not "prove true" (common mistake)
-> The only two outcomes are reject $H_0$ or fail to reject $H_0$, there is no third option where $H_0$ is confirmed or proven. Failing to reject $H_0$ just means the sample didn't provide strong enough evidence against it, not that $H_0$ has been established as correct.
+> [!warning] "Fail to reject" is not "prove true" (common mistake) #common-mistake
+> The only two outcomes are reject $H_0$ or fail to reject $H_0$. Failing to reject $H_0$ just means the sample didn't provide strong enough evidence against it, not that $H_0$ has been established as correct.
 
 ### Forms of the hypotheses
 $$H_0: \theta = \theta_0$$
-(assumed true until proven otherwise, $\theta_0$ is the null value, often representing "no difference, no improvement")
-$$H_a: \theta \ne \theta_0 \quad \text{(two-tailed)} \qquad H_a: \theta < \theta_0 \quad \text{(lower-tailed)} \qquad H_a: \theta > \theta_0 \quad \text{(upper-tailed)}$$
+(assumed true until proven otherwise, $\theta_0$ is the null value, often "no difference, no improvement")
+$$H_a: \theta \ne \theta_0 \ \text{(two-tailed)} \qquad H_a: \theta < \theta_0 \ \text{(lower-tailed)} \qquad H_a: \theta > \theta_0 \ \text{(upper-tailed)}$$
+N.B The direction in $H_a$ names the test: not-equal is two-tailed, less-than is lower-tailed, greater-than is upper-tailed.
+
+Example (composite): a bottler claims true mean fill volume is 500 ml. $H_0: \mu = 500$ throughout. If the concern is fills too small: $H_a: \mu < 500$, lower-tailed. Too large: $H_a: \mu > 500$, upper-tailed. Either direction: $H_a: \mu \ne 500$, two-tailed.
 
 ## Test procedures
-
 ```
 A test procedure is a rule, based on sample data, for deciding whether
 to reject the null hypothesis.
@@ -70,10 +72,11 @@ to reject the null hypothesis.
 2. A Rejection Region
    The set of all test statistic values for which Ho will be rejected.
 ```
+The test statistic squeezes the sample into one number; the rejection region is the set of values of that number that trigger rejection, not a set of raw data values.
 
 ## Errors in hypothesis testing
 
-### Definitions (exam-flagged)
+### Definitions (exam-flagged) #exam-flagged
 ```
 1. Type I error
    Rejecting the null hypothesis Ho when it is true.
@@ -83,121 +86,153 @@ to reject the null hypothesis.
    Not rejecting the null hypothesis Ho when it is false.
    P(Type II) = beta
 ```
-(aside, mnemonic quoted from the source slide) Proverbs 17:15: "He who justifies the wicked and he who condemns the righteous are both hateful to the Lord." Justifying the wicked (failing to convict someone guilty) parallels a Type II error; condemning the righteous (convicting someone innocent) parallels a Type I error.
+(aside, quoted from source) Proverbs 17:15: "He who justifies the wicked and he who condemns the righteous are both hateful to the Lord." Condemning the righteous (convicting an innocent person) matches a Type I error, justifying the wicked (freeing a guilty person) matches a Type II error.
 
-**Example 8.4 (source, slide 11)**
-A bumper design is known to sustain no visible damage 25% of the time in 10-mph crash tests. A modified bumper is proposed to increase this. Let $p$ = proportion of crashes with no damage. $H_0: p=.25$ (no improvement) versus $H_a: p>.25$. Experiment: $n=20$ independent crashes.
+> [!tip] Reading Type I vs Type II off a decision already made (struggle) #struggle
+> A stated conclusion is a binary reject/fail-to-reject decision, and only one error type is even possible given which side of that decision you're on. If $H_0$ was rejected, the only risk exposure is Type I (rejecting a true $H_0$), Type II cannot have happened, since Type II requires failing to reject. If $H_0$ was not rejected, the only risk exposure is Type II. Smoke alarm analogy: the alarm sounding with no fire is a Type I error (a true "no fire" $H_0$ wrongly rejected); a fire with the alarm staying silent is a Type II error (a false "no fire" $H_0$ wrongly not rejected). Definitions alone are easy to mix up, tying each error to a physical scenario like this one is what makes the direction stick.
 
-Test statistic: $X$ = number of crashes with no visible damage.
-Rejection region: $R_8 = \{8,9,10,\ldots,19,20\}$, i.e. reject $H_0$ if $x \ge 8$.
-This is called *upper-tailed* because it consists only of large values of the test statistic.
+### Example 8.4 (bumper design)
+A bumper design sustains no visible damage 25% of the time in 10-mph crash tests. A modified design is proposed to raise that rate. Let $p$ = proportion of crashes with the new design that show no damage.
+$$H_0: p = .25 \ \text{(no improvement)} \qquad H_a: p > .25$$
+Experiment: $n=20$ independent crashes. Test statistic: $X$ = number of crashes with no visible damage. Rejection region $R_8 = \{8,9,\ldots,20\}$, reject $H_0$ if $x \ge 8$. Called upper-tailed because it consists only of large values of the test statistic.
 
-**Computing $\alpha$ for $R_8$**
-When $H_0$ is true, $X \sim \text{Bin}(20, .25)$.
-$$\alpha = P(\text{type I error}) = P(X \ge 8 \text{ when } X\sim\text{Bin}(20,.25)) = 1-B(7;20,.25) = 1-.898 = .102$$
-When $H_0$ is actually true, roughly 10% of all experiments consisting of 20 crashes would result in $H_0$ being incorrectly rejected.
+When $H_0$ is true, $X \sim \text{Bin}(20,.25)$.
+$$\alpha = P(X \ge 8 \text{ when } X\sim\text{Bin}(20,.25)) = 1-B(7;20,.25) = 1-.898 = .102$$
+Roughly 10% of all experiments of this kind would incorrectly reject $H_0$ when it is true.
 
-**Computing $\beta$, one value per alternative**
-Unlike $\alpha$, there is not a single $\beta$, a different $\beta$ exists for each value of $p$ exceeding .25.
-$$\beta(.3) = P(\text{type II error when } p=.3) = P(X\le 7 \text{ when } X\sim\text{Bin}(20,.3)) = B(7;20,.3) = .772$$
+Unlike $\alpha$, there is not a single $\beta$, a different $\beta$ exists for each $p > .25$.
+$$\beta(.3) = P(X\le7 \text{ when } X\sim\text{Bin}(20,.3)) = B(7;20,.3) = .772$$
 
 | $p$ | .3 | .4 | .5 | .6 | .7 | .8 |
 |---|---|---|---|---|---|---|
 | $\beta(p)$ | .772 | .416 | .132 | .021 | .001 | .000 |
 
-N.B $\beta$ decreases as $p$ moves farther to the right of the null value .25. The greater the departure from $H_0$, the less likely such a departure will go undetected.
+N.B $\beta$ decreases as $p$ moves farther from the null value .25. The greater the departure from $H_0$, the less likely it goes undetected.
 
-> [!note] The "worst case" boundary trick for a composite null (added)
-> The test procedure above is still reasonable for the more realistic null hypothesis $p \le .25$. In that case there is no longer a single $\alpha$, but instead an $\alpha(p)$ for each $p \le .25$: $\alpha(.25), \alpha(.23), \alpha(.20), \alpha(.15)$, and so on. It can be verified that $\alpha(p) < \alpha(.25) = .102$ for any $p < .25$, that is, the largest value of $\alpha$ occurs exactly at the boundary value .25 between $H_0$ and $H_a$. Working with the boundary value is therefore the worst case, if $\alpha$ is small there, it will be as small or smaller for the rest of the more realistic composite null.
+> [!note] The "worst case" boundary trick for a composite null (added) #added
+> The test above is still reasonable for the more realistic $H_0: p \le .25$. There is then an $\alpha(p)$ for each $p\le.25$ instead of one $\alpha$, and $\alpha(p) < \alpha(.25)=.102$ for every $p<.25$. The largest $\alpha$ occurs exactly at the boundary value between $H_0$ and $H_a$. Checking $\alpha$ only at the boundary is enough, if it is small there it is as small or smaller everywhere else $H_0$ holds.
 
-**Same experiment, a smaller rejection region $R_9$**
-Now consider $R_9 = \{9,10,\ldots,20\}$, still with $X\sim\text{Bin}(20,p)$.
-$$\alpha = P(H_0 \text{ rejected when } p=.25) = P(X\ge9 \text{ when } X\sim\text{Bin}(20,.25)) = 1-B(8;20,.25) = .041$$
-The type I error probability has decreased. However, a price has been paid:
-$$\beta(.3) = P(X\le8 \text{ when } X\sim\text{Bin}(20,.3)) = B(8;20,.3) = .887$$
-$$\beta(.5) = B(8;20,.5) = .252$$
-Both $\beta$'s are larger than the corresponding values for $R_8$ (.772 and .132).
+### Example 8.4, smaller rejection region $R_9$
+Same experiment, $R_9=\{9,\ldots,20\}$, reject if $x\ge9$.
+$$\alpha = P(X\ge9 \text{ when } X\sim\text{Bin}(20,.25)) = 1-B(8;20,.25) = .041$$
+$\alpha$ decreased from .102 to .041. Price paid:
+$$\beta(.3) = B(8;20,.3) = .887 \qquad \beta(.5) = B(8;20,.5) = .252$$
+Both larger than the $R_8$ values (.772, .132).
 
-> [!warning] $\alpha$ and $\beta$ trade off against each other (common mistake)
-> $\alpha$ is computed by summing over test statistic values *inside* the rejection region, while $\beta$ is the probability the test statistic falls *outside* it (in the complement). Making the rejection region smaller must therefore decrease $\alpha$ while increasing $\beta$, for any fixed alternative value of the parameter. Neither error can be shrunk for free without also changing $n$.
+> [!warning] $\alpha$ and $\beta$ trade off against each other (common mistake) #common-mistake
+> $\alpha$ sums test statistic values inside the rejection region, $\beta$ is the probability the test statistic falls outside it. Shrinking the rejection region must decrease $\alpha$ while increasing $\beta$, for any fixed alternative, for a fixed $n$. Neither can shrink for free.
 
-**Example 8.5 (source, slides 15 to 18)**
-Paint drying time is normally distributed with mean 75 min, $\sigma = 9$ min. A new additive is believed to keep drying times normal with $\sigma=9$ but is hoped to decrease the mean. Let $\mu$ = true average drying time with the additive. $H_0: \mu=75$ versus $H_a: \mu<75$. Only if $H_0$ can be rejected will the additive be declared successful.
-
-Experimental data: $n=25$ specimens, $\bar{X}$ is normal with $\mu_{\bar{X}} = \mu$, $\sigma_{\bar{X}} = \sigma/\sqrt{n} = 9/\sqrt{25} = 1.8$. When $H_0$ is true, $\mu_{\bar{X}} = 75$, so an $\bar{x}$ value somewhat less than 75 would not strongly contradict $H_0$. A reasonable rejection region has the form $\bar{x} \le c$ (lower-tailed, small values of the test statistic). Take $c=70.8$.
-$$\alpha = P(\bar{X}\le70.8 \text{ when } \bar{X}\sim N(75, 1.8^2)) = \Phi\left(\frac{70.8-75}{1.8}\right) = \Phi(-2.33) = .01$$
-$$\beta(72) = P(\bar{X}>70.8 \text{ when } \bar{X}\sim N(72,1.8^2)) = 1-\Phi\left(\frac{70.8-72}{1.8}\right) = 1-\Phi(-.67) = 1-.2514=.7486$$
+### Example 8.5 (paint drying time)
+Paint drying time is normal, mean 75 min, $\sigma=9$ min. A new additive is believed to keep drying times normal with $\sigma=9$, hoped to decrease the mean. Only strong evidence should adopt it.
+$$H_0: \mu=75 \qquad H_a: \mu<75$$
+$n=25$ specimens, $\bar{X}\sim N(\mu, \sigma_{\bar{X}}^2)$, $\sigma_{\bar{X}}=9/\sqrt{25}=1.8$. A reasonable rejection region has the form $\bar{x}\le c$, lower-tailed. Take $c=70.8$.
+$$\alpha = \Phi\left(\frac{70.8-75}{1.8}\right) = \Phi(-2.33) = .01$$
+$$\beta(72) = 1-\Phi\left(\frac{70.8-72}{1.8}\right) = 1-\Phi(-.67) = .7486$$
 $$\beta(70) = 1-\Phi\left(\frac{70.8-70}{1.8}\right) = .3300 \qquad \beta(67) = .0174$$
-For this test, only 1% of experiments will incorrectly reject $H_0$. But the chance of a type II error is very large when $\mu=72$ (a small departure from $H_0$), and quite small when $\mu=67$ (a substantial departure). $\alpha$ is computed using the distribution of the test statistic when $H_0$ is true; determination of $\beta$ requires knowing the test statistic's distribution when $H_0$ is false. As before, if the more realistic null hypothesis $\mu \ge 75$ is considered, the boundary value $\mu=75$ gives the largest of all the type I error probabilities.
+Only 1% of experiments incorrectly reject $H_0$, but the chance of a Type II error is very large near the null ($\mu=72$) and small far from it ($\mu=67$).
 
-**Changing the cutoff, same example**
-The use of $c=70.8$ resulted in a very small $\alpha$ (.01) but rather large $\beta$'s. Try $c=72$ instead:
-$$\alpha = P(\bar{X}\le72 \text{ when } \bar{X}\sim N(75,1.8^2)) = \Phi\left(\frac{72-75}{1.8}\right) = \Phi(-1.67) = .0475 \approx .05$$
-$$\beta(72) = P(\bar{X}>72 \text{ when } \bar{X}\sim N(72,1.8^2)) = 1-\Phi(0) = .5$$
-$$\beta(70) = 1-\Phi\left(\frac{72-70}{1.8}\right) = .1335 \qquad \beta(67) = 1-\Phi\left(\frac{72-67}{1.8}\right) = .0027$$
-The larger rejection region (including more $\bar{x}$ values) decreases $\beta$ for each fixed $\mu$, but $\alpha$ has increased from .01 to about .05. If a type I error probability this large can be tolerated, the second region ($c=72$) is preferable to the first ($c=70.8$) because of the smaller $\beta$'s.
+### Example 8.5, changing the cutoff
+$c=70.8$ gave small $\alpha$ but large $\beta$'s. Try $c=72$:
+$$\alpha = \Phi\left(\frac{72-75}{1.8}\right) = \Phi(-1.67) = .0475 \approx .05$$
+$$\beta(72) = 1-\Phi(0) = .5 \qquad \beta(70) = .1335 \qquad \beta(67) = .0027$$
+The larger rejection region decreases $\beta$ for each fixed $\mu$, but $\alpha$ rose from .01 to about .05. If a Type I error this large is tolerable, $c=72$ is preferable to $c=70.8$ for the smaller $\beta$'s.
 
-### Standardizing the test statistic
+> [!note] Why raising alpha can only flip a decision one way (added) #added
+> A larger $\alpha$ enlarges the rejection region, it can only newly capture a test statistic value that was previously outside it, never expel one already inside. So raising $\alpha$ can only ever move a decision from fail-to-reject toward reject, never the reverse. If a computed $z$ already falls in the rejection region at a small $\alpha$, it stays there at every larger $\alpha$; it cannot un-reject.
 
-**Worked example (source, "An example")**
-$\mu$ = true average nicotine content of brand B cigarettes. $H_0: \mu=1.5$ versus $H_a: \mu>1.5$, based on $n=32$, with $\sigma=.20$ assumed known and the population normal. $\bar{X}$ is normal with $\mu_{\bar{X}}=\mu$, $\sigma_{\bar{X}} = .20/\sqrt{32} = .0354$.
+## Standardizing the test statistic
 
-Rather than using $\bar{X}$ itself, standardize it assuming $H_0$ is true:
-$$Z = \frac{\bar{X}-1.5}{\sigma/\sqrt{n}} = \frac{\bar{X}-1.5}{.0354}$$
-$Z$ expresses the distance between $\bar{X}$ and its expected value under $H_0$, in standard deviations. For example, $z=3$ results from an $\bar{x}$ that is 3 standard deviations larger than expected were $H_0$ true.
+### Standardizing example (nicotine content)
+$\mu$ = true average nicotine content of brand B cigarettes. $H_0: \mu=1.5$ versus $H_a: \mu>1.5$, $n=32$, normal population, $\sigma=.20$ known. $\bar{X}\sim N(\mu, \sigma_{\bar{X}}^2)$, $\sigma_{\bar{X}}=.20/\sqrt{32}=.0354$.
 
-Rejecting $H_0$ when $\bar{x}$ "considerably" exceeds 1.5 is equivalent to rejecting when $z$ "considerably" exceeds 0, so the rejection region takes the form $z \ge c$. To fix $\alpha=.05$: when $H_0$ is true, $Z$ has a standard normal distribution, so $c$ must capture upper-tail area .05, $c=z_{.05}=1.645$. Note $z\ge1.645$ is equivalent to $\bar{x}-1.5 \ge (.0354)(1.645)$, i.e. $\bar{x}\ge1.56$. Then $\beta$ is the probability that $\bar{X}<1.56$, computable for any $\mu>1.5$.
+Rather than use $\bar{X}$ itself, standardize assuming $H_0$ true:
+$$Z = \frac{\bar{X}-1.5}{.0354}$$
+$Z$ is the distance between $\bar{X}$ and its expected value under $H_0$, in standard deviations.
+
+N.B Standardising turns a problem-specific cutoff on $\bar{x}$ into a fixed, reusable cutoff on $z$, the same $z$ value regardless of $\mu_0$, $\sigma$, or $n$.
+
+Rejecting when $\bar{x}$ "considerably" exceeds 1.5 is equivalent to rejecting when $z$ "considerably" exceeds 0, rejection region $z\ge c$. Let $\alpha=.05$.
+$$\alpha = P(Z\ge c \text{ when } Z\sim N(0,1)) \implies c=z_{.05}=1.645$$
+$z\ge1.645 \iff \bar{x}-1.5\ge(.0354)(1.645) \iff \bar{x}\ge1.56$. $\beta$ is then $P(\bar{X}<1.56)$, computable for any $\mu>1.5$.
+
+> [!tip] Fixed calculation order for a hypothesis test (struggle) #struggle
+> A common failure mode is losing track partway through, not from missing a formula but from having no fixed sequence to plug numbers into. Use the seven step order Examples 8.6 and 8.8 below both follow: (1) name the parameter, (2) state $H_0$, (3) state $H_a$, (4) write the test statistic formula, (5) fix the rejection region from $H_a$'s form and the chosen $\alpha$, (6) substitute the sample numbers and compute, (7) compare to the rejection region and conclude in words. Doing this in the same order every time, rather than jumping to the arithmetic first, is what the worked examples below model.
 
 ## Tests about a population mean
 
-### Case I, normal population with known variance (exam-flagged)
-Test statistic:
+### Case I: known variance (exam-flagged) #exam-flagged
+Normal population, $\sigma$ known, any $n$. Test statistic:
 $$Z = \frac{\bar{X}-\mu_0}{\sigma/\sqrt{n}}$$
-With $H_0: \mu = \mu_0$, the rejection region depends on the form of $H_a$:
 
 | $H_a$ | Rejection region |
 |---|---|
-| $\mu > \mu_0$ (upper-tailed) | $z \ge z_\alpha$ |
-| $\mu < \mu_0$ (lower-tailed) | $z \le -z_\alpha$ |
-| $\mu \ne \mu_0$ (two-tailed) | $z \ge z_{\alpha/2}$ or $z \le -z_{\alpha/2}$ |
+| $\mu>\mu_0$ (upper-tailed) | $z\ge z_\alpha$ |
+| $\mu<\mu_0$ (lower-tailed) | $z\le -z_\alpha$ |
+| $\mu\ne\mu_0$ (two-tailed) | $z\ge z_{\alpha/2}$ or $z\le -z_{\alpha/2}$ |
 
-**Example 8.6 (source, slides "Tests about a Population Mean")**
-A manufacturer of sprinkler systems claims the true average system-activation temperature is $130°$F. A sample of $n=9$ systems yields $\bar{x}=131.08°$F. Distribution of activation times is normal with $\sigma=1.5°$F. Does the data contradict the manufacturer's claim at significance level $\alpha=.01$?
+N.B the two-tailed region splits $\alpha$ into two tails of $\alpha/2$ each (defined in: $\alpha$ vs $\alpha/2$ vs the table value, [[STA01B1_Notes_S3_Statistical_Intervals]]), the same $z_{\alpha/2}$ notation used there for confidence intervals, here marking a rejection boundary instead of an interval's error of estimation.
 
-1. Parameter of interest: $\mu$ = true average activation temperature.
-2. Null hypothesis: $H_0: \mu = 130$ (null value $\mu_0=130$).
-3. Alternative hypothesis: $H_a: \mu \ne 130$ (a departure from the claimed value in *either* direction is of concern).
-4. Test statistic: $z = \dfrac{\bar{x}-\mu_0}{\sigma/\sqrt{n}} = \dfrac{\bar{x}-130}{1.5/\sqrt{n}}$
-5. Rejection region: the form of $H_a$ implies a two-tailed test, rejection region $z\ge z_{.005}$ or $z\le -z_{.005}$. $z_{.005}=2.58$, so reject $H_0$ if $z\ge2.58$ or $z\le-2.58$.
-6. Substituting $n=9$, $\bar{x}=131.08$: $z = \dfrac{131.08-130}{1.5/\sqrt{9}} = \dfrac{1.08}{.5} = 2.16$. The observed sample mean is a bit more than 2 standard deviations above what would have been expected were $H_0$ true.
-7. $z=2.16$ does not fall in the rejection region ($-2.58<2.16<2.58$), so $H_0$ cannot be rejected at significance level .01. The data does not give strong support to the claim that the true average differs from the design value of 130.
+### Example 8.6 (sprinkler activation temperature)
+A sprinkler manufacturer claims true average activation temperature is $130°$F. $n=9$ systems, $\bar{x}=131.08°$F, normal population, $\sigma=1.5°$F, $\alpha=.01$.
+1. Parameter: $\mu$ = true average activation temperature.
+2. $H_0: \mu=130$
+3. $H_a: \mu\ne130$ (departure in either direction is of concern)
+4. $z = \dfrac{\bar{x}-130}{1.5/\sqrt{n}}$
+5. Two-tailed (defined in: [[#Case I: known variance]]), reject if $z\ge z_{.005}$ or $z\le-z_{.005}$; $z_{.005}=2.58$.
+6. $z = \dfrac{131.08-130}{1.5/\sqrt{9}} = \dfrac{1.08}{.5} = 2.16$
+7. $2.16$ does not fall in the rejection region ($-2.58<2.16<2.58$), $H_0$ cannot be rejected at $\alpha=.01$. The data does not strongly support a departure from 130.
 
-### Case II, large sample tests ($n>30$) (exam-flagged)
-When $\sigma$ is unknown, substitute the sample standard deviation $S$:
+### Case II: large sample tests #exam-flagged
+When $\sigma$ is unknown and $n>30$, substitute $S$:
 $$Z = \frac{\bar{X}-\mu_0}{S/\sqrt{n}}$$
-Valid for $n>30$.
+N.B the three rejection regions from [[#Case I: known variance]] apply unchanged, only the denominator changes, $\sigma$ becomes $S$, and $n>30$ is required for the approximation, paralleling the $n>40$ threshold for large-sample confidence intervals (see: [[STA01B1_Notes_S3_Statistical_Intervals]]), where substituting $S$ for $\sigma$ was likewise stricter than the plain CLT rule of thumb.
 
-**Worked example, Example 8.8 (source, "An example" / "Tests about a Population Mean")**
-A sample of bills for meals at a restaurant gave the tip as a percentage of the raw bill for each of 70 bills. Does it appear the population mean tip percentage exceeds the standard 15%?
-
+### Example 8.8 (restaurant tip percentage)
+70 restaurant bills, tip as a percentage of the raw bill. Does the population mean tip percentage exceed the standard 15%?
 1. $\mu$ = true average tip percentage.
-2. $H_0: \mu = 15$
-3. $H_a: \mu > 15$
+2. $H_0: \mu=15$
+3. $H_a: \mu>15$
 4. $z = \dfrac{\bar{x}-15}{s/\sqrt{n}}$
-5. Using a test with significance level .05, $H_0$ will be rejected if $z\ge1.645$ (an upper-tailed test).
-6. With $n=70$, $\bar{x}=17.99$, $s=5.937$: $z = \dfrac{17.99-15}{5.937/\sqrt{70}} = \dfrac{2.99}{.7096} = 4.21$.
-7. Since $4.21 \ge 1.645$, $H_0$ is rejected. There is evidence that the true average tip percentage exceeds 15%.
+5. $\alpha=.05$, upper-tailed (defined in: [[#Case I: known variance]]), reject if $z\ge1.645$.
+6. $n=70$, $\bar{x}=17.99$, $s=5.937$: $z=\dfrac{17.99-15}{5.937/\sqrt{70}}=\dfrac{2.99}{.7096}=4.21$
+7. $4.21\ge1.645$, $H_0$ is rejected. Evidence the true average tip percentage exceeds 15%.
+
+## Which case, and which tail
+
+**Case I/Case II, from this lecture's source only**
+
+| Condition | Test statistic | Distribution | Case |
+|---|---|---|---|
+| Population normal, $\sigma$ known, any $n$ | $Z=\dfrac{\bar{X}-\mu_0}{\sigma/\sqrt{n}}$ | standard normal, exact | [[#Case I: known variance]] |
+| $\sigma$ unknown, $n>30$ | $Z=\dfrac{\bar{X}-\mu_0}{S/\sqrt{n}}$ | standard normal, approximate | [[#Case II: large sample tests]] |
+| $\sigma$ unknown, $n\le30$ | not shown in this lecture's source | not shown in this lecture's source | not covered here |
+
+N.B both cases here use $Z$, never $t$. The switch is not $t$ versus $Z$, it is which standard error formula applies, driven by whether $\sigma$ is known, the same fork already established for confidence intervals (see: [[STA01B1_Notes_S3_Statistical_Intervals]]). A small-sample unknown-$\sigma$ test would need $t$ (see: [[STA01B1_Notes_S4_Intervals_Based_on_a_Normal_Population]] for the $t$ distribution itself), but that test does not appear in this lecture.
+
+**Wording to hypothesis form, from this lecture's own examples**
+
+| Wording in the problem | $H_a$ form | Tail | Rejection region | Seen in |
+|---|---|---|---|---|
+| "no improvement," claimed exact value | $H_0:\theta=\theta_0$ | (baseline) | -- | [[#Example 8.4 (bumper design)]], [[#Example 8.6 (sprinkler activation temperature)]] |
+| "increase," "exceeds," "greater than" | $H_a:\theta>\theta_0$ | upper | $z\ge z_\alpha$ | [[#Example 8.4 (bumper design)]], [[#Standardizing example (nicotine content)]], [[#Example 8.8 (restaurant tip percentage)]] |
+| "decrease," "hoped to lower," "less than" | $H_a:\theta<\theta_0$ | lower | $z\le-z_\alpha$ | [[#Example 8.5 (paint drying time)]] |
+| "differs from," concern either direction | $H_a:\theta\ne\theta_0$ | two | $z\ge z_{\alpha/2}$ or $z\le-z_{\alpha/2}$ | [[#Example 8.6 (sprinkler activation temperature)]] |
+
+N.B this lecture never produces a p-value, every decision is cutoff versus computed $z$. A p-value column belongs to whichever later lecture introduces it.
 
 ## Do not forget
 
-- Two outcomes only: reject $H_0$, or fail to reject $H_0$. Failing to reject never means $H_0$ is proven true.
-- $H_a$'s direction ($\ne$, $<$, $>$) fixes whether the test is two-tailed, lower-tailed, or upper-tailed, and which rejection region formula applies.
-- $\alpha$ = P(Type I, reject a true $H_0$); $\beta$ = P(Type II, fail to reject a false $H_0$). $\beta$ is not a single number, it depends on which specific alternative parameter value is true.
-- Shrinking the rejection region decreases $\alpha$ but increases $\beta$ for every fixed alternative, they trade off directly against each other.
-- For a composite null ($\theta \le \theta_0$ or $\theta \ge \theta_0$), the boundary value $\theta_0$ gives the largest $\alpha$ among all values where $H_0$ holds, the worst case.
-- Standardizing the test statistic to $Z$ expresses how many standard deviations $\bar{X}$ sits from the value $H_0$ claims, and lets the rejection region be written as a fixed critical value like $z_\alpha$ regardless of the specific numbers in the problem.
-- Case I (known $\sigma$, any $n$, normal population) uses $Z=(\bar{X}-\mu_0)/(\sigma/\sqrt{n})$; Case II (unknown $\sigma$, $n>30$) substitutes $S$ for $\sigma$ in the same statistic.
+- Two outcomes only: reject $H_0$, or fail to reject $H_0$. Never "prove $H_0$ true."
+- $H_a$'s direction fixes the test: $\ne$ two-tailed, $<$ lower-tailed, $>$ upper-tailed.
+- $\alpha$ = P(Type I, reject a true $H_0$); $\beta$ = P(Type II, fail to reject a false $H_0$), not a single number, it depends on the specific alternative.
+- Given a stated decision alone, only one error type is even possible, reject exposes Type I only, fail to reject exposes Type II only.
+- Shrinking the rejection region decreases $\alpha$ but increases $\beta$ for every fixed alternative. Raising $\alpha$ can only flip fail-to-reject into reject, never the reverse.
+- For a composite null, the boundary value gives the largest $\alpha$, the worst case.
+- Standardising to $Z$ turns a problem-specific cutoff into a fixed, reusable critical value.
+- Case I (known $\sigma$, any $n$) uses $\sigma/\sqrt{n}$; Case II (unknown $\sigma$, $n>30$) substitutes $S$. Both use $Z$, this lecture has no small-sample unknown-$\sigma$ test.
+- Follow the same seven step order every time: parameter, $H_0$, $H_a$, test statistic, rejection region, substitute, conclude.
 
 ## See also
-- [[STA01B1_Notes_S1_Statistics_and_Sampling_Distributions]] — sampling distribution of $\bar{X}$ and its standard deviation $\sigma_{\bar{X}} = \sigma/\sqrt{n}$, used throughout this note's $\alpha$ and $\beta$ calculations.
-- [[STA01B1_Notes_S3_Statistical_Intervals]] — the $z_{\alpha/2}$ and $z_\alpha$ critical value conventions carried over directly into rejection regions here.
+- [[STA01B1_Notes_S1_Statistics_and_Sampling_Distributions]] -- sampling distribution of $\bar{X}$ and $\sigma_{\bar{X}}=\sigma/\sqrt{n}$, used throughout this note's $\alpha$ and $\beta$ calculations.
+- [[STA01B1_Notes_S3_Statistical_Intervals]] -- the $z_{\alpha/2}$ and $z_\alpha$ critical value conventions and the $S$-for-$\sigma$ large-sample substitution, both carried over directly into this note.
+- [[STA01B1_Notes_S4_Intervals_Based_on_a_Normal_Population]] -- the $t$ distribution, not used in this lecture but the natural next step for a small-sample unknown-$\sigma$ test.

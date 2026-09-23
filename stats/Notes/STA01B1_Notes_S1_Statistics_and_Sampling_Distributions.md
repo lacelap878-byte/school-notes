@@ -154,4 +154,4 @@ approximately normal.
 - CLT rule of thumb: $n \ge 30$ needed only when the population is skewed; a normal population needs no minimum $n$.
 
 ## See also
-First note for this module, no linked notes yet.
+This is the foundational note for the module; nothing precedes it. Its results underpin every later session: the sampling distribution of $\bar{X}$ and $\sigma_{\bar{X}} = \sigma/\sqrt{n}$ carry directly into [[STA01B1_Notes_S2_Point_Estimation]] (standard error), [[STA01B1_Notes_S3_Statistical_Intervals]] and [[STA01B1_Notes_S4_Intervals_Based_on_a_Normal_Population]] (confidence intervals), and [[STA01B1_Notes_S5_Hypothesis_Testing]] (test statistics). The CLT rule of thumb here is also the direct ancestor of the stricter large-sample thresholds that show up from S3 onward.

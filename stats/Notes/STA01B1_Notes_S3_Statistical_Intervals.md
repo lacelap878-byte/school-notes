@@ -144,3 +144,4 @@ So, with 95% confidence, $\mu$ lies in $(18.77, \infty)$. This lower bound (18.7
 ## See also
 - [[STA01B1_Notes_S1_Statistics_and_Sampling_Distributions]] — sampling distribution of $\bar{X}$, and the CLT rule of thumb this chapter's $n>40$ threshold builds on.
 - [[STA01B1_Notes_S2_Point_Estimation]] — standard error, the building block for every interval in this note.
+- [[STA01B1_Notes_S5_Hypothesis_Testing]] — the same $z_{\alpha/2}$ and $z_\alpha$ critical values reappear there as rejection-region boundaries rather than interval limits, and its large-sample Case II reuses the $S$-for-$\sigma$ substitution introduced here.
