@@ -76,7 +76,7 @@ The test statistic squeezes the sample into one number; the rejection region is 
 
 ## Errors in hypothesis testing
 
-### Definitions (exam-flagged) #exam-flagged
+### Definitions (exam-flagged)
 ```
 1. Type I error
    Rejecting the null hypothesis Ho when it is true.
@@ -178,14 +178,14 @@ A sprinkler manufacturer claims true average activation temperature is $130°$F.
 2. $H_0: \mu=130$
 3. $H_a: \mu\ne130$ (departure in either direction is of concern)
 4. $z = \dfrac{\bar{x}-130}{1.5/\sqrt{n}}$
-5. Two-tailed (defined in: [[#Case I: known variance]]), reject if $z\ge z_{.005}$ or $z\le-z_{.005}$; $z_{.005}=2.58$.
+5. Two-tailed (defined in: Case I: known variance), reject if $z\ge z_{.005}$ or $z\le-z_{.005}$; $z_{.005}=2.58$.
 6. $z = \dfrac{131.08-130}{1.5/\sqrt{9}} = \dfrac{1.08}{.5} = 2.16$
 7. $2.16$ does not fall in the rejection region ($-2.58<2.16<2.58$), $H_0$ cannot be rejected at $\alpha=.01$. The data does not strongly support a departure from 130.
 
-### Case II: large sample tests #exam-flagged
+### Case II: large sample tests (exam-flagged) #exam-flagged
 When $\sigma$ is unknown and $n>30$, substitute $S$:
 $$Z = \frac{\bar{X}-\mu_0}{S/\sqrt{n}}$$
-N.B the three rejection regions from [[#Case I: known variance]] apply unchanged, only the denominator changes, $\sigma$ becomes $S$, and $n>30$ is required for the approximation, paralleling the $n>40$ threshold for large-sample confidence intervals (see: [[STA01B1_Notes_S3_Statistical_Intervals]]), where substituting $S$ for $\sigma$ was likewise stricter than the plain CLT rule of thumb.
+N.B the three rejection regions from [[#Case I: known variance (exam-flagged)]] apply unchanged, only the denominator changes, $\sigma$ becomes $S$, and $n>30$ is required for the approximation, paralleling the $n>40$ threshold for large-sample confidence intervals (see: [[STA01B1_Notes_S3_Statistical_Intervals]]), where substituting $S$ for $\sigma$ was likewise stricter than the plain CLT rule of thumb.
 
 ### Example 8.8 (restaurant tip percentage)
 70 restaurant bills, tip as a percentage of the raw bill. Does the population mean tip percentage exceed the standard 15%?
@@ -193,7 +193,7 @@ N.B the three rejection regions from [[#Case I: known variance]] apply unchanged
 2. $H_0: \mu=15$
 3. $H_a: \mu>15$
 4. $z = \dfrac{\bar{x}-15}{s/\sqrt{n}}$
-5. $\alpha=.05$, upper-tailed (defined in: [[#Case I: known variance]]), reject if $z\ge1.645$.
+5. $\alpha=.05$, upper-tailed (defined in: [[#Case I: known variance (exam-flagged)]]), reject if $z\ge1.645$.
 6. $n=70$, $\bar{x}=17.99$, $s=5.937$: $z=\dfrac{17.99-15}{5.937/\sqrt{70}}=\dfrac{2.99}{.7096}=4.21$
 7. $4.21\ge1.645$, $H_0$ is rejected. Evidence the true average tip percentage exceeds 15%.
 
@@ -203,8 +203,8 @@ N.B the three rejection regions from [[#Case I: known variance]] apply unchanged
 
 | Condition | Test statistic | Distribution | Case |
 |---|---|---|---|
-| Population normal, $\sigma$ known, any $n$ | $Z=\dfrac{\bar{X}-\mu_0}{\sigma/\sqrt{n}}$ | standard normal, exact | [[#Case I: known variance]] |
-| $\sigma$ unknown, $n>30$ | $Z=\dfrac{\bar{X}-\mu_0}{S/\sqrt{n}}$ | standard normal, approximate | [[#Case II: large sample tests]] |
+| Population normal, $\sigma$ known, any $n$ | $Z=\dfrac{\bar{X}-\mu_0}{\sigma/\sqrt{n}}$ | standard normal, exact | [[#Case I: known variance (exam-flagged)]] |
+| $\sigma$ unknown, $n>30$ | $Z=\dfrac{\bar{X}-\mu_0}{S/\sqrt{n}}$ | standard normal, approximate | [[#Case II: large sample tests (exam-flagged)]] |
 | $\sigma$ unknown, $n\le30$ | not shown in this lecture's source | not shown in this lecture's source | not covered here |
 
 N.B both cases here use $Z$, never $t$. The switch is not $t$ versus $Z$, it is which standard error formula applies, driven by whether $\sigma$ is known, the same fork already established for confidence intervals (see: [[STA01B1_Notes_S3_Statistical_Intervals]]). A small-sample unknown-$\sigma$ test would need $t$ (see: [[STA01B1_Notes_S4_Intervals_Based_on_a_Normal_Population]] for the $t$ distribution itself), but that test does not appear in this lecture.
@@ -213,7 +213,7 @@ N.B both cases here use $Z$, never $t$. The switch is not $t$ versus $Z$, it is 
 
 | Wording in the problem | $H_a$ form | Tail | Rejection region | Seen in |
 |---|---|---|---|---|
-| "no improvement," claimed exact value | $H_0:\theta=\theta_0$ | (baseline) | -- | [[#Example 8.4 (bumper design)]], [[#Example 8.6 (sprinkler activation temperature)]] |
+| "no improvement," claimed exact value | $H_0:\theta=\theta_0$ | (baseline) | — | [[#Example 8.4 (bumper design)]], [[#Example 8.6 (sprinkler activation temperature)]] |
 | "increase," "exceeds," "greater than" | $H_a:\theta>\theta_0$ | upper | $z\ge z_\alpha$ | [[#Example 8.4 (bumper design)]], [[#Standardizing example (nicotine content)]], [[#Example 8.8 (restaurant tip percentage)]] |
 | "decrease," "hoped to lower," "less than" | $H_a:\theta<\theta_0$ | lower | $z\le-z_\alpha$ | [[#Example 8.5 (paint drying time)]] |
 | "differs from," concern either direction | $H_a:\theta\ne\theta_0$ | two | $z\ge z_{\alpha/2}$ or $z\le-z_{\alpha/2}$ | [[#Example 8.6 (sprinkler activation temperature)]] |
@@ -221,7 +221,6 @@ N.B both cases here use $Z$, never $t$. The switch is not $t$ versus $Z$, it is 
 N.B this lecture never produces a p-value, every decision is cutoff versus computed $z$. A p-value column belongs to whichever later lecture introduces it.
 
 ## Do not forget
-
 - Two outcomes only: reject $H_0$, or fail to reject $H_0$. Never "prove $H_0$ true."
 - $H_a$'s direction fixes the test: $\ne$ two-tailed, $<$ lower-tailed, $>$ upper-tailed.
 - $\alpha$ = P(Type I, reject a true $H_0$); $\beta$ = P(Type II, fail to reject a false $H_0$), not a single number, it depends on the specific alternative.
@@ -233,6 +232,7 @@ N.B this lecture never produces a p-value, every decision is cutoff versus compu
 - Follow the same seven step order every time: parameter, $H_0$, $H_a$, test statistic, rejection region, substitute, conclude.
 
 ## See also
-- [[STA01B1_Notes_S1_Statistics_and_Sampling_Distributions]] -- sampling distribution of $\bar{X}$ and $\sigma_{\bar{X}}=\sigma/\sqrt{n}$, used throughout this note's $\alpha$ and $\beta$ calculations.
-- [[STA01B1_Notes_S3_Statistical_Intervals]] -- the $z_{\alpha/2}$ and $z_\alpha$ critical value conventions and the $S$-for-$\sigma$ large-sample substitution, both carried over directly into this note.
-- [[STA01B1_Notes_S4_Intervals_Based_on_a_Normal_Population]] -- the $t$ distribution, not used in this lecture but the natural next step for a small-sample unknown-$\sigma$ test.
+- [[STA01B1_Notes_S1_Statistics_and_Sampling_Distributions]] — sampling distribution of $\bar{X}$ and $\sigma_{\bar{X}}=\sigma/\sqrt{n}$, used throughout this note's $\alpha$ and $\beta$ calculations.
+- [[STA01B1_Notes_S3_Statistical_Intervals]] — the $z_{\alpha/2}$ and $z_\alpha$ critical value conventions and the $S$-for-$\sigma$ large-sample substitution, both carried over directly into this note.
+- [[STA01B1_Notes_S4_Intervals_Based_on_a_Normal_Population]] — the $t$ distribution, not used in this lecture but the natural next step for a small-sample unknown-$\sigma$ test.
+- [[STA01B1_Notes_S6_Inferences_Based_on_Two_Samples]] — extends the Case I/II fork and the seven step procedure from one sample to two, and adds the pooled $t$ test for small samples.

@@ -27,7 +27,7 @@ $$E(\bar{X}-\bar{Y}) = E(\bar{X})-E(\bar{Y}) = \mu_1-\mu_2$$
 $$\sigma_{\bar{X}-\bar{Y}}^2 = V(\bar{X}-\bar{Y}) = V(\bar{X})+V(\bar{Y}) = \frac{\sigma_1^2}{m}+\frac{\sigma_2^2}{n}$$
 $$\sigma_{\bar{X}-\bar{Y}} = \sqrt{\frac{\sigma_1^2}{m}+\frac{\sigma_2^2}{n}}$$
 
-This is the same variance-addition step used for the sample total $T_o$ (see: [[STA01B1_Notes_S1_Statistics_and_Sampling_Distributions]]), applied here to a difference of two means instead of a sum of observations from one population. Every test and interval in this note standardises using this mean and this standard deviation, the way the one-sample case standardised using $\sigma/\sqrt{n}$ (see: [[STA01B1_Notes_S5_Hypothesis_Testing]]).
+This is the same variance-addition step used for the sample total $T_o$ (see: [[STA01B1_Notes_S1_Statistics_and_Sampling_Distributions#Proposition, sample total|Proposition, sample total]]), applied here to a difference of two means instead of a sum of observations from one population. Every test and interval in this note standardises using this mean and this standard deviation, the way the one-sample case standardised using $\sigma/\sqrt{n}$ (see: [[STA01B1_Notes_S5_Hypothesis_Testing#Standardizing the test statistic|Standardizing the test statistic]]).
 
 > [!note] Why a difference, not a sum, product, or ratio (added) #added
 > The mean and variance of a linear combination of independent random variables, $a\bar{X}+b\bar{Y}$, have simple exact formulas regardless of the underlying distributions: $E(a\bar{X}+b\bar{Y})=aE(\bar{X})+bE(\bar{Y})$ and $V(a\bar{X}+b\bar{Y})=a^2V(\bar{X})+b^2V(\bar{Y})$ under independence. A difference is $a=1,b=-1$, which is why the derivation above is a two-line consequence of linearity. A sum ($a=b=1$) would work exactly the same way but rarely answers the interesting question, a difference near 0 means "about the same," and its sign says which population is larger. A product or a quotient of two means has no such clean formula in general, not even under normality and independence, and $\bar{X}/\bar{Y}$ does not have a standard named sampling distribution, so testing a ratio needs different machinery entirely, not a variant of what is covered here.
@@ -51,7 +51,7 @@ $$H_0: \mu_1-\mu_2=\Delta_0$$
 $$Z = \frac{\bar{X}-\bar{Y}-\Delta_0}{\sqrt{\dfrac{\sigma_1^2}{m}+\dfrac{\sigma_2^2}{n}}}$$
 $\Delta_0$ is the hypothesized value of the difference $\mu_1-\mu_2$, most often 0.
 
-N.B This is the same standardizing move as the one-sample case (see: [[STA01B1_Notes_S5_Hypothesis_Testing#Case I: known variance]]), numerator is estimate minus hypothesized value, denominator is that estimate's own standard deviation (defined in: [[#Setup: assumptions and the distribution of X̄ − Ȳ]]). The three rejection region forms from Case I carry over unchanged, only the test statistic's shape has changed.
+N.B This is the same standardizing move as the one-sample case (see: [[STA01B1_Notes_S5_Hypothesis_Testing#Case I: known variance (exam-flagged)|Case I: known variance]]), numerator is estimate minus hypothesized value, denominator is that estimate's own standard deviation (defined in: [[#Setup: assumptions and the distribution of X̄ − Ȳ]]). The three rejection region forms from Case I carry over unchanged, only the test statistic's shape has changed.
 
 ### Example 9.1 (GPA and study hours, source, slide 2)
 21 students reported GPA and whether they studied less than 10 hours per week or at least 10 hours per week. GPAs for the under-10 group: 2.80, 3.40, 4.00, 3.60, 2.00, 3.00, 3.47, 2.80, 2.60, 2.00. GPAs for the 10-plus group: 3.00, 3.00, 2.20, 2.40, 4.00, 2.96, 3.41, 3.27, 3.80, 3.10, 2.50. Normal plots for both groups are reasonably linear, so normality is tenable. The population standard deviation of GPA campus-wide is known to be .6, taken as $\sigma_1=\sigma_2=.6$. Sample means: $\bar{x}=2.97$ for the under-10 group, $\bar{y}=3.06$ for the 10-plus group. Is there evidence true average GPA differs between the two study time groups, at significance level .05?
@@ -83,7 +83,7 @@ $$H_0: \mu_1-\mu_2=\Delta_0$$
 $$Z = \frac{\bar{X}-\bar{Y}-\Delta_0}{\sqrt{\dfrac{S_1^2}{m}+\dfrac{S_2^2}{n}}}$$
 $m>40$ and $n>40$.
 
-N.B The only change from the known-variance case is $\sigma_1^2,\sigma_2^2 \to S_1^2,S_2^2$. The threshold here, $m>40$ and $n>40$, both samples must clear it, is stricter than the one-sample large-sample rule of $n>30$ (see: [[STA01B1_Notes_S5_Hypothesis_Testing#Case II: large sample tests]]), and matches the same $n>40$ threshold already used for a one-sample large-sample confidence interval (see: [[STA01B1_Notes_S3_Statistical_Intervals]]).
+N.B The only change from the known-variance case is $\sigma_1^2,\sigma_2^2 \to S_1^2,S_2^2$. The threshold here, $m>40$ and $n>40$, both samples must clear it, is stricter than the one-sample large-sample rule of $n>30$ (see: [[STA01B1_Notes_S5_Hypothesis_Testing#Case II: large sample tests (exam-flagged)|Case II: large sample tests]]), and matches the same $n>40$ threshold already used for a one-sample large-sample confidence interval (see: [[STA01B1_Notes_S3_Statistical_Intervals#Large sample confidence intervals (unknown $\sigma$)|Large sample confidence intervals (unknown σ)]]).
 
 ### Example 9.4 (final exam scores, control vs experimental teaching method, source, slide 3)
 A low-level university mathematics course had many students fail or drop out. A study assigned students to sections by odd or even social security number, avoiding assignment by student choice, attitude, or ability. Half the sections were taught traditionally (control group), the other half with frequent assignments, quizzes, and exam retakes (experimental group). Final exam scores were recorded for 79 control students and 85 experimental students.
@@ -98,7 +98,7 @@ Does this data suggest true mean score for the experimental condition exceeds th
 WORKING
 Let $\mu_1,\mu_2$ denote true mean scores for control and experimental respectively.
 $$H_0:\mu_1-\mu_2=0 \qquad H_a:\mu_1-\mu_2<0$$
-$H_0$ is rejected if $z\le -z_{.05}=-1.645$ (lower-tailed form, defined in: [[STA01B1_Notes_S5_Hypothesis_Testing#Case I: known variance]], applied here to $\mu_1-\mu_2$).
+$H_0$ is rejected if $z\le -z_{.05}=-1.645$ (lower-tailed form, defined in: [[STA01B1_Notes_S5_Hypothesis_Testing#Case I: known variance (exam-flagged)|Case I: known variance]], applied here to $\mu_1-\mu_2$).
 $$z = \frac{23.87-27.34}{\sqrt{11.60^2/79+8.85^2/85}} = \frac{-3.47}{1.620} = -2.14$$
 Since $-2.14\le-1.645$, $H_0$ is rejected at $\alpha=.05$.
 $$\text{P-value} = \Phi(z) = \Phi(-2.14) = .016$$
