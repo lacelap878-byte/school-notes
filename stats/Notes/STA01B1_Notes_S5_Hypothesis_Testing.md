@@ -160,7 +160,7 @@ $z\ge1.645 \iff \bar{x}-1.5\ge(.0354)(1.645) \iff \bar{x}\ge1.56$. $\beta$ is th
 
 ## Tests about a population mean
 
-### Case I: known variance (exam-flagged) #exam-flagged
+### Case I: known variance (exam-flagged)
 Normal population, $\sigma$ known, any $n$. Test statistic:
 $$Z = \frac{\bar{X}-\mu_0}{\sigma/\sqrt{n}}$$
 
@@ -182,7 +182,7 @@ A sprinkler manufacturer claims true average activation temperature is $130°$F.
 6. $z = \dfrac{131.08-130}{1.5/\sqrt{9}} = \dfrac{1.08}{.5} = 2.16$
 7. $2.16$ does not fall in the rejection region ($-2.58<2.16<2.58$), $H_0$ cannot be rejected at $\alpha=.01$. The data does not strongly support a departure from 130.
 
-### Case II: large sample tests (exam-flagged) #exam-flagged
+### Case II: large sample tests (exam-flagged)
 When $\sigma$ is unknown and $n>30$, substitute $S$:
 $$Z = \frac{\bar{X}-\mu_0}{S/\sqrt{n}}$$
 N.B the three rejection regions from [[#Case I: known variance (exam-flagged)]] apply unchanged, only the denominator changes, $\sigma$ becomes $S$, and $n>30$ is required for the approximation, paralleling the $n>40$ threshold for large-sample confidence intervals (see: [[STA01B1_Notes_S3_Statistical_Intervals]]), where substituting $S$ for $\sigma$ was likewise stricter than the plain CLT rule of thumb.
