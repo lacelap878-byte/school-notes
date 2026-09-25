@@ -7,7 +7,7 @@ tags: [definition, formula, theorem, worked-example, common-mistake, exam-flagge
 
 # Hypothesis Testing (Devore & Berk, Ch 8.1 & 8.2)
 
-A confidence interval (see: [[STA01B1_Notes_S3_Statistical_Intervals]]) answers "what range of values is $\mu$ plausibly in." Hypothesis testing answers a different question: "does the sample evidence contradict a specific claimed value strongly enough to reject it."
+A confidence interval (see: [[STA01B1_Notes_S3_Statistical_Intervals#Basic properties of confidence intervals|Basic properties of confidence intervals]]) answers "what range of values is $\mu$ plausibly in." Hypothesis testing answers a different question: "does the sample evidence contradict a specific claimed value strongly enough to reject it."
 
 ## What is a statistical hypothesis
 
@@ -170,7 +170,7 @@ $$Z = \frac{\bar{X}-\mu_0}{\sigma/\sqrt{n}}$$
 | $\mu<\mu_0$ (lower-tailed) | $z\le -z_\alpha$ |
 | $\mu\ne\mu_0$ (two-tailed) | $z\ge z_{\alpha/2}$ or $z\le -z_{\alpha/2}$ |
 
-N.B the two-tailed region splits $\alpha$ into two tails of $\alpha/2$ each (defined in: $\alpha$ vs $\alpha/2$ vs the table value, [[STA01B1_Notes_S3_Statistical_Intervals]]), the same $z_{\alpha/2}$ notation used there for confidence intervals, here marking a rejection boundary instead of an interval's error of estimation.
+N.B the two-tailed region splits $\alpha$ into two tails of $\alpha/2$ each (defined in: $\alpha$ vs $\alpha/2$ vs the table value, [[STA01B1_Notes_S3_Statistical_Intervals#Definition, general form (exam-flagged)|Definition, general form]]), the same $z_{\alpha/2}$ notation used there for confidence intervals, here marking a rejection boundary instead of an interval's error of estimation.
 
 ### Example 8.6 (sprinkler activation temperature)
 A sprinkler manufacturer claims true average activation temperature is $130°$F. $n=9$ systems, $\bar{x}=131.08°$F, normal population, $\sigma=1.5°$F, $\alpha=.01$.
@@ -185,7 +185,7 @@ A sprinkler manufacturer claims true average activation temperature is $130°$F.
 ### Case II: large sample tests (exam-flagged)
 When $\sigma$ is unknown and $n>30$, substitute $S$:
 $$Z = \frac{\bar{X}-\mu_0}{S/\sqrt{n}}$$
-N.B the three rejection regions from [[#Case I: known variance (exam-flagged)]] apply unchanged, only the denominator changes, $\sigma$ becomes $S$, and $n>30$ is required for the approximation, paralleling the $n>40$ threshold for large-sample confidence intervals (see: [[STA01B1_Notes_S3_Statistical_Intervals]]), where substituting $S$ for $\sigma$ was likewise stricter than the plain CLT rule of thumb.
+N.B the three rejection regions from [[#Case I: known variance (exam-flagged)]] apply unchanged, only the denominator changes, $\sigma$ becomes $S$, and $n>30$ is required for the approximation, paralleling the $n>40$ threshold for large-sample confidence intervals (see: [[STA01B1_Notes_S3_Statistical_Intervals#Large sample confidence intervals (unknown $\sigma$)|Large sample confidence intervals (unknown σ)]]), where substituting $S$ for $\sigma$ was likewise stricter than the plain CLT rule of thumb.
 
 ### Example 8.8 (restaurant tip percentage)
 70 restaurant bills, tip as a percentage of the raw bill. Does the population mean tip percentage exceed the standard 15%?
@@ -207,7 +207,7 @@ N.B the three rejection regions from [[#Case I: known variance (exam-flagged)]] 
 | $\sigma$ unknown, $n>30$ | $Z=\dfrac{\bar{X}-\mu_0}{S/\sqrt{n}}$ | standard normal, approximate | [[#Case II: large sample tests (exam-flagged)]] |
 | $\sigma$ unknown, $n\le30$ | not shown in this lecture's source | not shown in this lecture's source | not covered here |
 
-N.B both cases here use $Z$, never $t$. The switch is not $t$ versus $Z$, it is which standard error formula applies, driven by whether $\sigma$ is known, the same fork already established for confidence intervals (see: [[STA01B1_Notes_S3_Statistical_Intervals]]). A small-sample unknown-$\sigma$ test would need $t$ (see: [[STA01B1_Notes_S4_Intervals_Based_on_a_Normal_Population]] for the $t$ distribution itself), but that test does not appear in this lecture.
+N.B both cases here use $Z$, never $t$. The switch is not $t$ versus $Z$, it is which standard error formula applies, driven by whether $\sigma$ is known, the same fork already established for confidence intervals (see: [[STA01B1_Notes_S3_Statistical_Intervals#Large sample confidence intervals (unknown $\sigma$)|Large sample confidence intervals (unknown σ)]]). A small-sample unknown-$\sigma$ test would need $t$ (see: [[STA01B1_Notes_S4_Intervals_Based_on_a_Normal_Population#The $t$ distribution|The t distribution]] for the $t$ distribution itself), but that test does not appear in this lecture.
 
 **Wording to hypothesis form, from this lecture's own examples**
 
