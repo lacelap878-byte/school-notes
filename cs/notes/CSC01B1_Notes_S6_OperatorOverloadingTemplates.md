@@ -9,6 +9,8 @@ tags: [definition, worked-example, common-mistake, exam-flagged, struggle, added
 
 Lecture 5 covers two related generic-code tools in C++: **operator overloading**, which extends operators to work with class objects, and **templates**, which write one code body for a family of functions or classes.
 
+> *A note on the dropdowns: those marked (added) come from the follow-up questions we worked through together, not from the lecture slides. The slides state the rules; the dropdowns explain why the rules hold. Expect the slide-level rules on a test first, and treat the dropdowns as the reasoning behind them.*
+
 ## Why Operator Overloading Is Needed
 
 A class only gets you so far with named member functions. For a `clockType` object you can write `myClock.printTime()`, `myClock.incrementSeconds()`, or `if (myClock.equalTime(yourClock))`, but some operations read far more naturally as operators: `myClock++`, or `if (myClock == yourClock)`. #definition
@@ -64,7 +66,7 @@ void two(/*parameters*/)
 ```
 > [!note] A friend function looks exactly like an ordinary standalone function; only its prototype inside the class (with `friend`) marks it as having special access.
 
-This access is exactly what lets a nonmember operator function reach into a class's private data — which is what decides whether an overloaded operator has to be a member or a friend.
+This access is exactly what lets a nonmember operator function reach into a class's private data, which is what decides whether an overloaded operator has to be a member or a friend.
 
 ## Operator Functions as Member vs Nonmember Functions
 
@@ -76,12 +78,21 @@ For any other operator `op` overloaded for a class `opOverClass`, one rule decid
 > If the leftmost operand of `op` is an object of a **different type**, the overloading function must be a **nonmember (friend)**.
 > If the overloading function for `op` is a **member** of `opOverClass`, then whenever `op` is applied to objects of type `opOverClass`, the leftmost operand must itself be of type `opOverClass`.
 
-The leftmost operand's type is what decides member vs friend — this is the rule to reach for whenever a question asks "should this be a member or a friend function?"
+The leftmost operand's type is what decides member vs friend, this is the rule to reach for whenever a question asks "should this be a member or a friend function?"
+
+> [!question]- Struggle (added): why can `m + 5.0` be a member but `5.0 + m` cannot? #struggle
+> A member operator function is called *on* its left operand: `m + 5.0` is really `m.operator+(5.0)`. So the left operand has to be an object of the class. In `5.0 + m` the left operand is a `double`, which has no member functions to call, so the overload cannot be a member. It has to be a nonmember (friend) that takes both operands as parameters.
+>
+> ```cpp
+> Money operator+(double) const;                       // member: handles  m + 5.0
+> friend Money operator+(double, const Money&);        // nonmember: handles  5.0 + m
+> ```
+> If you want both orders to work, you need both overloads, and only the second one is forced to be a friend. The (Money, double) one could also be written as a friend; it just does not have to be.
 
 ### Overloading Binary Operators
 Take `#` as a stand-in for any binary operator (e.g. `+` or `==`) being overloaded for `rectangleType`: it can be overloaded either as a member function of the class or as a friend function.
 
-**As a member function** — only one explicit parameter, since the left operand is the invoking object itself, reached through the implicit `this`:
+**As a member function**, only one explicit parameter, since the left operand is the invoking object itself, reached through the implicit `this`:
 ```cpp
 // prototype (in class definition)
 returnType operator#(const className&) const;
@@ -96,7 +107,7 @@ returnType className::operator#
 }
 ```
 
-**As a friend function** — takes both operands explicitly:
+**As a friend function**, takes both operands explicitly:
 ```cpp
 // prototype (in class definition)
 friend returnType operator#(const className&,
@@ -115,7 +126,7 @@ Compare the two forms: a friend takes both operands as parameters and drops the 
 
 ## Overloading `<<` and `>>`
 
-Take the expression `cout << myRectangle;` — the leftmost operand is an `ostream` object, not a `rectangleType` object. By the member-vs-nonmember rule above, this **forces** the operator function that overloads `<<` for `rectangleType` to be a friend function. The same reasoning applies to `>>`.
+Take the expression `cout << myRectangle;`, the leftmost operand is an `ostream` object, not a `rectangleType` object. By the member-vs-nonmember rule above, this **forces** the operator function that overloads `<<` for `rectangleType` to be a friend function. The same reasoning applies to `>>`.
 
 **Stream insertion (`<<`):**
 ```cpp
@@ -131,7 +142,7 @@ ostream& operator<<(ostream& osObject, const className& cObject)
     return osObject;
 }
 ```
-Returns a reference to the stream object — this is what makes chaining (`cout << a << b;`) possible.
+Returns a reference to the stream object, this is what makes chaining (`cout << a << b;`) possible.
 
 **Stream extraction (`>>`):**
 ```cpp
@@ -169,22 +180,22 @@ const className& className::operator=
 ```
 The `if (this != &rightObject)` check guards against self-assignment (`x = x;`); without it, an assignment operator that frees memory before copying could destroy the source object before it's copied. Assignment must always be a member function.
 
-> [!question]- Struggle: does `myClock = yourClock;` even need an overload? #struggle
+> [!question]- Struggle (added): does `myClock = yourClock;` even need an overload? #struggle
 > **Yes, it works without writing anything**, because `=` is one of the two operators every class gets for free from the compiler (see the note at the top of this file). The compiler-supplied `operator=` performs a **memberwise copy**: each data member of `yourClock` is copied into the corresponding member of `myClock`, one at a time.
 >
-> **Does memberwise copy respect access specifiers?** No — `public`/`private`/`protected` only control access from *outside* the class. The compiler-generated `operator=` is part of the class's own machinery, so it copies **every** data member regardless of access level. If `hr`, `min`, `sec` are `private`, they still all get copied; you just couldn't reach them directly with `myClock.hr = yourClock.hr;` from outside code.
+> **Does memberwise copy respect access specifiers?** No, `public`/`private`/`protected` only control access from *outside* the class. The compiler-generated `operator=` is part of the class's own machinery, so it copies **every** data member regardless of access level. If `hr`, `min`, `sec` are `private`, they still all get copied; you just couldn't reach them directly with `myClock.hr = yourClock.hr;` from outside code.
 >
-> **So does every class have to overload operator overloading?** No — that's a misconception worth correcting directly. Only `=` and `.` are automatic; every other operator overload (`+`, `==`, `<<`, `++`, ...) is purely optional, added only when it makes the class more convenient to use. The **one case where overloading `=` becomes mandatory** is covered next.
+> **So does every class have to overload operator overloading?** No, that's a misconception worth correcting directly. Only `=` and `.` are automatic; every other operator overload (`+`, `==`, `<<`, `++`, ...) is purely optional, added only when it makes the class more convenient to use. The **one case where overloading `=` becomes mandatory** is covered next.
 
 ## Overloading Unary Operators
-- **Member function**: takes no parameters — the one operand is the invoking object itself, via `this`.
-- **Nonmember (friend) function**: takes exactly one parameter — there's no invoking object to supply it implicitly.
+- **Member function**: takes no parameters, the one operand is the invoking object itself, via `this`.
+- **Nonmember (friend) function**: takes exactly one parameter, there's no invoking object to supply it implicitly.
 
 ## Overloading `++` and `--`
 
 These are worked through in full for `++`; `--` follows the exact same pattern in each of the four forms below.
 
-**Pre-increment, member function** — only one object involved. The invoking object is incremented, then `*this` (same object, now updated) is returned:
+**Pre-increment, member function**, only one object involved. The invoking object is incremented, then `*this` (same object, now updated) is returned:
 ```cpp
 className operator++();
 
@@ -206,7 +217,7 @@ className operator++(className& incObj)
 }
 ```
 
-**Post-increment, member function** — note the dummy `int` parameter, which exists only to distinguish this overload from pre-increment and is never used in the body:
+**Post-increment, member function**, note the dummy `int` parameter, which exists only to distinguish this overload from pre-increment and is never used in the body:
 ```cpp
 className operator++(int);
 
@@ -234,16 +245,16 @@ className operator++(className& incObj, int u)
 }
 ```
 
-> [!example]- Why post-increment needs two objects but pre-increment needs one #worked-example
+> [!example]- (added) Why post-increment needs two objects but pre-increment needs one #worked-example
 > **Pre-increment** has no `temp`: the object is incremented first, then the *same*, now-updated object is returned via `*this`. One object, one state, in and out.
 >
 > **Post-increment** creates two objects on purpose:
-> 1. `temp` — a copy made **before** anything changes, holding the object's *old* value
-> 2. the real invoking object (`*this`, or `incObj` in the friend form) — this is the one that actually gets incremented
+> 1. `temp`, a copy made **before** anything changes, holding the object's *old* value
+> 2. the real invoking object (`*this`, or `incObj` in the friend form), this is the one that actually gets incremented
 >
 > The function then `return temp;`, **not** `*this`. The caller receives the old value, while the real object has already moved on to the new value.
 >
-> This mirrors plain `int` behaviour: `int y = x++;` leaves `y` holding the old value of `x` while `x` itself is incremented. `temp` plays the role of `y`; the object itself plays the role of `x`. Pre-increment skips the copy entirely because `++x`'s result *is* the new value, so returning `*this` directly is correct — and cheaper, since no copy is made.
+> This mirrors plain `int` behaviour: `int y = x++;` leaves `y` holding the old value of `x` while `x` itself is incremented. `temp` plays the role of `y`; the object itself plays the role of `x`. Pre-increment skips the copy entirely because `++x`'s result *is* the new value, so returning `*this` directly is correct, and cheaper, since no copy is made.
 
 > [!important] The one detail that tells the four forms apart #exam-flagged
 > The unused `int` parameter in the prototype is the *only* thing distinguishing post- from pre-increment in the signature. And by return value: post-increment always returns the saved copy (`temp`); pre-increment always returns the object itself, after incrementing it.
@@ -254,7 +265,7 @@ Outside the operators forced one way or the other (`()`, `[]`, `->`, `=` must be
 
 Binary arithmetic operators like `+` are the clearest example:
 - **As a member**, `operator+` has direct access to the data members of one object (the invoking object, via `this`) and only needs the *other* object passed in as a parameter.
-- **As a friend**, there's no invoking object, so both objects must be passed in as parameters — the resulting code can be somewhat clearer, since both operands are named explicitly and symmetrically.
+- **As a friend**, there's no invoking object, so both objects must be passed in as parameters, the resulting code can be somewhat clearer, since both operands are named explicitly and symmetrically.
 
 | | Member function | Nonmember (friend) function |
 |---|---|---|
@@ -265,7 +276,7 @@ Binary arithmetic operators like `+` are the clearest example:
 
 ## Classes and Pointer Member Variables (Revisited)
 
-The default (compiler-supplied) assignment operator copies member variables from one object to another of the same type — a memberwise copy. This does **not** work well when a member variable is a pointer, since it copies the *address*, not the data pointed to.
+The default (compiler-supplied) assignment operator copies member variables from one object to another of the same type, a memberwise copy. This does **not** work well when a member variable is a pointer, since it copies the *address*, not the data pointed to.
 
 > [!warning] Mandatory overload trigger #exam-flagged #common-mistake
 > Any class with pointer member variables **must** explicitly handle three things together:
@@ -273,22 +284,41 @@ The default (compiler-supplied) assignment operator copies member variables from
 > 2. include a copy constructor
 > 3. include a destructor
 >
-> Fixing only one of the three still leaves the others doing the broken default — and the destructor is in the set because it's what eventually double-frees the shared pointer if the other two aren't fixed.
+> Fixing only one of the three still leaves the others doing the broken default, and the destructor is in the set because it's what eventually double-frees the shared pointer if the other two aren't fixed.
 
-> [!question]- Struggle: isn't `=` "combined with" the copy constructor? #struggle
-> No — they're two separate functions, triggered in two different situations:
+> [!question]- Struggle (added): isn't `=` "combined with" the copy constructor? #struggle
+> No, they're two separate functions, triggered in two different situations:
 > - **Copy constructor**: runs when a **new** object is being created from an existing one (`clockType c2 = c1;`, pass-by-value, return-by-value).
 > - **Assignment operator**: runs when assigning into an object that **already exists** (`myClock = yourClock;`, where `myClock` was constructed earlier).
 >
-> They're grouped together in the pointer-member rule above only because both *default* to memberwise copy, and both fail for the same reason under pointer members — not because one does the other's job.
+> They're grouped together in the pointer-member rule above only because both *default* to memberwise copy, and both fail for the same reason under pointer members, not because one does the other's job.
+
+> [!question]- Struggle (added): what actually goes wrong with the default `=` on a pointer member? #struggle
+> The default `=` always compiles and always runs. Nothing stops you from assigning objects that hold pointers. The problem is what it copies: the pointer's **address**, not the array it points to.
+>
+> ```cpp
+> class IntArr {
+> public:
+>     IntArr(int n) : data(new int[n]) {}
+>     ~IntArr() { delete [] data; }
+> private:
+>     int* data;
+> };
+>
+> IntArr a(3), b(3);
+> a = b;   // default =: a.data now holds the same address as b.data
+>          // a's original array has no pointer left to it, so it is leaked
+> // end of scope: ~b frees the shared array, then ~a frees the same array again
+> ```
+> Two separate faults come out of one assignment: a **leak** (a's old array is lost) and a **double free** (the shared array is deleted twice). Overloading `=` to copy the array contents fixes both, the copy constructor fixes the same problem for `IntArr c = a;`, and the destructor is the function that does the freeing.
 
 ## Operator Overloading: One Final Word
 
-If an operator `op` is overloaded for a class, using `op` on objects of that class runs the body of the function that overloads `op` for it. Whatever code is placed in that body is therefore exactly what executes — there is no hidden default behaviour once an operator is overloaded; the overload's body **is** the operator's entire behaviour for that type.
+If an operator `op` is overloaded for a class, using `op` on objects of that class runs the body of the function that overloads `op` for it. Whatever code is placed in that body is therefore exactly what executes, there is no hidden default behaviour once an operator is overloaded; the overload's body **is** the operator's entire behaviour for that type.
 
 ## Overloading the Array Index (Subscript) Operator (`[]`)
 
-Recall `[]` is one of the four operators that **must** be a member function — there's no friend-function alternative to weigh against it, unlike `+` or `<<`.
+Recall `[]` is one of the four operators that **must** be a member function, there's no friend-function alternative to weigh against it, unlike `+` or `<<`.
 
 ```cpp
 // nonconstant arrays
@@ -298,12 +328,12 @@ Type& operator[](int index);
 const Type& operator[](int index) const;
 ```
 
-> [!question]- Struggle: why does `[]` need two versions? #struggle
+> [!question]- Struggle (added): why does `[]` need two versions? #struggle
 > The compiler picks between them based on whether the object being indexed is `const` at the call site:
-> - a **plain (nonconstant)** object calls the first version, returning `Type&` — modifiable, so `myArray[2] = 10;` works.
-> - a **`const`** object (or a `const` reference/pointer to one) calls the second version, returning `const Type&` — read-only.
+> - a **plain (nonconstant)** object calls the first version, returning `Type&`, modifiable, so `myArray[2] = 10;` works.
+> - a **`const`** object (or a `const` reference/pointer to one) calls the second version, returning `const Type&`, read-only.
 >
-> **If only the nonconst version existed**: any `const` object of the class could no longer be indexed at all, since a nonconst member function can't be called on a `const` object — code that receives the array by `const&` and reads `arr[i]` would fail to compile.
+> **If only the nonconst version existed**: any `const` object of the class could no longer be indexed at all, since a nonconst member function can't be called on a `const` object, code that receives the array by `const&` and reads `arr[i]` would fail to compile.
 >
 > **If only the const version existed**: every object, even ordinary modifiable ones, would only ever hand back read-only access, so `myArray[2] = 10;` would fail to compile everywhere.
 >
@@ -311,7 +341,7 @@ const Type& operator[](int index) const;
 
 ## Function Overloading (recap)
 
-Overloading a function means writing several functions that share the same name but differ in their parameter lists. The parameter list of the call determines which overloaded version executes. Each version needs its own full definition — overloading a name doesn't let one definition stand in for several.
+Overloading a function means writing several functions that share the same name but differ in their parameter lists. The parameter list of the call determines which overloaded version executes. Each version needs its own full definition, overloading a name doesn't let one definition stand in for several.
 
 ## Templates
 
@@ -321,7 +351,7 @@ A **template** is a single code body written once for a whole set of related fun
 template <class Type>
 declaration;
 ```
-- `class` here doesn't mean "class" in the OOP sense — it just introduces the template parameter, and accepts any user-defined *or* built-in type.
+- `class` here doesn't mean "class" in the OOP sense, it just introduces the template parameter, and accepts any user-defined *or* built-in type.
 - `Type` is a formal parameter of the template, in the same sense a variable is a formal parameter of a function: where a function's parameters are variables, a template's parameters are **data types**.
 
 ### Function Templates
@@ -332,7 +362,7 @@ function definition;
 `Type`, once supplied, is used throughout the definition to: specify the type of the function's parameters, specify the return type, and declare variables inside the function body.
 
 ### Class Templates
-A class template is a single code segment for a set of related classes — also called **parameterized types**. #definition
+A class template is a single code segment for a set of related classes, also called **parameterized types**. #definition
 ```cpp
 template <class Type>
 class declaration
@@ -340,10 +370,10 @@ class declaration
 - A template instantiation can be created with either a built-in or a user-defined type.
 - The function members of a class template are themselves considered function templates.
 
-> [!question]- Struggle: where does a template declaration "stop"? #struggle
-> `template <class Type>` applies to exactly **one** declaration: the single function or single class written directly beneath it. The moment that declaration's body closes, the template's scope is over — `Type` is not a real, floating type name available anywhere else in the file, it only exists within the one declaration the header introduced.
+> [!question]- Struggle (added): where does a template declaration "stop"? #struggle
+> `template <class Type>` applies to exactly **one** declaration: the single function or single class written directly beneath it. The moment that declaration's body closes, the template's scope is over, `Type` is not a real, floating type name available anywhere else in the file, it only exists within the one declaration the header introduced.
 >
-> Proven directly: adding an ordinary function right after a function template compiles fine and has no access to `Type` at all —
+> Proven directly: adding an ordinary function right after a function template compiles fine and has no access to `Type` at all ,
 > ```cpp
 > template <class Type>
 > Type maxOf(Type a, Type b) { return (a > b) ? a : b; }
@@ -356,8 +386,8 @@ class declaration
 > ```
 > `error: 'Type' does not name a type`
 
-> [!question]- Struggle: why didn't the class template need "Type" written for every member function? #struggle
-> It did — go back and look: `Box(Type initial)`, `Type getContents() const`, and `void setContents(Type value)` all use `Type` explicitly. What was skipped was restating `template <class Type>` before each individual member function.
+> [!question]- Struggle (added): why didn't the class template need "Type" written for every member function? #struggle
+> It did, go back and look: `Box(Type initial)`, `Type getContents() const`, and `void setContents(Type value)` all use `Type` explicitly. What was skipped was restating `template <class Type>` before each individual member function.
 >
 > The reason: `template <class Type>` written once above `class Box` covers the **entire class body** that follows, including every member function written **inline inside** the class definition. Those member functions are physically inside the scope that one header line opened, so they don't need their own copy of it.
 >
@@ -379,9 +409,9 @@ class declaration
 > template <class Type>              // repeated again
 > Type Box<Type>::getContents() const { return contents; }
 > ```
-> Both styles (inline in the class, or split out with the header repeated) compile to the same behaviour; this is exactly why the next section's advice about keeping the class definition and every repeated `template <class Type>` member definition together in one header matters, the compiler needs to see all of it at compile time regardless of which style is used.
+> Both styles (inline in the class, or split out with the header repeated) compile to the same behaviour; this is exactly why the section Where Template Definitions Must Live (Header and Implementation Files) matters: the compiler needs to see the class definition and every repeated `template <class Type>` member definition at compile time, whichever style is used.
 
-> [!example]- Worked example: this is the same mechanism as `std::vector` and `std::max` #worked-example #added
+> [!example]- (added) Worked example: this is the same mechanism as `std::vector` and `std::max` #worked-example #added
 > `vector<int>`, `map`, `string`, and most of the standard library aren't special built-in language features, they're class templates someone else already wrote, using this exact syntax:
 > ```cpp
 > vector<int> nums = {10, 20, 30};
@@ -411,17 +441,74 @@ class declaration
 > ```
 > `std::sort` is the same idea doing more work: one function template body that reorders `vector<int>`, `vector<double>`, `vector<string>`, or anything whose elements support `<`, without a version written per type.
 
-### Header File and Implementation File of a Class Template
+### Where Template Definitions Must Live (Header and Implementation Files)
 
 > [!important] Key asymmetry #exam-flagged
-> Passing a parameter to an ordinary function takes effect at **run time**. Passing a parameter to a class template takes effect at **compile time**.
+> Passing a parameter to an ordinary function takes effect at **run time**. Passing a parameter to a class template takes effect at **compile time**. In practice the same holds for function templates too, even though the slides only state it for class templates.
 
-Consequence: the implementation file of a class template **cannot** be compiled independently of the client code that uses it. Layout options:
-- put the class definition and function template definitions directly in the client code
-- put the class definition and function template definitions together in the same header file
-- put them in **separate files**, with an include directive to the implementation file placed at the **end** of the header file
+Consequence: the implementation file of a class template **cannot** be compiled independently of the client code that uses it. "Client code" just means the file that uses the template, for example `main.cpp`. The real requirement is that the compiler sees the template's definitions in the same compilation as the code that uses it.
 
-Whichever layout is used, the function definitions and the client code end up compiled together.
+**The ways to lay it out** (the first three are the lecture's; there is no separate "declare it twice" step in any of them):
+
+1. **Everything directly in the client code.** Put the class definition and the function template definitions in the file that uses them.
+2. **Everything in one header file.** Put the class definition and all the function template definitions in the same header, and `#include` that header. This is the simplest and most common layout.
+   ```cpp
+   // Box.h
+   #ifndef BOX_H
+   #define BOX_H
+
+   template <class Type>
+   class Box
+   {
+   public:
+       Box(Type v);
+       Type get() const;
+   private:
+       Type contents;
+   };
+
+   template <class Type>
+   Box<Type>::Box(Type v) : contents(v) {}
+
+   template <class Type>
+   Type Box<Type>::get() const { return contents; }
+
+   #endif
+   ```
+   A function template needs no separate prototype; writing the full definition in the header is enough.
+3. **Separate files, with the include at the end of the header.** The class definition goes in the header, the member definitions go in the implementation file, and the header ends with an `#include` of that implementation file.
+   ```cpp
+   // Box.h: the class, then the include at the very end
+   template <class Type>
+   class Box { /* declarations only */ };
+   #include "Box.cpp"
+
+   // Box.cpp: the member definitions, each with its own template header
+   template <class Type>
+   Box<Type>::Box(Type v) : contents(v) {}
+   ```
+   `Box.cpp` is never compiled on its own here. Compiling `main.cpp` alone works and prints the result; also passing `Box.cpp` to the compiler fails with `'Box' does not name a type`.
+
+In all three, the function definitions and the client code end up compiled together.
+
+**Not a valid layout:** class declaration in a header, definitions in a `.cpp` that is compiled separately and linked. This is the ordinary layout for non-template classes, and it fails for templates (see the dropdown below).
+
+**Outside the lecture (added):** you can force a separate `.cpp` to generate specific versions with an explicit instantiation, for example `template class Box<int>;` and `template int maxOf<int>(int, int);` at the bottom of `Box.cpp`. This works only for the types you list; using `Box<string>` from `main.cpp` still fails to link.
+
+> [!question]- Struggle (added): why does separate compilation fail for templates? #struggle
+> A template is a recipe, not code. The compiler only writes real code when it sees a use with a concrete type, like `maxOf(3, 7)` or `Box<int>`, and to do that it needs the full body in front of it in that same compilation.
+>
+> With the definitions in a separately compiled `Box.cpp`:
+> - `main.cpp` sees only the declaration. It compiles, but it cannot generate `Box<int>`'s code, so it leaves a note for the linker to find it elsewhere.
+> - `Box.cpp` has the bodies, but nothing in it uses `Box<int>`, so the compiler generates nothing for it.
+> - The linker looks for `Box<int>`'s members and finds nothing. The failure appears at **link** time, not compile time:
+>
+> ```
+> undefined reference to `int maxOf<int>(int, int)'
+> undefined reference to `Box<int>::Box(int)'
+> undefined reference to `Box<int>::get() const'
+> ```
+> Moving the definitions into the header fixed it, and the program printed `7` and `42`. The same failure happens for a function template and a class template.
 
 ## Do Not Forget
 - Only `=` and `.` are free on a class; every other operator overload is a choice, except when pointer members force `=` + copy constructor + destructor together.
@@ -431,22 +518,25 @@ Whichever layout is used, the function definitions and the client code end up co
 - `[]` needs both a const and nonconst overload so it works whether the object itself is const.
 - Copy constructor fires on creation of a new object from an existing one; assignment fires on an already-existing object. Both default to memberwise copy, both break under pointer members.
 - Template parameters are resolved at **compile time**, which is why template implementation files can't be compiled independently of client code.
+- Valid layouts for template definitions: (1) directly in the client code, (2) everything in one header, (3) separate implementation file included at the **end** of the header. Definitions in a separately compiled `.cpp` fail at **link** time. This applies to function templates as well as class templates.
+- Default `=` on a pointer member is legal but copies the address: leak plus double free. That is why `=`, the copy constructor and the destructor come as a set.
+- `5.0 + m` cannot be a member (left operand is not the class type); `m + 5.0` can.
 - `template <class Type>` covers exactly one declaration beneath it (one function, one class, or one out-of-class member definition); it never carries over to whatever comes next in the file.
 - Inside a class body, one `template <class Type>` line covers every inline member function. Outside the class body, each member function definition needs the header repeated, plus `ClassName<Type>::`.
-- `vector`, `map`, `string`, `max`, `sort` are ordinary templates, not language magic — the exact same `template <class Type>` mechanism covered in this lecture.
+- `vector`, `map`, `string`, `max`, `sort` are ordinary templates, not language magic, the exact same `template <class Type>` mechanism covered in this lecture.
 
 ## Operator Overloading Quick Reference
 
 | Operator | Mutates the Calling Object? | Member or Non-Member | Can it be a Friend? | When to use Friend vs Member | Example Implementation |
 |---|---|---|---|---|---|
-| `==` | No — builds and returns a `bool`, operands untouched | Non-Member (Friend), typical | Yes | Friend keeps both operands symmetric; there's no reason for one object to "own" the comparison over the other | `friend bool operator==(const className&,`<br>`                        const className&);` |
-| `[]` (read & write) | No directly — returns a reference; the non-const version lets the *caller* mutate through it | **Must be Member** | No — forced | Leftmost operand is always the class object; grouped with `()`, `->`, `=` as always-member | `Type& operator[](int index);`<br>`const Type& operator[](int index) const;` |
-| `+` | No — builds and returns a new object, operands untouched | Either (design choice) | Yes | Member if the left operand is always the class type; Friend when you want both operands treated symmetrically | `className operator+(const className& other) const;` *(member)*<br>`friend className operator+(const className&,`<br>`                            const className&);` *(friend)* |
-| `--` prefix | **Yes** — decrements `*this`, then returns it | Member, typical | Yes | Member is simplest: no parameters needed, operand is `this` | `className operator--();`<br>`{ //decrement the object`<br>`  return *this; }` |
-| `--` postfix | **Yes** — decrements `*this`, but returns the pre-decrement copy | Member, typical | Yes | Same tradeoff as prefix; the dummy `int` only exists to distinguish the signature | `className operator--(int u);`<br>`{ className temp = *this;`<br>`  //decrement the object`<br>`  return temp; }` |
-| `++` prefix | **Yes** — increments `*this`, then returns it | Member, typical | Yes | Member is simplest: no parameters needed, operand is `this` | `className operator++();`<br>`{ //increment the object`<br>`  return *this; }` |
-| `++` postfix | **Yes** — increments `*this`, but returns the pre-increment copy | Member, typical | Yes | Same tradeoff as prefix; the dummy `int` only exists to distinguish the signature | `className operator++(int u);`<br>`{ className temp = *this;`<br>`  //increment the object`<br>`  return temp; }` |
-| `<<` | No — the class object (`cObject`) is passed `const`, only the stream is touched | **Must be Non-Member (Friend)** | Yes — forced | Leftmost operand is `ostream`, never the class type | `friend ostream& operator<<(ostream&,`<br>`                            const className&);` |
+| `==` | No, builds and returns a `bool`, operands untouched | Non-Member (Friend), typical | Yes | Friend keeps both operands symmetric; there's no reason for one object to "own" the comparison over the other | `friend bool operator==(const className&,`<br>`                        const className&);` |
+| `[]` (read & write) | No directly, returns a reference; the non-const version lets the *caller* mutate through it | **Must be Member** | No, forced | Leftmost operand is always the class object; grouped with `()`, `->`, `=` as always-member | `Type& operator[](int index);`<br>`const Type& operator[](int index) const;` |
+| `+` | No, builds and returns a new object, operands untouched | Either (design choice) | Yes | Member if the left operand is always the class type; Friend when you want both operands treated symmetrically | `className operator+(const className& other) const;` *(member)*<br>`friend className operator+(const className&,`<br>`                            const className&);` *(friend)* |
+| `--` prefix | **Yes**, decrements `*this`, then returns it | Member, typical | Yes | Member is simplest: no parameters needed, operand is `this` | `className operator--();`<br>`{ //decrement the object`<br>`  return *this; }` |
+| `--` postfix | **Yes**, decrements `*this`, but returns the pre-decrement copy | Member, typical | Yes | Same tradeoff as prefix; the dummy `int` only exists to distinguish the signature | `className operator--(int u);`<br>`{ className temp = *this;`<br>`  //decrement the object`<br>`  return temp; }` |
+| `++` prefix | **Yes**, increments `*this`, then returns it | Member, typical | Yes | Member is simplest: no parameters needed, operand is `this` | `className operator++();`<br>`{ //increment the object`<br>`  return *this; }` |
+| `++` postfix | **Yes**, increments `*this`, but returns the pre-increment copy | Member, typical | Yes | Same tradeoff as prefix; the dummy `int` only exists to distinguish the signature | `className operator++(int u);`<br>`{ className temp = *this;`<br>`  //increment the object`<br>`  return temp; }` |
+| `<<` | No, the class object (`cObject`) is passed `const`, only the stream is touched | **Must be Non-Member (Friend)** | Yes, forced | Leftmost operand is `ostream`, never the class type | `friend ostream& operator<<(ostream&,`<br>`                            const className&);` |
 
 > [!important] The one line to remember for `++`/`--` #exam-flagged
-> Prefix and postfix differ in exactly two places: the dummy `int` parameter in the signature, and what gets returned — prefix returns `*this` **after** mutating; postfix saves a `temp` copy **before** mutating and returns that instead.
+> Prefix and postfix differ in exactly two places: the dummy `int` parameter in the signature, and what gets returned, prefix returns `*this` **after** mutating; postfix saves a `temp` copy **before** mutating and returns that instead.
