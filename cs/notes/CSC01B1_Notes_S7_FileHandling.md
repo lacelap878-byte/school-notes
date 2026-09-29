@@ -1,116 +1,358 @@
-# CSC01B1 — Lecture 6: File Handling
+---
+module: CSC01B1
+topic: File Handling
+session: S7
+tags: [definition, worked-example, common-mistake, exam-flagged, struggle, added]
+---
 
-## 1. Secondary storage, why files, and the stream concept
+# File Handling (CSC01B1, Lecture 6)
 
-**The memory hierarchy.** Two properties storage can have: fast, and high capacity — hard to have both at once, so real systems trade one for the other across a hierarchy: processor registers → processor cache → RAM → flash/USB → hard drives → tape backup, getting slower and cheaper (but larger) at each step down. Registers, cache, and RAM are **volatile** ("power on" — lost when power is cut); flash memory downward is **non-volatile** ("power off" — survives). This non-volatile tier is what "secondary storage" refers to.
+Covers secondary storage, streams, sequential file input and output, open modes and flags, output formatting, random access files, writing structs to disk (byte alignment and padding), and reusable components as DLLs. Read top to bottom the first time; after that the headings are the index. Cross references point by heading name.
 
-**Why files.** A file gives **persistence**: data written to it outlives the program run that wrote it. Practically: input files can be reused run after run, output can be inspected later, and you can work with data sets far larger than you'd type by hand.
-
-**C++ standard streams.** `cin` (input, keyboard), `cout` (output, terminal), `cerr` (error, terminal) — from `<iostream>`, already familiar.
-
-**The stream abstraction.** A stream is a flow of characters — the channel, not the source/destination itself. Once connected to something (keyboard, terminal, or a file), you use `<<`/`>>` exactly as before. `cin`, `cout`, and a file stream are all instances of the same underlying stream class machinery — `cout` is simply an `ostream` object already wired to the terminal by default. This is why formatting logic written once (Section 4) works identically regardless of which stream it's called on.
-
-**Files specifically.** Reading = data flows from file into the program. Writing = data flows from program into file.
+`N.B` marks the thing most likely to be tested or forgotten. Slide code is reproduced as the lecturer wrote it. Where the slide code has an error, a fix is marked `(added)`. Content beyond the slides is marked `(added)`, and examples I built are marked `(composite)`. Every number and code block marked `(added)` or `(composite)` was compiled and run.
 
 ---
 
-## 2. Sequential file I/O
+## Secondary storage and why files exist (slides 3 to 7)
 
-**Sequential access**: read from the start, move forward only — no backtracking (same model as `cin`).
+### The memory hierarchy
+Fast storage and large storage are hard to get in one device, so memory is arranged as a hierarchy, each level trading speed for capacity and price.
 
-**Four-step pattern** for any file stream: declare → connect (open) → read/write → close.
+1. Registers: small, very fast, very expensive
+2. Processor cache: small, very fast, very expensive
+3. RAM: medium size, fast, affordable
+4. Flash and USB memory: larger, slower, cheap
+5. Hard drives: very large, slow, very cheap
+6. Tape backup: very large, very slow, affordable
 
-> A stream object **cannot be assigned with `=`** — connecting goes through `.open()`, not `=`.
+Registers, cache and RAM hold data only while the power is on (volatile). Everything from flash downward keeps its data with the power off. That non-volatile tier is what "secondary storage" means.
 
+### Why use files
+- A file stores data permanently: output written to a file lasts after the program ends.
+- An input file can be reused over and over, so test data is not retyped on every run.
+- Files let a program deal with data sets far larger than anyone would type by hand.
+
+---
+
+## Streams (slides 9 to 11)
+
+### The standard streams
+- `cin`: standard input stream (keyboard)
+- `cout`: standard output stream (terminal)
+- `cerr`: standard error stream (usually also the terminal)
+
+They come from `#include <iostream>` and `using namespace std;`.
+
+### What a stream is
+A stream is a flow of characters (or other data). An input stream flows from some external source into the program. An output stream flows from the program to some external destination.
+
+The stream is the channel, not the source or destination itself. Once a stream is connected to something, it is used with the insertion (`<<`) and extraction (`>>`) operators exactly as before:
 ```cpp
-#include <fstream>
+int i;
+in_stream >> i;
+```
+Where the value comes from depends on what `in_stream` happens to be connected to. (See also the stream operators built in [[CSC01B1_Notes_S6_OperatorOverloadingTemplates]].)
+
+### Why there are so many "cout-like" objects (added)
+`cout`, `cin`, `fin`, `fout` and `in_stream` are not different mechanisms. They are all objects of the same stream classes. `cout` is an `ostream` object that happens to be connected to the terminal already. `ofstream fout;` creates the same kind of object and you connect it to a file yourself. This is why `setf()`, `precision()` and `width()` work identically on any of them: the formatting code is written once and works whatever the stream is connected to.
+
+### What a file is
+A file is a named block of arbitrary information, typically on long-term storage. Data flowing from the file into the program is reading the file. Data flowing from the program into the file is writing it.
+
+---
+
+## Sequential file input and output (slides 12 to 19)
+
+### The four-step pattern
+Sequential access means the program reads from the start of the file and moves forward only. It cannot backtrack or fast-forward. That is the same behaviour as the keyboard.
+
+1. Declare the stream object
+2. Connect the stream to a file
+3. Read or write
+4. Close the connection
+
+`N.B` A stream object cannot be assigned with `=` the way an `int` can. You connect it with `.open()`, not `=`. (Streams also cannot be copied, which is why they are passed by reference to functions; see Streams as function parameters.)
+
+### Setting up and connecting
+Needs `#include <fstream>` and `using namespace std;`. Two classes: `ifstream` for input, `ofstream` for output.
+```cpp
 ifstream in_stream;
 ofstream out_stream;
 in_stream.open("infile.dat");
 out_stream.open("outfile.dat");
 ```
-Default `.open()` behaviour: **creates** the file if absent, **truncates** (empties) it if present.
+The names inside `.open()` are the file names as the operating system knows them.
 
+The default `.open()` creates the file if it does not exist and empties it if it does.
+
+Reading, writing and closing look exactly like `cin` and `cout`:
 ```cpp
 int a;
-in_stream >> a;      // read, like cin
-out_stream << a;      // write, like cout
-in_stream.close();
-out_stream.close();
+in_file >> a;
+out_file << a;
+in_file.close();
+out_file.close();
 ```
 
-**Worked example** — reads three numbers from `infile.dat`, sums them, writes a formatted sentence to `outfile.dat`. `infile.dat` is untouched; no console output at all — the whole exchange is file-to-file.
-
-**Checking success.** Opening can fail (disk full, permissions, file locked elsewhere):
+### Worked example (source, slide 16)
+Reads three numbers from `infile.dat`, sums them, and writes the sum into `outfile.dat`. `infile.dat` is not changed. Nothing is read from the keyboard or shown on the screen.
 ```cpp
-in_stream.open("in.dat");
-if (in_stream.fail())
+//Reads three numbers from the file infile.dat, sums the numbers,
+//and writes the sum to the file outfile.dat.
+#include <fstream>
+
+int main( )
 {
-    cout << "Input file opening failed.\n";
-    exit(1);
+    using namespace std;
+    ifstream in_stream;
+    ofstream out_stream;
+
+    in_stream.open("infile.dat");
+    out_stream.open("outfile.dat");
+
+    int first, second, third;
+    in_stream >> first >> second >> third;
+    out_stream << "The sum of the first 3\n"
+               << "numbers in infile.dat\n"
+               << "is " << (first + second + third)
+               << endl;
+
+    in_stream.close( );
+    out_stream.close( );
+
+    return 0;
 }
 ```
-Applied per-stream, each with its own message and `exit(1)`.
 
-**Interactive vs. file-driven.** The prompt/wait pattern disappears — `cin >> age` (with a `cout` prompt) becomes `in >> age` (no prompt, no human on the other end).
+### Checking that open succeeded
+Opening can fail: the disk may be full, the file may belong to another user, it may be open exclusively elsewhere, or the permissions may not allow it. Test with `.fail()` right after each `.open()`.
+```cpp
+in_stream.open("in.dat");
+if(in_stream.fail())
+{
+    cerr << "Error opening file" << endl;
+    exit(EXIT_FAILURE);
+}
+```
+Slide 18 applies this to both streams (source, slide 18):
+```cpp
+//Reads three numbers from the file infile.dat, sums the numbers,
+//and writes the sum to the file outfile.dat.
+#include <fstream>
+#include <iostream>
+#include <cstdlib>
+
+int main( )
+{
+    using namespace std;
+    ifstream in_stream;
+    ofstream out_stream;
+
+    in_stream.open("infile.dat");
+    if (in_stream.fail( ))
+    {
+        cout << "Input file opening failed.\n";
+        exit(1);
+    }
+
+    out_stream.open("outfile.dat");
+    if (out_stream.fail( ))
+    {
+        cout << "Output file opening failed.\n";
+        exit(1);
+    }
+
+    int first, second, third;
+    in_stream >> first >> second >> third;
+    out_stream << "The sum of the first 3\n"
+               << "numbers in infile.dat\n"
+               << "is " << (first + second + third)
+               << endl;
+
+    in_stream.close( );
+    out_stream.close( );
+
+    return 0;
+}
+```
+If `infile.dat` does not exist, the screen shows `Input file opening failed.`
+
+> [!warning] Test for failure, not for success
+> `if (in_stream.fail())` reports the error when opening failed. Writing `if (!in_stream.fail())` reads as "if it did not fail" and reports an error on success. #struggle #common-mistake
+
+### File-driven versus interactive programs
+The prompt and wait pattern disappears. The same extraction works, from a different source:
+```cpp
+int age;
+ifstream in;
+in.open("in.dat");
+in >> age;
+in.close();
+```
+There is no prompt because there is no person on the other end of `in`.
 
 ---
 
-## 3. Opening modes and file flags
+## Opening modes and file flags (slides 20 to 27)
 
-**Appending** — override the default truncate-on-open behaviour:
+### Appending instead of overwriting
+To add to a file instead of replacing its contents (a log file, for example), use the overloaded `.open()` that takes a second argument (source, slide 21):
 ```cpp
-ofstream fout;
-fout.open("data.txt", ios::app);
+//Appends data to the end of the file data.txt.
+#include <fstream>
+#include <iostream>
+
+int main( )
+{
+    using namespace std;
+
+    cout << "Opening data.txt for appending.\n";
+    ofstream fout;
+    fout.open("data.txt", ios::app);
+    if (fout.fail( ))
+    {
+        cout << "Input file opening failed.\n";
+        exit(1);
+    }
+
+    fout << "5 6 pick up sticks.\n"
+         << "7 8 ain't C++ great!\n";
+
+    fout.close( );
+    cout << "End of appending to file.\n";
+
+    return 0;
+}
 ```
-Existing content stays; new writes land after it.
+`(added)` `exit` needs `#include <cstdlib>`, which the slide omits. The failure message says "Input" although the stream is an output stream.
 
-**Filenames at runtime.** A filename can be a `char` array filled by the user via `cin >>` instead of a hardcoded literal — everything downstream (`.fail()`, reading, writing, `.close()`) works identically; `.open()` doesn't care whether the string is a literal or a variable.
+### File names typed at runtime (source, slides 22 and 23)
+A file name can be a `char` array the user fills in, instead of a literal. `.open()` does not care whether it receives a literal or a variable.
+```cpp
+char in_file_name[16], out_file_name[16];
+cout << "Enter the input file name (maximum of 15 characters):\n";
+cin >> in_file_name;
+in_stream.open(in_file_name);
+```
+Everything after that (the `.fail()` check, reading, writing, closing) is unchanged. Slide 23 also writes `in_file_name` into the output text.
 
-**File flags.** `fstream` can open a file for **both** input and output. Default `.open()` behaviour: text mode, both read and write privileges. Override via the two-argument form:
+### fstream and the open mode
+`fstream` opens a file for both input and output. Its default `.open()` opens the file as text with both read and write permission. To change that, use the two-argument `.open()`:
+```cpp
+myfstream.open("MyFile.dat", ios::binary);
+```
 
 | Flag | Meaning |
 |---|---|
-| `ios::app` | Append — pointer forced to end **before every write** |
-| `ios::ate` | At-end — pointer moved to end **once, on opening**, then free to move elsewhere |
-| `ios::trunc` | Truncate — clear existing contents |
-| `ios::binary` | Binary I/O — no `\n`-style character conversion |
-| `ios::in` | Read privileges |
-| `ios::out` | Write privileges |
+| `ios::app` | Append: set the file pointers to the end of the file for each output operation |
+| `ios::ate` | At the end: set the file pointers to the end of the file on opening |
+| `ios::trunc` | Truncate: current file contents are cleared |
+| `ios::binary` | Binary I/O: no conversion of special characters such as `\n` |
+| `ios::in` | Open the file with read privileges |
+| `ios::out` | Open the file with write privileges |
 
-> `app` and `ate` are **not the same guarantee**: `ate` only repositions once, at open; `app` re-forces the pointer to the end on *every* write, so a prior seek elsewhere can never cause an accidental overwrite.
+> [!warning] app and ate are two different guarantees
+> `ate` moves the pointer to the end once, at opening, and after that it can be moved anywhere. `app` forces the pointer to the end before every output operation, so even after a seek to earlier in the file, a write still lands at the end. #common-mistake
 
-**Combining flags — bitwise OR.** Each flag is one independent bit; `|` combines several into a single argument for one function call:
+### Combining flags with OR, testing them with AND
+A flag is a property that is either up or down. Each flag is a constant in the `ios_base` class with a single binary position set to 1. Several flags combine with the bitwise OR operator:
 ```cpp
 myfstream.open("Myfile.dat", ios::in | ios::binary);
 ```
-Repeating a flag (`ios::in | ios::in`) is harmless (`1 | 1 = 1`) — OR-ing is about **combining independent settings into one call**, not a special trick; each flag occupies its own bit position so none get lost. **Testing** a flag uses bitwise AND: `binary_arg & mode_mask` isolates one bit without needing to know the rest.
+Slide 26 shows the layout (positions: read, write, text, trunc, app). The write flag is `0 1 0 0 0`, trunc is `0 0 0 1 0`, and the combination is `0 1 0 1 0`. Because `1 | 1 = 1`, repeating a flag (`ios::in | ios::in`) is harmless.
+
+To test one flag, C++ uses bitwise AND against a mask, `binary_arg & mode_mask`. Slide 27 tests an argument `1 1 0 0 1` (read, write, app) against the write mask `0 1 0 0 0` and gets `0 1 0 0 0`, so the write bit is set. This is the same technique as [[CSC01B1_Notes_S1_Foundation-Topics#Bitmasking|Bitmasking]].
+
+### What combining flags achieves (added)
+`.open()` takes one mode argument. OR packs several independent yes/no settings into that one number without any of them overwriting the others, because each flag has its own bit. The `1 | 1 = 1` fact is only the reassurance that repeating a flag does no harm.
+
+> [!warning] .open() takes exactly two arguments, and ifstream cannot write
+> Three flags are one argument joined by OR: `.open("f.dat", ios::in | ios::out | ios::binary)`, not three comma-separated arguments. And a stream that must both read and write has to be an `fstream`. Passing `ios::out` to an `ifstream` does not give it write ability, because that is a property of the class, not of the flags. #struggle #common-mistake
+
+`(added)` A file that does not exist yet, opened with `ios::in | ios::out`, may fail on some compilers because `ios::in` expects the file to exist. Adding `ios::trunc` (`ios::in | ios::out | ios::trunc`) gives a reliable "create it fresh, then read and write" open.
 
 ---
 
-## 4. Output formatting and further stream usage
+## Output formatting and further stream use (slides 28 to 34)
 
-**Member functions** (callable on any stream, including `cout`): `setf()` (set formatting flags), `precision()` (decimal places), `unsetf()` (clear a flag), `width()` (field width, used with left/right).
-
-**setf flags:**
+### Formatting with member functions
+The layout of a program's output is its format. These are member functions of any stream object:
+- `precision()` takes a number: the digits after the point (or significant figures, depending on the compiler).
+- `setf()` takes binary flags and controls the output format. Flags are passed the same way as in the two-argument `.open()`.
+- `unsetf()` clears a flag.
+- `width()` works with the `setf` flags to control blank space before and after output.
 
 | Flag | Meaning | Default |
 |---|---|---|
-| `ios::fixed` | No e-notation (unsets `scientific`) | Not set |
-| `ios::scientific` | Always e-notation (unsets `fixed`) | Not set |
-| `ios::showpoint` | Always show decimal point + trailing zeros | Not set |
-| `ios::showpos` | Show `+` before positive numbers | Not set |
-| `ios::right` | Pad left of value within `width()` | Set |
-| `ios::left` | Pad right of value within `width()` (unsets `right`) | Not set |
+| `ios::fixed` | Floating-point numbers are not written in e-notation (unsets `scientific`) | Not set |
+| `ios::scientific` | Floating-point numbers are written in e-notation (unsets `fixed`). If neither is set, the system decides | Not set |
+| `ios::showpoint` | A decimal point and trailing zeros are always shown for floating-point numbers | Not set |
+| `ios::showpos` | A plus sign is output before positive integer values | Not set |
+| `ios::right` | With a `width()` set, the item sits at the right end of the space; extra blanks go before it (unsets `left`) | Set |
+| `ios::left` | With a `width()` set, the item sits at the left end of the space; extra blanks go after it (unsets `right`) | Not set |
 
-**Worked example — `make_neat()`:**
+### Worked example: make_neat (source, slides 30 to 32)
+Reads every number in `rawdata.dat` and writes them one per line, in fixed-point notation, with a sign and a fixed field width, to both the screen and `neat.dat`.
 ```cpp
+//Illustrates output formatting instructions.
+//Reads all the numbers in the file rawdata.dat and writes the numbers
+//to the screen and to the file neat.dat in a neatly formatted way.
+#include <iostream>
+#include <fstream>
+#include <cstdlib>
+#include <iomanip>
+using namespace std;
+
+void make_neat(ifstream& messy_file, ofstream& neat_file,
+               int number_after_decimalpoint, int field_width);
+//Precondition: The streams messy_file and neat_file have been connected
+//to files using the function open.
+//Postcondition: The numbers in the file connected to messy_file have been
+//written to the screen and to the file connected to the stream neat_file.
+//The numbers are written one per line, in fixed-point notation (that is, not in
+//e-notation), with number_after_decimalpoint digits after the decimal point;
+//each number is preceded by a plus or minus sign and each number is in a field of
+//width field_width. (This function does not close the file.)
+
+int main( )
+{
+    ifstream fin;
+    ofstream fout;
+
+    fin.open("rawdata.dat");
+    if (fin.fail( ))
+    {
+        cout << "Input file opening failed.\n";
+        exit(1);
+    }
+
+    fout.open("neat.dat");
+    if (fout.fail( ))
+    {
+        cout << "Output file opening failed.\n";
+        exit(1);
+    }
+
+    make_neat(fin, fout, 5, 12);
+
+    fin.close( );
+    fout.close( );
+
+    cout << "End of program.\n";
+    return 0;
+}
+
+//Uses iostream, fstream, and iomanip:
 void make_neat(ifstream& messy_file, ofstream& neat_file,
                int number_after_decimalpoint, int field_width)
 {
-    neat_file.setf(ios::fixed); neat_file.setf(ios::showpoint); neat_file.setf(ios::showpos);
+    neat_file.setf(ios::fixed);
+    neat_file.setf(ios::showpoint);
+    neat_file.setf(ios::showpos);
     neat_file.precision(number_after_decimalpoint);
-    cout.setf(ios::fixed); cout.setf(ios::showpoint); cout.setf(ios::showpos);
+    cout.setf(ios::fixed);
+    cout.setf(ios::showpoint);
+    cout.setf(ios::showpos);
     cout.precision(number_after_decimalpoint);
 
     double next;
@@ -121,135 +363,385 @@ void make_neat(ifstream& messy_file, ofstream& neat_file,
     }
 }
 ```
-`+10.37000` style output, consistently, to screen and file simultaneously.
+Raw entries such as `10.37` and `-1.237568432e2` come out as `+10.37000` and `-123.75684`.
 
-**I/O manipulators** — shorthand, need `#include <iomanip>`: `setw(n)` ⟺ `.width(n)`; `setprecision(n)` ⟺ `.precision(n)`.
-
-**Streams as function parameters** must be **call-by-reference** (`ifstream&`, `ofstream&`) — a stream can't be copied at all (same underlying fact as "can't use `=` on a stream" from Section 2); pass-by-value would require a hidden copy the compiler won't generate.
-
-**End-of-file via truth value:**
+### I/O manipulators
+An I/O manipulator is a global function used with the insertion and extraction operators. It calls the stream's member functions for you. It needs `#include <iomanip>`.
 ```cpp
-while (in_stream >> variable) { ... }
+cout.width(5);
+cout << "Hello";
 ```
-Works because `operator>>` returns a stream reference, which has an implicit `bool` conversion — true while extraction keeps succeeding, false on failure (typically EOF). The loop is testing "did the last read succeed," not the value read.
+can be written
+```cpp
+cout << setw(5) << "Hello";
+```
+and `setprecision()` replaces `precision()` the same way.
+
+### Streams as function parameters
+Stream parameters must be call-by-reference: `void copy_file(ifstream& source_file, ofstream& destination_file);`
+
+`(added)` Streams cannot be copied at all, the same fact behind "no `=` on a stream". Pass by value would need a hidden copy that C++ will not make, so a reference is the only option, not a style choice.
+
+### Testing for end of file
+```cpp
+while(in_stream >> variable){
+    //Do useful work involving extracted data
+}
+```
+This works because `operator>>` returns a reference to the stream, and that stream reference converts to a Boolean: true while data can still be extracted, false once it cannot. The loop is testing "did the last read succeed", not the value of `variable`.
 
 ---
 
-## 5. Random access files and raw disk I/O
+## Random access files (slides 35 to 37)
 
-**Reframing "random access."** C++ makes no real distinction between sequential and random-access files — everything is a stream of bytes, and all reads/writes are fundamentally sequential character operations. "Random access" = moving *where* in that byte stream you are before reading/writing, rather than always continuing from the last position. Desirable because it avoids reading every record just to reach one further in.
+### Reframing random access
+C++ makes no distinction between sequential and random access files. All are streams of characters (bytes), so by extension all reads and writes are sequential. Random access means moving where in the byte stream you are before you read or write, instead of always continuing from the last position. It is wanted because it can be much faster than retrieving every record in turn.
 
-**Two independent position markers.** `fstream` tracks read and write positions **separately**; it makes no assumption about whether a given stream is input or output.
-- `.seekg(offset, dir)` — moves the **read** marker
-- `.seekp(offset, dir)` — moves the **write** marker
-- `.tellg()` — returns the current (read) byte position
+### Two independent position markers
+C++ tracks the current read position and the current write position separately. The `fstream` class makes no assumption about whether a stream is used for input or output.
+- `seekg()` (seek-get) moves the read marker.
+- `seekp()` (seek-put) moves the write marker.
+- `tellg()` returns the current byte position.
 
-> These are genuinely two independent trackers. Moving one does not move the other — a `seekp` before a `.read()` does nothing useful, because `.read()` consults the read marker, which `seekp` never touches.
+> [!warning] seekg and seekp are two markers, not one
+> Moving one does not move the other. `.read()` starts wherever the read marker is, so a `seekp` before a `.read()` does nothing for it. Use `seekg` before reading and `seekp` before writing. #struggle #common-mistake
 
-**Reading direction.** Reading always moves **forward** from wherever the pointer currently is, regardless of how it got there. Seeking to the end and then reading fails outright (nothing ahead to consume) — there is no reverse-read or wraparound. To read something earlier, seek backward explicitly first.
-
-**Seeking syntax:**
+### Seeking (source, slide 36)
 ```cpp
-myfile.seekg(0, ios::beg);   // start of file
-myfile.seekg(0, ios::end);   // end of file
-myfile.seekg(n, ios::cur);   // n bytes from current position
+myfile.seekg(0, ios::beg);  //seeks 0 bytes from the beginning of the file
+myfile.seekg(0, ios::end);  //seeks 0 bytes from the end of the file
+myfile.seekg(n, ios::cur);  //seeks n bytes away from the current file position
 ```
+`seekg` and `seekp` are member functions and must be called on a stream (`in_stream.seekg(...)`). They only move the pointer, they do not fetch any data. Reading needs a separate `.read()` call. #struggle
 
-**Designing a fixed-size record format.** For index → offset arithmetic to work, records must be **fixed size**. Reference sizes: `int` = 4 bytes, `char array[6]` = 6 bytes, `double` = 8 bytes, `float` = 6 bytes (this course's figures); `string` is variable-length and unsafe for fixed-record math on its own.
+### Reading always moves forward (added)
+Reading moves forward from the current position, whichever way the pointer got there. After `seekg(0, ios::end)` a read fails, because nothing lies ahead. It does not wrap round and it does not read backwards. To read something earlier, seek back to it first.
 
-**Writing raw bytes.** `ostream::write(char* data, int size)` / `istream::read(char* data, int size)` — `fstream` has both. First parameter must be `char*` (files are byte sequences), so non-`char*` data needs casting:
+### Designing a file format
+To reach one record without reading the others, records must be a fixed size. Then the position of any record is arithmetic. Sizes given on slide 37: `int` 4, `char array[6]` 6, `double` 8, `float` 6, `string` variable.
+
+> [!warning] The slide's float size is not the usual one
+> `(added)` The slide lists `float` as 6 bytes. Compiled here, `float` is 4 bytes, `int` 4 and `double` 8. If an exam question gives sizes, use the sizes it gives. In your own programs use `sizeof`. A `string` is variable length, so it cannot sit in a fixed-size record by itself.
+
+---
+
+## Writing raw bytes to disk (slides 38 to 41)
+
+### write and read
+`ostream::write(char *data, int size)` and `istream::read(char *data, int size)`. `fstream` has both. The first parameter is `char*`, consistent with C++ treating a file as a sequence of characters, so data of another type must be cast to `char*`.
 ```cpp
 myfile.write(reinterpret_cast<char*>(&record), sizeof(RecordType));
 ```
-`reinterpret_cast` performs **no conversion and no check** — unlike `static_cast` (a real value conversion, e.g. `int`→`double`) or `dynamic_cast` (a runtime-checked polymorphic cast). It purely relabels an existing address as a different pointer type; the bytes of `record` are completely unchanged. This matters here because `.write()` wants "a raw byte sequence starting here," and a `char*` + byte count is exactly that — no printing or human-readability implied; the output is meant to be read back via `.read()` into the same struct type, not opened as text.
+This works only when the struct is not of variable length.
 
-**Jumping to a specific record:**
+### What reinterpret_cast does (added)
+Casts compared:
+- `static_cast` is a real conversion. `int` to `double` changes the bit pattern so the value stays the same.
+- `dynamic_cast` is a runtime-checked cast for polymorphic types. It fails safely if the object is not really that type.
+- `reinterpret_cast` does neither. It performs no conversion and no check.
+
+`reinterpret_cast<char*>(&record)` relabels a `RecordType*` as a `char*`. The bytes of `record` do not change. It is needed because `.write()` insists on a `char*`, and a `char` is one byte, so "a `char*` plus a byte count" means "N raw bytes starting here".
+
+### Why the file looks like nonsense (added)
+`write()` copies the object's raw bytes exactly as they sit in memory, padding included. It is not text and is not meant to be opened in an editor. It is meant to be read back with `read()` into the same struct type. Formatted output (`<<`, `setf`, `setprecision`) does the opposite: it converts numbers to readable characters.
+
+### Reaching a record and counting records (source, slides 40 and 41)
 ```cpp
 myfile.seekp(pos * sizeof(RecordType), ios::beg);
 ```
-General procedure: `index * sizeof(RecordType)` gives the byte offset for any record index (0-based — "the 2nd record" is index 1). If the file has a header of known size, that header's size must be added to every offset, and subtracted before dividing to get record count.
-
-**File size / record count:**
 ```cpp
 int size_in_bytes;
 myfile.seekg(0, ios::end);
 size_in_bytes = myfile.tellg();
 return (size_in_bytes / sizeof(RecordType));
 ```
-Valid **only if the file is known, by design, to contain nothing but back-to-back fixed-size records from byte 0** — this is a file-format assumption imposed by whoever wrote the file, not something detectable from the file's bytes alone. A header changes the arithmetic: `(size_in_bytes - header_size) / sizeof(RecordType)`.
+`N.B` The division is only valid if the file holds nothing but back-to-back fixed-size records from byte 0. That is a rule about how the file was designed, not something the file announces. With a header of `header_size` bytes: records = `(size_in_bytes - header_size) / sizeof(RecordType)`, and every seek offset gains `+ header_size`.
 
-**Struct padding and byte alignment.** The compiler inserts padding (unused bytes) so each member starts at a memory address that's a multiple of that member's own alignment requirement (depends on type, compiler settings, 16/32/64-bit OS). Padding is invisible to normal member access but affects `sizeof(RecordType)` directly — relevant for any offset arithmetic using it.
+### Example: seeking to the 4th record (composite) #exam-flagged
+`sizeof(Record)` is 24 bytes (worked out in the padding example below). A file holds 5 records with no header.
+- Records in the file: 120 bytes / 24 = 5.
+- The 4th record is index 3, because counting from 0.
+- Offset: 3 * 24 = 72.
+- Seek: `myfile.seekg(3 * sizeof(Record), ios::beg);`, then `myfile.read(reinterpret_cast<char*>(&r), sizeof(r));`
 
-*Worked example 1:*
-```cpp
-struct Record { int id; char name[10]; double val; };
-```
-- `id` (4 bytes, 4-byte aligned): offset 0–3. Next free: 4.
-- `name` (10 bytes, 1-byte aligned, no restriction): offset 4–13. Next free: 14.
-- `val` (8 bytes, needs multiple of 8): 14 isn't a multiple of 8 → **2 bytes padding at 14–15** → placed at offset 16–23. Next free: 24.
-- Trailing: round 24 up to a multiple of 8 (largest member) → already 24. **`sizeof(Record) = 24`.**
+Compiled and run: 120 bytes, 5 records, and the read at offset 72 returned the 4th record. With a 20 byte header the offset would be 20 + 72 = 92.
 
-*Worked example 2 — same members, `val` moved second:*
-```cpp
-struct Record { int id; double val; char name[10]; };
-```
-- `id`: 0–3. Next free: 4.
-- `val` needs multiple of 8: 4 isn't → **4 bytes padding at 4–7** → placed at 8–15. Next free: 16.
-- `name`: 16–25. Next free: 26.
-- Trailing: round 26 up to multiple of 8 → 32 → **6 bytes trailing padding**. **`sizeof(Record) = 32`.**
-
-Same data, different member order → different total size (24 vs. 32 bytes). Padding is inserted immediately before whichever member's alignment the next free offset fails to satisfy — not automatically tacked on "at the end" by default.
-
-**`#pragma pack` — the actual override mechanism:**
-```cpp
-#pragma pack(push)   // save current alignment setting
-#pragma pack(1)       // force 1-byte alignment — NO padding at all
-struct MyStruct { char m1; short m2; int m3; char m4; };
-#pragma pack(pop)     // restore prior setting
-```
-`pack(1)` forces members edge-to-edge with zero padding, making `sizeof` fully predictable and portable — directly useful for disk-record formats where exact, cross-platform layout matters. `push`/`pop` scope the override to just the struct(s) in between.
-
-**Alignment of compound (class/struct) members.** The rule applies recursively: a compound member's own alignment requirement is the **largest alignment requirement among its own members**, traced down to built-in types — **not** the same number as its own `sizeof`.
-```cpp
-struct Inner { char a; double b; };   // sizeof(Inner) = 16, but alignment requirement = 8 (from b)
-struct Outer { int x; Inner y; };      // y needs offset multiple of 8, not multiple of 16
-```
-A genuinely **abstract class** (pure virtual function present) cannot be instantiated at all, so it can never appear as a plain (non-pointer) struct member — only as a pointer/reference, where only the pointer's own alignment matters. Even a concrete polymorphic class carries a hidden vtable pointer (an address valid only within that one program run) — raw `write()`/`read()` of such objects to disk is unsafe, since the vtable pointer becomes meaningless once reloaded elsewhere or later.
+> [!warning] Check whether the question means 4th or index 4
+> "The 4th object" is index 3. "Index 4" is the 5th object. Marks are lost here. #common-mistake
 
 ---
 
-## 6. Files for logic — reusable software components (DLLs)
+## Padding and byte alignment (slide 39)
 
-**Why not just ship source?** Reusing tested components beats reinventing them, but source code compiled in normally gets **statically linked** into the client's executable at compile time — any update requires a full recompile of everything using it. The fix: modular library code **dynamically loaded at runtime**. On Windows: a **DLL** (Dynamic Link Library); Unix equivalent: **DSO**.
+### What padding is
+For efficient reading and writing, C++ by default tries to make certain members start at a memory address that is an exact multiple of some number of bytes, depending on the member's type, the compilation settings, and whether the OS is 16, 32 or 64 bit. It does this by adding padding: allocated memory that is ignored. This can be controlled, but the mechanism is not standard.
 
-**DLL characteristics.** Several kinds exist (regular Win32, COM, ActiveX). Functions exported by ordinal and optionally by name. A DLL loads into the **same address space** as the calling application, so pointer-based data can pass safely across the boundary. Can often be called cross-language.
+Padding does not show in normal member access, but `sizeof(RecordType)` includes it, so it matters for every offset calculation above. The earlier note on [[CSC01B1_Notes_S1_Foundation-Topics#16. Structs|Structs]] mentions the end-of-struct padding.
 
-**Example DLL header, full walkthrough (this is the entire `example_dll.h`, line by line):**
+### The rule for placing members (added)
+1. Place each member at the next offset that is a multiple of that member's own alignment (for the built-in types here, its size).
+2. If the next free offset does not fit, insert just enough padding bytes before the member to reach one that does.
+3. After the last member, round the total up to a multiple of the largest alignment among the members.
+
+### Example 1 (composite) #exam-flagged
+```cpp
+struct Record { int id; char name[10]; double val; };
+```
+- `id`, 4 bytes: offset 0 to 3. Next free: 4.
+- `name`, 10 bytes, no alignment restriction: offset 4 to 13. Next free: 14.
+- `val`, 8 bytes, must start on a multiple of 8. 14 does not fit, so 2 bytes of padding at 14 and 15. `val` at 16 to 23. Next free: 24.
+- 24 is already a multiple of 8, so no trailing padding.
+
+`sizeof(Record)` = 24. Compiled: `name` at 4, `val` at 16, size 24.
+
+### Example 2 (composite): the same members reordered
+```cpp
+struct Record { int id; double val; char name[10]; };
+```
+- `id`: 0 to 3. Next free: 4.
+- `val` needs a multiple of 8: 4 bytes of padding at 4 to 7. `val` at 8 to 15. Next free: 16.
+- `name`: 16 to 25. Next free: 26.
+- Round 26 up to a multiple of 8: 6 bytes of trailing padding.
+
+`sizeof(Record)` = 32. Compiled: `val` at 8, `name` at 16, size 32.
+
+`N.B` The same three members give 24 bytes in one order and 32 in another. Padding goes immediately before the member whose alignment the next free offset fails, and only as many bytes as are needed.
+
+### Example 3 (composite): the slide's struct
+```cpp
+struct MyStruct
+{
+    char m1;
+    short m2;
+    int m3;
+    char m4;
+};
+```
+- `m1`: offset 0. Next free: 1.
+- `m2` (2 bytes, multiple of 2): 1 byte of padding, `m2` at 2 to 3. Next free: 4.
+- `m3` (4 bytes, multiple of 4): fits at 4 to 7. Next free: 8.
+- `m4`: offset 8. Next free: 9.
+- Round 9 up to a multiple of 4: 3 bytes of trailing padding.
+
+`sizeof(MyStruct)` = 12. Compiled: `m2` at 2, `m3` at 4, `m4` at 8, size 12.
+
+### Controlling padding with #pragma pack (source, slide 39)
+```cpp
+#pragma pack(push)  /* save current alignment settings */
+#pragma pack(1)     /* set alignment to 1 */
+
+struct MyStruct
+{
+    char m1;
+    short m2;
+    int m3;
+    char m4;
+};
+
+#pragma pack(pop)   /* undo changes to alignment settings */
+```
+`pack(push)` saves the current alignment setting. `pack(1)` forces every member to start straight after the previous one, so there is no padding at all. `pack(pop)` restores the saved setting, so the override covers only the struct between them. With `pack(1)` the struct above is 1 + 2 + 4 + 1 = 8 bytes, compiled and confirmed. This makes the layout of a disk record predictable across compilers.
+
+> *`#pragma pack` was on the slide as an image and I first left it out. The student caught it, which is why it is here with a worked size.*
+
+### Alignment of a struct or class member (added)
+The rule is recursive. A compound member's alignment requirement is the largest alignment requirement among its own members, traced down to a built-in type. It is not the same number as its `sizeof`.
+```cpp
+struct Inner { char a; double b; };  //sizeof 16, alignment 8 (from the double)
+struct Outer { int x; Inner y; };    //y must start on a multiple of 8
+```
+`x` sits at 0 to 3, so 4 bytes of padding, `y` at 8 to 23, and `sizeof(Outer)` = 24. Compiled: `Inner` 16, `Outer` 24, `y` at 8.
+
+A class with a `virtual` function carries a hidden vtable pointer, whose alignment is 4 or 8 bytes depending on the system. A truly abstract class (a pure virtual function) cannot be instantiated, so it cannot be a plain member of a struct, only a pointer or reference to one. A vtable pointer is an address valid only inside one running program, so raw `write()` and `read()` of a polymorphic object to disk is unsafe. Raw struct I/O is for plain data only.
+
+---
+
+## Reusable software components: DLLs (slides 42 to 51)
+
+### Why not just ship the source
+Programmers want to reuse tested components. You may not want to give the client programmer your `.h` and `.cpp` files. Even if you do, the functions are statically linked into the client's executable at compile time, so any update means a full recompile. What is wanted is library code that is loaded at runtime instead. Under Windows that is a Dynamic Link Library (DLL). Unix systems have DSOs (Dynamically Shared Objects).
+
+### DLL characteristics (slide 44)
+- There are several kinds: regular Win32 DLLs, Component Object Model DLLs, ActiveX OCX and DLL files.
+- Functions are exported by ordinal number and optionally also by name.
+- A DLL is loaded into the same address space as the application, so pointer-based data may be passed to exported functions.
+- A DLL written in one language can often be used from another.
+
+### The whole picture before any syntax (added)
+Two separate files that talk while running. The library (the DLL) is a set of functions that does nothing alone. The application (the `.exe`) wants to use them without their source being pasted into it. A DLL is the library compiled so an application can call into it as a separate file.
+
+This course names the implementation file `something.impl.cpp`. Three source files make the whole pattern:
+
+| File | What it is | Becomes |
+|---|---|---|
+| `mylib.h` | The menu: lists each function's name and parameter types. Nothing runs here | Nothing alone, it is `#include`d by both other files |
+| `mylib.impl.cpp` | The real function bodies | `mylib.dll` |
+| `main.cpp` | Your program, which calls the functions | `main.exe` |
+
+The header is shared so both sides agree word for word on every signature. If `main.cpp` thought `add` took two `int`s and the DLL had built it with two `double`s, the call would corrupt memory.
+
+The number of functions is not fixed. Each is one line in the header and one body in the `.impl.cpp`. The slide shows two; the example below shows three.
+
+### Example: a three-function DLL (composite)
+`mylib.h`:
+```cpp
+#ifndef MYLIB_H
+#define MYLIB_H
+
+#ifdef BUILDING_MYLIB
+  #define MYLIB_API __declspec(dllexport)
+#else
+  #define MYLIB_API __declspec(dllimport)
+#endif
+
+extern "C" {
+    void MYLIB_API greet(const char* name);
+    int  MYLIB_API add(int a, int b);
+    int  MYLIB_API square(int x);
+}
+
+#endif
+```
+`mylib.impl.cpp`:
+```cpp
+#include <iostream>
+#include "mylib.h"
+
+void greet(const char* name)
+{
+    std::cout << "Hello, " << name << "!" << std::endl;
+}
+
+int add(int a, int b)
+{
+    return a + b;
+}
+
+int square(int x)
+{
+    return x * x;
+}
+```
+`main.cpp`:
+```cpp
+#include <iostream>
+#include "mylib.h"
+
+int main()
+{
+    greet("Sithomo");
+    std::cout << "add(2,3) = " << add(2, 3) << std::endl;
+    std::cout << "square(5) = " << square(5) << std::endl;
+    return 0;
+}
+```
+Build in two steps. First the DLL, then the application linked to it:
+```
+g++ -c -DBUILDING_MYLIB mylib.impl.cpp -o mylib.o
+g++ -shared -o mylib.dll mylib.o -Wl,--out-implib,libmylib.a
+g++ main.cpp -o main.exe -L. -lmylib
+```
+The result is `mylib.dll` and `main.exe` side by side. This was cross-compiled with MinGW and all three commands succeeded. It was not run, because there is no Windows here.
+
+### What happens when main.exe starts (added)
+1. At link time the linker writes a note into `main.exe`: it needs `greet`, `add` and `square` from `mylib.dll`.
+2. When you run it, Windows reads that note, finds `mylib.dll` (first in the same folder) and loads it into memory.
+3. Windows fills in the real addresses of those functions.
+4. Every call in `main.exe` jumps into the code inside the DLL.
+
+If the DLL is missing at step 2, the program refuses to start.
+
+### Reading the code, keyword by keyword (added)
+Some words are fixed by the language or Windows and cannot be changed. Others were chosen by the author and can be renamed freely.
+
+| Fixed | Made up |
+|---|---|
+| `#ifndef`, `#define`, `#ifdef`, `#else`, `#endif` | `MYLIB_H` |
+| `__declspec`, `dllexport`, `dllimport` | `BUILDING_MYLIB` |
+| `extern "C"` | `MYLIB_API` |
+| `-c`, `-D`, `-shared`, `-L`, `-l`, `-o` | `mylib`, `greet`, `add`, `square` |
+| `LoadLibrary`, `GetProcAddress`, `FreeLibrary`, `HINSTANCE` | `lib`, `TwoIntsToInt` |
+
+The slide's `EXAMPLE_DLL_H`, `BUILDING_EXAMPLE_DLL` and `EXAMPLE_DLL` are the same three made-up names as `MYLIB_H`, `BUILDING_MYLIB` and `MYLIB_API`.
+
+**The include guard.**
+```cpp
+#ifndef MYLIB_H
+#define MYLIB_H
+```
+`#ifndef` means "if not defined". It asks whether the word `MYLIB_H` has been invented yet. The first time the file is read it has not, so reading continues and the next line invents it. If the header is included a second time, the word exists and everything down to the last `#endif` is skipped. This prevents "declared twice" errors.
+
+**Choosing export or import.**
+```cpp
+#ifdef BUILDING_MYLIB
+  #define MYLIB_API __declspec(dllexport)
+#else
+  #define MYLIB_API __declspec(dllimport)
+#endif
+```
+- `#ifdef` means "if defined". It is the same tool as `#ifndef`, asking about a different word for a different job. This block sits inside the guard, which is why the file ends with two `#endif` lines.
+- `#ifdef ... #else ... #endif` is if/else for the preprocessor. Exactly one branch applies in a given build, because a function cannot both be provided here and be fetched from elsewhere. The other branch is discarded before compiling.
+- `#define MYLIB_API something` means: before compiling, replace every `MYLIB_API` with `something`. That replacement is a macro.
+- `__declspec(...)` is a Microsoft keyword that attaches an extra property to the declaration after it. It is extra because standard C++ has no way to say "public in a DLL". Once any function carries the label, unlabelled functions stay private in the DLL.
+- `dllexport` means "list this function as public in the DLL", like an entry in a phone book kept inside the DLL (the export table). `dllimport` means "this function lives in a DLL, fetch it from there".
+- `BUILDING_MYLIB` is a switch. It exists only when the compile command includes `-DBUILDING_MYLIB`. That flag goes on the DLL build only, never the application build. Setting it from the command line lets one shared header serve both sides.
+
+After the replacement, the compiler sees these declarations (checked with the preprocessor):
+```
+DLL build:   void __attribute__((dllexport)) greet(const char* name);
+App build:   void __attribute__((dllimport)) greet(const char* name);
+```
+MinGW spells `__declspec` as `__attribute__` internally, with the same meaning.
+
+**The function declarations.**
+```cpp
+extern "C" {
+    void MYLIB_API greet(const char* name);
+    int  MYLIB_API add(int a, int b);
+}
+```
+- `extern "C" { ... }` means "keep the names inside these braces exactly as typed". C++ normally renames functions to support overloading. The exported names of the real DLL, with and without it:
+```
+with extern "C":      add          greet          square
+without extern "C":   _Z3addii     _Z5greetPKc    _Z6squarei
+```
+  Another program looking for `add` cannot find `_Z3addii`. It only works on plain functions, because a class has no plain C name to keep.
+- `void MYLIB_API greet(const char* name);` reads: returns nothing, carries the label, is called `greet`, takes text that it promises not to change. The semicolon means it is only a description.
+
+**The implementation file.** `#include "mylib.h"` uses quotes, meaning "look in my own folder first", where `<iostream>` uses angle brackets for the compiler's built-in library. The function bodies are ordinary C++. They do not repeat `extern "C"` or `MYLIB_API`, because the compiler saw those on the declarations.
+
+This is like defining a class's methods outside the class. The declaration is in the header and the body in the implementation file. A label written on the declaration is not repeated on the body, just as `virtual` and `static` are written inside a class and not on the outside definition. A plain function has no `ClassName::` to write, and the compiler matches the body to the declaration by name and parameter types.
+
+**The file name.** A file name may contain any number of dots. Only the last one starts the extension, so `mylib.impl.cpp` is the name `mylib.impl` plus the extension `.cpp`, and the compiler reads only `.cpp`. `.impl` means "implementation". It is a convention that adds nothing technically, and it labels which file is which. `mylib.cpp` builds identically. One visible effect: with no `-o`, the object file is named `mylib.impl.o`.
+
+**The compile commands.**
+- `g++` is the compiler. `-c` means compile only, do not finish the program.
+- `-DBUILDING_MYLIB` means "define". It is the same as writing `#define BUILDING_MYLIB` at the top of the file. It is what flips the header to `dllexport`.
+- `-o mylib.o` names the output. A `.o` file is machine code that is not yet a complete program.
+- `-shared` means "build a DLL instead of a program".
+- `-Wl,` means "pass the next words to the linker", the tool that stitches compiled pieces together. `--out-implib,libmylib.a` asks it to also write a small file listing the DLL's public functions (the import library), which programs use at compile time.
+- `-L.` means "also look for libraries in this folder", where the dot means here. `-lmylib` means "link with the library called mylib". The tool adds `lib` in front and `.a` on the end, so it looks for `libmylib.a`.
+
+Turning `.impl.cpp` into `.o` is the normal process for any `.cpp`: preprocess, compile to machine code, write the object file. Two things are special for a DLL, and neither is in that step itself. `-DBUILDING_MYLIB` changes what the preprocessing produces, and the DLL file is only created afterwards by the linker because of `-shared`.
+
+### The slide's example header (source, slide 45)
+Two functions inside `extern "C"`, one C++ only function, and a class.
 ```cpp
 #ifndef EXAMPLE_DLL_H
 #define EXAMPLE_DLL_H
-```
-- Standard **include guard**: if this header ever gets `#include`d twice in the same compilation (directly or via two other headers that both include it), the second inclusion is skipped entirely — `EXAMPLE_DLL_H` is already defined by then, so everything up to the matching `#endif` at the bottom is ignored the second time round. Not DLL-specific — this is the same include-guard pattern used for any header — but essential here since this header will genuinely be pulled in from more than one place (the DLL's own `.cpp`, and any client `.cpp` that uses the DLL).
 
-```cpp
 #ifdef BUILDING_EXAMPLE_DLL
-  #define EXAMPLE_DLL __declspec(dllexport)   // building the DLL → export symbols
+#define EXAMPLE_DLL __declspec(dllexport)
 #else
-  #define EXAMPLE_DLL __declspec(dllimport)   // using the DLL → import symbols
+#define EXAMPLE_DLL __declspec(dllimport)
 #endif
-```
-- Defines a **macro named `EXAMPLE_DLL`** that expands to either `__declspec(dllexport)` or `__declspec(dllimport)`, depending on whether `BUILDING_EXAMPLE_DLL` is defined at compile time. Every function/class declaration below then just writes `EXAMPLE_DLL` in front of it — one macro name standing in for "whichever of export/import applies to this build."
-
-```cpp
+//The following functions' names will be unchanged
 extern "C"
 {
-    void __stdcall EXAMPLE_DLL c_greet(const char *s);
-    int EXAMPLE_DLL c_power(int a, int b);
+   void __stdcall EXAMPLE_DLL c_greet(const char *s);
+   int EXAMPLE_DLL c_power(int a, int b);
 }
-```
-- Two plain functions, wrapped in `extern "C"` (no mangling → callable from C or any language) and marked `EXAMPLE_DLL` (expands to export/import as above) and `__stdcall` (Win32 calling convention) on `c_greet`.
 
-```cpp
 // This function's name will be mangled during DLL compilation
 void EXAMPLE_DLL cpp_greet(void);
 
@@ -257,80 +749,150 @@ void EXAMPLE_DLL cpp_greet(void);
 class EXAMPLE_DLL Greeter
 {
 public:
-    Greeter() {};
-    virtual ~Greeter() {};
-    void greet(void);
+        Greeter() {};
+        virtual ~Greeter() {};
+        void greet(void);
 };
 
 #endif
 ```
-- `cpp_greet` and the `Greeter` class are **still exported/imported** (via `EXAMPLE_DLL`) but **not** wrapped in `extern "C"` — so their names *are* mangled, meaning only other C++ code can call them (a C caller, or `GetProcAddress` by plain name, would have no way to guess the mangled symbol). This is a deliberate design choice on the slide, not an oversight: `cpp_greet` is offered as a C++-only convenience alongside the C-callable `c_greet`/`c_power`, and `Greeter` couldn't be `extern "C"` at all even if you wanted it to be — C has no classes for `extern "C"` to correspond to.
-- Final `#endif` closes the include guard opened at the top.
-`BUILDING_EXAMPLE_DLL` is defined only while compiling the DLL itself, so the same header switches between export and import. `extern "C"` disables C++ name mangling, making functions callable from C (or other languages) — but only applies to plain functions; a class can never be `extern "C"`, since C has no classes for it to correspond to. `__stdcall` is the calling convention the Win32 API uses.
+The slide's notes: the `#ifdef` block defines whether DLL symbols will be exported. `extern "C"` turns off C++ name mangling. `cpp_greet` will not be usable outside C++. Since C++ classes can only be used in C++, it would not make sense to export the class as `extern "C"`. Calling conventions refer to the way registers and the stack are used to pass arguments to functions, and `stdcall` is the calling convention of the Win32 API.
 
-**`__declspec(dllexport)`/`dllimport` — mechanically, not just as boilerplate.** These aren't decoration; they change what the compiler/linker actually produce. `dllexport` tells the compiler to add that symbol's name to the DLL's **export table** — a literal list, baked into the compiled `.dll`, of symbols other programs are permitted to look up. `dllimport` tells the compiler not to assume the symbol is defined locally, and instead generate code that fetches its address from an external DLL's import table at load time. The same header is read in two different roles — once while compiling the DLL itself (export mode), once by a client program calling into an already-built DLL (import mode) — and `#ifdef BUILDING_EXAMPLE_DLL` is exactly what selects which role applies.
+`(added)` The exports of this exact header, compiled here, are `c_greet` and `c_power` as plain names, and `cpp_greet` and `Greeter` as mangled names (`_Z9cpp_greetv`, `_ZN7Greeter5greetEv`).
 
-**`extern "C"` — the specific problem it solves.** C++ **mangles** function names to support overloading: `c_power(int,int)` doesn't compile down to the literal symbol `c_power`, but to something like `_Z7c_poweri i` encoding the parameter types (exact scheme is compiler/version-specific). That's invisible within one C++ program, but breaks DLL interoperability — another program (C, Python, a different C++ compiler) has no way to predict that mangled name. `extern "C"` disables mangling for those declarations, so the exported symbol is the stable literal string `"c_power"`, lookupable by name from any language. This is precisely why it can only wrap plain functions: mangling exists *because of* C++ overloading, and a class was never a C-style symbol to begin with, so there's nothing for `extern "C"` to "un-mangle" there.
+`__stdcall` is a word placed before a function name meaning "use the Windows way of passing arguments". Caller and function must agree on how arguments are handed over and who tidies the stack, or memory is corrupted. Windows API functions use `__stdcall`, so the slide marks `c_greet` with it. On 64-bit Windows there is one calling convention and the compiler ignores the keyword, which is why the three-function example above needs none. Treat it as a fixed word to copy.
 
-**`__stdcall` — the concrete failure it prevents.** A calling convention fixes two things: which side (caller or callee) cleans up the stack after a call, and in what order arguments are pushed. Caller and callee disagreeing on either corrupts the stack at runtime — wrong values, crashes — often with **no compile error**, since the mismatch is purely at the binary calling level. `__stdcall` means "callee cleans the stack, arguments pushed right-to-left," matching every Win32 API DLL; a DLL meant to be called the way Windows API functions are called must match that convention explicitly rather than relying on the compiler's own default (often `__cdecl`, caller-cleans).
-
-**Compiling a DLL (MinGW), flag by flag:**
-```
-g++ -c -DBUILDING_EXAMPLE_DLL example_dll.cpp
-```
-- `-c`: compile to an object file (`.o`) only, no linking yet.
-- `-DBUILDING_EXAMPLE_DLL`: defines that macro from the command line — equivalent to `#define BUILDING_EXAMPLE_DLL` at the top of the file — this is literally what flips the header to export mode for this build.
-```
-g++ -shared -o example_dll.dll example_dll.o -Wl,--out-implib,libexample_dll.a
-```
-- `-shared`: tells the linker to produce a shared library (a DLL), not a standalone executable.
-- `-o example_dll.dll`: names the output file.
-- `-Wl,--out-implib,libexample_dll.a`: passes `--out-implib` through to the underlying linker (`ld`), also producing an **import library** (`.a`) — the file an implicit-linking client links against (`-lexample_dll`) so the compiler knows what symbols exist and where to resolve them, without the DLL's actual code being copied in.
-
-**Implicit linking.** Client needs **both** the `.dll` and the `.h`; compiled/linked at compile time via the linker (`-lexample_dll`); resolved automatically when the program loads. This is a **hard dependency**: if the DLL isn't present at launch, Windows refuses to start the program at all. Suits a DLL that's a required, known-in-advance part of the program.
-
-**Explicit linking.** No `.h` needed at all — resolved **at runtime**, by name. Used for plugin systems, optional features, or choosing between DLL versions/paths at runtime — the program **can start even if the DLL is missing**, check success (`if (hndlLibrary)`, `if (power)`), and degrade gracefully instead of refusing to launch — at the cost of more manual bookkeeping (`LoadLibrary`/`GetProcAddress`/`FreeLibrary`):
+### The slide's implementation (source, slide 46)
 ```cpp
-typedef int (*TwoIntsToInt)(int, int);
-TwoIntsToInt power = NULL;
-HINSTANCE hndlLibrary = LoadLibrary("example_dll.dll");
-if (hndlLibrary)
+#include <iostream>
+#include <string>
+
+#include "example_dll.h"
+
+using namespace std;
+
+__stdcall void c_greet(const char *s)
 {
-    power = (TwoIntsToInt)GetProcAddress(hndlLibrary, "c_power");
-    if (power) cout << power(2, 4) << endl;
-    FreeLibrary(hndlLibrary);
+        cout << "I will say hello to... ";
+        while(*s != '\0')
+        {
+                cout << *s;
+                s++;
+        }
+        cout << endl;
+}
+
+int c_power(int a, int b)
+{
+        int ret = 1;
+        for(int k = 0; k < b; k++)
+          ret *= a;
+        return ret;
+}
+
+void cpp_greet(void)
+{
+        cout << "C++ function says hello" << endl;
+}
+
+void Greeter::greet(void)
+{
+        cout << "This is the C++ greeter class" << endl;
 }
 ```
-`LoadLibrary` → handle to the DLL; `GetProcAddress` → looks up a function **by name string**, returns its address cast to a matching function-pointer type; `FreeLibrary` → unloads it. Implicit and explicit linking are genuinely separate mechanisms — implicit resolves everything before the program runs (needs the header), explicit resolves everything while already running (needs only a string name).
+`(added)` The slide's header and implementation, cross-compiled here with the slide's own commands, build without errors.
 
-> (see: [[CSC01B1_Notes_S1_Foundation-Topics#14. Function pointers]]) `power` here is an ordinary function pointer, no different in kind from `m` in S1's `average` example or `op` in S1's second worked example — declare a variable of function-pointer type, assign a function's address to it, call through it. The only new part in this DLL context is *where* the address comes from: not a function named directly in source, but whatever `GetProcAddress` returns after looking a name up in an already-loaded DLL at runtime.
+### Compiling a DLL with MinGW (source, slide 47)
+```
+g++ -c -DBUILDING_EXAMPLE_DLL example_dll.cpp
+g++ -shared -o example_dll.dll example_dll.o
+-Wl,--out-implib,libexample_dll.a
+```
+The slide notes that you may need to add MinGW's (for example Dev-C++'s) bin directory to your PATH, or work from there directly. `-c` is do not link, `-D` defines the macro, `-shared` creates a DLL, `-o` names the output, and `-Wl,` sends the following arguments to the linker. `--out-implib` creates an import library called `libexample_dll.a`. The second and third lines above are one command that wrapped on the slide.
 
-**DllMain.** Optional entry point for code that should run at specific points in a DLL's life-cycle (loaded, unloaded, etc.).
+### Implicit linking (source, slides 48 and 49)
+Implicit linking requires both the DLL and the header file to be given to the client programmer.
+```
+g++ -c implicit_exe.cpp
+g++ -o implicit_exe.exe implicit_exe.o -L. -lexample_dll
+```
+`-L.` searches the current directory and `-lexample_dll` links against the library of that name.
+
+`(added)` This is a hard dependency. If the DLL is missing when the program starts, Windows refuses to launch it. It suits a DLL that is a required, known part of the program.
+
+### Explicit linking (source, slide 50)
+It is possible to link to a DLL without having the `.h` file. This file may be compiled normally.
+```cpp
+#include <iostream>
+#include <windows.h>
+
+using namespace std;
+
+typedef int (*TwoIntsToInt)(int,int);
+
+int main()
+{
+   TwoIntsToInt power = NULL;
+   HINSTANCE hndlLibrary = LoadLibrary("example_dll.dll");
+   if (hndlLibrary)
+   {
+      power = (TwoIntsToInt)GetProcAddress(hndlLibrary, "c_power");
+      if (power)
+         cout << "2 to the power 4 is " << power(2, 4) << endl;
+      FreeLibrary(hndlLibrary);
+   }
+   else
+      cout << "Error Loading DLL" << endl;
+   return 0;
+}
+```
+`(added)` This was cross-compiled with no header and no `-l` flag.
+
+What each line does:
+- `<windows.h>` provides the functions for handling DLLs.
+- `typedef int (*TwoIntsToInt)(int,int);` is a function pointer type matching the DLL function.
+- `HINSTANCE` holds a handle to the DLL. A handle is a ticket number Windows gives you for the loaded file.
+- `LoadLibrary("example_dll.dll")` asks Windows to load that file. It returns the handle, or `NULL` if loading failed.
+- `GetProcAddress(hndlLibrary, "c_power")` looks the function up by its name as text. "Proc" means procedure. It returns a bare address with no type, so the `(TwoIntsToInt)` cast in front tells the compiler to treat it as a pointer to a function of that shape.
+- `power(2, 4)` invokes the DLL function through the pointer.
+- `FreeLibrary` unloads the library.
+
+`(added)` The name string must match the exported name exactly, which is why `extern "C"` matters here. With a mangled name you would have to pass `"_Z3addii"`-style text.
+
+`(added)` The trade-off against implicit linking: the program can start even if the DLL is missing. It tests `hndlLibrary` and `power`, and carries on or reports an error. That is why plugin systems use it. The cost is more code, and no compiler check that the typedef matches the real function. It is also the same mechanism as a function pointer, see [[CSC01B1_Notes_S1_Foundation-Topics#14. Function pointers|Function pointers]]: the address just comes from `GetProcAddress` instead of from a function named in source.
+
+**typedef with a function pointer.** `typedef` is still an alias, see [[CSC01B1_Notes_S1_Foundation-Topics#15. Extending the type system|typedef]]. In `typedef int num;` and `typedef int* integerArray;` the new name comes last. A function pointer's syntax puts the name inside the brackets. To read it, cover the word `typedef`. What is left declares a variable called `TwoIntsToInt`, a pointer to a function taking two ints and returning an int. With `typedef` back in front, that name becomes a nickname for that type. Both of these are the same (compiled, output `3 7`):
+```cpp
+int (*p1)(int, int) = add;    //without the nickname
+TwoIntsToInt p2 = add;        //with the nickname
+```
+Without the nickname, the cast above would read `(int (*)(int, int))GetProcAddress(hndlLibrary, "c_power")`.
+
+### DllMain (source, slide 51)
+Should you wish to take certain actions at various stages of the DLL's life-cycle (for example when a program is linked to it), you may use the optional DLL entry point called `DllMain`. `(added)` The slide gives one line and no example, so none is shown here.
 
 ---
 
-## Worked coding exercise (from this session, compiled and verified)
-
-Goal: open a binary file for read+write, define a fixed-size record struct, write three records, seek to and read back a specific one.
-
+## Worked coding exercise: write, seek, read back (composite)
+The task: open a binary file for reading and writing, define a record struct, write three records, seek to the 2nd and read only that one back, then print it. Compiled and run, the output is `Bob 75`.
 ```cpp
 #include <iostream>
 #include <cstdlib>
 #include <fstream>
 
-int main()
-{
-    struct Score { char name[10]; int value; };
+int main(){
+    struct Score
+    {
+        char name[10];
+        int value;
+    };
     using namespace std;
-
     fstream in_stream;
     in_stream.open("scores.dat", ios::in | ios::out | ios::binary | ios::trunc);
-    if (in_stream.fail())
-    {
+    if(in_stream.fail()){
         cout << "Error opening file." << endl;
         exit(EXIT_FAILURE);
     }
-
     Score s1 = {"Alice", 90};
     Score s2 = {"Bob", 75};
     Score s3 = {"Carl", 88};
@@ -338,13 +900,48 @@ int main()
     in_stream.write(reinterpret_cast<char*>(&s2), sizeof(s2));
     in_stream.write(reinterpret_cast<char*>(&s3), sizeof(s3));
 
-    in_stream.seekg(sizeof(Score), ios::beg);   // record index 1 = the 2nd record
+    in_stream.seekg(sizeof(Score), ios::beg);
     Score test;
     in_stream.read(reinterpret_cast<char*>(&test), sizeof(test));
-    cout << test.name << " " << test.value << endl;   // output: Bob 75
-
+    cout << test.name << " " <<test.value << endl;
     return 0;
 }
 ```
+- The class is `fstream`, because one stream must both read and write. The three flags are one OR-ed argument.
+- `ios::trunc` guarantees a fresh file for a name that does not exist yet.
+- The struct members are set with initializer lists at declaration. A `char` array cannot be assigned with `=` afterwards, so `s1.name = "Alice";` does not compile. `strcpy` from `<cstring>` is the other option. #struggle
+- The 2nd record is index 1, so the seek is `1 * sizeof(Score)`. `sizeof(Score)` alone is the same number.
+- A fourth variable, `test`, receives the read, so the result can only have come from the file. Reading into `s2` would show the same values that were already in memory.
+- `.read()` and `.write()` are named from the file's point of view: `write` sends data out to the file, and `read` pulls data out of the file. This matches `cin >> variable`, which is not called "writing" even though the variable changes.
 
-Points this exercise reinforced in practice: `fstream` (not `ifstream`) is required for read+write on one object; multiple `.open()` flags must be OR'd into a single argument; `ios::in | ios::out` needs `ios::trunc` too if the file doesn't exist yet; `if (fail())` not `if (!fail())`; C-style arrays need initializer-list syntax, not `=`, to set their contents; `seekg` (not `seekp`) governs where `.read()` starts; `seekg`/`.open()` are member calls on the stream object, not free functions; seeking alone does not fetch data — a separate `.read()` call is required; "the 2nd record" is index 1 in 0-based counting; and `.read()`/`.write()` are named from the **file's** perspective (data leaving/entering the file), not the variable's.
+---
+
+## Struggle items from this session
+Each item below appeared as a live mistake or a repeated question, and is logged as still open until it is answered correctly under a retest. #struggle
+
+- **seekg versus seekp.** In the exercise, `seekp` was chosen for a read, and `seekg` was first called without a stream object. The markers are independent, and seeking never fetches data. The same shape of mistake (assuming two independent things are one) came up in earlier sessions.
+- **Writing code from scratch.** Quiz answers were recognised, but writing the exercise began as a blank page. It was built up one line at a time from corrections. Retest by writing the four-step pattern (open with combined flags, write a record, seek to an index, read it back) without help.
+- **Padding.** Asked for again over several rounds: where the padding goes, why reordering changes the size, and how a compound member is aligned. Retest by working out `sizeof` by hand with the placement.
+- **reinterpret_cast.** Asked for twice: it relabels the pointer type and changes no bytes.
+- **DLL syntax and jargon.** The keywords, the macro switch, `extern "C"`, the two dots in `.impl.cpp`, and `typedef` on a function pointer all needed separate explanations. The concept of a DLL itself was understood.
+
+---
+
+## Do not forget
+- The stream is the channel. The file is what it is connected to. Streams cannot be assigned with `=` or copied, so pass them by reference.
+- `.open()` takes a file name and one mode. Join flags with `|`. Test with `if (x.fail())`, not `!fail()`.
+- `ifstream` cannot write. A stream that reads and writes must be an `fstream`.
+- `app` re-forces the pointer to the end on every write. `ate` only moves it once, at opening.
+- `seekg` moves the read marker, `seekp` moves the write marker, and neither fetches data. Reading always moves forward.
+- Record offset = index * `sizeof(RecordType)`, plus any header. "4th" is index 3.
+- `sizeof` a struct includes padding. Place each member on a multiple of its alignment, then round the total up to the largest alignment. Reordering members changes the size.
+- `#pragma pack(push)`, `pack(1)`, `pack(pop)` removes padding for the struct in between.
+- `reinterpret_cast<char*>(&x)` relabels the address only. The bytes are unchanged.
+- DLL build: `-DBUILDING_MYLIB` on the DLL compile only. Application build: link with `-L. -lmylib`, or load at runtime with `LoadLibrary`, `GetProcAddress`, `FreeLibrary`.
+- `extern "C"` keeps names plain, for functions only. Classes stay mangled.
+
+---
+
+## See also
+- [[CSC01B1_Notes_S1_Foundation-Topics]]
+- [[CSC01B1_Notes_S6_OperatorOverloadingTemplates]]

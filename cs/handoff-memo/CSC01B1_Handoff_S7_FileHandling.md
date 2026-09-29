@@ -1,44 +1,48 @@
-Supersedes S6. This is the only handoff file needed.
+Supersedes S1 to S6. This is the only handoff file needed.
 
 ## 1. OBJECTIVE (this session)
-Work through CSC01B1 Lecture 6 in full: file handling — secondary storage and the memory hierarchy, C++ streams, sequential file I/O, opening modes and file flags, output formatting, random access files and raw disk I/O (structs, byte alignment/padding), and reusable software components (DLLs, compiling, implicit/explicit linking).
+Work through CSC01B1 Lecture 6 in full: file handling, covering secondary storage and the memory hierarchy, C++ streams, sequential file I/O, opening modes and file flags, output formatting, random access files and raw disk I/O (structs, byte alignment and padding), and reusable software components (DLLs, compiling, implicit and explicit linking).
 
 ## 2. TOPIC LEDGER
 ```
-S6 | Operator overloading (fundamentals, this pointer, friend functions, member vs
-     nonmember design, binary/stream/assignment/unary/increment-decrement/subscript
-     overloads) and templates (function and class) | full | open struggle no
-S7 | File handling: secondary storage/streams, sequential file I/O, opening modes/
-     flags, output formatting, random access files, raw disk I/O (structs, byte
-     alignment/padding, #pragma pack), reusable components (DLLs, implicit/explicit
-     linking) | full | open struggle no (resolved this session, see struggle log)
+S1 | Foundation Topics (binary and number systems, bitwise ops, signed numbers, memory model, pointers, arrays, function pointers, structs, intro to classes) | full | open struggle no
+S2 | C++20 Modules (module concept, first module, export blocks, prototypes vs implementation) | full | open struggle no
+S3 | Classes and Data Abstraction (class syntax, UML, objects, scope, constructors/destructors, ADTs, struct vs class, information hiding, static members) | full | open struggle no
+S4 | Object Composition and Inheritance (OOD, UML, association, composition, inheritance syntax, overriding, derived-class constructors/destructors, protected members, stream hierarchy) | full | open struggle no
+S5 | Polymorphism (virtual functions, late binding, pure virtual and abstract classes, slicing, virtual destructors, casting, vtable) | full | open struggle no
+S6 | Operator overloading (fundamentals, this pointer, friend functions, binary/stream/assignment/unary/increment/subscript overloads) and templates (function and class) | full | open struggle no
+S7 | File handling (secondary storage and streams, sequential file I/O, opening modes and flags, output formatting, random access, raw disk I/O, padding and #pragma pack, DLLs with implicit and explicit linking) | full | open struggle yes
 ```
 
 ## 3. NOTES INDEX
 ```
+S1 | Foundation Topics | CSC01B1_Notes_S1_Foundation-Topics.md |
+     Binary, bitwise ops, memory, pointers, arrays, function pointers (14), typedef (15), structs (16)
+S2 | C++20 Modules | file name unverified |
+S3 | Classes and Data Abstraction | file name unverified |
+S4 | Object Composition and Inheritance | file name unverified |
+S5 | Polymorphism | file name unverified |
 S6 | Operator overloading and templates | CSC01B1_Notes_S6_OperatorOverloadingTemplates.md |
-     Full Lecture 5 retelling: operator overloading end to end, then function and class templates
+     Lecture 5 retelling: operator overloading, then function and class templates
 S7 | File handling | CSC01B1_Notes_S7_FileHandling.md |
-     Full Lecture 6 retelling: streams and secondary storage, sequential file I/O, opening
-     modes/flags, output formatting, random access and raw disk I/O with padding/alignment,
-     and DLLs (implicit/explicit linking)
+     Lecture 6 retelling: streams, sequential and random access files, raw bytes, padding, DLLs
 ```
 
 ## 4. CONTENT SUMMARY
-This session (S7) covered CSC01B1 Lecture 6 across 6 compressed teach-mode parts (10-topic map condensed to 6 for speed, per request):
-- Part 1: secondary storage, the memory hierarchy, why use files, C++ standard streams, the stream concept
-- Part 2: sequential file I/O — ifstream/ofstream, open/close, worked example, checking success, interactive vs. file-driven programs
-- Part 3: opening modes — appending, filenames supplied at runtime, file flags (ios::app/ate/trunc/binary/in/out), bitwise combination and extraction
-- Part 4: output formatting — setf()/precision()/width(), the flag table (fixed/scientific/showpoint/showpos/left/right), the `make_neat()` worked example, I/O manipulators, streams as call-by-reference parameters, testing end-of-file via a stream's truth value
-- Part 5: random access files — the "no real distinction, all streams of bytes" reframing, separate seekg/seekp/tellg markers, designing a fixed-size record format, ostream::write/istream::read with reinterpret_cast, struct padding and byte alignment
-- Part 6: files for logic — reusable components, DLL headers (dllexport/dllimport, extern "C"), compiling DLLs, implicit linking, explicit linking (LoadLibrary/GetProcAddress), DllMain
+S7 covered Lecture 6 in teach mode:
+- Secondary storage, the memory hierarchy, why files exist, standard streams and the stream concept.
+- Sequential file I/O with ifstream and ofstream: declare, open, read or write, close; checking .fail().
+- Opening modes and flags (app, ate, trunc, binary, in, out), combined with | and tested with &.
+- Output formatting: setf, unsetf, precision, width, iomanip manipulators, streams as reference parameters, while (in >> x).
+- Random access: independent seekg and seekp markers, tellg, fixed-size records, offset = index * sizeof(Record) (plus header), write and read with reinterpret_cast.
+- Padding and alignment, worked examples (24, 32, 12 bytes; 8 packed), compound member alignment, #pragma pack(push), pack(1), pack(pop).
+- DLLs: static vs dynamic linking, three-file layout (header, implementation, application), include guard, dllexport/dllimport macro switch, extern "C" and name mangling, __stdcall, MinGW compile flags, import library, implicit and explicit linking (LoadLibrary, GetProcAddress, FreeLibrary), DllMain, the .impl.cpp naming.
+- A guided coding exercise (write three Score records to scores.dat, seek to one, read it back, output `Bob 75`) that exposed several live mistakes. Struggle items remain open pending retest.
 
-After Part 6, an extensive multi-round Q&A followed, then a comprehension quiz, then a full guided coding exercise. Q&A topics: why the stream class hierarchy exists (cout/fin/fout as instances of the same underlying classes, not separate mechanisms); sizeof(struct) covers the whole struct including padding, not just the last member; the purpose of OR-combining setf flags (multiple independent settings in one call) versus the reassurance that OR-ing a flag twice is harmless; that reading always moves forward regardless of how the position pointer got there (no reverse-read or wraparound); reinterpret_cast as pure relabelling with no byte conversion and no runtime check, contrasted directly with static_cast and dynamic_cast; the general procedure for calculating a byte offset to a given record index and seeking there; a fully worked padding example (byte-by-byte offset walkthrough); that write() to a struct pointer outputs raw non-human-readable bytes by design, contrasted with Part 4's formatted text output; that "the whole file is records" is a file-format design assumption imposed by the programmer, not something detectable from the file itself, and how a header changes the record-count arithmetic; a second padding example showing that reordering struct members changes total size and padding placement; #pragma pack(push)/pack(1)/pack(pop) as the actual override mechanism the padding slide referred to (initially omitted, corrected on request); and alignment of compound/class members (recursive — inherits the largest alignment among its own members, not its own sizeof), plus why abstract classes can't be plain struct members and why polymorphic objects with vtable pointers aren't safe to raw-write to disk.
-
-A comprehension quiz (8 questions) followed, covering seek direction, padding calculation, reinterpret_cast, flag combination, header-adjusted record counts, implicit/explicit DLL linking, and compound-type alignment — user reported doing okay but flagged a recognition-vs-production gap ("I understand it but couldn't write it from scratch"). A full guided coding exercise followed to close that gap: open a binary fstream with correct combined flags, define a struct, write three records, seek to and read back a specific record, print it. The exercise surfaced several genuine, resolved struggles (see struggle log) and ended with a compiled-and-run working program, verified by execution (output: `Bob 75`, correct).
+Earlier sessions: see ledger.
 
 ## 5. LAST POSITION
-Part 6 of 6, complete. Closing Q&A (multiple rounds), comprehension quiz, and full guided coding exercise all complete. Session closed via Memo (updated).
+Lecture 6 fully covered, Q&A, quiz and coding exercise done. The session-end mutual recap and final quiz were not run. Notes redone to protocol.
 
 ## 6. PARKED ITEMS
 None.
@@ -49,5 +53,6 @@ PROFILE cs
 MODULE CODE CSC01B1
 Paste this handoff memo and CSC01B1_StruggleLog_S7_FileHandling.md
 at the start of the next session.
-Lecture 6 (file handling) is complete. Ready for the next lecture's source material.
+Retest the open struggle items first (see struggle log section 5).
+CSC01B1-2026-L7.pdf is in the project (not yet checked).
 ```

@@ -385,7 +385,7 @@ double* average(int*, int*, int);
 /*A compatible function*/
 double* average(int* a1, int* a2, int size)
 {
-  double* aryReturn = new double[size]; // (added) source uses "new int[size]", which cannot legally initialise a double* — corrected to new double[size]
+  double* aryReturn = new double[size]; // (added) source uses "new int[size]", which cannot legally initialise a double*, corrected to new double[size]
   for(int k = 0; k < size; k++)
     aryReturn[k] = (a1[k] + a2[k]) / 2.0;
   return aryReturn;
@@ -406,8 +406,8 @@ int main()
 - Still only loosely tied to the data it works on.
 - New functions cannot be made at runtime.
 
-### Second worked example — swapping which function runs, at runtime (compiled and verified)
-The `average` example above shows the syntax; this one shows the actual *point* of a function pointer — choosing between two different functions while the program is running, based on something that isn't known until then.
+### Second worked example: swapping which function runs at runtime (compiled and verified)
+The `average` example above shows the syntax; this one shows the actual *point* of a function pointer, choosing between two different functions while the program is running, based on something that isn't known until then.
 ```cpp
 #include <iostream>
 using namespace std;
@@ -420,15 +420,15 @@ typedef int (*TwoIntFunc)(int, int);  // (see: typedef, section 15) names the fu
 int main()
 {
     TwoIntFunc op = add;
-    cout << op(2, 3) << endl;   // 5 — calls add
+    cout << op(2, 3) << endl;   // 5 calls add
     op = multiply;
-    cout << op(2, 3) << endl;   // 6 — same variable, now calls multiply
+    cout << op(2, 3) << endl;   // 6 same variable, now calls multiply
     return 0;
 }
 ```
-`op` is a single variable that can point at *either* `add` or `multiply` — which one it actually calls is decided at runtime by whatever was last assigned to it, not fixed at compile time.
+`op` is a single variable that can point at *either* `add` or `multiply`: which one it actually calls is decided at runtime by whatever was last assigned to it, not fixed at compile time.
 
-> (see: [[CSC01B1_Notes_S7_FileHandling#6. Files for logic — reusable software components (DLLs)]]) This is exactly the mechanism explicit DLL linking uses. `GetProcAddress` looks a function up by name at runtime and hands back its address; that address is stored in a function pointer (`TwoIntsToInt power = (TwoIntsToInt)GetProcAddress(hndlLibrary, "c_power");`) and called through it (`power(2, 4)`) — identical shape to `op` above, just with the function's address coming from a loaded DLL instead of being assigned directly in source.
+> See [[CSC01B1_Notes_S7_FileHandling#Explicit linking (source, slide 50)|Explicit linking in the S7 notes]]. This is exactly the mechanism explicit DLL linking uses. `GetProcAddress` looks a function up by name at runtime and hands back its address; that address is stored in a function pointer (`TwoIntsToInt power = (TwoIntsToInt)GetProcAddress(hndlLibrary, "c_power");`) and called through it (`power(2, 4)`) (identical shape to `op` above, just with the function's address coming from a loaded DLL instead of being assigned directly in source).
 
 ---
 
