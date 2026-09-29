@@ -44,7 +44,7 @@ Correction to Part 3 as first delivered in chat: the sample standard deviation o
 
 Conceptual discussion, folded into the notes: why paired data removes shared between-subject noise and what it does not control; whether the t distribution is always used (it is not: the paired test is a one-sample problem on D_i, so the usual known-variance, sample size and normality conditions apply); what changes at 30 vs 40 (the arithmetic is the same, only the label, the table and the stated justification differ); why proportion procedures use Z and never t (the variance is built from p itself); the P-value bound at the table edge; the correction that the larger-variance-on-top shortcut is in the slides, not only the lecturer's method; how the lecturer marks (a wrong table value or wrong alpha with a correct setup costs one mark, unconfirmed with the lecturer).
 
-Threshold finding: Lecture 5 (S5, Case II test, slide 9) says n > 30. Lecture 7 (S6, large-sample z test and CI, slides 3 and 4) says m > 40 and n > 40. The S3 large-sample CI says n > 40, with an added rationale in the vault (substituting S adds variability beyond the CLT). Nothing in the slides reconciles 30 with 40. The pooled t test slide says m < 40 and n < 40 while its CI slide says m < 40 and/or n < 40. Lecture 8 gives no cutoff for the two-proportion procedures ("Large samples" only), and the F test has none. The full threshold table is in the S7 notes file.
+Threshold finding: Lecture 5 (S5, Case II test, slide 9) says n > 30. Lecture 7 (S6, large-sample z test and CI, slides 3 and 4) says m > 40 and n > 40. The S3 large-sample CI says n > 40, with an added rationale in the vault (substituting S adds variability beyond the CLT). Nothing in the slides reconciles 30 with 40. The pooled t test slide says m < 40 and n < 40 while its CI slide says m < 40 and/or n < 40. Lecture 8 gives no cutoff for the two-proportion procedures ("Large samples" only), and the F test has none. The full threshold table is in the S7 notes file. Resolved afterwards by the lecturer: use 40 throughout (see section 6).
 
 ## 5. Last position
 Lecture notes: complete, all 27 slides of Lecture 8 covered (title slide contributes nothing, slide 27 is a reference to Chapter 9 sections 9.3 to 9.5). Struggle log checked and updated. Memo produced this message.
@@ -53,11 +53,11 @@ Lecture notes: complete, all 27 slides of Lecture 8 covered (title slide contrib
 1. Choosing n for a worded subgroup proportion claim ("proportion of X within Y" vs "proportion of X who are Y"). Not in Lecture 8. Still parked (S5, S6, S7).
 2. Reading a P-value range off a printed t-table (fixed columns only). Example 9.9 used a rejection region and no P-value, so the chance to introduce it passed again. Still parked.
 
-Open actions, waiting on the lecturer (email drafted this session, to be sent by the user; notes stay as written unless she says otherwise, then the user returns and the notes are changed):
-1. Is the S5 Case II cutoff n > 30 intended, against n > 40 in the S3 and S6 large-sample procedures?
-2. What large-sample condition applies to the two-proportion test and CI, and does the textbook rule of 10 successes and 10 failures carry over? Example 9.11 has n*q2hat = 8.
-3. Is "m < 40 and/or n < 40" on the pooled t CI slide intentional, against "and" on the test slide?
-4. Confirm the F shortcut uses F(alpha/2), and the alpha .10 illustration used in the lecture.
+Lecturer's reply received and applied to the S7 notes (all four questions closed):
+1. Large-sample cutoff for a mean: use m > 40 (and n > 40) throughout. The S5 Case II n > 30 is superseded. The S5 notes file has been corrected to 40.
+2. Two proportions: use the textbook rule (all of m*p1hat, m*q1hat, n*p2hat, n*q2hat at least 10), applied strictly. Example 9.11 has n*q2hat = 8 and fails it.
+3. Pooled t: "m < 40 and/or n < 40" is intentional and is the rule. Her reply does not separately mention the test slide, which prints "and"; and/or is used for both.
+4. F test: use the table correctly; the df and alpha asked for will be in the exam table. The alpha .10 illustration was a lecture-only workaround. The larger-variance-on-top shortcut was not contradicted.
 Idea under consideration by the user, undecided: a standalone stats definitions file linked from session notes.
 
 Resolved and closed this session (no longer parked): proportion tests always use Z, with the validity condition at 10, not 5 (the 5 was a placeholder in the S5 memo and its resume block, carried into the S6 memo, never a rule stated in any notes file).
@@ -77,11 +77,13 @@ Two items are parked because Lecture 8 doesn't cover them: choosing n for
 a worded subgroup proportion claim, and reading a P-value range off a
 printed t-table. Please check Lecture 9 (single-factor ANOVA) against them.
 
-Four questions for my lecturer are drafted and pending: the n > 30 vs
-n > 40 cutoff, the large-sample condition for two proportions
-(Example 9.11 has n*q2-hat = 8), "and" vs "and/or" on the pooled t
-slides, and the F shortcut with alpha .10. If she confirms the notes as
-written, leave them. If she says otherwise, I will tell you what to change.
+My lecturer has answered the four questions and the S7 notes now carry
+her answers: use n > 40 throughout for a mean (the S5 n > 30 is
+superseded), apply the two-proportion condition of 10 successes and 10
+failures strictly (Example 9.11 fails it at n*q2-hat = 8), the pooled t
+condition is "and/or", and use the exam F table correctly at the stated
+alpha (the alpha .10 was a lecture-only workaround). My S5 notes file
+has already been corrected to 40.
 
 Lecture 9 is single-factor ANOVA, the natural next step after comparing
 two variances and two means, and it uses an F statistic.

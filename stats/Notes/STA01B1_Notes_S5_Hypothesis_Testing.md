@@ -183,9 +183,12 @@ A sprinkler manufacturer claims true average activation temperature is $130°$F.
 7. $2.16$ does not fall in the rejection region ($-2.58<2.16<2.58$), $H_0$ cannot be rejected at $\alpha=.01$. The data does not strongly support a departure from 130.
 
 ### Case II: large sample tests (exam-flagged)
-When $\sigma$ is unknown and $n>30$, substitute $S$:
+When $\sigma$ is unknown and $n>40$, substitute $S$:
 $$Z = \frac{\bar{X}-\mu_0}{S/\sqrt{n}}$$
-N.B the three rejection regions from [[#Case I: known variance (exam-flagged)]] apply unchanged, only the denominator changes, $\sigma$ becomes $S$, and $n>30$ is required for the approximation, paralleling the $n>40$ threshold for large-sample confidence intervals (see: [[STA01B1_Notes_S3_Statistical_Intervals#Large sample confidence intervals (unknown $\sigma$)|Large sample confidence intervals (unknown σ)]]), where substituting $S$ for $\sigma$ was likewise stricter than the plain CLT rule of thumb.
+N.B the three rejection regions from [[#Case I: known variance (exam-flagged)]] apply unchanged, only the denominator changes, $\sigma$ becomes $S$, and $n>40$ is required for the approximation, the same threshold as for large-sample confidence intervals (see: [[STA01B1_Notes_S3_Statistical_Intervals#Large sample confidence intervals (unknown $\sigma$)|Large sample confidence intervals (unknown σ)]]), where substituting $S$ for $\sigma$ is likewise stricter than the plain CLT rule of thumb.
+
+> [!note] Slide says 30, the lecturer says 40 #common-mistake #struggle
+> The Lecture 5 slide for this case prints $n>30$. The lecturer later confirmed in writing that the cutoff to use is 40 throughout, so this note uses 40 and the slide's 30 is superseded. In an exam, use 40.
 
 ### Example 8.8 (restaurant tip percentage)
 70 restaurant bills, tip as a percentage of the raw bill. Does the population mean tip percentage exceed the standard 15%?
@@ -204,8 +207,8 @@ N.B the three rejection regions from [[#Case I: known variance (exam-flagged)]] 
 | Condition | Test statistic | Distribution | Case |
 |---|---|---|---|
 | Population normal, $\sigma$ known, any $n$ | $Z=\dfrac{\bar{X}-\mu_0}{\sigma/\sqrt{n}}$ | standard normal, exact | [[#Case I: known variance (exam-flagged)]] |
-| $\sigma$ unknown, $n>30$ | $Z=\dfrac{\bar{X}-\mu_0}{S/\sqrt{n}}$ | standard normal, approximate | [[#Case II: large sample tests (exam-flagged)]] |
-| $\sigma$ unknown, $n\le30$ | not shown in this lecture's source | not shown in this lecture's source | not covered here |
+| $\sigma$ unknown, $n>40$ | $Z=\dfrac{\bar{X}-\mu_0}{S/\sqrt{n}}$ | standard normal, approximate | [[#Case II: large sample tests (exam-flagged)]] |
+| $\sigma$ unknown, $n\le40$ | not shown in this lecture's source | not shown in this lecture's source | not covered here |
 
 N.B both cases here use $Z$, never $t$. The switch is not $t$ versus $Z$, it is which standard error formula applies, driven by whether $\sigma$ is known, the same fork already established for confidence intervals (see: [[STA01B1_Notes_S3_Statistical_Intervals#Large sample confidence intervals (unknown $\sigma$)|Large sample confidence intervals (unknown σ)]]). A small-sample unknown-$\sigma$ test would need $t$ (see: [[STA01B1_Notes_S4_Intervals_Based_on_a_Normal_Population#The $t$ distribution|The t distribution]] for the $t$ distribution itself), but that test does not appear in this lecture.
 
@@ -228,7 +231,7 @@ N.B this lecture never produces a p-value, every decision is cutoff versus compu
 - Shrinking the rejection region decreases $\alpha$ but increases $\beta$ for every fixed alternative. Raising $\alpha$ can only flip fail-to-reject into reject, never the reverse.
 - For a composite null, the boundary value gives the largest $\alpha$, the worst case.
 - Standardising to $Z$ turns a problem-specific cutoff into a fixed, reusable critical value.
-- Case I (known $\sigma$, any $n$) uses $\sigma/\sqrt{n}$; Case II (unknown $\sigma$, $n>30$) substitutes $S$. Both use $Z$, this lecture has no small-sample unknown-$\sigma$ test.
+- Case I (known $\sigma$, any $n$) uses $\sigma/\sqrt{n}$; Case II (unknown $\sigma$, $n>40$) substitutes $S$. Both use $Z$, this lecture has no small-sample unknown-$\sigma$ test.
 - Follow the same seven step order every time: parameter, $H_0$, $H_a$, test statistic, rejection region, substitute, conclude.
 
 ## See also

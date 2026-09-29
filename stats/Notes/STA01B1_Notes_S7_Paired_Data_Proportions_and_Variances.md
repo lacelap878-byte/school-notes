@@ -125,9 +125,9 @@ A proportion is a sample mean of 0/1 indicators (defined in: [[STA01B1_Notes_S2_
 
 > *For a mean, the variance $\sigma^2$ is a separate parameter that has to be estimated, and estimating it is where $t$ comes from. For a proportion, the variance is built from $p$ itself, so once $p$ (or an estimate) is known, the variance follows. This is why every proportion procedure below uses $Z$ and never $t$.*
 
-Large-sample condition (source: user-supplied textbook excerpt, not on the slides). Slide 16 says only "Large samples". The textbook states the two-proportion test can safely be used when
+Large-sample condition (source: user-supplied textbook excerpt, not on the slides; adopted as the rule to use, confirmed by the lecturer's reply, source: lecturer email). Slide 16 says only "Large samples". The textbook states the two-proportion test can safely be used when
 $$m\hat{p}_1\ge10,\quad m\hat{q}_1\ge10,\quad n\hat{p}_2\ge10,\quad n\hat{q}_2\ge10,\qquad \hat{q}=1-\hat{p}$$
-The matching one-sample condition is $np_0\ge10$ and $n(1-p_0)\ge10$. #struggle
+The matching one-sample condition is $np_0\ge10$ and $n(1-p_0)\ge10$. The lecturer confirmed this rule is to be applied strictly: all four counts must reach 10, and a count of 8 is a failure, not a near miss. #struggle
 
 -> Two Proportion z Test, Example 9.11 (below) standardises $\hat{p}_1-\hat{p}_2$ under $H_0:p_1=p_2$.
 
@@ -171,8 +171,8 @@ $$\text{P-value}=2[1-\Phi(|z|)]=2[1-\Phi(4.94)]<2[1-\Phi(3.49)]=.0004$$
 
 The data strongly suggest $p_1\ne p_2$: initially pleading guilty may be a good strategy for avoiding prison. The cited study found the same pattern across county, crime type, and prior record.
 
-> [!warning] Example 9.11 fails the textbook's own validity check #common-mistake #struggle
-> $m\hat{p}_1=101$, $m\hat{q}_1=90$, $n\hat{p}_2=56$, $n\hat{q}_2=64(.125)=8$. Three of four counts clear 10, but $n\hat{q}_2=8$ does not. The slides make no comment on this. With $z=-4.94$ the conclusion is not remotely in doubt, but it is a genuine inconsistency between the lecture's own worked example and the validity condition, unresolved pending the lecturer's answer.
+> [!warning] Example 9.11 fails the validity check the lecturer says to apply strictly #common-mistake #struggle
+> $m\hat{p}_1=101$, $m\hat{q}_1=90$, $n\hat{p}_2=56$, $n\hat{q}_2=64(.125)=8$. Three of four counts clear 10, but $n\hat{q}_2=8$ does not. The slides make no comment on this. The lecturer confirmed the condition is applied strictly, so as a matter of the stated rule the example's own conditions are not met, even though $z=-4.94$ leaves the conclusion in no real doubt. In an exam, compute all four counts before trusting a two-proportion result, and do not treat a count just under 10 as close enough.
 
 -> The confidence interval for $p_1-p_2$ does not pool, and is worked next.
 
@@ -225,6 +225,8 @@ Version B, the lecture's illustration, $\alpha=.10$ (source: lecture, confirmed 
 $$F_{.05,5,7}=3.97$$
 Since $8.37\ge3.97$, reject $H_0$, the same conclusion.
 
+Version B was a classroom workaround for a missing table column. The lecturer's reply is that the table should simply be used correctly, and that the degrees of freedom and significance level asked for will be available in the exam table (source: lecturer email). So in an exam, use the $\alpha$ the question states, never a substitute chosen to fit the table.
+
 The shortcut (source, slide 26, not only a lecturer convention) #exam-flagged
 It is not necessary to use the lower-tail critical value if the group with the larger variance is put on top, so $f\ge1$ and the only comparison needed is with the upper critical value. This does not change the result, so it is not cheating to simplify the test this way.
 ```
@@ -251,7 +253,7 @@ Do not forget, F test
 
 ## The n > 30 vs n > 40 Threshold, a Running Reference
 
-Both numbers gate the same move, using $S$ in place of an unknown $\sigma$, and the underlying calculation does not change between them, only the label attached to the statistic, the table read, and the stated justification. #struggle
+Both numbers gate the same move, using $S$ in place of an unknown $\sigma$, and the underlying calculation does not change between them, only the label attached to the statistic, the table read, and the stated justification. The lecturer has settled which to use: 40 throughout (source: lecturer email). The "as stated" column below records what each slide literally says; the rule to apply is in the callout underneath. #struggle
 
 | Procedure | Session | Cutoff as stated in the source | Statistic |
 |---|---|---|---|
@@ -266,13 +268,17 @@ Both numbers gate the same move, using $S$ in place of an unknown $\sigma$, and 
 | Two-proportion $z$ CI | S7, Lecture 8 slide 20 | none stated | $\hat{p}_1-\hat{p}_2\pm z_{\alpha/2}\sqrt{\hat{p}_1\hat{q}_1/m+\hat{p}_2\hat{q}_2/n}$ |
 | $F$ test for two variances | S7, Lecture 8 | none; exact under normality, no sample-size rule | $f=s_1^2/s_2^2$ |
 
-> [!note] The 30 vs 40 split is an unreconciled source inconsistency #common-mistake #struggle
-> The vault's S3 and S4 material gives a reason for 40 (substituting $S$ for $\sigma$ adds variability beyond what the CLT alone handles), and that reasoning is sound. What it does not explain is why the S5 test slide still says 30 while the CI and every two-sample large-sample slide say 40. Nothing in the source reconciles this, and it is one of four items in a clarification email drafted this session, pending the lecturer's answer. Until then, use whichever cutoff the specific procedure's own slide states, not a single number applied everywhere.
+> [!note] Resolved by the lecturer: use 40 throughout, and apply the proportion condition strictly #common-mistake #struggle
+> Four questions went to the lecturer; her answers, in order (source: lecturer email):
+> 1. Large-sample cutoff for a mean: use $m>40$ (and $n>40$ for two samples) throughout. The S5 slide's $n>30$ is superseded by this in an exam. The vault's S3 and S4 material gives the reason for 40 (substituting $S$ for $\sigma$ adds variability beyond what the CLT alone handles).
+> 2. Two proportions: use the textbook rule, all of $m\hat{p}_1,m\hat{q}_1,n\hat{p}_2,n\hat{q}_2\ge10$, applied strictly. Example 9.11 has $n\hat{q}_2=8$, so it fails.
+> 3. Pooled $t$: the condition is "$m<40$ and/or $n<40$", as on the CI slide. Her reply does not separately mention the test slide, which prints "and"; treat and/or as the rule for both.
+> 4. $F$ test: use the table correctly. The degrees of freedom and significance level asked for will be in the exam table, so the $\alpha=.10$ substitution was a lecture-only workaround. The larger-variance-on-top shortcut was not contradicted.
 
 ## See also
 - [[STA01B1_Notes_S1_Statistics_and_Sampling_Distributions]] — the variance-addition step for independent sums, used here for $\hat{p}_1-\hat{p}_2$.
 - [[STA01B1_Notes_S2_Point_Estimation]] — $\hat{p}$ as $\bar{X}$ of 0/1 indicators, why proportion procedures parallel mean procedures.
 - [[STA01B1_Notes_S3_Statistical_Intervals]] — the one-sample proportion CI and its $n>10$ validity condition, extended here to two samples.
 - [[STA01B1_Notes_S4_Intervals_Based_on_a_Normal_Population]] — the one-sample $t$ machinery that the paired test reduces to.
-- [[STA01B1_Notes_S5_Hypothesis_Testing]] — the seven-step test procedure and the $n>30$ large-sample cutoff, contrasted with $n>40$ above.
+- [[STA01B1_Notes_S5_Hypothesis_Testing]] — the seven-step test procedure; its $n>30$ large-sample cutoff is superseded by $n>40$ (see the callout above).
 - [[STA01B1_Notes_S6_Inferences_Based_on_Two_Samples]] — the two-sample mean fork (known variance, large-sample, pooled $t$) that this session's proportion and variance forks parallel.
