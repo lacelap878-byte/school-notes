@@ -10,7 +10,7 @@ S2 | C++20 Modules (module concept, first module, export blocks, prototypes vs i
 S3 | Classes and Data Abstraction (class syntax, UML, objects, scope, constructors/destructors, ADTs, struct vs class, information hiding, static members) | full | open struggle no
 S4 | Object Composition and Inheritance (OOD, UML, association, composition, inheritance syntax, overriding, derived-class constructors/destructors, protected members, stream hierarchy) | full | open struggle no
 S5 | Polymorphism (virtual functions, late binding, pure virtual and abstract classes, slicing, virtual destructors, casting, vtable) | full | open struggle no
-S6 | Operator overloading (fundamentals, this pointer, friend functions, binary/stream/assignment/unary/increment/subscript overloads) and templates (function and class) | full | open struggle no
+S6 | Operator overloading (fundamentals, this pointer, friend functions, binary/stream/assignment/unary/increment/subscript overloads) and templates (function and class, header layout) | full | open struggle yes (8 items, quiz 0 of 8)
 S7 | File handling (secondary storage and streams, sequential file I/O, opening modes and flags, output formatting, random access, raw disk I/O, padding and #pragma pack, DLLs with implicit and explicit linking) | full | open struggle yes
 ```
 
@@ -39,7 +39,7 @@ S7 covered Lecture 6 in teach mode:
 - DLLs: static vs dynamic linking, three-file layout (header, implementation, application), include guard, dllexport/dllimport macro switch, extern "C" and name mangling, __stdcall, MinGW compile flags, import library, implicit and explicit linking (LoadLibrary, GetProcAddress, FreeLibrary), DllMain, the .impl.cpp naming.
 - A guided coding exercise (write three Score records to scores.dat, seek to one, read it back, output `Bob 75`) that exposed several live mistakes. Struggle items remain open pending retest.
 
-Earlier sessions: see ledger.
+S6 (Lecture 5): seven parts on operator overloading and templates; session-end quiz 0 of 8, all eight items still open. S1 to S5: one line each in the ledger.
 
 ## 5. LAST POSITION
 Lecture 6 fully covered, Q&A, quiz and coding exercise done. The session-end mutual recap and final quiz were not run. Notes redone to protocol.
@@ -53,6 +53,6 @@ PROFILE cs
 MODULE CODE CSC01B1
 Paste this handoff memo and CSC01B1_StruggleLog_S7_FileHandling.md
 at the start of the next session.
-Retest the open struggle items first (see struggle log section 5).
+Run the session-start revision quiz first on the open items, S6 slide-level items first (member vs friend by left operand, post-increment return value, [] const overloads, default = with pointer members), then the S7 items. Tell me first if the S6 and S7 notes have not been re-read.
 CSC01B1-2026-L7.pdf is in the project (not yet checked).
 ```

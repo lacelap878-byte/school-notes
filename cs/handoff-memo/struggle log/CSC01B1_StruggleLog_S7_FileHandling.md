@@ -1,6 +1,31 @@
 Supersedes S1 to S6.
 
 ## 1. OPEN ITEMS (unresolved, oldest first)
+S6 items, carried in full from the S6 struggle log. All came from the S6 session-end quiz (0 of 8 correct) and were not retested in S7, so all stay open.
+```
+concept                                   | first seen | misconception                                              | sessions persisting
+------------------------------------------|------------|------------------------------------------------------------|--------------------
+Member vs friend, left operand not class  | S6         | Chose that 5.0 + m could be a member. A member is called   | 2
+                                          |            | on its left operand, so 5.0 + m must be a nonmember.      |
+Post-increment return value               | S6         | Thought returning *this fails for speed. The bug is that   | 2
+                                          |            | it returns the already-incremented object; return the     |
+                                          |            | saved copy (temp).                                         |
+[] on a const object                      | S6         | Thought a non-const-only overload compiles because the     | 2
+                                          |            | body only reads. The signature decides, so a const        |
+                                          |            | overload must exist.                                       |
+Copy constructor vs assignment trigger    | S6         | Chose a = b (both exist) as the copy constructor case.    | 2
+                                          |            | Copy constructor: new object from existing (Clock c = b). |
+Default = with a pointer member           | S6         | Thought it does not compile. It compiles and copies the   | 2
+                                          |            | address: a leak and a double free.                         |
+Scope of template <class Type>            | S6         | Thought it works when Type is int elsewhere. It covers    | 2
+                                          |            | only the one declaration beneath it.                       |
+Template definitions in a separate .cpp   | S6         | Thought it builds. It fails at LINK time with undefined   | 2
+                                          |            | reference (also for function templates).                   |
+Class template member defined outside    | S6         | Wrote Type Box::get() const. Needs its own template       | 2
+                                          |            | <class Type> line and Box<Type>::.                         |
+```
+
+S7 items.
 ```
 concept                                   | first seen | misconception                                              | sessions persisting
 ------------------------------------------|------------|------------------------------------------------------------|--------------------
@@ -31,25 +56,29 @@ Off-by-one record index                   | S7         | "2nd record" is index 1
 Header offset in record counting          | S7         | Record count and seek offsets must subtract/add the header | 1
                                           |            | size.                                                      |
 ```
+
 All items stay open until answered correctly under retest.
 
-## 2. RESOLVED (earlier sessions)
-```
-resolved S6 | = versus copy constructor kept separate
-resolved S6 | Scope of the operator overloading requirement
-resolved S6 | Template declaration scope (one declaration only)
-resolved S6 | Class templates skipping template <class Type>
-```
+## 2. RESOLVED THIS SESSION
+None.
 
 ## 3. NOTATION AND TERMINOLOGY STILL CAUSING TROUBLE
 Jargon in the DLL material (dllexport, dllimport, __stdcall, extern "C", HINSTANCE, .impl.cpp, -D, -Wl,--out-implib) caused the most trouble. Concepts were fine, keywords were not.
 
 ## 4. PATTERNS ACROSS SESSIONS
-Assuming two independent things are one shared thing: S5 (inheritance subobjects), S6 (= and copy constructor, template scope), S7 (seekg and seekp). Watch any topic with parallel but independent mechanisms.
+Assuming two independent things are one shared thing: S5 (inheritance subobjects), S6 (= and copy constructor, template scope; still open), S7 (seekg and seekp). Watch any topic with parallel but independent mechanisms.
 
 Recognition versus production (S7): quiz answers were fine, but writing code from a blank page required six live corrections. Close future sessions with a write-it-yourself exercise.
 
 ## 5. RETEST FIRST (ranked)
+S6 slide-level items first (likeliest on ST2), then S7.
+S6a. Member vs friend when the left operand is not the class type.
+S6b. Post-increment return value.
+S6c. [] const and non-const overloads.
+S6d. Default = with a pointer member; copy constructor vs assignment trigger.
+S6e. Where template definitions must live and the link error; class template member outside the class; scope of template <class Type>.
+
+S7 items:
 1. Which of seekg and seekp governs .read() and which governs .write(), and does moving one move the other?
 2. Write from scratch: open a binary fstream with combined flags, write records, seek to an index, read one back.
 3. Calculate sizeof for a struct by hand, showing where padding goes, then reorder and recalculate.
