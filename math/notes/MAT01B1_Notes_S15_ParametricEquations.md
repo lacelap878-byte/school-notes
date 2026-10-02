@@ -78,7 +78,9 @@ One full arch (one complete rotation of the circle) corresponds to $0\le\theta\l
 left=-1; right=14;
 top=3; bottom=-0.5;
 ---
-(t-\sin(t),1-\cos(t))\left\{0\le t\le4\pi\right\}
+f(y)=\arccos(1-y)-\sqrt{2y-y^2}
+g(y)=2\pi-f(y)
+(x-f(y))(x-g(y))(x-2\pi-f(y))(x-2\pi-g(y))=0
 ```
 
 ## See also
