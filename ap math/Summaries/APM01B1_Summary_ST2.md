@@ -10,7 +10,7 @@ tags: [exam-flagged]
 
 Personal notebook photos, 34 pages, badly non-chronological (the incline example starts on page 34 and finishes on page 1; the separable-ODE warm-up starts on page 2 and finishes on page 25; the angular-momentum theorem used from page 9 onward isn't itself derived until page 30). Dynamics and Multivariable Functions content is interleaved page-to-page in the source; only the dynamics threads are covered here. Cross-checked against `Notes_-_Chapter_4.pdf` (the official course notes for Chapter 4) and Tutorials 6-9. Full detail in [[APM01B1_Notes_S2_Dynamics]].
 
-The notebook itself (page 24) records: **Semester Test 2, 3 October, content: all of Chapter 4** — i.e. exactly this session's scope.
+The notebook itself (page 24) records: **Semester Test 2, content: all of Chapter 4**, i.e. exactly this session's scope. The date has since moved to **Saturday 10 October 2026**. Format: 2 big questions, 25 marks, 70 minutes (confirmed). The lecturer said it will be very similar to the 2012 ST2, so work through the 2012 example in [[APM01B1_Extra_Examples_Dynamics]] first. (added)
 
 ## Condensed concept pass
 

@@ -123,6 +123,29 @@ $$\Rightarrow\; \frac mk\left[g+\frac km v - g\ln\!\left(g+\frac km v\right)\rig
 > [!note] N.B
 > Not every $\vec F=m\vec a$ is solvable analytically in closed form for $z(t)$ directly, this result is an *implicit* relation between $v$ and $z$, and is exactly as much of a solution as the equation admits.
 
+### (added) Force depending on both $v$ and $x$: the separable chain rule
+
+#formula #added
+
+(source: handwritten "Extra work (ST2 2012 Q1)" and "Test 2 Revision" pages)
+
+Suppose the force on the particle along $\hat x$ factorises as $F_x=f(v_x,x)=f_1(v_x)\,g_1(x)$. Use $a=v\,dv/dx$:
+
+$$m\,v_x\frac{dv_x}{dx}=f_1(v_x)\,g_1(x)\;\Rightarrow\;m\int\frac{v_x}{f_1(v_x)}\,dv_x=\int g_1(x)\,dx$$
+
+Each side is a single-variable integral. If $f_1$ is constant (a pure position force $F_x=g_1(x)$) the left side is $\tfrac12 m v_x^2$.
+
+> [!example] Cubic drag, $F=-kv^3$ (no other force)
+> Time form: $m\dot v=-kv^3\Rightarrow\dfrac1{v^2}=\dfrac1{v_0^2}+\dfrac{2k}{m}t$.
+> Position form: $m v\,\dfrac{dv}{dx}=-kv^3\Rightarrow\dfrac1v=\dfrac1{v_0}+\dfrac km x$, so $v=\dfrac{v_0}{1+kv_0x/m}$.
+> Equating the two gives $x(t)$ as a quadratic in $x$: $\left(1+\dfrac{kv_0}{m}x\right)^2=1+\dfrac{2kv_0^2}{m}t$, so
+> $$x(t)=\frac{m}{kv_0}\left(\sqrt{1+\frac{2kv_0^2}{m}t}-1\right)$$
+> Units: $k$ in kg m$^{-2}$ s, $m$ in kg, $v_0$ in m/s, $t$ in s. Checked numerically.
+
+N.B The particle never stops at a finite $x$ under cubic drag ($v\to0$ only as $x\to\infty$). If instead the force is $F_x=-cx^n$ alone, $v_x=0$ at a **finite** turning point $x^*=\left(\dfrac{(n+1)m v_0^2}{2c}\right)^{1/(n+1)}$, and the particle comes back. Check which case you are in before writing "stops".
+
+Worked past-paper use: see the 2012 ST2 example in [[APM01B1_Extra_Examples_Dynamics]].
+
 ## Position-dependent force: springs and simple harmonic motion
 
 ### Setup
@@ -541,6 +564,29 @@ $$\boxed{\vec J_O = \Delta\vec H_O}$$
 
 directly analogous to $\Delta\vec p=\int\vec F\,dt$ above.
 
+## (added) Work and energy
+
+#theorem #added
+
+> [!warning] Scope
+> The typed Chapter 4 notes have no Work and Energy section, and the handwritten notes stop at the question "does this reproduce the normal 1D case?". What follows is the derivation that completes it. Treat it as supporting material, not as lecturer-confirmed content.
+
+**1D.** From $a=v\,dv/dx$,
+
+$$F=m\,v\frac{dv}{dx}=\frac{d}{dx}\left(\tfrac12 mv^2\right)\;\Rightarrow\;\int_{x_1}^{x_2}F\,dx=\Delta K,\qquad K=\tfrac12 mv^2$$
+
+If $F=-dU/dx$ then $\Delta K=-\Delta U$, so $E=K+U$ is constant ($\Delta E=0$).
+
+**3D.** Define the work $W=\int\vec F\cdot d\vec r$. With $\vec F=m\ddot{\vec r}$ and $d\vec r=\dot{\vec r}\,dt$,
+
+$$\vec F\cdot d\vec r=m\,\ddot{\vec r}\cdot\dot{\vec r}\,dt=d\left(\tfrac12 m|\dot{\vec r}|^2\right)\;\Rightarrow\;W=\Delta K$$
+
+**Reproduces 1D?** For motion along $\hat x$, $d\vec r=dx\,\hat x$ so $\vec F\cdot d\vec r=F_x\,dx$, which is the 1D result.
+
+Units: $W$ and $K$ in J, $F$ in N, $m$ in kg.
+
+For a central force the same idea gives the energy equation $\tfrac12 m v^2+\dfrac{mh^2}{2r^2}-\dfrac{GMm}{r}=E$ used in the central-force example above.
+
 ## Do not forget (Dynamics)
 
 - Classify the force first: const/$F(t)$ integrate directly; $F(v)$ use $v\,dv/dr$; $F(r)$ guess-and-verify (ansatz). Not every case is solvable in closed form.
@@ -553,9 +599,12 @@ directly analogous to $\Delta\vec p=\int\vec F\,dt$ above.
 - Impulse $\Delta\vec p=\int\vec F\,dt$ and angular impulse $\Delta\vec H=\int\vec M\,dt$ are directly analogous.
 - Total momentum of a two-particle system is conserved whenever they interact only with each other, elastic vs inelastic is about whether kinetic energy is *also* conserved, never automatic.
 - $F(r)\propto -r$ (a spring, or gravity inside a uniform sphere) is always SHM; recognising the functional form avoids re-deriving the ansatz from scratch.
+- When $F$ factorises as $f_1(v_x)g_1(x)$, use $v\,dv/dx$ and separate. Turning points ($v=0$ at finite $x$) exist for pure position forces but not for drag. (added)
+- $W=\int\vec F\cdot d\vec r=\Delta K$ follows from N2 in one line, not a new law. (added)
 - Two particles interacting only via an internal force (e.g. a connecting spring) decouple into a freely-moving centre of mass and a relative coordinate that obeys the one-body equation with the reduced mass $\mu=m_1m_2/(m_1+m_2)$ in place of $m$.
 
 ## See also
 
+- [[APM01B1_Extra_Examples_Dynamics]] (past-paper worked examples, including the 2012 and 2024 ST2 addendum)
 - [[APM01B1_Notes_S1_PolarIntrinsicCoordinates]] (Session 1, Kinematics — required background: polar and intrinsic coordinates, vector differentiation, Newton's second law and the path equation, the two edge cases)
 - `APM01B1_Proofs_ST1.md`, `APM01B1_Summary_ST1.md` (scope-locked to the ST1 kinematics test, unaffected by this session)
