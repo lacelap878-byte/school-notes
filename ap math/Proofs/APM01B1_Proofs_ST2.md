@@ -291,3 +291,28 @@ $$\int_{t_1}^{t_2}\vec M_O\,dt = \vec H_O(t_2)-\vec H_O(t_1)$$
 $$\therefore\ \vec J_O \equiv \int_{t_1}^{t_2}\vec M_O\,dt = \Delta\vec H_O \qquad\blacksquare$$
 
 (see: [[APM01B1_Notes_S2_Dynamics#(added) Definition]])
+
+## (added) Separable $v$ and $x$ force, $F_x=f_1(v_x)g_1(x)$
+
+#theorem #added
+
+**Claim.** If $F_x=f_1(v_x)\,g_1(x)$ then $m\displaystyle\int\frac{v_x}{f_1(v_x)}\,dv_x=\int g_1(x)\,dx$.
+
+**Proof.** Newton's second law gives $m\ddot x=f_1(v_x)g_1(x)$. By the chain rule,
+$$\ddot x=\frac{dv_x}{dt}=\frac{dv_x}{dx}\frac{dx}{dt}=v_x\frac{dv_x}{dx}$$
+so $m\,v_x\dfrac{dv_x}{dx}=f_1(v_x)g_1(x)$. Divide by $f_1(v_x)$ and integrate in $x$; the left side depends only on $v_x$ and the right side only on $x$. $\blacksquare$
+
+**Special case (turning point).** For $F_x=-cx^n$ ($f_1=1$), $\tfrac12 m v_x^2=\tfrac12 m v_{0x}^2-\dfrac{c\,x^{n+1}}{n+1}$, so $v_x=0$ at
+$$x^*=\left(\frac{(n+1)\,m\,v_{0x}^2}{2c}\right)^{1/(n+1)}$$
+Symbols: $c$ in N m$^{-n}$, $m$ in kg, $v_{0x}$ in m/s. For the 2012 ST2 ($n=2$, $c=1$): $x^*=\left(\tfrac32 m v_0^2\cos^2\theta\right)^{1/3}$.
+
+## (added) Work-energy theorem, $W=\int\vec F\cdot d\vec r=\Delta K$
+
+#theorem #added
+
+**Proof.** With $\vec F=m\ddot{\vec r}$ and $d\vec r=\dot{\vec r}\,dt$,
+$$\vec F\cdot d\vec r=m\,\ddot{\vec r}\cdot\dot{\vec r}\,dt=d\left(\tfrac12 m\,\dot{\vec r}\cdot\dot{\vec r}\right)$$
+because $\dfrac{d}{dt}(\dot{\vec r}\cdot\dot{\vec r})=2\,\ddot{\vec r}\cdot\dot{\vec r}$. Integrating along the path gives $W=\Delta K$. If $\vec F=-\nabla U$ then $W=-\Delta U$, so $K+U$ is constant. For motion along $\hat x$ this is $\int F\,dx=\Delta(\tfrac12 mv^2)$. $\blacksquare$
+
+> [!warning] Scope
+> Neither the typed Chapter 4 nor the end of the handwritten notes carries a Work and Energy section, so this is the derivation that completes the notebook's last question, not lecturer-confirmed test content.
