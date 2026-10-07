@@ -50,6 +50,12 @@ $$SSE = SST - SSTr$$
 - Say it in words for the context: at the stated level there is evidence that at least two group means differ.
 - If $H_0$ is rejected, Tukey comes next: $w = Q_{\alpha,\,I,\,I(J-1)}\sqrt{MSE/J}$. The second subscript is $I$ and the third is the error df, not the total df.
 
+## Rounding #common-mistake
+- Never round the three pieces to whole numbers. Keep at least 2 decimals, and keep the calculator's full value if you can (type the piece, press `=`, then use `Ans` in the next line).
+- $SSE = SST - SSTr$ is a subtraction, so any rounding in the two pieces is magnified in $SSE$. Round only at the end: $F$ to 2 decimals, compared with the table value.
+- A rounded $SSE$ can change the decision only when $F$ is close to the critical value, but that is exactly where a test question tends to sit. Do not take the chance.
+- Check: $SST = SSTr + SSE$ should hold to within the last decimal you kept.
+
 ## Slips to avoid #common-mistake #struggle
 - Multiplying the grand total piece by $IJ$ again. The 15 copies are already inside $x_{\cdot\cdot}^2/IJ$, so doing it again gives a huge negative $SST$. The double sum belongs only on the first term.
 - Using means where totals belong. In the computing formulas $x_{i\cdot}$ and $x_{\cdot\cdot}$ are totals, with no bars.
