@@ -62,7 +62,7 @@ Words used in this file, and what each one points at. Anatomy of one signature:
 - **Reference (`&`)**: an alias to the real object, not a copy. Used so big things are not copied, and so the function can change the original.
 - **`const` on a parameter** (`const T&`): the function promises not to change what was handed in.
 - **`const` after the brackets**: the function promises not to change the left object (`this`).
-- **`const` in front of the return type**: the returned thing cannot be changed by the caller.
+- **`const` in front of the return type**: the returned thing cannot be changed by the caller. Museum picture: the `const` after the brackets is the museum's promise ("we change nothing in here"), and the `const` in front is the sign on the display case ("look, don't touch"). A museum that promised to change nothing would not hand visitors a hammer, so the read version of `()` has both, and the write version has neither.
 - **`*this`**: the left object itself. Returning it with `return *this;` is how `=`, pre `++`, and `!` hand back "the same image" so the call can be chained.
 - **Mutator**: a function that changes the object (`=`, `++`, `!` in these drills). An accessor only reads it (`==`, `+`, read `()`).
 - **Temporary**: a short-lived value made while evaluating an expression, like the result of `a + b`. Never return a reference to one or to a local variable.
