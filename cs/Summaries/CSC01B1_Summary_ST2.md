@@ -17,6 +17,7 @@ Reliability: where this file and an older session log disagree, the practice ses
 
 Click a link to jump to it.
 
+- [[#Definitions]] signature, parameter, argument, operand, image parameter and the rest, with a labelled example
 - [[#Material covered]] which session notes feed which task
 - [[#Condensed concept pass]] polymorphism, operators, files, exceptions in short
 - [[#Worked example notebook]] code examples, including the UJImage `operator=`
@@ -33,6 +34,38 @@ Click a link to jump to it.
   - [[#Final checks before submitting]]
   - [[#The bonus plan]] the exception hierarchy recipe
   - [[#Tooling note]]
+
+## Definitions
+
+Words used in this file, and what each one points at. Anatomy of one signature:
+
+```
+ return type    name           parameters (in the brackets)     after the brackets
+     |            |                       |                            |
+  UJImage&   operator=      ( const UJImage& objRHS )                  (const)
+ "what comes   "which       "what the caller hands in"           "promise about the
+  back"         operator"                                         LEFT object"
+```
+
+- **Signature**: the whole first line of a function: return type, name, parameters, and the `const` after the brackets. Learning to write signatures is learning to write that one line.
+- **Parameter**: one item inside the brackets. It is a type plus a name, like `const UJImage& objRHS`. It describes what the caller must hand in.
+- **Argument**: the actual value handed in when the function is called. In `a = b`, the argument is `b`; the parameter is `objRHS`.
+- **Return type**: the type written before the function name. It is what the caller gets back.
+- **Operand**: a thing an operator works on. In `a + b`, `a` and `b` are the operands.
+- **Left operand**: the one on the left of the operator (`a` in `a + b`). For a member operator it is the object itself, so it is not written in the brackets. In the code it is called `this`.
+- **Right operand**: the one on the right (`b`). For a member operator it is the only thing in the brackets. It is called `objRHS` ("object, right hand side").
+- **Image parameter**: a parameter whose type is `UJImage`, in other words "the other image on the right". It is the same thing as the right operand, seen from inside the function. When this file says "another image on the right?" it asks: is there a `b` in `a + b`? Then the parameter is `const UJImage& objRHS`.
+- **Member operator**: an operator written inside the class. The left operand is `this`, so the brackets only hold the right operand.
+- **Nonmember operator**: an operator written outside the class, used when the left operand is not the class (`cout << a`). Every operand is a parameter, so a binary one has two. A nonmember that needs private members is declared `friend` inside the class.
+- **Unary operator**: only one operand (`!a`, `a++`). No right operand, so no image parameter.
+- **Dummy `int`**: an `int` in the brackets of `operator++(int)` that carries no value. Its only job is to tell the compiler this is the post form (`a++`).
+- **Reference (`&`)**: an alias to the real object, not a copy. Used so big things are not copied, and so the function can change the original.
+- **`const` on a parameter** (`const T&`): the function promises not to change what was handed in.
+- **`const` after the brackets**: the function promises not to change the left object (`this`).
+- **`const` in front of the return type**: the returned thing cannot be changed by the caller.
+- **`*this`**: the left object itself. Returning it with `return *this;` is how `=`, pre `++`, and `!` hand back "the same image" so the call can be chained.
+- **Mutator**: a function that changes the object (`=`, `++`, `!` in these drills). An accessor only reads it (`==`, `+`, read `()`).
+- **Temporary**: a short-lived value made while evaluating an expression, like the result of `a + b`. Never return a reference to one or to a local variable.
 
 ## Material covered
 
