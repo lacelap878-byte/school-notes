@@ -13,6 +13,27 @@ Scope: S5 to S7 are tested. Templates (in the S6 note) and DLLs (in the S7 note)
 
 Reliability: where this file and an older session log disagree, the practice sessions of 14 and 15 October 2026 (the UJImage drills) are the most reliable record of what is known and what is not.
 
+## Contents
+
+Click a link to jump to it.
+
+- [[#Material covered]] which session notes feed which task
+- [[#Condensed concept pass]] polymorphism, operators, files, exceptions in short
+- [[#Worked example notebook]] code examples, including the UJImage `operator=`
+- [[#Common mistakes]]
+  - [[#Mistakes from the UJImage drills]] 14 and 15 October, the most reliable record
+  - [[#Not yet covered]]
+  - [[#Mistakes from the older struggle logs]]
+- [[#Tips]]
+  - [[#Operator signature decision tree]] start here when you forget a signature
+  - [[#Reading the paper]] what each operator means, and how often it appears
+  - [[#Paper shape]] T0 to T5 and the bonus, with marks
+  - [[#What the past papers show]] the 2018 to 2025 patterns
+  - [[#What is provided]] files you get on the day
+  - [[#Final checks before submitting]]
+  - [[#The bonus plan]] the exception hierarchy recipe
+  - [[#Tooling note]]
+
 ## Material covered
 
 - [[CSC01B1_Notes_S5_Polymorphism]] polymorphism, the T3 material
@@ -129,7 +150,7 @@ if(this->_pPixels[i][j].intRed != 0 || this->_pPixels[i][j].intGreen != 0 || thi
 
 Evidence from the 14 and 15 October 2026 practice sessions comes first, because it is the most recent record. Out of ST2 scope and skipped: the S6 template items and the S7 DLL jargon items.
 
-**From the UJImage drills (14 and 15 October 2026)**
+### Mistakes from the UJImage drills
 
 - <span style="color:#f08c00">Open:</span> operator signatures from memory. A cold recall of the eight declarations got one right (`++(int)`). The slips: object parameter written without `&` (four of eight), trailing `const` the wrong way (put on `=`, missing on `+` and on the read `()`), `()` returning `UJImage` instead of `RGBColour&`, and `!` given a parameter. The decision tree under Tips was written afterwards; a second cold recall has not been done yet.
 - <span style="color:#f08c00">Open:</span> `operator=` was missed on the 14 October quiz (3.5 of 5, the miss was that `=` returns `UJImage&` and ends with `return *this;`) and again on 15 October. The first attempt compared contents instead of addresses for the self check, tried to call the copy constructor on an existing object (`*this(objRHS);`), and left out `dealloc()` and the arguments to `alloc`. The cause was believing `this` is a fresh object; in `operator=` it already exists and owns memory. This is the S6 item copy constructor versus assignment, showing up in code.
@@ -141,13 +162,13 @@ Evidence from the 14 and 15 October 2026 practice sessions comes first, because 
 - Stated correctly in the user's own words on 15 October, not yet retested: `const` in front of the return type means what comes back already exists and cannot be changed through it; `const` at the end means `this` is not changed.
 - Progress to keep: copy constructor, `==`, `!=` and `getPixel` were right first time; Round 1 (T2 and T3 from a blank page) passed 9 of 9 unaided; Round 2 (the whole UJImage module from a blank page) now passes 20 of 20 with address and undefined behaviour checking on.
 
-**Not yet covered**
+### Not yet covered
 
 - `alloc` and `dealloc` written from memory (Round 2 copied them from an earlier backup file).
 - `readTXTFile` and `writeBINFile` written from memory.
 - `<<` on the user's own machine (the Linux test machine crashes on it, see Tips), the exception classes, and a timed mock on the 2025 B paper.
 
-**From the older struggle logs (S5 to S8), in ST2 scope**
+### Mistakes from the older struggle logs
 
 - Resolved in S5: slicing is the assignment running correctly on a smaller footprint, not breaking; and a derived object holds its own separate base subobject, so chained destructors do not double free.
 - <span style="color:#f08c00">Open:</span> member versus friend when the left operand is not the class type; the post-increment return value (the saved copy, not the changed object); `[]` on a const object needs the const overload because the signature decides; default `=` with a pointer member compiles and copies the address; copy constructor versus assignment.
@@ -157,7 +178,9 @@ Evidence from the 14 and 15 October 2026 practice sessions comes first, because 
 
 ## Tips
 
-**Operator signature decision tree.** Answer the questions in order.
+### Operator signature decision tree
+
+Answer the questions in order.
 
 ```
 1. Is the LEFT operand not the class (cout << a, 5.0 + a)?
@@ -181,6 +204,14 @@ Evidence from the 14 and 15 October 2026 practice sessions comes first, because 
      no  (+, ==, !=, read ())          -> const after the brackets
 5. The read version of () also has const in FRONT:
             const RGBColour& operator()(int intRow, int intCol) const;
+6. Every parameter in the brackets, ask two things:
+     Does the function change it?   yes -> T&        no -> const T&
+     Is it small (an int)?          yes -> by value  no -> by reference (&)
+   Streams can never be copied, so they are always ostream& / istream&.
+   << : ostream&  (receives output, changes)   and  const UJImage&  (only read)
+   >> : istream&  (reading advances it)        and  UJImage&        (overwritten)
+   The stream is the first parameter and is also what you return.
+   A member's left operand is this, covered by the trailing const (step 4).
 ```
 
 Worked through: `==` is a yes or no answer (bool), has an image on the right (`const UJImage& objRHS`), and does not change the left image (`const` at the end), giving `bool operator==(const UJImage& objRHS) const;`.
@@ -194,11 +225,15 @@ UJImage operator++(int);   // post, a++   has the dummy (int)
 
 Two places where the lecture note and the past papers differ, and either compiles: the lecture shows `=` returning `const className&` and pre `++` returning `className` by value, while the past papers' declarations use `UJImage&`. Where a paper provides a declaration, copy its return type. The lecture's `[]` is `Type& operator[](int index);` plus a const version, for a one dimensional container; past UJImage papers use `()` with two ints for the 2D case (`()` or `[]` appeared in 10 of 17 papers), so read what the paper says `[]` should return.
 
-**Reading the paper.** Each operator's meaning is defined by the paper, not by C++: `+` meant a pixelwise average and `!` meant all pixels black. Read that line for every operator. Operator frequency in the 2018 to 2025 papers (17 papers, recounted from the paper text on 15 October 2026): `=` 17, `()` or `[]` 10, `<<` 9, `==` or `!=` 4, `!` 4, `++` or `--` 3, `>>` 2, `+` 1. The 2025 paper A asks for `=` (deep copy), `++` post increment capped at 255, and `+` (pixelwise average of two images).
+### Reading the paper
 
-**Paper shape (2018 to 2025).** Project is UJImage (a dynamic 2D array of `RGBColour` pixels) as a C++20 modules project. T0 UML class diagram saved as PDF 10, T1 class basics 20, T2 composition and delegation 20, T3 inheritance and polymorphism 20, T4 operator overloading 15, T5 file handling 15, bonus 20 as a separate submission. The core is 100.
+Each operator's meaning is defined by the paper, not by C++: `+` meant a pixelwise average and `!` changed every pixel (in the drill, to white; check what each paper says). Read that line for every operator. Operator frequency in the 2018 to 2025 papers (17 papers, recounted from the paper text on 15 October 2026): `=` 17, `()` or `[]` 10, `<<` 9, `==` or `!=` 4, `!` 4, `++` or `--` 3, `>>` 2, `+` 1. The 2025 paper A asks for `=` (deep copy), `++` post increment capped at 255, and `+` (pixelwise average of two images).
 
-**What the 2018 to 2025 papers show (read directly from the 17 papers on 15 October 2026).**
+### Paper shape
+
+Project is UJImage (a dynamic 2D array of `RGBColour` pixels) as a C++20 modules project. T0 UML class diagram saved as PDF 10, T1 class basics 20, T2 composition and delegation 20, T3 inheritance and polymorphism 20, T4 operator overloading 15, T5 file handling 15, bonus 20 as a separate submission. The core is 100.
+
+### What the past papers show
 
 - Every paper has T0 to T5 plus a 20 mark bonus, of which you pick one (Templates, DLLs or Exception Handling). In 2025 the paper says 120 marks are available but the maximum is 100, so the bonus can cover lost core marks. Marks: T0 10, T1 20 (constructors 5, destructors 5, information hiding 5, .h and .cpp 3, comments 2), T2 20 (has-a 5, lifecycle 5, delegation 5, algorithm 5), T3 20 (abstract base 5, overriding 5, polymorphism 5, member visibility 5), T4 15 (5 per operator), T5 15 (define structure 5, write 5, read 5).
 - T2 is always the same shape: a container class creates a helper object in its constructor, deletes it in its destructor, and delegates one void member function to it. T3 turns the helper into an abstract base class with one pure virtual function and two derived classes whose constructors take parameters (a threshold, a flag, a seed); the container then calls it polymorphically. Variants seen: a pure virtual `clone` (2020) and virtual mutators (2019 B).
@@ -210,10 +245,18 @@ Two places where the lecture note and the past papers differ, and either compile
 - `<<` risk: all three 2025 main files do `cout << objImage << endl;` but the 2025 T4 lists do not ask for `<<`, and the paper does not say where it comes from. Be ready to write it (P3: the magic number `P3`, columns and rows, max intensity, then red green blue per pixel).
 - Utils risk: all three 2025 main files `import Utils;` and build.bat compiles `utils.cpp` first, but no utils.cpp is provided and the paper text never mentions it. Its place in the build order (before UJImage.cpp) and T5 asking you to define `RGBColour` suggest the packed `RGBColour` struct may belong in Utils. This is an inference, not something the paper states. On the day, look at the file list first: if utils.cpp exists, read it before writing anything; if it does not, create it.
 
-**What is provided.** Only `main.cpp`, `build.bat` and the data file. `build.bat` compiles `utils.cpp`, which is not provided, so do not assume `alloc`, `dealloc` or the getters are given: write the whole class. `build.bat` also runs `del *.bak`.
+### What is provided
 
-**Final checks before submitting.** Every out-of-class definition starts with `ClassName::`. Every function that returns a value has its `return`. Object parameters are `const UJImage&`. `operator=` uses `this != &objRHS`. Run the whole thing once with `build.bat` before submitting.
+Only `main.cpp`, `build.bat` and the data file. `build.bat` compiles `utils.cpp`, which is not provided, so do not assume `alloc`, `dealloc` or the getters are given: write the whole class. `build.bat` also runs `del *.bak`.
 
-**The bonus plan.** One module `UJImageException` (a class with a string message, a constructor and a `what()` function), with `IndexException` and `FileException` derived from it, each in its own module, but only as many as the bonus question asks for. The user's reading of the spec is that one place that throws is enough, either a range check in `operator()` (an `enforceRange` helper called first thing, throwing `IndexException`) or a file that fails to open (`FileException`); confirm that against the bonus question itself. `getPixel` and `setPixel` keep ignoring out of range, because the spec and the tests say so. Keep the exception modules out of the core submission, since `build.bat` compiles a fixed list of modules; work in a separate copy of the project.
+### Final checks before submitting
 
-**Tooling note.** The g++ 11.4 test machine crashes when a module defines `operator<<` for `ostream` and the importing file uses `std::string`. This looks like a GCC 11 limit, not a code error, so test `<<` on the user's own machine.
+Every out-of-class definition starts with `ClassName::`. Every function that returns a value has its `return`. Object parameters are `const UJImage&`. `operator=` uses `this != &objRHS`. Run the whole thing once with `build.bat` before submitting.
+
+### The bonus plan
+
+One module `UJImageException` (a class with a string message, a constructor and a `what()` function), with `IndexException` and `FileException` derived from it, each in its own module, but only as many as the bonus question asks for. The user's reading of the spec is that one place that throws is enough, either a range check in `operator()` (an `enforceRange` helper called first thing, throwing `IndexException`) or a file that fails to open (`FileException`); confirm that against the bonus question itself. `getPixel` and `setPixel` keep ignoring out of range, because the spec and the tests say so. Keep the exception modules out of the core submission, since `build.bat` compiles a fixed list of modules; work in a separate copy of the project.
+
+### Tooling note
+
+The g++ 11.4 test machine crashes when a module defines `operator<<` for `ostream` and the importing file uses `std::string`. This looks like a GCC 11 limit, not a code error, so test `<<` on the user's own machine.
