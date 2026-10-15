@@ -164,6 +164,8 @@ Evidence from the 14 and 15 October 2026 practice sessions comes first, because 
      yes -> nonmember friend, and << and >> always are:
             friend ostream& operator<<(ostream&, const UJImage&);
             friend istream& operator>>(istream&, UJImage&);   (no const, it is written into)
+            In a module, declare it outside the class with export, and make it a friend only
+            if it touches private members. Not yet tested on the user's machine (the << round).
 2. Otherwise it is a member. What does it give back?
      a yes or no answer (==, !=)            -> bool
      a pixel or element (() and [])         -> RGBColour&  (write)  and  const RGBColour&  (read)
@@ -173,7 +175,7 @@ Evidence from the 14 and 15 October 2026 practice sessions comes first, because 
 3. Is there another image on the right (a + b, a == b, a = b)?
      yes -> the parameter is:  const UJImage& objRHS
      no  -> no image parameter: ! takes nothing, post ++ and -- take a dummy (int),
-            () takes two ints
+            () takes two ints, [] takes one index (an int, or a const string& id, as in 2021 morning)
 4. Does it change the LEFT image?
      yes (=, ++, --, !, write ())      -> nothing after the brackets
      no  (+, ==, !=, read ())          -> const after the brackets
