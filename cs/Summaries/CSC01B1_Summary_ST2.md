@@ -115,7 +115,7 @@ UJImage UJImage::operator++(int){
 objResult._pPixels[i][j].intRed = (_pPixels[i][j].intRed + objRHS._pPixels[i][j].intRed) / 2;
 ```
 
-- UJImage `!`, true only if every pixel is `{0,0,0}`: return `false` on the first pixel with any colour, `return true;` after the loops (source: the user's R2 drill, 15 October 2026):
+- UJImage `!` as the R2 drill defined it, a yes or no check that is true only if every pixel is `{0,0,0}`. Warning: that meaning is the drill's own, not the papers' (see Tips, What the 2018 to 2025 papers show). The part to keep is the loop pattern: return `false` on the first counterexample, `return true;` after the loops (source: the user's R2 drill, 15 October 2026):
 
 ```cpp
 if(this->_pPixels[i][j].intRed != 0 || this->_pPixels[i][j].intGreen != 0 || this->_pPixels[i][j].intBlue != 0){
@@ -165,18 +165,18 @@ Evidence from the 14 and 15 October 2026 practice sessions comes first, because 
             friend ostream& operator<<(ostream&, const UJImage&);
             friend istream& operator>>(istream&, UJImage&);   (no const, it is written into)
 2. Otherwise it is a member. What does it give back?
-     a yes or no answer (==, !=, !)         -> bool
+     a yes or no answer (==, !=)            -> bool
      a pixel or element (() and [])         -> RGBColour&  (write)  and  const RGBColour&  (read)
-     the same image (=, pre ++, pre --)     -> end with:  return *this;
-                                               = and pre ++ and --:  UJImage&
+     the same image (=, pre ++, pre --, !)  -> end with:  return *this;
+                                               returns UJImage&
      a NEW image (+, post ++, post --)      -> UJImage, by value
 3. Is there another image on the right (a + b, a == b, a = b)?
      yes -> the parameter is:  const UJImage& objRHS
      no  -> no image parameter: ! takes nothing, post ++ and -- take a dummy (int),
             () takes two ints
 4. Does it change the LEFT image?
-     yes (=, ++, --, write ())         -> nothing after the brackets
-     no  (+, ==, !=, !, read ())       -> const after the brackets
+     yes (=, ++, --, !, write ())      -> nothing after the brackets
+     no  (+, ==, !=, read ())          -> const after the brackets
 5. The read version of () also has const in FRONT:
             const RGBColour& operator()(int intRow, int intCol) const;
 ```
@@ -192,9 +192,21 @@ UJImage operator++(int);   // post, a++   has the dummy (int)
 
 Two places where the lecture note and the past papers differ, and either compiles: the lecture shows `=` returning `const className&` and pre `++` returning `className` by value, while the past papers' declarations use `UJImage&`. Where a paper provides a declaration, copy its return type. The lecture's `[]` is `Type& operator[](int index);` plus a const version, for a one dimensional container; past UJImage papers use `()` with two ints for the 2D case (`()` or `[]` appeared in 10 of 17 papers), so read what the paper says `[]` should return.
 
-**Reading the paper.** Each operator's meaning is defined by the paper, not by C++: `+` meant a pixelwise average and `!` meant all pixels black. Read that line for every operator. Operator frequency in the 2018 to 2025 papers (17 papers): `=` every time, `()` or `[]` 10, `<<` 9, `==` or `!=` 5, `!` 4, `++` or `--` 3, `>>` 2, `+` 1. The 2025 paper A asks for `=` (deep copy), `++` post increment capped at 255, and `+` (pixelwise average of two images).
+**Reading the paper.** Each operator's meaning is defined by the paper, not by C++: `+` meant a pixelwise average and `!` meant all pixels black. Read that line for every operator. Operator frequency in the 2018 to 2025 papers (17 papers, recounted from the paper text on 15 October 2026): `=` 17, `()` or `[]` 10, `<<` 9, `==` or `!=` 4, `!` 4, `++` or `--` 3, `>>` 2, `+` 1. The 2025 paper A asks for `=` (deep copy), `++` post increment capped at 255, and `+` (pixelwise average of two images).
 
 **Paper shape (2018 to 2025).** Project is UJImage (a dynamic 2D array of `RGBColour` pixels) as a C++20 modules project. T0 UML class diagram saved as PDF 10, T1 class basics 20, T2 composition and delegation 20, T3 inheritance and polymorphism 20, T4 operator overloading 15, T5 file handling 15, bonus 20 as a separate submission. The core is 100.
+
+**What the 2018 to 2025 papers show (read directly from the 17 papers on 15 October 2026).**
+
+- Every paper has T0 to T5 plus a 20 mark bonus, of which you pick one (Templates, DLLs or Exception Handling). In 2025 the paper says 120 marks are available but the maximum is 100, so the bonus can cover lost core marks. Marks: T0 10, T1 20 (constructors 5, destructors 5, information hiding 5, .h and .cpp 3, comments 2), T2 20 (has-a 5, lifecycle 5, delegation 5, algorithm 5), T3 20 (abstract base 5, overriding 5, polymorphism 5, member visibility 5), T4 15 (5 per operator), T5 15 (define structure 5, write 5, read 5).
+- T2 is always the same shape: a container class creates a helper object in its constructor, deletes it in its destructor, and delegates one void member function to it. T3 turns the helper into an abstract base class with one pure virtual function and two derived classes whose constructors take parameters (a threshold, a flag, a seed); the container then calls it polymorphically. Variants seen: a pure virtual `clone` (2020) and virtual mutators (2019 B).
+- T4 always has three operators and `=` (deep copy) is always one of them. The other two come from: `()` or `[]` 10 of 17, `<<` 9, `==` or `!=` 4, `!` 4, `++` or `--` 3, `>>` 2, `+` 1.
+- `!` has never been a yes or no check. It changed the image: reset the grid (2021 afternoon), flip active and inactive pixels (2024 C), set every value to 255 (2025 B and C). The 2025 B main calls it as a plain statement, `!objCopy;`. So `!` is a mutator: no `const` after the brackets, and `UJImage&` with `return *this;` is a safe return.
+- T5: in 14 of 17 papers the read (text) and write (binary) are member functions of UJImage. In 2025 they are free functions in main.cpp with fixed signatures: `UJImage readTXTFile(string strFileName);` and `void writeBINFile(string strFileName, const UJImage& objImage);`. The direction flipped twice (2019 B and 2025 C): read a binary file and write a text file in P3 format, with signatures `void readBINFile(string strFileName, UJImage& objImage);` and `void writeTXTFile(string strFileName, const UJImage& objImage);`. Practise both directions.
+- Bonus wording: "errors related to indexing and file handling using an inheritance hierarchy of exception classes. Update main accordingly." is the wording in every paper from 2022 to 2025. Older wordings: numerical ranges (2019 A, 2020), file handling (2019 B), impossible values (2021 afternoon), any error types (2018). So have ready a base class plus `IndexException` and `FileException`; a third derived class for a bad value or range (a colour above 255) covers the older wordings.
+- The provided main.cpp is what gets compiled, so follow it where it disagrees with the paper text. In 2025 B the paper says `invertImage` but main calls `applyFilter`, and the paper calls `==` the "post increment" operator.
+- `<<` risk: all three 2025 main files do `cout << objImage << endl;` but the 2025 T4 lists do not ask for `<<`, and the paper does not say where it comes from. Be ready to write it (P3: the magic number `P3`, columns and rows, max intensity, then red green blue per pixel).
+- Utils risk: all three 2025 main files `import Utils;` and build.bat compiles `utils.cpp` first, but no utils.cpp is provided and the paper text never mentions it. Its place in the build order (before UJImage.cpp) and T5 asking you to define `RGBColour` suggest the packed `RGBColour` struct may belong in Utils. This is an inference, not something the paper states. On the day, look at the file list first: if utils.cpp exists, read it before writing anything; if it does not, create it.
 
 **What is provided.** Only `main.cpp`, `build.bat` and the data file. `build.bat` compiles `utils.cpp`, which is not provided, so do not assume `alloc`, `dealloc` or the getters are given: write the whole class. `build.bat` also runs `del *.bak`.
 
