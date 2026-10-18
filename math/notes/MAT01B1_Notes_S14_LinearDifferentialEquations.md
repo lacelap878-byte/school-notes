@@ -127,7 +127,7 @@ $$
 y=e^{-x^2}\int_0^{x}e^{t^2}\,dt+Ce^{-x^2}.
 $$
 
-N.B This is the same situation as $\displaystyle\int_1^\infty\frac1{x^2}\,dx$-type reasoning being about *evaluating* an integral even without an elementary antiderivative, compare [[MAT01B1_Notes_S1_CalculusApplications#Improper integrals (added)]]: here, the Fundamental Theorem of Calculus is used to name the antiderivative as a definite integral with a variable upper limit, rather than to evaluate a number.
+N.B This is the same situation as $\displaystyle\int_1^\infty\frac1{x^2}\,dx$-type reasoning being about *evaluating* an integral even without an elementary antiderivative, compare [[MAT01B1_Notes_S1_CalculusApplications#Improper integrals (added)]]: here, the Fundamental Theorem of Calculus is used to name the antiderivative as a definite integral with a variable upper limit, rather than to evaluate a number. The comparison route for a non-elementary integrand, $\int_0^\infty e^{-x^2}\,dx$, is in [[MAT01B1_Notes_S1_CalculusApplications#Comparison Theorem]].
 
 ## See also
 - [[MAT01B1_Notes_S13_SeparableDifferentialEquations]]

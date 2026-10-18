@@ -36,7 +36,7 @@ tags: []
 
 **Derivatives of inverse trig and inverse hyperbolic functions.** Both families come from implicit differentiation plus a Pythagorean or hyperbolic identity, the trig set picks up an absolute value from a domain sign split that the hyperbolic set never needs. (see: [[MAT01B1_Proofs_ST1#Derivatives of inverse trig functions (added, absent from the source entirely)|derivatives of inverse trig functions]], [[MAT01B1_Proofs_ST1#Derivatives of inverse hyperbolic functions (added, absent from the source entirely)|derivatives of inverse hyperbolic functions]])
 
-**Improper integrals.** Type I (infinite interval) and Type II (asymptote in the interval) both defined as a limit. $p$-integral test and Comparison Test decide convergence when the antiderivative is hard or impossible. (see: [[MAT01B1_Notes_S1_CalculusApplications#Improper integrals (added)]])
+**Improper integrals.** Type I (infinite interval) and Type II (asymptote in the interval) both defined as a limit. $p$-integral test and Comparison Theorem decide convergence when the antiderivative is hard or impossible. (see: [[MAT01B1_Notes_S1_CalculusApplications#Improper integrals (added)]], [[MAT01B1_Notes_S1_CalculusApplications#Comparison Theorem]])
 
 ## Worked example notebook
 - $x^3-3x^2$ sign chart and concavity, (source: [[MAT01B1_Notes_S1_CalculusApplications#Curve sketching (added)]])
@@ -48,7 +48,7 @@ tags: []
 - Strategy recognition: u-sub into IBP, trig identity vs trig substitution, partial fractions vs trig substitution, (source: [[MAT01B1_Notes_S3_IntegrationExamples#Miscellaneous: mixing and matching strategies]])
 - $\int_1^{\infty}\frac{1}{x^2}\,dx$, Type I convergent, (source: [[MAT01B1_Notes_S1_CalculusApplications#Improper integrals (added)]])
 - $\int_0^1\frac{1}{\sqrt{x}}\,dx$, Type II convergent, (source: [[MAT01B1_Notes_S1_CalculusApplications#Improper integrals (added)]])
-- $\int_1^{\infty}\frac{1}{\sqrt{x^3+1}}\,dx$, Comparison Test, (source: [[MAT01B1_Notes_S1_CalculusApplications#Improper integrals (added)]])
+- $\int_1^{\infty}\frac{1}{\sqrt{x^3+1}}\,dx$, Comparison Theorem, (source: [[MAT01B1_Notes_S1_CalculusApplications#Comparison Theorem]])
 
 ## Common mistakes
 None flagged yet for this range, nothing to list without inventing one. Flag anything that trips you up while working through the notes and it goes here.

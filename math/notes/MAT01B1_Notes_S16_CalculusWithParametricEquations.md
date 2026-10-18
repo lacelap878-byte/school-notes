@@ -67,7 +67,7 @@ $$
 
 **Horizontal tangents:** $\sin\theta=0$ with $1-\cos\theta\ne0$, i.e. $\theta=(2n-1)\pi$, at points $\big((2n-1)\pi r,\,2r\big)$.
 
-**Vertical tangents:** at $\theta=2n\pi$, both $dx/d\theta$ and $dy/d\theta$ are $0$, so l'Hôpital's Rule is needed:
+**Vertical tangents:** at $\theta=2n\pi$, both $dx/d\theta$ and $dy/d\theta$ are $0$, so [[MAT01B1_Notes_S1_CalculusApplications#L'Hospital's Rule and indeterminate forms|l'Hôpital's Rule]] is needed:
 
 $$
 \lim_{\theta\to2n\pi^+}\frac{dy}{dx}=\lim_{\theta\to2n\pi^+}\frac{\sin\theta}{1-\cos\theta}=\lim_{\theta\to2n\pi^+}\frac{\cos\theta}{\sin\theta}=\infty,
