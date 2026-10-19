@@ -115,7 +115,7 @@ $$
 e^{x^2}y'+2xe^{x^2}y=e^{x^2} \;\Rightarrow\; \big(e^{x^2}y\big)'=e^{x^2} \;\Rightarrow\; e^{x^2}y=\int e^{x^2}\,dx+C.
 $$
 
-$\displaystyle\int e^{x^2}\,dx$ cannot be expressed in terms of elementary functions, so the answer is left as
+$\displaystyle\int e^{x^2}\,dx$ cannot be expressed in terms of elementary functions (see: [[MAT01B1_Notes_S1_CalculusApplications#Elementary functions and non-elementary integrals]]), so the answer is left as
 
 $$
 y=e^{-x^2}\int e^{x^2}\,dx+Ce^{-x^2}.

@@ -116,6 +116,70 @@ $$
 $$
 Reading the triangle back ($x=3\sin\theta \Rightarrow \sin\theta = x/3$), $\theta = \sin^{-1}(x/3)$, so the answer is $\sin^{-1}(x/3)+c$.
 
+### Worked examples from the lecture, section 7.3
+
+**Worked example (source, §7.3).** $\displaystyle\int\frac{\sqrt{9-x^2}}{x^2}\,dx$. Let $x=3\sin\theta$ with $-\frac\pi2\le\theta\le\frac\pi2$, so $dx=3\cos\theta\,d\theta$ and $\sqrt{9-x^2}=3\cos\theta$ (since $\cos\theta\ge0$ on that range):
+
+$$
+\int\frac{3\cos\theta}{9\sin^2\theta}\,3\cos\theta\,d\theta=\int\cot^2\theta\,d\theta=\int(\csc^2\theta-1)\,d\theta=-\cot\theta-\theta+C.
+$$
+
+Back to $x$ with a right triangle ($\sin\theta=\frac x3$, so the adjacent side is $\sqrt{9-x^2}$): $\cot\theta=\frac{\sqrt{9-x^2}}{x}$ and $\theta=\sin^{-1}\frac x3$, so
+
+$$
+\int\frac{\sqrt{9-x^2}}{x^2}\,dx=-\frac{\sqrt{9-x^2}}{x}-\sin^{-1}\frac x3+C.
+$$
+
+**Worked example (source, §7.3), area of an ellipse.** The first-quadrant part of $\frac{x^2}{a^2}+\frac{y^2}{b^2}=1$ is $y=\frac ba\sqrt{a^2-x^2}$, so $A=4\cdot\frac ba\displaystyle\int_0^a\sqrt{a^2-x^2}\,dx$. Let $x=a\sin\theta$, $dx=a\cos\theta\,d\theta$, and change the limits: $x=0\Rightarrow\theta=0$, $x=a\Rightarrow\theta=\frac\pi2$.
+
+$$
+A=4ab\int_0^{\pi/2}\cos^2\theta\,d\theta=2ab\int_0^{\pi/2}(1+\cos2\theta)\,d\theta=2ab\left[\theta+\tfrac12\sin2\theta\right]_0^{\pi/2}=\pi ab.
+$$
+
+With $a=b=r$ this is the circle's $\pi r^2$. N.B The integral is definite and the limits were changed, so there is no converting back to $x$.
+
+**Worked example (source, §7.3).** $\displaystyle\int\frac{dx}{x^2\sqrt{x^2+4}}$. Let $x=2\tan\theta$, $dx=2\sec^2\theta\,d\theta$, $\sqrt{x^2+4}=2\sec\theta$:
+
+$$
+\int\frac{2\sec^2\theta}{4\tan^2\theta\cdot2\sec\theta}\,d\theta=\frac14\int\frac{\sec\theta}{\tan^2\theta}\,d\theta=\frac14\int\frac{\cos\theta}{\sin^2\theta}\,d\theta.
+$$
+
+Put $u=\sin\theta$: $\frac14\int\frac{du}{u^2}=-\frac{1}{4\sin\theta}=-\frac{\csc\theta}{4}$. From the triangle ($\tan\theta=\frac x2$, hypotenuse $\sqrt{x^2+4}$), $\csc\theta=\frac{\sqrt{x^2+4}}{x}$:
+
+$$
+\int\frac{dx}{x^2\sqrt{x^2+4}}=-\frac{\sqrt{x^2+4}}{4x}+C.
+$$
+
+**Worked example (source, §7.3), when not to use it.** $\displaystyle\int\frac{x}{\sqrt{x^2+4}}\,dx$ has the same root, but $u=x^2+4$, $du=2x\,dx$ is simpler: $\frac12\int u^{-1/2}\,du=\sqrt{x^2+4}+C$. N.B Even when an integrand contains a root of this form, a direct $u$-substitution can beat trig substitution.
+
+**Worked example (source, §7.3), two solutions.** $\displaystyle\int\frac{dx}{\sqrt{x^2-a^2}}$, $a>0$. *Solution 1.* Let $x=a\sec\theta$, $dx=a\sec\theta\tan\theta\,d\theta$, $\sqrt{x^2-a^2}=a\tan\theta$:
+
+$$
+\int\sec\theta\,d\theta=\ln|\sec\theta+\tan\theta|+C=\ln\left|\frac xa+\frac{\sqrt{x^2-a^2}}{a}\right|+C=\ln\left|x+\sqrt{x^2-a^2}\right|+C_1,
+$$
+
+with $C_1=C-\ln a$. *Solution 2* (for $x>0$). Let $x=a\cosh t$, so $\sqrt{x^2-a^2}=a\sinh t$ and $dx=a\sinh t\,dt$: the integral is $\int dt=t+C=\cosh^{-1}\frac xa+C$. This is formula 20 in the table (see: Other standard integrals in [[MAT01B1_Notes_S2_DerivativeIntegralReference]]).
+
+**Worked example (source, §7.3), a preliminary substitution.** $\displaystyle\int_0^{3\sqrt3/2}\frac{x^3}{(4x^2+9)^{3/2}}\,dx$. The expression $4x^2+9$ isn't quite in the table, but $u=2x$ makes it $u^2+9$. Combined with the tangent substitution, $x=\frac32\tan\theta$, $dx=\frac32\sec^2\theta\,d\theta$, $(4x^2+9)^{3/2}=27\sec^3\theta$. Limits: $x=0\Rightarrow\theta=0$, $x=\frac{3\sqrt3}{2}\Rightarrow\tan\theta=\sqrt3\Rightarrow\theta=\frac\pi3$.
+
+$$
+\int_0^{\pi/3}\frac{\frac{27}{8}\tan^3\theta\cdot\frac32\sec^2\theta}{27\sec^3\theta}\,d\theta=\frac3{16}\int_0^{\pi/3}\frac{\tan^3\theta}{\sec\theta}\,d\theta=\frac3{16}\int_0^{\pi/3}\frac{1-\cos^2\theta}{\cos^2\theta}\sin\theta\,d\theta.
+$$
+
+With $u=\cos\theta$ (limits $1$ to $\frac12$): $\frac3{16}\int_{1/2}^{1}(u^{-2}-1)\,du=\frac3{16}\left[-\frac1u-u\right]_{1/2}^{1}=\frac3{16}\cdot\frac12=\frac{3}{32}$.
+
+**Worked example (source, §7.3), completing the square.** $\displaystyle\int\frac{x}{\sqrt{3-2x-x^2}}\,dx$. First $3-2x-x^2=4-(x+1)^2$. Let $u=x+1$, so $x=u-1$:
+
+$$
+\int\frac{u-1}{\sqrt{4-u^2}}\,du.
+$$
+
+Then $u=2\sin\theta$, $du=2\cos\theta\,d\theta$, $\sqrt{4-u^2}=2\cos\theta$:
+
+$$
+\int(2\sin\theta-1)\,d\theta=-2\cos\theta-\theta+C=-\sqrt{4-u^2}-\sin^{-1}\frac u2+C=-\sqrt{3-2x-x^2}-\sin^{-1}\frac{x+1}{2}+C.
+$$
+
 ## Partial Fractions
 
 **(added) Worked example (composite).** $\displaystyle\int \frac{3x+5}{(x-1)(x+2)}\,dx$. Denominator is two distinct linear factors, so
@@ -127,11 +191,135 @@ $$
 \int \frac{3x+5}{(x-1)(x+2)}\,dx = \frac{8}{3}\ln|x-1| + \frac{1}{3}\ln|x+2| + c.
 $$
 
+### Worked examples from the lecture, section 7.4
+
+**Worked example (source, §7.4), long division first.** $\displaystyle\int\frac{x^3+x}{x-1}\,dx$. The numerator's degree is not less than the denominator's, so divide: $x^3+x=(x-1)(x^2+x+2)+2$.
+
+$$
+\int\left(x^2+x+2+\frac{2}{x-1}\right)dx=\frac{x^3}{3}+\frac{x^2}{2}+2x+2\ln|x-1|+C.
+$$
+
+**Worked example (source, §7.4), Case I, two methods.** $\displaystyle\int\frac{x^2+2x-1}{2x^3+3x^2-2x}\,dx$. The denominator is $x(2x-1)(x+2)$, so
+
+$$
+\frac{x^2+2x-1}{x(2x-1)(x+2)}=\frac Ax+\frac{B}{2x-1}+\frac{C}{x+2},\qquad x^2+2x-1=A(2x-1)(x+2)+Bx(x+2)+Cx(2x-1).
+$$
+
+*Method 1, equate coefficients.* Expanding the right side gives $(2A+B+2C)x^2+(3A+2B-C)x-2A$, so $2A+B+2C=1$, $3A+2B-C=2$, $-2A=-1$. *Method 2, choose values of $x$.* $x=0$: $-1=-2A$, so $A=\frac12$. $x=\frac12$: $\frac14=\frac54B$, so $B=\frac15$. $x=-2$: $-1=10C$, so $C=-\frac1{10}$. Both give
+
+$$
+\int\frac{x^2+2x-1}{2x^3+3x^2-2x}\,dx=\frac12\ln|x|+\frac1{10}\ln|2x-1|-\frac1{10}\ln|x+2|+K.
+$$
+
+The middle term uses the mental substitution $u=2x-1$, which brings a factor $\frac12$ (that is why it is $\frac1{10}$, not $\frac15$).
+
+**Worked example (source, §7.4).** $\displaystyle\int\frac{dx}{x^2-a^2}$. Write $\frac{1}{(x-a)(x+a)}=\frac{A}{x-a}+\frac{B}{x+a}$, so $A(x+a)+B(x-a)=1$. $x=a$ gives $A=\frac1{2a}$ and $x=-a$ gives $B=-\frac1{2a}$:
+
+$$
+\int\frac{dx}{x^2-a^2}=\frac1{2a}\big(\ln|x-a|-\ln|x+a|\big)+C=\frac{1}{2a}\ln\left|\frac{x-a}{x+a}\right|+C.
+$$
+
+**Worked example (source, §7.4), Case II.** $\displaystyle\int\frac{x^4-2x^2+4x+1}{x^3-x^2-x+1}\,dx$. Divide first: the quotient is $x+1$ with remainder $4x$. The denominator factors as $(x-1)^2(x+1)$ (since $Q(1)=0$), so
+
+$$
+\frac{4x}{(x-1)^2(x+1)}=\frac{A}{x-1}+\frac{B}{(x-1)^2}+\frac{C}{x+1},\qquad 4x=A(x-1)(x+1)+B(x+1)+C(x-1)^2.
+$$
+
+Equating coefficients: $A+C=0$, $B-2C=4$, $-A+B+C=0$, giving $A=1$, $B=2$, $C=-1$:
+
+$$
+\int\left(x+1+\frac{1}{x-1}+\frac{2}{(x-1)^2}-\frac{1}{x+1}\right)dx=\frac{x^2}{2}+x+\ln|x-1|-\frac{2}{x-1}-\ln|x+1|+K.
+$$
+
+**Worked example (source, §7.4), Case III.** $\displaystyle\int\frac{2x^2-x+4}{x^3+4x}\,dx$. Since $x^3+4x=x(x^2+4)$ and $x^2+4$ is irreducible,
+
+$$
+\frac{2x^2-x+4}{x(x^2+4)}=\frac Ax+\frac{Bx+C}{x^2+4},\qquad 2x^2-x+4=(A+B)x^2+Cx+4A,
+$$
+
+so $A=1$, $B=1$, $C=-1$. Split $\frac{x-1}{x^2+4}$ into $\frac{x}{x^2+4}-\frac{1}{x^2+4}$ (the first by $u=x^2+4$, the second by the arctangent formula with $a=2$):
+
+$$
+\int\frac{2x^2-x+4}{x^3+4x}\,dx=\ln|x|+\frac12\ln(x^2+4)-\frac12\tan^{-1}\frac x2+K.
+$$
+
+**Worked example (source, §7.4), an irreducible quadratic after dividing.** $\displaystyle\int\frac{4x^2-3x+2}{4x^2-4x+3}\,dx$. Divide: $1+\frac{x-1}{4x^2-4x+3}$. The quadratic is irreducible ($b^2-4ac=-32<0$), so complete the square: $4x^2-4x+3=(2x-1)^2+2$. Let $u=2x-1$, so $x=\frac12(u+1)$ and $dx=\frac12du$:
+
+$$
+\int\frac{x-1}{4x^2-4x+3}\,dx=\frac14\int\frac{u-1}{u^2+2}\,du=\frac18\ln(u^2+2)-\frac{1}{4\sqrt2}\tan^{-1}\frac{u}{\sqrt2}.
+$$
+
+$$
+\int\frac{4x^2-3x+2}{4x^2-4x+3}\,dx=x+\frac18\ln(4x^2-4x+3)-\frac{1}{4\sqrt2}\tan^{-1}\frac{2x-1}{\sqrt2}+C.
+$$
+
+**Worked example (source, §7.4), Case IV, form only.** Writing out the decomposition without finding the constants:
+
+$$
+\frac{x^3+x^2+1}{x(x-1)(x^2+x+1)(x^2+1)^3}=\frac Ax+\frac B{x-1}+\frac{Cx+D}{x^2+x+1}+\frac{Ex+F}{x^2+1}+\frac{Gx+H}{(x^2+1)^2}+\frac{Ix+J}{(x^2+1)^3}.
+$$
+
+**Worked example (source, §7.4), Case IV, evaluated.** $\displaystyle\int\frac{1-x+2x^2-x^3}{x(x^2+1)^2}\,dx$. The form is $\frac Ax+\frac{Bx+C}{x^2+1}+\frac{Dx+E}{(x^2+1)^2}$. Equating coefficients gives $A+B=0$, $C=-1$, $2A+B+D=2$, $C+E=-1$, so $A=1$, $B=-1$, $C=-1$, $D=1$, $E=0$:
+
+$$
+\int\left(\frac1x-\frac{x+1}{x^2+1}+\frac{x}{(x^2+1)^2}\right)dx=\ln|x|-\frac12\ln(x^2+1)-\tan^{-1}x-\frac{1}{2(x^2+1)}+K.
+$$
+
+N.B This worked out nicely because $E=0$. In general a leftover $\frac{1}{(x^2+1)^2}$ term needs $x=\tan\theta$.
+
+**Worked example (source, §7.4), avoiding partial fractions.** $\displaystyle\int\frac{x^2+1}{x(x^2+3)}\,dx$. Case III would work, but $u=x(x^2+3)=x^3+3x$ gives $du=(3x^2+3)\,dx$ directly:
+
+$$
+\int\frac{x^2+1}{x(x^2+3)}\,dx=\frac13\ln|x^3+3x|+C.
+$$
+
+**Worked example (source, §7.4), a rationalizing substitution.** $\displaystyle\int\frac{\sqrt{x+4}}{x}\,dx$. Let $u=\sqrt{x+4}$, so $x=u^2-4$ and $dx=2u\,du$:
+
+$$
+\int\frac{2u^2}{u^2-4}\,du=2\int\left(1+\frac{4}{u^2-4}\right)du=2u+8\cdot\frac14\ln\left|\frac{u-2}{u+2}\right|+C=2\sqrt{x+4}+2\ln\left|\frac{\sqrt{x+4}-2}{\sqrt{x+4}+2}\right|+C.
+$$
+
+The step $\int\frac{du}{u^2-4}$ is the $\frac1{2a}\ln\left|\frac{u-a}{u+a}\right|$ result above with $a=2$.
+
 ## $\sin^n x \cos^m x$
 
 **(added) Worked example (composite), $n$ odd case.** $\displaystyle\int \sin^3x\cos^2x\,dx$. Strip one sine: $\sin^3x=\sin x(1-\cos^2x)$. Let $u=\cos x$, $du=-\sin x\,dx$:
 $$
 \int \sin x(1-\cos^2x)\cos^2x\,dx = -\int(1-u^2)u^2\,du = -\frac{u^3}{3}+\frac{u^5}{5}+c = -\frac{\cos^3x}{3}+\frac{\cos^5x}{5}+c.
+$$
+
+### Worked examples from the lecture, section 7.2, sine and cosine
+
+**Worked example (source, §7.2), odd power of cosine.** $\displaystyle\int\cos^3x\,dx$. Saving one cosine and using $\cos^2x=1-\sin^2x$, then $u=\sin x$, $du=\cos x\,dx$:
+
+$$
+\int(1-\sin^2x)\cos x\,dx=\int(1-u^2)\,du=\sin x-\frac{\sin^3x}{3}+C.
+$$
+
+**Worked example (source, §7.2), odd power of sine with an even cosine.** $\displaystyle\int\sin^5x\cos^2x\,dx$. Converting $\cos^2x$ to sines would leave no extra $\cos x$ factor. Instead save a sine: $\sin^5x\cos^2x=(1-\cos^2x)^2\cos^2x\sin x$. With $u=\cos x$, $du=-\sin x\,dx$:
+
+$$
+-\int(1-u^2)^2u^2\,du=-\int(u^2-2u^4+u^6)\,du=-\frac{\cos^3x}{3}+\frac{2\cos^5x}{5}-\frac{\cos^7x}{7}+C.
+$$
+
+**Worked example (source, §7.2), both powers even.** $\displaystyle\int_0^\pi\sin^2x\,dx$. Writing $\sin^2x=1-\cos^2x$ gets nowhere, so use the half-angle identity:
+
+$$
+\int_0^\pi\sin^2x\,dx=\frac12\int_0^\pi(1-\cos2x)\,dx=\frac12\left[x-\frac12\sin2x\right]_0^\pi=\frac\pi2.
+$$
+
+**Worked example (source, §7.2), half-angle twice.** $\displaystyle\int\sin^4x\,dx$. Write $\sin^4x=(\sin^2x)^2=\frac14(1-\cos2x)^2=\frac14\left(1-2\cos2x+\cos^22x\right)$. The $\cos^22x$ needs another half-angle step, $\cos^22x=\frac12(1+\cos4x)$:
+
+$$
+\int\sin^4x\,dx=\frac14\int\left(\frac32-2\cos2x+\frac12\cos4x\right)dx=\frac{3x}{8}-\frac{\sin2x}{4}+\frac{\sin4x}{32}+C.
+$$
+
+N.B The source points out that this and the previous example also follow from the $\sin^n$ reduction formula derived in [[#Worked examples from the lecture, section 7.1]].
+
+**Worked example (source, §7.2), a product of different angles.** $\displaystyle\int\sin4x\cos5x\,dx$. Parts would work, but the identity $\sin A\cos B=\frac12[\sin(A-B)+\sin(A+B)]$ (see: Products of sines and cosines of different angles in [[MAT01B1_Notes_S2_DerivativeIntegralReference]]) is easier:
+
+$$
+\int\sin4x\cos5x\,dx=\frac12\int(-\sin x+\sin9x)\,dx=\frac12\left(\cos x-\frac19\cos9x\right)+C.
 $$
 
 ## $\tan^n x \sec^m x$
@@ -161,6 +349,34 @@ $$
 \int \tan^2x\sec^3x\,dx = \frac{\sec^3x\tan x}{4} - \frac{1}{4}\int \sec^3x\,dx = \frac{\sec^3x\tan x}{4} - \frac{1}{8}\Big(\sec x\tan x + \ln|\sec x+\tan x|\Big) + c,
 $$
 using the table value $\int \sec^3x\,dx = \tfrac{1}{2}(\sec x\tan x + \ln|\sec x+\tan x|)+c$.
+
+### Worked examples from the lecture, section 7.2, tangent and secant
+
+**Worked example (source, §7.2), even power of secant.** $\displaystyle\int\tan^6x\sec^4x\,dx$. Separate one $\sec^2x$ and write the other as $1+\tan^2x$. With $u=\tan x$, $du=\sec^2x\,dx$:
+
+$$
+\int\tan^6x(1+\tan^2x)\sec^2x\,dx=\int(u^6+u^8)\,du=\frac{\tan^7x}{7}+\frac{\tan^9x}{9}+C.
+$$
+
+**Worked example (source, §7.2), odd power of tangent.** $\displaystyle\int\tan^5\theta\sec^7\theta\,d\theta$. Keep $\sec\theta\tan\theta$ as the differential, so the remaining powers are both even and the square identity applies. With $u=\sec\theta$, $du=\sec\theta\tan\theta\,d\theta$:
+
+$$
+\int\tan^4\theta\sec^6\theta\,\sec\theta\tan\theta\,d\theta=\int(u^2-1)^2u^6\,du=\int(u^{10}-2u^8+u^6)\,du=\frac{\sec^{11}\theta}{11}-\frac{2\sec^9\theta}{9}+\frac{\sec^7\theta}{7}+C.
+$$
+
+**Worked example (source, §7.2), $\int\sec^3x\,dx$ by parts.** Neither $u=\sec x$ nor $u=\tan x$ works directly. Use integration by parts with $u=\sec x$, $dv=\sec^2x\,dx$, so $du=\sec x\tan x\,dx$, $v=\tan x$:
+
+$$
+\int\sec^3x\,dx=\sec x\tan x-\int\sec x\tan^2x\,dx=\sec x\tan x-\int\sec^3x\,dx+\int\sec x\,dx.
+$$
+
+The original integral appears on both sides. Using $\int\sec x\,dx=\ln|\sec x+\tan x|+C$ and solving,
+
+$$
+\int\sec^3x\,dx=\frac12\left(\sec x\tan x+\ln|\sec x+\tan x|\right)+C.
+$$
+
+This is the table value used in S2 and in the arc length and surface area examples.
 
 ## Miscellaneous: mixing and matching strategies
 

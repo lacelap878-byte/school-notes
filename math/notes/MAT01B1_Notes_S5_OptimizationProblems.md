@@ -38,9 +38,9 @@ N.B Step 5 is where the actual work happens: reducing $Q$ from several variables
 > [!note] Global version of the Inc/Dec Test
 > This is the [[MAT01B1_Notes_S1_CalculusApplications#Curve sketching (added)|Inc/Dec Test]] applied across an *entire* domain rather than a small neighbourhood of $c$: one sign change over the whole interval is what upgrades a local extremum into an absolute one. It earns its own name because it's exactly the tool needed when the domain is unbounded, where the Closed Interval Method below has no endpoints to fall back on.
 
-## The Closed Interval Method (added, name used in the source but not spelled out there)
+## The Closed Interval Method (source, §4.1)
 
-When the domain of $Q=f(x)$ is a closed, bounded interval $[a,b]$: find the critical numbers in $(a,b)$, evaluate $f$ at each of them and at both endpoints, and the largest and smallest of those values are the absolute maximum and minimum.
+When the domain of $Q=f(x)$ is a closed, bounded interval $[a,b]$: find the critical numbers in $(a,b)$, evaluate $f$ at each of them and at both endpoints, and the largest and smallest of those values are the absolute maximum and minimum. The §4.7 slides use the name without spelling it out, and the three-step statement, with a worked test question, is in Dr K's §4.1 (see: [[MAT01B1_Notes_S1_CalculusApplications#Fermat's Theorem, critical numbers and the Closed Interval Method]]).
 
 ## Worked example: rectangular field along a river (source, slides 6 to 9)
 

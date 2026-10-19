@@ -245,6 +245,22 @@ $$
 \sqrt{a^2 + b^2x^2} \;\Rightarrow\; x = \frac{a}{b}\tan\theta, \quad \sec^2\theta = 1 + \tan^2\theta
 $$
 
+Each substitution is used with $\theta$ restricted so that $x=g(\theta)$ is one-to-one (the Substitution Rule run in reverse needs an inverse). The restriction is also what lets the root simplify without an absolute value (source, §7.3, where the table is the case $b=1$):
+
+$$
+x=\frac{a}{b}\sin\theta,\ -\frac\pi2\le\theta\le\frac\pi2\qquad x=\frac{a}{b}\tan\theta,\ -\frac\pi2<\theta<\frac\pi2\qquad x=\frac{a}{b}\sec\theta,\ 0\le\theta<\frac\pi2\ \text{or}\ \pi\le\theta<\frac{3\pi}{2}
+$$
+
+For example, with $x=a\sin\theta$ and $-\frac\pi2\le\theta\le\frac\pi2$: $\sqrt{a^2-x^2}=\sqrt{a^2\cos^2\theta}=a|\cos\theta|=a\cos\theta$, because $\cos\theta\ge0$ on that range.
+
+N.B This is not an ordinary $u$-substitution. There the new variable is a function of the old one ($u=a^2-x^2$). Here the old variable is a function of the new one ($x=a\sin\theta$), the Substitution Rule used in reverse (source, §7.3).
+
+Practical points (source, §7.3):
+- Check for a plain $u$-substitution first. $\int\frac{x}{\sqrt{x^2+4}}\,dx$ looks like a trig substitution but $u=x^2+4$ is simpler.
+- If the expression under the root isn't in the table's form, complete the square ($3-2x-x^2=4-(x+1)^2$, then $u=x+1$) or make a preliminary substitution ($4x^2+9$ with $u=2x$).
+- For a definite integral, change the limits to $\theta$ and there is no need to convert back to $x$.
+- A hyperbolic substitution can replace the trigonometric one: for $\sqrt{x^2-a^2}$, $x=a\cosh t$ with $\cosh^2t-\sinh^2t=1$ gives $\cosh^{-1}(x/a)$. Trig substitutions are usually preferred because the identities are more familiar.
+
 > [!note] (added) Why these three and not others
 > Each substitution is chosen so the expression under the root collapses via a Pythagorean identity into a perfect square, which is what removes the root. All three come from the same right triangle idea: label the sides so that $a$ is the hypotenuse or a leg matching the constant under the root, and $bx$ the other leg, then $\theta$ is the angle between them. After integrating in $\theta$, that same triangle is what lets you convert the answer back to $x$ (read $\sin\theta$, $\cos\theta$, etc. straight off the triangle's side ratios) instead of leaving the answer in terms of $\theta$.
 
@@ -259,6 +275,23 @@ For $\displaystyle\int \frac{P(x)}{Q(x)}\,dx$ where $\deg P < \deg Q$: factor $Q
 
 > [!note] (added) $\deg P < \deg Q$ means what, exactly
 > $\deg P$ ("degree of $P$") is the highest power of $x$ appearing in that polynomial. The condition $\deg P < \deg Q$ (numerator's highest power smaller than denominator's) is what makes the fraction "proper." If it isn't, do polynomial long division first, split off a polynomial plus a proper remainder fraction, and only the remainder gets a P.F.D.
+
+**The four cases (source, §7.4).** Any polynomial denominator can be factored into linear factors $ax+b$ and irreducible quadratic factors $ax^2+bx+c$ with $b^2-4ac<0$. The decomposition of a proper fraction then depends on the case:
+
+- **Case I.** Distinct linear factors: one term $\dfrac{A}{ax+b}$ for each.
+- **Case II.** A repeated linear factor $(ax+b)^r$: one term for each power from $1$ to $r$.
+- **Case III.** Irreducible quadratic factors, none repeated: one term $\dfrac{Ax+B}{ax^2+bx+c}$ for each.
+- **Case IV.** A repeated irreducible quadratic $(ax^2+bx+c)^r$: $\dfrac{A_1x+B_1}{ax^2+bx+c}+\cdots+\dfrac{A_rx+B_r}{(ax^2+bx+c)^r}$.
+
+The table above holds the same information. The cases are how the lecture names them.
+
+**Finding the coefficients (source).** Multiply both sides by the common denominator, then either expand and equate coefficients of like powers of $x$ (a linear system), or substitute convenient values of $x$ (roots of the denominator's factors) that make most terms vanish. Repeated or quadratic factors usually need the coefficient method, or a mix of both.
+
+**Integrating a quadratic-factor term (source).** For $\dfrac{Ax+B}{ax^2+bx+c}$ with $b^2-4ac<0$, complete the square in the denominator, substitute $u$ for the resulting linear expression, and split into $\displaystyle\int\frac{u}{u^2+a^2}\,du$ (a logarithm) plus $\displaystyle\int\frac{du}{u^2+a^2}=\frac1a\tan^{-1}\frac ua$ (an arctangent). A leftover $\dfrac{1}{(x^2+1)^2}$ term from Case IV is handled by $x=\tan\theta$.
+
+N.B Partial fractions can sometimes be avoided. $\displaystyle\int\frac{x^2+1}{x(x^2+3)}\,dx$ looks like Case III, but with $u=x^3+3x$, $du=(3x^2+3)\,dx$, the integral is $\tfrac13\ln|x^3+3x|+C$ (source, §7.4).
+
+**Rationalizing substitutions (source, §7.4 and §7.5).** If the integrand contains $\sqrt[n]{g(x)}$, for instance $\sqrt[n]{ax+b}$, try $u=\sqrt[n]{g(x)}$. This can turn a non-rational integrand into a rational one, which partial fractions then handles. It doesn't always lead somewhere simple (see: Strategy for integration in S1).
 
 ## Products and quotients of trig functions
 
@@ -307,6 +340,22 @@ $$
 which rearranges to the boxed formula above. Applied repeatedly, it drops the power by 2 each time until it reaches $\int \sec x\,dx = \ln|\sec x+\tan x|+c$ (odd $k$, matches case 4) or $\int \sec^0x\,dx = \int dx = x+c$ (even $k$, doesn't arise in case 4 since $k$ stays odd throughout, but is the base case for the general formula).
 
 **(added) The $\int \cot^nx\csc^mx\,dx$ family** works identically to $\tan^n\sec^m$, symmetrically, using $\cot^2x=\csc^2x-1$, $\dfrac{d}{dx}[\cot x]=-\csc^2x$, and $\dfrac{d}{dx}[\csc x]=-\csc x\cot x$. Every case above transfers directly with the sign changes those two derivatives bring.
+
+### Products of sines and cosines of different angles (source, §7.2)
+
+To integrate $\int\sin mx\cos nx\,dx$, $\int\sin mx\sin nx\,dx$ or $\int\cos mx\cos nx\,dx$, use the matching identity to turn the product into a sum:
+
+$$
+\sin A\cos B=\tfrac12\big[\sin(A-B)+\sin(A+B)\big]
+$$
+$$
+\sin A\sin B=\tfrac12\big[\cos(A-B)-\cos(A+B)\big]
+$$
+$$
+\cos A\cos B=\tfrac12\big[\cos(A-B)+\cos(A+B)\big]
+$$
+
+The source notes the integral could be done by parts, but the identity is easier. Worked example in [[MAT01B1_Notes_S3_IntegrationExamples#Worked examples from the lecture, section 7.2, sine and cosine]].
 
 ## See also
 - [[MAT01B1_Notes_S1_CalculusApplications]]

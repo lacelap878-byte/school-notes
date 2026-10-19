@@ -56,7 +56,7 @@ $$\frac{dV}{dt}=\frac{dV}{dr}\cdot\frac{dr}{dt}$$
 
 ### Optimization (§4.7)
 
-Full notes: [[MAT01B1_Notes_S5_OptimizationProblems]]. See [[MAT01B1_Notes_S5_OptimizationProblems#First Derivative Test for Absolute Extreme Values (source, slide 16)|First Derivative Test for Absolute Extreme Values]] and [[MAT01B1_Notes_S5_OptimizationProblems#The Closed Interval Method (added, name used in the source but not spelled out there)|Closed Interval Method]]. The extremum theory underneath is [[MAT01B1_Proofs_ST1#Fermat's Theorem|Fermat's Theorem]].
+Full notes: [[MAT01B1_Notes_S5_OptimizationProblems]]. See [[MAT01B1_Notes_S5_OptimizationProblems#First Derivative Test for Absolute Extreme Values (source, slide 16)|First Derivative Test for Absolute Extreme Values]] and [[MAT01B1_Notes_S5_OptimizationProblems#The Closed Interval Method (source, §4.1)|Closed Interval Method]]. The extremum theory underneath is [[MAT01B1_Proofs_ST1#Fermat's Theorem|Fermat's Theorem]].
 
 - The hard part is the model. Name the quantity $Q$ to optimise, write it in one variable using the constraint, write the domain of that function, then find the absolute maximum or minimum on that domain (source, §4.7 slides 3 to 5).
 - Closed interval domain: compare $f$ at the critical numbers and at both endpoints (source, §4.7 slide 9).
