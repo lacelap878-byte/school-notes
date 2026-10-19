@@ -107,7 +107,7 @@ $$
 
 ## Curve sketching (added)
 
-This section doesn't come from either source PDF, it's the standard way these results get used together in a first year course, gathered here because Abs Max/Min, MVT, and the Inc/Dec Test only really click once you use them on an actual curve.
+Source: Dr K, §4.3 How Derivatives affect the shape of a Graph and §4.5 Summary of curve sketching, plus the §4.5 textbook slides (2023 deck), wherever marked (source). The "reading a curve" paragraph and the $x^3-3x^2$ example below are added context, the standard way these results get used together, gathered here because Abs Max/Min, MVT, and the Inc/Dec Test only really click once you use them on an actual curve.
 
 **Reading a curve from $f'$ and $f''$.** Find the critical points (where $f'=0$ or is undefined), then use the Inc/Dec Test on the intervals between them to say where $f$ rises and falls. A critical point where $f'$ switches from positive to negative is a local maximum, negative to positive is a local minimum, no switch means neither (the $x^3$ situation from Fermat's Theorem above). **Concavity** describes which way the curve bends: $f''(x)>0$ means the curve bends upward (concave up, like a cup), $f''(x)<0$ means it bends downward (concave down, like a frown). A point where concavity switches is called an **inflection point**. Limits at the ends of the domain (to find asymptotes) sometimes need [[#L'Hospital's Rule and indeterminate forms|L'Hospital's Rule]], for example $\lim_{x\to-\infty}xe^x=0$ gives the $x$-axis as a horizontal asymptote of $y=xe^x$ (source, §4.5 summary of curve sketching).
 
@@ -120,11 +120,140 @@ top=6; bottom=-6;
 y=x^{3}-3x^{2}
 ```
 
+### First Derivative Test, concavity and the Second Derivative Test
+
+**The First Derivative Test (source, §4.3).** Suppose that $c$ is a critical number of a continuous function $f$.
+
+(a) If $f'$ changes from positive to negative at $c$, then $f$ has a local maximum at $c$.
+
+(b) If $f'$ changes from negative to positive at $c$, then $f$ has a local minimum at $c$.
+
+(c) If $f'$ is positive to the left and right of $c$, or negative to the left and right of $c$, then $f$ has no local maximum or minimum at $c$.
+
+**Hypotheses**
+- $f$ continuous
+- $c$ a critical number of $f$
+
+This is the Inc/Dec Test read across one point: in (a), $f$ is increasing to the left of $c$ and decreasing to the right, so $c$ is a peak.
+
+**Worked example (source, §4.3, Example 1).** $f(x)=3x^4-4x^3-12x^2+5$. Then $f'(x)=12x^3-12x^2-24x=12x(x-2)(x+1)$, with critical numbers $-1,0,2$. Signs of $f'$: negative on $(-\infty,-1)$, positive on $(-1,0)$, negative on $(0,2)$, positive on $(2,\infty)$. So $f$ is decreasing on $(-\infty,-1)$ and $(0,2)$, increasing on $(-1,0)$ and $(2,\infty)$. By the First Derivative Test, $f(-1)=0$ and $f(2)=-27$ are local minimum values and $f(0)=5$ is a local maximum value.
+
+**Concavity (source).** If the graph of $f$ lies above all of its tangents on an interval $I$, it is **concave upward** (CU) on $I$. If it lies below all of its tangents on $I$, it is **concave downward** (CD) on $I$.
+
+**Concavity Test (source).**
+
+(1) If $f''(x)>0$ for all $x$ in $I$, the graph of $f$ is concave upward on $I$.
+
+(2) If $f''(x)<0$ for all $x$ in $I$, the graph of $f$ is concave downward on $I$.
+
+Why it holds: on a CU curve the tangent slope increases from left to right, so $f'$ is increasing, so its derivative $f''$ is positive (source).
+
+**Definition (source).** A point $P$ on a curve $y=f(x)$ is an **inflection point** if $f$ is continuous there and the curve changes from concave upward to concave downward, or from concave downward to concave upward, at $P$. If the curve has a tangent at an inflection point, the curve crosses its tangent there. By the Concavity Test, there is an inflection point wherever $f''$ changes sign.
+
+N.B $f''(c)=0$ is not enough, the sign of $f''$ has to change. (added) $f(x)=x^4$ has $f''(0)=0$, but $f''(x)=12x^2\ge0$ on both sides, so the curve is concave up throughout and $x=0$ is not an inflection point.
+
+**The Second Derivative Test (source).** Suppose $f''$ is continuous near $c$.
+
+(a) If $f'(c)=0$ and $f''(c)>0$, then $f$ has a local minimum at $c$.
+
+(b) If $f'(c)=0$ and $f''(c)<0$, then $f$ has a local maximum at $c$.
+
+**Hypotheses**
+- $f''$ continuous near $c$
+- $f'(c)=0$
+
+In (a), $f''>0$ near $c$ means $f$ is concave up near $c$, so the graph lies above its horizontal tangent at $c$ and $c$ is a local minimum.
+
+N.B The test says nothing when $f''(c)=0$ (the point could be a maximum, a minimum or neither) or when $f''(c)$ does not exist. Then use the First Derivative Test. Even when both tests apply, the First Derivative Test is often the easier one (source).
+
+**Worked example (source, §4.3).** $y=x^4-4x^3$. Then $f'(x)=4x^3-12x^2=4x^2(x-3)$ and $f''(x)=12x^2-24x=12x(x-2)$, with critical numbers $0$ and $3$. At $3$: $f''(3)=36>0$, so $f(3)=-27$ is a local minimum. At $0$: $f''(0)=0$, so the Second Derivative Test is silent. $f'$ is negative on both sides of $0$ (since $4x^2\ge0$ and $x-3<0$), so by the First Derivative Test there is no extremum at $0$. $f''$ is positive on $x<0$, negative on $(0,2)$ and positive on $x>2$, so the inflection points are $(0,0)$ and $(2,-16)$.
+
+### Curve sketching checklist
+
+Source: Dr K, §4.5 Summary of curve sketching, and the §4.5 guidelines in the 2023 deck. The lecture's examples label the steps A to H:
+
+- **A. Domain.** Where is the function defined?
+- **B. Intercepts.** The $y$-intercept is $f(0)$, the $x$-intercepts come from $f(x)=0$.
+- **C. Symmetry.** Even if $f(-x)=f(x)$ for all $x$ in the domain (symmetric about the $y$-axis). Odd if $f(-x)=-f(x)$ (symmetric about the origin). Periodic if $f(x+p)=f(x)$ for all $x$ (repeats after every interval of length $p$, so sketch one period and translate).
+- **D. Asymptotes.** Horizontal: as $x\to\pm\infty$, does $f$ approach a line $y=L$? Vertical: as $x\to a^\pm$, does $f$ go to $\pm\infty$ (check the endpoints of the domain)? Slant: see below.
+- **E. Intervals of increase and decrease.** Where is $f'>0$ and where is $f'<0$ (Inc/Dec Test)?
+- **F. Local maximum and minimum values.** Where is $f'=0$ or undefined, classified by the First Derivative Test.
+- **G. Concavity and inflection points.** Where is $f''>0$, $f''=0$, $f''<0$?
+- **H. Sketch.** Use everything found to draw a graph showing the most important features.
+
+> [!warning] Symmetry: the §4.5 summary slides misstate it
+> <span style="color:#e03131">Wrong (as printed in the §4.5 summary slides):</span> an odd function is "mirrored by the line $y=x$", and $y=\ln(4-x^2)$ is called symmetric "about the origin". <span style="color:#2f9e44">Right:</span> an even function is symmetric about the $y$-axis, an odd function about the origin (a $180^\circ$ rotation). So $\ln(4-x^2)$, which is even, is symmetric about the $y$-axis, and $x^3/(x^2+1)$, which is odd, is symmetric about the origin. The 2023 textbook deck states both correctly. (source error, noted so it isn't copied) #common-mistake
+
+### Slant asymptotes
+
+**Definition (source).** If $\displaystyle\lim_{x\to\infty}\big[f(x)-(mx+b)\big]=0$ with $m\neq0$, the line $y=mx+b$ is a **slant asymptote** of $y=f(x)$, because the vertical distance between the curve and the line approaches zero. The same holds for $x\to-\infty$.
+
+For a rational function, a slant asymptote occurs when the degree of the numerator is exactly one more than the degree of the denominator (2023 deck). Long division then gives the line.
+
+**Worked example (source, §4.5).** $f(x)=\dfrac{x^3}{x^2+1}$. Long division gives $f(x)=x-\dfrac{x}{x^2+1}$, which suggests $y=x$. Confirm:
+
+$$
+\lim_{x\to\pm\infty}\big[f(x)-x\big]=\lim_{x\to\pm\infty}-\frac{x}{x^2+1}=\lim_{x\to\pm\infty}-\frac{1/x}{1+1/x^2}=0.
+$$
+
+So $y=x$ is a slant asymptote. The rest of the sketch:
+- Domain $\mathbb R$, intercept $(0,0)$, odd (symmetric about the origin), no vertical or horizontal asymptote.
+- $f'(x)=\dfrac{x^2(x^2+3)}{(x^2+1)^2}>0$ for $x\neq0$, so $f$ is increasing on $(-\infty,0)\cup(0,\infty)$. $f'(0)=0$ but $f'$ does not change sign, so there is no local maximum or minimum.
+- $f''(x)=\dfrac{2x(3-x^2)}{(x^2+1)^3}$ is zero at $0$ and $\pm\sqrt3$, and changes sign at each. Inflection points $\left(-\sqrt3,-\frac{3\sqrt3}{4}\right)$, $(0,0)$, $\left(\sqrt3,\frac{3\sqrt3}{4}\right)$.
+
+N.B The long division only suggests the candidate line. The limit is what confirms it.
+
+```desmos-graph
+left=-5; right=5;
+top=5; bottom=-5;
+---
+y=\frac{x^{3}}{x^{2}+1}
+y=x
+```
+
+### Worked sketches from the lecture, section 4.5
+
+**Example 1 (source, 2023 deck): $y=\dfrac{2x^2}{x^2-1}$.**
+- Domain $x\neq\pm1$, intercept $(0,0)$, even (symmetric about the $y$-axis).
+- $\displaystyle\lim_{x\to\pm\infty}\frac{2x^2}{x^2-1}=\lim\frac{2}{1-1/x^2}=2$, so $y=2$ is a horizontal asymptote. The denominator is $0$ at $x=\pm1$ and $\lim_{x\to1^+}=\infty$, $\lim_{x\to1^-}=-\infty$, $\lim_{x\to-1^+}=-\infty$, $\lim_{x\to-1^-}=\infty$, so $x=1$ and $x=-1$ are vertical asymptotes.
+- $f'(x)=\dfrac{-4x}{(x^2-1)^2}$. Increasing on $(-\infty,-1)$ and $(-1,0)$, decreasing on $(0,1)$ and $(1,\infty)$. The only critical number is $0$ ($\pm1$ is not in the domain), and $f(0)=0$ is a local maximum.
+- $f''(x)=\dfrac{12x^2+4}{(x^2-1)^3}$. CU on $(-\infty,-1)$ and $(1,\infty)$, CD on $(-1,1)$. No inflection points, since $\pm1$ is not in the domain.
+
+```desmos-graph
+left=-5; right=5;
+top=6; bottom=-6;
+---
+y=\frac{2x^{2}}{x^{2}-1}
+y=2
+x=1
+x=-1
+```
+
+**Example 2 (source): $y=\dfrac{x^2}{\sqrt{x+1}}$.**
+- Domain $(-1,\infty)$, intercept $(0,0)$, no symmetry. $\lim_{x\to\infty}f(x)=\infty$, so no horizontal asymptote ($x\to-\infty$ is not considered, it is outside the domain). As $x\to-1^+$, $\sqrt{x+1}\to0$ and $f>0$, so $\lim=\infty$ and $x=-1$ is a vertical asymptote.
+- $f'(x)=\dfrac{x(3x+4)}{2(x+1)^{3/2}}$. The only critical number in the domain is $0$ ($-\tfrac43$ is outside it). Decreasing on $(-1,0)$, increasing on $(0,\infty)$, and $f(0)=0$ is a local (and absolute) minimum.
+- $f''(x)=\dfrac{3x^2+8x+8}{4(x+1)^{5/2}}$. The numerator has discriminant $64-96=-32<0$ and positive leading coefficient, so it is always positive. $f''>0$ on the whole domain: CU throughout, no inflection point.
+
+**Example 3 (source): $y=xe^x$.**
+- Domain $\mathbb R$, intercept $(0,0)$, no symmetry. $\lim_{x\to\infty}xe^x=\infty$. As $x\to-\infty$ the product is $0\cdot\infty$ type, so rewrite and use [[#L'Hospital's Rule and indeterminate forms|L'Hospital's Rule]]: $\displaystyle\lim_{x\to-\infty}\frac{x}{e^{-x}}\overset{\text{L'H}}{=}\lim_{x\to-\infty}\frac{1}{-e^{-x}}=\lim_{x\to-\infty}(-e^x)=0$. The $x$-axis is a horizontal asymptote on the left.
+- $f'(x)=(x+1)e^x$. Decreasing on $(-\infty,-1)$, increasing on $(-1,\infty)$, and $f(-1)=-e^{-1}$ is a local (and absolute) minimum.
+- $f''(x)=(x+2)e^x$. CD on $(-\infty,-2)$, CU on $(-2,\infty)$, inflection point $(-2,-2e^{-2})$.
+
+**Example 4 (source): $y=\dfrac{\cos x}{2+\sin x}$.**
+- Domain $\mathbb R$, $y$-intercept $\tfrac12$, $x$-intercepts at $x=\tfrac\pi2+n\pi$. Neither even nor odd, but $f(x+2\pi)=f(x)$, so periodic with period $2\pi$: sketch $0\le x\le2\pi$ and extend by translation. No asymptotes.
+- $f'(x)=-\dfrac{2\sin x+1}{(2+\sin x)^2}$. The denominator is always positive, so $f'>0$ when $\sin x<-\tfrac12$, that is $\tfrac{7\pi}{6}<x<\tfrac{11\pi}{6}$. Increasing on $\left(\tfrac{7\pi}{6},\tfrac{11\pi}{6}\right)$, decreasing on $\left(0,\tfrac{7\pi}{6}\right)\cup\left(\tfrac{11\pi}{6},2\pi\right)$. Local minimum $f\!\left(\tfrac{7\pi}{6}\right)=-\tfrac{1}{\sqrt3}$, local maximum $f\!\left(\tfrac{11\pi}{6}\right)=\tfrac{1}{\sqrt3}$.
+- $f''(x)=-\dfrac{2\cos x\,(1-\sin x)}{(2+\sin x)^3}$. Since $1-\sin x\ge0$ and $(2+\sin x)^3>0$, $f''>0$ exactly when $\cos x<0$. CU on $\left(\tfrac\pi2,\tfrac{3\pi}2\right)$, CD on $\left(0,\tfrac\pi2\right)\cup\left(\tfrac{3\pi}2,2\pi\right)$, inflection points $\left(\tfrac\pi2,0\right)$ and $\left(\tfrac{3\pi}2,0\right)$.
+
+**Example 5 (source): $y=\ln(4-x^2)$.**
+- Domain $(-2,2)$, $y$-intercept $\ln4$, $x$-intercepts $\pm\sqrt3$ (from $4-x^2=1$). Even, symmetric about the $y$-axis. No horizontal asymptotes (see the domain). Since $4-x^2\to0^+$ as $x\to\pm2$ from inside the domain, $\lim\ln(4-x^2)=-\infty$ and $x=\pm2$ are vertical asymptotes.
+- $f'(x)=\dfrac{-2x}{4-x^2}$. Increasing on $(-2,0)$, decreasing on $(0,2)$, and $f(0)=\ln4$ is a local maximum.
+- $f''(x)=\dfrac{-8-2x^2}{(4-x^2)^2}<0$ for all $x$ in the domain: CD throughout, no inflection point.
+
 ## Integration techniques
 
 All formulas referenced here (the exact statements of IBP, trig substitutions, partial fractions, and the reduction cases) live in [[MAT01B1_Notes_S2_DerivativeIntegralReference]], worked examples for each live in [[MAT01B1_Notes_S3_IntegrationExamples]], this section is about when and why to reach for each one, not the formulas or the worked mechanics.
 
-**Integration by Parts** is the product rule run in reverse. It's the tool when the integrand is a product of two functions of different types (a polynomial times an exponential, a log by itself, an inverse trig function by itself) where no substitution collapses it into something simpler. See [[MAT01B1_Notes_S2_DerivativeIntegralReference#Integration by Parts]] for the formula and the LIATE guide for picking $u$.
+**Integration by Parts** is the product rule run in reverse. It's the tool when the integrand is a product of two functions of different types (a polynomial times an exponential, a log by itself, an inverse trig function by itself) where no substitution collapses it into something simpler. See [[MAT01B1_Notes_S2_DerivativeIntegralReference#Integration by Parts]] for the formula and the LIATE guide for picking $u$. Worked examples, including the repeated, cyclic and definite cases, are in [[MAT01B1_Notes_S3_IntegrationExamples#Integration by Parts]].
 
 **Trig substitution** is the tool specifically for a square root of a sum or difference of squares sitting under the integral sign, $\sqrt{a^2-b^2x^2}$, $\sqrt{b^2x^2-a^2}$, or $\sqrt{a^2+b^2x^2}$. The substitution turns the root into a single trig function via a Pythagorean identity, removing it entirely. See [[MAT01B1_Notes_S2_DerivativeIntegralReference#Trig substitutions]].
 

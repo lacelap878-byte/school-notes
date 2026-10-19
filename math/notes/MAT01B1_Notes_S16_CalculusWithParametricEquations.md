@@ -51,7 +51,7 @@ $$
 
 Concave up for $t>0$, concave down for $t<0$.
 
-**(d)** Sketching $C$ uses the horizontal/vertical tangent points from (b) and the concavity split from (c) together.
+**(d)** Sketching $C$ uses the horizontal/vertical tangent points from (b) and the concavity split from (c) together (the general procedure is the [[MAT01B1_Notes_S1_CalculusApplications#Curve sketching checklist]]).
 
 ## Worked example: tangent to the cycloid (source, slides 9 to 11)
 

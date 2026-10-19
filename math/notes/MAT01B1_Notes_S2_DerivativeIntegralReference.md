@@ -203,13 +203,30 @@ $$
 > [!note] (added) Where $\int \tan u\,du = \ln|\sec u|+c$ actually comes from
 > Write $\tan u = \dfrac{\sin u}{\cos u}$ and substitute $w = \cos u$, $dw = -\sin u\,du$. Then $\int \tan u\,du = -\int \frac{dw}{w} = -\ln|w| + c = -\ln|\cos u| + c = \ln|\sec u| + c$, using $-\ln|\cos u| = \ln|\cos u|^{-1} = \ln|\sec u|$. This is the same substitution pattern used throughout the trig product/quotient section below (see: Products and quotients of trig functions), it isn't a separate trick.
 
+### Other standard integrals (source, §7.1 table)
+
+$$
+\int \sinh x\,dx = \cosh x \qquad \int \cosh x\,dx = \sinh x
+$$
+$$
+\int \frac{dx}{x^2+a^2} = \frac{1}{a}\tan^{-1}\!\left(\frac{x}{a}\right) \qquad \int \frac{dx}{\sqrt{a^2-x^2}} = \sin^{-1}\!\left(\frac{x}{a}\right),\; a>0
+$$
+$$
+\int \frac{dx}{x^2-a^2} = \frac{1}{2a}\ln\left|\frac{x-a}{x+a}\right| \qquad \int \frac{dx}{\sqrt{x^2\pm a^2}} = \ln\left|x+\sqrt{x^2\pm a^2}\right|
+$$
+
+The last two need not be memorised, because they are easily derived: the first by partial fractions, the second by a trigonometric substitution (source).
+
+> [!note] (added) The source table omits one answer
+> The slide lists $\int\sinh x\,dx$ with no result. It is $\cosh x$, the reverse of $\frac{d}{dx}[\cosh x]=\sinh x$ (see: Hyperbolic functions).
+
 ## Integration by Parts
 
 $$
 \int u\,dv = uv - \int v\,du \qquad \int_a^b u\,dv = uv\Big|_a^b - \int_a^b v\,du
 $$
 
-Choose $u$ and $dv$ from the integral, compute $du$ by differentiating $u$, and compute $v = \int dv$.
+Choose $u$ and $dv$ from the integral, compute $du$ by differentiating $u$, and compute $v = \int dv$. The lecture's rule of thumb: choose $u$ to be a function that becomes simpler when differentiated (or at least not more complicated), as long as $dv=g'(x)\,dx$ can be integrated readily to give $v$ (source, §7.1). Worked examples, including the repeated, cyclic and definite cases and the $\sin^n$ reduction formula, are in [[MAT01B1_Notes_S3_IntegrationExamples#Integration by Parts]].
 
 > [!note] (added) Choosing $u$: the LIATE guide
 > When more than one factor could plausibly be $u$, this rough priority order tends to work: **L**ogarithmic, **I**nverse trig, **A**lgebraic (polynomials), **T**rigonometric, **E**xponential. Whichever type appears first in that list is the better choice for $u$. Reason: $u$ should be the factor that gets *simpler* when differentiated (a log or an inverse trig function collapses into an algebraic expression), and $dv$ should be the factor that stays easy to integrate.

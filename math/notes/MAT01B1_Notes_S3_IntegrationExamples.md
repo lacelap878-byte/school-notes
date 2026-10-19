@@ -2,7 +2,7 @@
 module: MAT01B1
 topic: Integration Technique Examples
 session: S3
-tags: [worked-example]
+tags: [worked-example, formula, common-mistake]
 ---
 
 # Integration Technique Examples
@@ -15,6 +15,98 @@ Formulas referenced here live in [[MAT01B1_Notes_S2_DerivativeIntegralReference]
 $$
 \int xe^x\,dx = xe^x - \int e^x\,dx = xe^x - e^x + c.
 $$
+
+### Worked examples from the lecture, section 7.1
+
+**Worked example (source, §7.1), choosing $u$.** $\displaystyle\int x\sin x\,dx$. Take $u=x$, $dv=\sin x\,dx$, so $du=dx$, $v=-\cos x$:
+
+$$
+\int x\sin x\,dx=-x\cos x+\int\cos x\,dx=-x\cos x+\sin x+C.
+$$
+
+Differentiating the answer returns $x\sin x$, which is the quick check. <span style="color:#e03131">Wrong:</span> $u=\sin x$, $dv=x\,dx$ gives $\tfrac{x^2}{2}\sin x-\tfrac12\int x^2\cos x\,dx$, which is true but harder than the integral you started with. <span style="color:#2f9e44">Right:</span> pick $u$ so that $v\,du$ is simpler than $u\,dv$. #common-mistake
+
+**Worked example (source, §7.1), a single function.** $\displaystyle\int\ln x\,dx$. Take $u=\ln x$, $dv=dx$, so $du=\frac{dx}{x}$, $v=x$:
+
+$$
+\int\ln x\,dx=x\ln x-\int dx=x\ln x-x+C.
+$$
+
+There is no real alternative here: $dv=\ln x\,dx$ would need $\int\ln x\,dx$, the problem itself.
+
+**Worked example (source, §7.1), applying the rule twice.** $\displaystyle\int t^2e^t\,dt$. Take $u=t^2$, $dv=e^t\,dt$, so $du=2t\,dt$, $v=e^t$:
+
+$$
+\int t^2e^t\,dt=t^2e^t-2\int te^t\,dt.
+$$
+
+Again with $u=t$, $dv=e^t\,dt$: $\int te^t\,dt=te^t-e^t+C$. Substituting back,
+
+$$
+\int t^2e^t\,dt=t^2e^t-2te^t+2e^t+C.
+$$
+
+N.B $dv=t^2\,dt$ instead would raise the power of $t$ to $t^3$ and make the integral more complex (source).
+
+**Worked example (source, §7.1), the integral comes back.** $\displaystyle\int e^x\sin x\,dx$. Take $u=e^x$, $dv=\sin x\,dx$, so $du=e^x\,dx$, $v=-\cos x$:
+
+$$
+\int e^x\sin x\,dx=-e^x\cos x+\int e^x\cos x\,dx.
+$$
+
+The new integral is no simpler but no harder. Apply the rule again with $u=e^x$, $dv=\cos x\,dx$: $\int e^x\cos x\,dx=e^x\sin x-\int e^x\sin x\,dx$. Substituting,
+
+$$
+\int e^x\sin x\,dx=-e^x\cos x+e^x\sin x-\int e^x\sin x\,dx.
+$$
+
+The original integral now appears on both sides, so solve for it:
+
+$$
+\int e^x\sin x\,dx=\tfrac12e^x(\sin x-\cos x)+C.
+$$
+
+N.B (added) Use $u=e^x$ both times. Swapping the roles in the second round undoes the first round and returns $\int e^x\sin x\,dx=\int e^x\sin x\,dx$, which says nothing.
+
+**Worked example (source, §7.1), a definite integral.** $\displaystyle\int_0^1\tan^{-1}x\,dx$. Take $u=\tan^{-1}x$, $dv=dx$, so $du=\frac{dx}{1+x^2}$, $v=x$, and use the definite form of the formula:
+
+$$
+\int_0^1\tan^{-1}x\,dx=x\tan^{-1}x\Big|_0^1-\int_0^1\frac{x}{1+x^2}\,dx=\frac\pi4-\int_0^1\frac{x}{1+x^2}\,dx.
+$$
+
+For the leftover integral substitute $t=1+x^2$ (the letter $u$ is already taken), so $x\,dx=\tfrac12dt$, and the limits become $x=0\Rightarrow t=1$, $x=1\Rightarrow t=2$:
+
+$$
+\int_0^1\frac{x}{1+x^2}\,dx=\frac12\int_1^2\frac{dt}{t}=\frac12\ln2,\qquad\text{so}\qquad\int_0^1\tan^{-1}x\,dx=\frac\pi4-\frac{\ln2}{2}.
+$$
+
+N.B Once you substitute, change the limits too (source).
+
+**Worked example (source, §7.1), a reduction formula.** For an integer $n\ge2$,
+
+$$
+\int\sin^nx\,dx=-\frac1n\cos x\sin^{n-1}x+\frac{n-1}{n}\int\sin^{n-2}x\,dx.
+$$
+
+Take $u=\sin^{n-1}x$, $dv=\sin x\,dx$, so $du=(n-1)\sin^{n-2}x\cos x\,dx$, $v=-\cos x$:
+
+$$
+\int\sin^nx\,dx=-\cos x\sin^{n-1}x+(n-1)\int\sin^{n-2}x\cos^2x\,dx.
+$$
+
+Replace $\cos^2x=1-\sin^2x$:
+
+$$
+\int\sin^nx\,dx=-\cos x\sin^{n-1}x+(n-1)\int\sin^{n-2}x\,dx-(n-1)\int\sin^nx\,dx.
+$$
+
+Move the last term to the left, where it combines with the original to give $n\int\sin^nx\,dx$:
+
+$$
+n\int\sin^nx\,dx=-\cos x\sin^{n-1}x+(n-1)\int\sin^{n-2}x\,dx,
+$$
+
+and dividing by $n$ gives the formula. (added) This is the same idea as the secant reduction formula derived in [[MAT01B1_Notes_S2_DerivativeIntegralReference#Products and quotients of trig functions]].
 
 ## Trig Substitution
 
