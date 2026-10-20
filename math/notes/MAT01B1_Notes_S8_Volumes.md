@@ -29,6 +29,58 @@ $$
 
 When using $V=\int_a^b A(x)\,dx$, $A(x)$ is the area of a *moving* cross-section, re-measured at each $x$, not a fixed shape.
 
+## Strips, and why they become disks, washers or shells
+
+This is the picture behind every volume formula that follows, and behind [[MAT01B1_Notes_S9_CylindricalShells]]. It is not new calculus, it is the reason the formulas look the way they do.
+
+**A strip is a thin rectangle inside the region, and its thickness is the integration variable.**
+- A strip of thickness $dx$ is **vertical**: thin in $x$, long in $y$. Its length is (top curve) minus (bottom curve), written in terms of $x$. Laying these strips side by side runs along the $x$-axis, which is why the limits are $x$-values.
+- A strip of thickness $dy$ is **horizontal**: thin in $y$, long in $x$. Its length is (right curve) minus (left curve), written in terms of $y$, and the limits are $y$-values.
+
+Area is strip length times thickness, added up: $\int(\text{top}-\text{bottom})\,dx$ or $\int(\text{right}-\text{left})\,dy$ (see [[MAT01B1_Notes_S7_AreaBetweenCurves]]).
+
+```tikz
+\begin{document}
+\begin{tikzpicture}[scale=1.6]
+\draw[->] (0,0) -- (3.4,0) node[right] {$x$};
+\draw[->] (0,0) -- (0,1.9) node[above] {$y$};
+\draw[thick,domain=0:3,smooth,variable=\x] plot ({\x},{sqrt(\x)});
+\draw (3,0) -- (3,1.732);
+\fill[blue!30] (1.0,0) rectangle (1.2,1.05);
+\draw (1.0,0) rectangle (1.2,1.05);
+\fill[red!30] (1.6,1.2) rectangle (3,1.35);
+\draw (1.6,1.2) rectangle (3,1.35);
+\node[blue] at (1.1,-0.3) {\scriptsize $dx$ strip: vertical};
+\node[red] at (2.2,1.6) {\scriptsize $dy$ strip: horizontal};
+\end{tikzpicture}
+\end{document}
+```
+
+The region under $y=\sqrt x$, with one vertical strip (thickness $dx$) and one horizontal strip (thickness $dy$).
+
+**Now spin the region about an axis.** Each strip spins into a solid, and which solid depends only on whether the strip lies **across** the axis or **along** it.
+
+- **Strip perpendicular to the axis: disk or washer.** The strip's thickness is measured along the axis, so spinning it gives a thin round slab. If the strip touches the axis the slab is a solid disk, with volume $\pi R^2\cdot(\text{thickness})$. If there is a gap between the strip and the axis it is a washer (a disk with a hole), with volume $\pi(R^2-r^2)\cdot(\text{thickness})$. Here $R$ is the distance from the axis to the far end of the strip and $r$ the distance to the near end. This is exactly the cross-sectional area $A$ from the Definition of Volume, times the thickness.
+- **Strip parallel to the axis: cylindrical shell.** The strip's thickness is measured across, away from the axis, so spinning it gives a thin hollow tube, like a cardboard tube. Cut it open and flatten it into a thin rectangle: length $2\pi\cdot(\text{distance from axis})$, height equal to the strip's length, and the strip's thickness. Volume $2\pi\cdot(\text{radius})\cdot(\text{height})\cdot(\text{thickness})$.
+
+N.B "Radius" always means the distance to the axis, not a coordinate. For the axis $x=2$, a strip at $x$ has radius $2-x$. For the axis $y=-1$, a point at height $y$ has radius $y+1$. This is why moving the axis changes the radii in the examples below and changes nothing else.
+
+**Putting the two together.** A $dx$ strip is vertical and a $dy$ strip is horizontal, so:
+
+| Axis | $dx$ strip (vertical) | $dy$ strip (horizontal) |
+|---|---|---|
+| horizontal ($x$-axis or $y=k$) | across the axis: disk or washer, radii are vertical distances, functions of $x$ | along the axis: shell, radius is the vertical distance to the strip (a function of $y$), height is the strip's length in $x$ |
+| vertical ($y$-axis or $x=k$) | along the axis: shell, radius is the horizontal distance to the strip (a function of $x$), height is the strip's length in $y$ | across the axis: disk or washer, radii are horizontal distances, functions of $y$ |
+
+You get to choose the strip direction, so you get to choose the method. Pick the direction in which the region's boundaries are already written as functions (no solving for the other variable) and the radii and heights are easy to read off. The standard case is in [[MAT01B1_Notes_S9_CylindricalShells#Motivation (source, slides 2 to 3)|S9's motivating example]]: $y=2x^2-x^3$ about the $y$-axis. Horizontal strips would be washers and need $x$ as a function of $y$ (a cubic), while vertical strips are shells and need only $y=f(x)$.
+
+**Check against the examples below.**
+- $y=\sqrt x$ about the $x$-axis: a vertical strip is across the axis and touches it, so a disk of radius $\sqrt x$.
+- $y=x$ and $y=x^2$ about the $x$-axis: a vertical strip is across the axis but floats above it (its bottom is at $x^2$), so a washer with $R=x$ and $r=x^2$.
+- The same region about $x=-1$: a horizontal strip is across the vertical axis, so a washer, with horizontal distances $R=1+\sqrt y$ and $r=1+y$.
+
+**The same story gives the length and surface formulas.** Cut into tiny pieces, replace each piece by something whose size is known, add up, take the limit. For arc length and surface area the tiny piece is a bit of curve (see [[MAT01B1_Notes_S11_ArcLength#The idea in one picture]] and [[MAT01B1_Notes_S12_SurfaceAreaOfRevolution#The idea in one picture]]).
+
 ## Finding $A(x)$ for a solid of revolution
 
 Solids of revolution (obtained by rotating a plane region about a line) are the main application. The cross-sectional area is found one of two ways:

@@ -101,7 +101,7 @@ Choosing a method comes down to which variable the region's boundaries are natur
 - Which choice gives easier limits of integration? Does one variable need two separate integrals while the other needs only one?
 - Can the resulting integral actually be evaluated with the chosen variable?
 
-Practically: draw a sample rectangle in the region. Its thickness ($\Delta x$ or $\Delta y$) is the integration variable. Revolving that rectangle about the axis of rotation turns it into either a disk/washer (rectangle perpendicular to the axis) or a shell (rectangle parallel to the axis).
+Practically: draw a sample rectangle in the region. Its thickness ($\Delta x$ or $\Delta y$) is the integration variable. Revolving that rectangle about the axis of rotation turns it into either a disk/washer (rectangle perpendicular to the axis) or a shell (rectangle parallel to the axis). The full picture, including why a $dx$ strip is vertical and a $dy$ strip horizontal and a table of every axis and strip combination, is in the [[MAT01B1_Notes_S8_Volumes#Strips, and why they become disks, washers or shells|strip picture]] in S8.
 
 ## See also
 - [[MAT01B1_Notes_S8_Volumes]]

@@ -9,6 +9,16 @@ tags: [definition, formula, worked-example]
 
 Source: Dr K, §8.2 Area of a Surface of Revolution (slides 1 to 21), plus the one-page handout "Applications of Calculus, Surface Area" (MAT01B1/MAT1B01).
 
+## The idea in one picture
+
+Take a tiny piece of the curve, of length $ds$ (see [[MAT01B1_Notes_S11_ArcLength#The idea in one picture]]). Spin it about the axis and it sweeps a thin band, like a label wrapped round a tin. Unroll the band: a thin rectangle as long as the circle the piece travels round, $2\pi\cdot(\text{radius})$, and as wide as the piece is long, $ds$. Its area is $2\pi\,r\,ds$, and adding up all the bands gives
+
+$$
+S=\int2\pi\,r\,ds.
+$$
+
+The radius $r$ is the distance from the piece of curve to the axis: $y$ for the $x$-axis, $x$ for the $y$-axis, and things like $2-x$ or $y+1$ for other lines. It is the same "radius is a distance" rule as for volumes (see [[MAT01B1_Notes_S8_Volumes#Strips, and why they become disks, washers or shells]]). Every formula below, including the four cases in the table, is this one formula with $ds$ written in terms of $dx$ or $dy$ and $r$ read off the picture. The sections that follow do it carefully: each band is really a slice of a cone (a frustum), and a limit removes the approximation.
+
 ## Simple surfaces (source, slides 2 to 3)
 
 When a curve is rotated about an axis it generates a **surface of revolution**. Two simple surfaces fix the starting formulas.

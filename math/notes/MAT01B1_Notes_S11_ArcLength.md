@@ -15,6 +15,22 @@ The obvious way to measure a curve is to lay a piece of string along it and stra
 
 If the curve is a polygon, its length is easy: add up the lengths of the line segments, each found with the distance formula. The plan is to approximate a general curve by a polygon and then take a limit as the number of segments grows. This is already familiar for a circle, whose circumference is the limit of the lengths of inscribed polygons.
 
+## The idea in one picture
+
+Zoom in on a tiny piece of the curve until it looks straight. It is the hypotenuse of a tiny right triangle with horizontal side $dx$ and vertical side $dy$ (the rise over that run). By Pythagoras its length is
+
+$$
+ds=\sqrt{(dx)^2+(dy)^2}.
+$$
+
+The arc length is all these tiny pieces added up, $L=\int ds$. Factor $dx$ out of the root using $dy=\dfrac{dy}{dx}\,dx$:
+
+$$
+ds=\sqrt{1+\left(\frac{dy}{dx}\right)^2}\,dx.
+$$
+
+Read it as: the $1$ is the horizontal run, and $\left(\frac{dy}{dx}\right)^2$ is the rise per unit run. A flat piece ($\frac{dy}{dx}=0$) has $ds=dx$, no longer than its shadow on the $x$-axis. A steep piece is longer than its shadow because the rise adds to it. Factoring $dy$ out instead gives the version for $x=g(y)$. The sections below make this precise by approximating the curve with a polygon and taking a limit, the same cut, approximate, add, limit idea used for area and volume (see [[MAT01B1_Notes_S8_Volumes#Strips, and why they become disks, washers or shells]]).
+
 ## Definition of arc length (source, slides 4 to 6)
 
 Let $C$ be the curve $y=f(x)$, $a\le x\le b$, with $f$ continuous. Divide $[a,b]$ into $n$ subintervals with endpoints $x_0,x_1,\dots,x_n$ and equal width $\Delta x$. With $y_i=f(x_i)$, each point $P_i(x_i,y_i)$ lies on $C$, and the polygon with vertices $P_0,P_1,\dots,P_n$ approximates $C$. The approximation improves as $n$ increases.

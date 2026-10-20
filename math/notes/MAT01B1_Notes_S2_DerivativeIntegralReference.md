@@ -226,12 +226,20 @@ $$
 \int u\,dv = uv - \int v\,du \qquad \int_a^b u\,dv = uv\Big|_a^b - \int_a^b v\,du
 $$
 
+**Where it comes from.** It is the Product Rule run backwards. Start from $\dfrac{d}{dx}[uv]=u\dfrac{dv}{dx}+v\dfrac{du}{dx}$ and integrate both sides: the left side integrates back to $uv$, so $uv=\int u\,dv+\int v\,du$. Rearranging gives $\int u\,dv=uv-\int v\,du$. So integration by parts does not evaluate the integral, it swaps it for a different one, $\int v\,du$. That swap is worth making exactly when the new integral is easier than the old one, which is why you choose $u$ to be the factor that gets simpler when differentiated and $dv$ to be the factor you can integrate.
+
 Choose $u$ and $dv$ from the integral, compute $du$ by differentiating $u$, and compute $v = \int dv$. The lecture's rule of thumb: choose $u$ to be a function that becomes simpler when differentiated (or at least not more complicated), as long as $dv=g'(x)\,dx$ can be integrated readily to give $v$ (source, §7.1). Worked examples, including the repeated, cyclic and definite cases and the $\sin^n$ reduction formula, are in [[MAT01B1_Notes_S3_IntegrationExamples#Integration by Parts]].
 
 > [!note] (added) Choosing $u$: the LIATE guide
 > When more than one factor could plausibly be $u$, this rough priority order tends to work: **L**ogarithmic, **I**nverse trig, **A**lgebraic (polynomials), **T**rigonometric, **E**xponential. Whichever type appears first in that list is the better choice for $u$. Reason: $u$ should be the factor that gets *simpler* when differentiated (a log or an inverse trig function collapses into an algebraic expression), and $dv$ should be the factor that stays easy to integrate.
 
 ## Trig substitutions
+
+**Where these come from.** A root such as $\sqrt{a^2-x^2}$ can't be simplified directly because $a^2-x^2$ is not a perfect square. But $a^2-x^2$ is exactly the squared third side of a right triangle with hypotenuse $a$ and one leg $x$ (Pythagoras: leg$^2$ = hypotenuse$^2$ - leg$^2$). Call the angle opposite the leg $x$ by $\theta$. Then $x=a\sin\theta$ and the third side is $\sqrt{a^2-x^2}=a\cos\theta$. So the substitution swaps an awkward algebraic root for a trig function, and a Pythagorean identity does the cancelling: $\sqrt{a^2-a^2\sin^2\theta}=a\sqrt{\cos^2\theta}=a\cos\theta$. The root disappears. The other two roots are the same idea with the triangle labelled differently:
+- $\sqrt{x^2+a^2}$: legs $x$ and $a$, hypotenuse $\sqrt{x^2+a^2}$, so $\tan\theta=\dfrac xa$.
+- $\sqrt{x^2-a^2}$: hypotenuse $x$, legs $a$ and $\sqrt{x^2-a^2}$, so $\sec\theta=\dfrac xa$.
+
+The rule of thumb is therefore not a table to memorise: draw the triangle in which the root is the third side. After integrating in $\theta$, the same triangle converts the answer back to $x$.
 
 If the integral contains the given root, use the matching substitution.
 
@@ -285,6 +293,8 @@ For $\displaystyle\int \frac{P(x)}{Q(x)}\,dx$ where $\deg P < \deg Q$: factor $Q
 
 The table above holds the same information. The cases are how the lecture names them.
 
+**Why the terms have these forms (added).** Partial fractions undoes adding fractions. Add $\frac{A}{x-1}+\frac{B}{x+2}$ over the common denominator $(x-1)(x+2)$ and the numerator is $A(x+2)+B(x-1)$, a polynomial of degree at most $1$, one below the degree of the denominator. Run that backwards: any fraction with that denominator and a numerator of lower degree can be split this way, and there are as many unknowns ($A$, $B$) as the numerator has free coefficients. A repeated factor $(x-1)^2$ needs a term for every power because $\frac{A}{x-1}$ and $\frac{B}{(x-1)^2}$ share the common denominator $(x-1)^2$, and both are needed to reach every numerator of lower degree. An irreducible quadratic such as $x^2+4$ cannot be split into real linear factors, so the simplest piece that can sit over it is $\frac{Ax+B}{x^2+4}$, and the linear numerator is what keeps the number of unknowns equal to the number of numerator coefficients. The simple pieces are exactly the ones we already know how to integrate: logarithms, arctangents and powers.
+
 **Finding the coefficients (source).** Multiply both sides by the common denominator, then either expand and equate coefficients of like powers of $x$ (a linear system), or substitute convenient values of $x$ (roots of the denominator's factors) that make most terms vanish. Repeated or quadratic factors usually need the coefficient method, or a mix of both.
 
 **Integrating a quadratic-factor term (source).** For $\dfrac{Ax+B}{ax^2+bx+c}$ with $b^2-4ac<0$, complete the square in the denominator, substitute $u$ for the resulting linear expression, and split into $\displaystyle\int\frac{u}{u^2+a^2}\,du$ (a logarithm) plus $\displaystyle\int\frac{du}{u^2+a^2}=\frac1a\tan^{-1}\frac ua$ (an arctangent). A leftover $\dfrac{1}{(x^2+1)^2}$ term from Case IV is handled by $x=\tan\theta$.
@@ -296,6 +306,11 @@ N.B Partial fractions can sometimes be avoided. $\displaystyle\int\frac{x^2+1}{x
 ## Products and quotients of trig functions
 
 ### $\int \sin^n x \cos^m x\,dx$
+
+**Why the cases look like this.** Every case is a $u$-substitution in disguise. $u=\cos x$ needs a $du=-\sin x\,dx$ already sitting in the integrand, and $u=\sin x$ needs a $\cos x\,dx$. So you need one spare factor of the right kind to play the part of $du$, and everything else must be expressible in $u$.
+- If the power of sine is odd, peel one sine off: it is the $du$ for $u=\cos x$. The sines left over come in pairs, and $\sin^2x=1-\cos^2x$ turns every pair into cosines, so everything is in terms of $u$. The odd-cosine case is the mirror image with $u=\sin x$. Peel off exactly one: peeling more leaves an odd number of sines that cannot be paired up.
+- If both powers are odd, either peeling works. Peel from the smaller power to keep the algebra short.
+- If both powers are even there is no spare factor to be $du$, so no substitution is available. Instead lower the powers with the half-angle formulas, which turn each square into a first power of $\cos2x$. That integrates directly, or gives a new, smaller integral to repeat the process on.
 
 1. **$n$ odd.** Strip one sine out, convert the rest to cosines using $\sin^2 x = 1-\cos^2 x$, then substitute $u=\cos x$.
 2. **$m$ odd.** Strip one cosine out, convert the rest to sines using $\cos^2 x = 1 - \sin^2 x$, then substitute $u = \sin x$.
@@ -339,6 +354,8 @@ $$
 
 which rearranges to the boxed formula above. Applied repeatedly, it drops the power by 2 each time until it reaches $\int \sec x\,dx = \ln|\sec x+\tan x|+c$ (odd $k$, matches case 4) or $\int \sec^0x\,dx = \int dx = x+c$ (even $k$, doesn't arise in case 4 since $k$ stays odd throughout, but is the base case for the general formula).
 
+*(added) Why this works.* Integration by parts is the right tool because $\sec^2x$ integrates cleanly (to $\tan x$) and differentiating $\sec^{k-2}x$ lowers the power. The original integral then reappears on the right with a negative coefficient. That is not going in circles, it turns the problem into an equation with $\int\sec^kx\,dx$ in it, which we solve for the unknown. It is the same trick as $\int e^x\sin x\,dx$ in [[MAT01B1_Notes_S3_IntegrationExamples#Worked examples from the lecture, section 7.1]].
+
 **(added) The $\int \cot^nx\csc^mx\,dx$ family** works identically to $\tan^n\sec^m$, symmetrically, using $\cot^2x=\csc^2x-1$, $\dfrac{d}{dx}[\cot x]=-\csc^2x$, and $\dfrac{d}{dx}[\csc x]=-\csc x\cot x$. Every case above transfers directly with the sign changes those two derivatives bring.
 
 ### Products of sines and cosines of different angles (source, §7.2)
@@ -354,6 +371,8 @@ $$
 $$
 \cos A\cos B=\tfrac12\big[\cos(A-B)+\cos(A+B)\big]
 $$
+
+**Where they come from (added).** They are the angle-addition formulas added or subtracted. From $\sin(A+B)=\sin A\cos B+\cos A\sin B$ and $\sin(A-B)=\sin A\cos B-\cos A\sin B$, adding gives $\sin(A+B)+\sin(A-B)=2\sin A\cos B$, which is the first identity. From $\cos(A-B)=\cos A\cos B+\sin A\sin B$ and $\cos(A+B)=\cos A\cos B-\sin A\sin B$, subtracting gives $\cos(A-B)-\cos(A+B)=2\sin A\sin B$ and adding gives $\cos(A-B)+\cos(A+B)=2\cos A\cos B$. The point of all three is the same: a product of two trig functions of different angles can't be integrated directly, but a sum of two can.
 
 The source notes the integral could be done by parts, but the identity is easier. Worked example in [[MAT01B1_Notes_S3_IntegrationExamples#Worked examples from the lecture, section 7.2, sine and cosine]].
 
