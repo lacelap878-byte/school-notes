@@ -129,7 +129,7 @@ so $f(x)=C$ for some constant $C$. To find $C$, evaluate at a convenient point, 
 
 ## L'Hospital's Rule and indeterminate forms
 
-Source: Dr K, §4.4 Indeterminate Forms and L'Hospital's Rule, Part 1 (slides 1 to 34). Part 2 of that lecture (the forms $\infty-\infty$, $0^0$, $\infty^0$, $1^\infty$) isn't in the vault yet.
+Source: Dr K, §4.4 Indeterminate Forms and L'Hospital's Rule, Part 1 (slides 1 to 34). Part 2 (the forms $\infty-\infty$, $0^0$, $\infty^0$, $1^\infty$) comes from last semester's MAT01A1 slides and was not issued this semester, see More indeterminate forms: differences and powers below.
 
 <span style="color:#f08c00">Exam: L'Hospital's Rule is examined in the final exam.</span> #exam-flagged
 
@@ -204,6 +204,86 @@ $$
 $$
 
 <span style="color:#e03131">Wrong:</span> the other choice, $\dfrac{x}{1/\ln x}$, leads after one step to $\lim_{x\to0^+}-x(\ln x)^2$, which is again of type $0\cdot\infty$ and no closer to an answer. <span style="color:#2f9e44">Right:</span> $\dfrac{\ln x}{1/x}$.
+
+### More indeterminate forms: differences and powers
+
+Source: Dr K, §4.4 Part 2 (the MAT01A1 slides, Stewart §4.4), taken from last semester's material and not issued this semester. The slides give the problems, the method and a few remarks, but the worked solutions were left for class. The solutions below are completed here and marked (added).
+
+> [!note] Scope check
+> Part 2 was not issued this semester. Confirm with the lecturer whether the final exam covers $\infty-\infty$ and the indeterminate powers, so you know how much time to spend here.
+
+**The seven types (source).**
+1. $\tfrac00$
+2. $\tfrac\infty\infty$
+3. $0\cdot\infty$
+4. $\infty-\infty$
+5. $0^0$
+6. $\infty^0$
+7. $1^\infty$
+
+L'Hospital's Rule can be used immediately only for types 1 and 2. For every other type, first manipulate the expression into type $\tfrac00$ or $\tfrac\infty\infty$, and only then apply the rule.
+
+**Type 4, $\infty-\infty$ (source).** If $\lim_{x\to a}f(x)=\infty$ and $\lim_{x\to a}g(x)=\infty$, then $\lim_{x\to a}[f(x)-g(x)]$ is an indeterminate form of type $\infty-\infty$. To solve it, rationalise, use a common denominator, or factorise (take out a common factor). The aim is a fraction, because L'Hospital's Rule only applies to fractions.
+
+**Worked example (source problem, solution added).** $\displaystyle\lim_{x\to(\pi/2)^-}(\sec x-\tan x)$. Rewrite in sines and cosines and use a common denominator:
+
+$$
+\sec x-\tan x=\frac{1}{\cos x}-\frac{\sin x}{\cos x}=\frac{1-\sin x}{\cos x},
+$$
+
+which is type $\tfrac00$ as $x\to(\pi/2)^-$. Then
+
+$$
+\lim_{x\to(\pi/2)^-}\frac{1-\sin x}{\cos x}\overset{\text{L'H}}{=}\lim_{x\to(\pi/2)^-}\frac{-\cos x}{-\sin x}=\lim_{x\to(\pi/2)^-}\cot x=0.
+$$
+
+**Worked example (source problem, solution added), a "common factor".** $\displaystyle\lim_{x\to\infty}(e^x-2x)$. The source says to take out a common factor even though it doesn't really look like one:
+
+$$
+e^x-2x=e^x\left(1-\frac{2x}{e^x}\right).
+$$
+
+The fraction is type $\tfrac\infty\infty$ and $\displaystyle\lim_{x\to\infty}\frac{2x}{e^x}\overset{\text{L'H}}{=}\lim_{x\to\infty}\frac{2}{e^x}=0$, so the bracket tends to $1$ while $e^x\to\infty$. The limit is $\infty$.
+
+**Types 5, 6 and 7, indeterminate powers (source).** The forms $0^0$, $\infty^0$ and $1^\infty$ are solved with the natural logarithm. If $y=f(x)^{g(x)}$, then $\ln y=g(x)\ln f(x)$. Find $L=\lim_{x\to a}\ln y$. This is not the final answer: since $y=e^{\ln y}$,
+
+$$
+\lim_{x\to a}y=\lim_{x\to a}e^{\ln y}=e^{\lim_{x\to a}\ln y}=e^{L}.
+$$
+
+(added) After taking the logarithm, $\ln y$ is a product of type $0\cdot\infty$ in all three cases ($0^0$: $0\cdot(-\infty)$, $\infty^0$: $0\cdot\infty$, $1^\infty$: $\infty\cdot0$), so the Type 3 method finishes the job.
+
+N.B Forgetting to exponentiate at the end is the standard slip: $\lim\ln y$ is not $\lim y$.
+
+**Worked example (source problem, graph in the source, solution added), type $0^0$.** $\displaystyle\lim_{x\to0^+}x^x$. With $y=x^x$, $\ln y=x\ln x$, and $\displaystyle\lim_{x\to0^+}x\ln x=0$ (the type $0\cdot\infty$ example above). So $\displaystyle\lim_{x\to0^+}x^x=e^0=1$. The source confirms it with a sketch of $y=x^x$, which dips below $1$ and then climbs, with an open circle at $(0,1)$ because $x^x$ is not defined at $0$ even though the limit is $1$.
+
+```desmos-graph
+left=-0.5; right=2.5;
+top=3; bottom=-0.5;
+---
+y=x^{x}\left\{x>0\right\}
+```
+
+**Worked example (source problem, solution added), type $1^\infty$.** $\displaystyle\lim_{x\to0^+}(1+\sin4x)^{\cot x}$. With $y=(1+\sin4x)^{\cot x}$, $\ln y=\cot x\,\ln(1+\sin4x)$. Write this as a fraction by putting $\tan x=\frac{1}{\cot x}$ in the denominator, which gives type $\tfrac00$:
+
+$$
+\lim_{x\to0^+}\frac{\ln(1+\sin4x)}{\tan x}\overset{\text{L'H}}{=}\lim_{x\to0^+}\frac{\dfrac{4\cos4x}{1+\sin4x}}{\sec^2x}=\lim_{x\to0^+}\frac{4\cos4x}{(1+\sin4x)\sec^2x}=\frac{4\cdot1}{(1+0)\cdot1}=4.
+$$
+
+So $\lim\ln y=4$ and $\displaystyle\lim_{x\to0^+}(1+\sin4x)^{\cot x}=e^4$. The source adds three remarks on this example:
+- The other choice, $\dfrac{\cot x}{1/\ln(1+\sin4x)}$, is also type $\tfrac\infty\infty$ but would need the derivative of $\dfrac{1}{\ln(1+\sin4x)}$, which is very difficult. Choose the fraction whose denominator is easy to differentiate.
+- $\dfrac{d}{dx}(1+\sin4x)=4\cos4x$: do not drop the chain rule factor from the $4x$.
+- The substitution $x=0$ at the last step is allowed because the function is continuous at $x=0$. If it were undefined there, keep manipulating the limit with the other methods.
+
+**Worked example (source problem, solution added), type $\infty^0$.** $\displaystyle\lim_{x\to0^+}(-\ln x)^x$. With $y=(-\ln x)^x$, $\ln y=x\ln(-\ln x)=\dfrac{\ln(-\ln x)}{1/x}$, type $\tfrac\infty\infty$ as $x\to0^+$:
+
+$$
+\lim_{x\to0^+}\frac{\ln(-\ln x)}{1/x}\overset{\text{L'H}}{=}\lim_{x\to0^+}\frac{\dfrac{1}{x\ln x}}{-\dfrac{1}{x^2}}=\lim_{x\to0^+}\frac{-x}{\ln x}=0,
+$$
+
+because the numerator goes to $0$ while $\ln x\to-\infty$. So $\lim\ln y=0$ and $\displaystyle\lim_{x\to0^+}(-\ln x)^x=e^0=1$.
+
+**Prescribed problems (source).** From Part 1: $1, 13, 15, 22, 27, 33, 40, 45, 49$, where $45$ and $49$ are the $0\cdot\infty$ ones. From Chapter 4.4: $53, 54, 58, 63, 65, 77$.
 
 **Where the rule is used elsewhere in this vault.** Two improper integral examples below need it for the boundary term, $\int_{-\infty}^0xe^x\,dx$ and $\int_0^1\ln x\,dx$ (see: Worked examples from the lecture, section 7.8). The vertical tangents of the cycloid in [[MAT01B1_Notes_S16_CalculusWithParametricEquations#Worked example: tangent to the cycloid (source, slides 9 to 11)|S16]] also need it.
 
