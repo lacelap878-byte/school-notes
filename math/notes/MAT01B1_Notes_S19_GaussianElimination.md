@@ -152,6 +152,24 @@ Reading off: $x-3y-z=2$, $y+\tfrac45z=\tfrac35$, $z=2$. Back-substitution: $z=2$
 
 Every system of linear equations has exactly zero, one, or infinitely many solutions, there are no other possibilities.
 
+## Order of the zeros
+
+The zeros are made one column at a time, left to right. Within a column, go top to bottom below the pivot. The superscript on each zero is the step at which it is made.
+
+$$
+\left[\begin{array}{ccc|c}
+1 & 0^{6} & 0^{5} & * \\
+0^{1} & 1 & 0^{4} & * \\
+0^{2} & 0^{3} & 1 & *
+\end{array}\right]
+$$
+
+Zeros 1 to 3: forward phase, column by column, top to bottom. Zeros 4 to 6: backward phase, rightmost column first, bottom to top.
+
+N.B Finish a column before starting the next. A row operation adds a multiple of the pivot row to another row, and the pivot row already has zeros in every column to its left, so earlier zeros are never undone.
+
+This is not the only way to row reduce a matrix, and other orders can also reach the answer. It is the safest way: following this order every time guarantees you reach reduced row echelon form, whereas a different order can undo zeros you already made.
+
 ## Worked example: redoing the first Gaussian elimination example (source, slides 26 to 27)
 
 Starting from the row echelon form already found above, $\begin{bmatrix}1&-1&1&|&0\\0&1&-1&|&-1\\0&0&1&|&2\end{bmatrix}$:

@@ -61,6 +61,59 @@ $$
 
 The number of columns of $A$ **must** equal the number of rows of $B$ for $AB$ to be defined.
 
+**Checking the size (added, quick method).** Write the size of $A$ on top and the size of $B$ underneath, then circle the diagonal pair (the columns of $A$ and the rows of $B$). If the circled numbers are equal, the product exists and the two uncircled numbers are its size. If they differ, it is not defined.
+
+```tikz
+\begin{document}
+\begin{tikzpicture}
+\node at (0,1) {$m$};
+\node at (1,1) {$\times$};
+\node at (2,1) {$n$};
+\node at (0,0) {$n$};
+\node at (1,0) {$\times$};
+\node at (2,0) {$o$};
+\draw[rotate around={26.57:(1,0.5)}] (1,0.5) ellipse (1.4 and 0.4);
+\node at (4.4,0.5) {$\Rightarrow\; m \times o$};
+\end{tikzpicture}
+\end{document}
+```
+
+Circled pair equal, so $AB$ exists:
+
+```tikz
+\begin{document}
+\begin{tikzpicture}
+\node at (0,1) {$2$};
+\node at (1,1) {$\times$};
+\node at (2,1) {$3$};
+\node at (0,0) {$3$};
+\node at (1,0) {$\times$};
+\node at (2,0) {$4$};
+\draw[rotate around={26.57:(1,0.5)}] (1,0.5) ellipse (1.4 and 0.4);
+\node at (4.4,0.5) {$\Rightarrow\; 2 \times 4$};
+\end{tikzpicture}
+\end{document}
+```
+
+Circled pair different, so $AB$ is not defined:
+
+```tikz
+\begin{document}
+\begin{tikzpicture}
+\node at (0,1) {$2$};
+\node at (1,1) {$\times$};
+\node at (2,1) {$3$};
+\node at (0,0) {$2$};
+\node at (1,0) {$\times$};
+\node at (2,0) {$4$};
+\draw[rotate around={26.57:(1,0.5)}] (1,0.5) ellipse (1.4 and 0.4);
+\node at (4.4,0.5) {$\Rightarrow\;$ not defined};
+\end{tikzpicture}
+\end{document}
+```
+
+N.B Keep $A$ on top and $B$ underneath, in the same order as the product. Swapping them checks $BA$, which can fail even when $AB$ works.
+
 **Worked example (source, slide 14).** $A=\begin{bmatrix}3&0\\-1&2\\1&1\end{bmatrix}$, $B=\begin{bmatrix}4&-1\\0&2\end{bmatrix}$: $AB=\begin{bmatrix}12&-3\\-4&5\\4&1\end{bmatrix}$; $BA$ is undefined ($B$ is $2\times2$, $A$ is $3\times2$, columns of $B\ne$ rows of $A$).
 
 **Worked example (source, slide 15).**
