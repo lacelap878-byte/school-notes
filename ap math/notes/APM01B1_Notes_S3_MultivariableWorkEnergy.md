@@ -487,6 +487,33 @@ $$V(y) = -\int F\,dy = -\frac{GMm}{R+y} + V_0$$
 
 $G$ is the gravitational constant, $M$ the planet mass, $m$ the particle mass. Remember to check $F = -\dfrac{dV}{dy}$.
 
+### Potential energy of a spring
+
+#formula
+
+(added) Source: course notes chapter 6 (spring example) and tutorial 12 and 13 questions. This section was not on the lecturer's handwritten pages.
+
+Take a spring along the $x$ axis with its natural length at $x = 0$, so $x$ is the extension. The restoring force (Hooke's law) is
+
+$$F = -kx$$
+
+with $k$ the spring constant in N/m. Define $V$ from the force with $V(0) = 0$:
+
+$$V(x) = -\int_0^x F\,dx' = -\int_0^x (-kx')\,dx' = \tfrac12 kx^2$$
+
+Check: $F = -\dfrac{dV}{dx} = -kx$. ✓
+
+Use it in conservation of energy, as with gravity. Released from rest at extension $x_1$ and passing through $x = 0$ with speed $v$:
+
+$$\tfrac12 mv^2 + 0 = 0 + \tfrac12 kx_1^2 \;\Rightarrow\; v = x_1\sqrt{\frac{k}{m}}$$
+
+If gravity acts as well, add both potentials, $V = \tfrac12 kx^2 + mgh$, since both forces are conservative.
+
+> [!tip] Energy differentiation (exam pattern)
+> Write $E = \tfrac12 m\dot{x}^2 + \tfrac12 kx^2$ and differentiate with respect to time. Since $E$ is constant,
+> $$\frac{dE}{dt} = m\dot{x}\ddot{x} + kx\dot{x} = \dot{x}\,(m\ddot{x} + kx) = 0$$
+> so $m\ddot{x} = -kx$, which is NII again. This is the "differentiate the energy to recover NII" question.
+
 ### Escape speed
 
 #worked-example
@@ -708,6 +735,111 @@ $M$ is the mass of the Earth (kg), $d$ the orbital radius (m), $T$ the period (s
 
 > *I computed it: with $d = 3.8\times10^8$ m and $T = 2.592\times10^6$ s, $M\approx4.8\times10^{24}$ kg. The page's $10^{24}$ kg is the order of magnitude.*
 
+## Rough incline and pulleys
+
+(added) Source: course notes chapter 4 (section 4.4 on pulleys) and chapter 6, tutorials 9 and 12, and the 2025 papers A, B and C. These examples were not on the lecturer's handwritten pages, but they recur in the papers.
+
+### Distance up a rough incline by work-energy
+
+#worked-example #exam-flagged
+
+A block of mass $m$ is projected up a rough incline of angle $\theta$ with speed $v_0$ and coefficient of kinetic friction $\mu$. How far up does it go before it stops?
+
+Forces along the slope (up the slope is positive). Perpendicular to the slope there is no acceleration, so
+
+$$N = mg\cos\theta$$
+
+and the friction magnitude is $\mu N = \mu mg\cos\theta$, acting down the slope while the block moves up. Both gravity's component and friction act down the slope, so the net force along the slope is
+
+$$F = -mg(\sin\theta + \mu\cos\theta)$$
+
+This is constant, so the work over a distance $d$ is $W = Fd$. The work-energy theorem $W = \Delta T$ with the final speed zero gives
+
+$$-mg(\sin\theta + \mu\cos\theta)\,d = 0 - \tfrac12 mv_0^2$$
+
+$$d = \frac{v_0^2}{2g(\sin\theta + \mu\cos\theta)}$$
+
+Do not use $\Delta E = 0$ here. Friction is not conservative, so mechanical energy is lost, and $W = \Delta T$ is the right tool. Equivalently, the lost mechanical energy is $\mu mg\cos\theta\,d$.
+
+Checks: with $\mu = 0$ this gives $d = v_0^2/(2g\sin\theta)$, the smooth result. With $\theta = 0$ it gives $v_0^2/(2\mu g)$, the braking distance on flat ground.
+
+If instead the block is launched down the slope, friction acts up the slope and the net force down the slope is $mg(\sin\theta - \mu\cos\theta)$. The block only stops if $\mu\cos\theta > \sin\theta$, that is $\mu > \tan\theta$, and then the stopping distance for a downward launch at $v_0$ is
+
+$$d = \frac{v_0^2}{2g(\mu\cos\theta - \sin\theta)}$$
+
+(added) Numbers: for $v_0 = 5$ m/s, $\theta = 30^\circ$, $\mu = \tfrac12$ (the 2025 paper A question) 
+
+$$d = \frac{25}{2g(\tfrac12 + \tfrac{\sqrt3}{4})} \approx 1.37\text{ m}$$
+
+> [!warning] ❌ Memo error, paper C question 1
+> The printed memo answer of 28.83 m for the paper C incline question does not follow from its own formula. Recomputing gives $d = 40\sqrt2/g \approx 5.77$ m. Always recompute the final number from the formula.
+
+### Pulleys and the Atwood machine
+
+#worked-example
+
+Method (chapter 4, section 4.4): isolate each mass, draw the forces on it, write NII for each, and then use the constraint from the rope.
+
+Setup: mass $m_1$ rests on a smooth slope of angle $\theta$, joined by a light rope over a smooth pulley to mass $m_2$ hanging freely. Let $T$ be the rope tension. A light rope over a smooth pulley has the same tension on both sides, $T_1 = T_2 = T$, because a massless rope or pulley cannot carry a net force.
+
+Constraint: if $x_1$ is the length of rope on the slope side and $x_2$ the length on the hanging side, then $x_1 + x_2 = l$ is constant. Differentiating twice, $\ddot{x}_1 = -\ddot{x}_2$: when one mass moves by some amount the other moves by the same amount the opposite way along the rope.
+
+Let $a = \ddot{x}_2$ be the downward acceleration of $m_2$, so $m_1$ accelerates up the slope with the same magnitude $a$.
+
+NII for $m_2$ (down positive): $m_2 a = m_2 g - T$
+
+NII for $m_1$ (up the slope positive): $m_1 a = T - m_1 g\sin\theta$
+
+Add the two equations to eliminate $T$:
+
+$$a = \frac{(m_2 - m_1\sin\theta)\,g}{m_1 + m_2}$$
+
+and substitute back:
+
+$$T = m_1(a + g\sin\theta) = \frac{m_1m_2(1 + \sin\theta)\,g}{m_1 + m_2}$$
+
+Checks (do these on every pulley question):
+
+- Dimensions: $a$ is an acceleration and $T$ is a force. ✓
+- $\theta = \pi/2$ (both hanging, the vertical Atwood machine): $a = \dfrac{(m_2 - m_1)g}{m_1+m_2}$ and $T = \dfrac{2m_1m_2g}{m_1+m_2}$. ✓
+- $m_1 = m_2 = m$ and $\theta = \pi/2$: $a = 0$ and $T = mg$. ✓
+- If $m_2 = m_1\sin\theta$ the system is in balance and $a = 0$.
+
+(added) One related example from chapter 4, same method:
+
+- Elevator: a mass $m$ on the floor of a lift accelerating upward at $a$ feels a normal reaction $R$ with $R - mg = ma$, so $R = m(g + a)$. The scale reads more than $mg$ when the lift accelerates up.
+
+### Beam in equilibrium with a pulley
+
+#worked-example #exam-flagged
+
+Setup (2025 paper C question 4 and tutorial 9 question 1): a beam with pivot $O$. A mass $m_1$ hangs at distance $\ell$ to the left of $O$. At distance $\lambda\ell$ to the right of $O$ hangs a pulley carrying a rope with masses $m_1$ and $m_2$ on its two sides. Find the $\lambda$ for which the beam can be in equilibrium. The note in the question says the beam can be in equilibrium even though $m_2$ accelerates.
+
+Moments about $O$ (the pivot is the natural point because its own reaction has no moment). Equilibrium means the total moment is zero:
+
+$$\ell F_1 - \lambda\ell F_2 = 0 \;\Rightarrow\; \lambda = \frac{F_1}{F_2}$$
+
+where $F_1$ and $F_2$ are the downward loads on the beam at the two ends.
+
+Left end: the hanging mass is at rest, so its rope tension balances its weight and $F_1 = m_1 g$.
+
+Right end: the load is the force the rope puts on the pulley. The rope passes over the pulley, so the load is twice the rope tension $T_3$:
+
+$$F_2 = 2T_3$$
+
+Find $T_3$ from the Atwood machine of $m_1$ and $m_2$ (the vertical case above):
+
+$$T_3 = \frac{2m_1m_2g}{m_1 + m_2} \;\Rightarrow\; F_2 = \frac{4m_1m_2g}{m_1 + m_2}$$
+
+Then
+
+$$\lambda = \frac{F_1}{F_2} = \frac{m_1 g\,(m_1 + m_2)}{4m_1m_2g} = \frac{m_1 + m_2}{4m_2}$$
+
+Check: if $m_1 = m_2$ the pulley load is $2mg$ (the rope is static, $T_3 = mg$), and $\lambda = \dfrac{2m}{4m} = \tfrac12$, which matches $F_1 = mg$ against $F_2 = 2mg$. ✓
+
+> [!tip] Why the beam balances while $m_2$ accelerates
+> The beam only feels the tension in the rope over the pulley, and that tension is constant while the masses move with constant acceleration, so the moment stays constant.
+
 ## Systems of particles
 
 ### N-body motion
@@ -812,6 +944,9 @@ The page sketches $t$ against $x$ as a parabola. (added) The initial conditions 
 - ❌ Through an embedding impact use momentum, then use energy for the climb.
 - Leaving a surface happens when the normal force reaches zero.
 - Drag is not conservative (nonzero work on a closed loop). A magnetic force does no work.
+- A rough incline needs $W = \Delta T$, not $\Delta E = 0$: $d = v_0^2/\big(2g(\sin\theta + \mu\cos\theta)\big)$ going up.
+- Pulley: one equation per mass, same tension on a light rope, and the constraint $\ddot{x}_1 = -\ddot{x}_2$.
+- Spring: $V = \tfrac12 kx^2$, and $F = -dV/dx$ as the check.
 - $\ddot{x} = v\,dv/dx$ turns a position-dependent or speed-dependent NII into something separable.
 
 ## See also
