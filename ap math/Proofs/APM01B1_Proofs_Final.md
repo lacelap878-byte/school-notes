@@ -6,223 +6,44 @@ tags: [theorem, formula]
 
 # APM01B1 Proofs for the Final
 
-Every theorem or formula from sessions S1 to S3 whose derivation was actually shown in some source, collected for memorisation. Each entry says where it came from. Results already in the ST1 and ST2 proof files are carried over unchanged, so this file is the only one needed for the final. Entries taken from a past-paper memo are labelled with the paper and question.
+Every theorem or formula from sessions S1 to S3 whose derivation was actually shown in some source, collected for memorisation. Each entry says where it came from. Results already derived in the ST1 and ST2 proof files are linked, not copied, so open all three files for the final. This file adds only what is new: the multivariable results, work and energy, orbits, and a few dynamics results the earlier files lack. Entries taken from a past-paper memo are labelled with the paper and question.
 
 Statement-only entries say so plainly: a proof that no source shows is never constructed here.
 
-## Kinematics results
-
-### Time derivatives of the polar unit vectors
-
-#theorem
-
-(source: lecture photo, polar unit vector derivation)
-
-$$\hat r = \cos\theta\,\hat x+\sin\theta\,\hat y, \qquad \hat\theta=-\sin\theta\,\hat x+\cos\theta\,\hat y$$
-
-Differentiate with the chain rule, $\theta=\theta(t)$:
-
-$$\frac{d\hat r}{dt} = -\dot\theta\sin\theta\,\hat x+\dot\theta\cos\theta\,\hat y = \dot\theta(-\sin\theta\,\hat x+\cos\theta\,\hat y) = \dot\theta\,\hat\theta$$
-
-$$\frac{d\hat\theta}{dt} = -\dot\theta\cos\theta\,\hat x-\dot\theta\sin\theta\,\hat y = -\dot\theta(\cos\theta\,\hat x+\sin\theta\,\hat y) = -\dot\theta\,\hat r$$
-
-$$\therefore \frac{d\hat r}{dt}=\dot\theta\,\hat\theta, \qquad \frac{d\hat\theta}{dt}=-\dot\theta\,\hat r \qquad\blacksquare$$
-
-(see: [[APM01B1_Notes_S1_PolarIntrinsicCoordinates#Time derivatives of $\hat r$ and $\hat\theta$]])
-
-### Velocity and acceleration in polar coordinates
-
-#theorem
-
-(source: lecture photo, Coriolis derivation)
-
-Start from $\vec r = r(t)\,\hat r$, apply the product rule and the result above:
-
-$$\vec v = \frac{d\vec r}{dt} = \dot r\,\hat r + r\frac{d\hat r}{dt} = \dot r\,\hat r + r\dot\theta\,\hat\theta$$
-
-Differentiate again, product rule on each term, substituting both derivatives:
-
-$$\vec a = \ddot r\,\hat r + \dot r\dot\theta\,\hat\theta + \dot r\dot\theta\,\hat\theta + r\ddot\theta\,\hat\theta - r\dot\theta^2\,\hat r$$
-
-$$\therefore \vec a = (\ddot r-r\dot\theta^2)\hat r + (r\ddot\theta+2\dot r\dot\theta)\hat\theta \qquad\blacksquare$$
-
-Four terms: $\ddot r$ radial, $r\ddot\theta$ angular, $-r\dot\theta^2$ centripetal, $2\dot r\dot\theta$ Coriolis.
-
-(see: [[APM01B1_Notes_S1_PolarIntrinsicCoordinates#Velocity and acceleration in polar coordinates]])
-
-### Time derivatives of the tangent and normal unit vectors
-
-#theorem
-
-(source: lecture photo, tangential-normal derivation with curvature)
-
-$$\hat T = \cos\psi\,\hat x+\sin\psi\,\hat y, \qquad \hat n=-\sin\psi\,\hat x+\cos\psi\,\hat y$$
-
-By the same cosine and sine differentiation pattern as the polar case, $\dfrac{d\hat T}{d\psi}=\hat n$ and $\dfrac{d\hat n}{d\psi}=-\hat T$. Define curvature by $\dfrac{d\psi}{ds}=\dfrac1\rho$. By the chain rule:
-
-$$\frac{d\hat T}{dt} = \frac{d\hat T}{d\psi}\cdot\frac{d\psi}{ds}\cdot\frac{ds}{dt} = \hat n\cdot\frac1\rho\cdot v$$
-
-$$\frac{d\hat n}{dt} = \frac{d\hat n}{d\psi}\cdot\frac{d\psi}{ds}\cdot\frac{ds}{dt} = -\hat T\cdot\frac1\rho\cdot v$$
-
-$$\therefore \frac{d\hat T}{dt}=\frac v\rho\hat n, \qquad \frac{d\hat n}{dt}=-\frac v\rho\hat T \qquad\blacksquare$$
-
-(see: [[APM01B1_Notes_S1_PolarIntrinsicCoordinates#Time derivatives of $\hat T$ and $\hat n$]])
-
-### Acceleration in tangential-normal coordinates
-
-#theorem
-
-(source: lecture photo, "since $\vec v=v\hat T$" step)
-
-$$\vec a = \frac{d\vec v}{dt} = \dot v\,\hat T + v\frac{d\hat T}{dt} = \dot v\,\hat T + v\cdot\frac v\rho\hat n$$
-
-$$\therefore \vec a = \dot v\,\hat T + \frac{v^2}{\rho}\hat n \qquad\blacksquare$$
-
-Reading off the radius of curvature at a point (source: 2025 Final Papers A, B and C memos, Q1 part e): since $a_n=\vec a\cdot\hat n=v^2/\rho$,
-
-$$\rho = \frac{v^2}{\vec a\cdot\hat n}$$
-
-(see: [[APM01B1_Notes_S1_PolarIntrinsicCoordinates#Acceleration in tangential-normal coordinates]])
-
-### Product rule for the dot product
-
-#theorem
-
-(source: lecture photo)
-
-$$\vec a\cdot\vec b = a_xb_x+a_yb_y+a_zb_z$$
-
-Differentiate term by term with the scalar product rule:
-
-$$\frac{d(\vec a\cdot\vec b)}{dt} = \left(\frac{da_x}{dt}b_x+\frac{da_y}{dt}b_y+\frac{da_z}{dt}b_z\right) + \left(a_x\frac{db_x}{dt}+a_y\frac{db_y}{dt}+a_z\frac{db_z}{dt}\right)$$
-
-$$\therefore \frac{d(\vec a\cdot\vec b)}{dt} = \frac{d\vec a}{dt}\cdot\vec b + \vec a\cdot\frac{d\vec b}{dt} \qquad\blacksquare$$
-
-(see: [[APM01B1_Notes_S1_PolarIntrinsicCoordinates#Vector differentiation rules]])
-
-### Path equation from Newton's second law with constant force
-
-#formula
-
-(source: lecture photo, $\vec F=-mg\hat z$, $\vec r(0)=\vec 0$, $\vec v(0)=\hat x+2\hat y+3\hat z$)
-
-Integrate $m\ddot{\vec r}=\vec F$ once:
-
-$$\dot{\vec r} = \frac{\vec Ft}{m}+\vec c, \qquad \vec c=\vec v(0)$$
-
-Integrate a second time from $t=0$:
-
-$$\vec r(t)-\vec r(0) = \frac{\vec Ft^2}{2m}+\vec v(0)\,t$$
-
-Substituting the given data:
-
-$$\therefore \vec r(t) = t\,\hat x+2t\,\hat y+\left(3t-\tfrac12 gt^2\right)\hat z \qquad\blacksquare$$
-
-(see: [[APM01B1_Notes_S1_PolarIntrinsicCoordinates#Worked example: constant force, $\vec F = -mg\hat z$]])
-
-### Angle identity from polar projections
-
-#formula
-
-Proof not shown in source, statement only. The derivation was left as an exercise and was never worked on the page. A version built from taught material sits in S1 under the (added) angle identity heading. It is not checked against the lecturer's own version.
-
-$$\theta = \arccos\!\left(\frac{a\dot r+b\,r\dot\theta}{v^2}\right), \qquad \theta = \arcsin\!\left(\frac{b\dot r-a\,r\dot\theta}{v^2}\right)$$
-
-Here $\vec v=a\hat x+b\hat y$ and $v^2=a^2+b^2$.
-
-## Dynamics results
-
-### General solution for a time-dependent force
-
-#formula
-
-(source: personal notebook, incline example $\vec F=F_0e^{-t}\hat x$)
-
-With the perpendicular component of gravity cancelled by the normal force, only the along-slope equation survives:
-
-$$m\ddot x = F_0e^{-t}-mg\sin\theta \;\Rightarrow\; \ddot x = \frac{F_0}{m}e^{-t}-g\sin\theta$$
-
-$$\dot x = -\frac{F_0}{m}e^{-t}-(g\sin\theta)t+v_0, \qquad x(t) = \frac{F_0}{m}e^{-t}-\tfrac12(g\sin\theta)t^2+v_0t+r_0$$
-
-$$\therefore\ \vec x(t) = \frac1m\int\!\left(\int\vec F(t)\,dt\right)dt+\vec v_0t+\vec r_0 \qquad\blacksquare$$
-
-(see: [[APM01B1_Notes_S2_Dynamics#Time-dependent force: an incline worked example]])
-
-### Terminal velocity from the force balance
-
-#formula
-
-(source: personal notebook)
-
-Falling with linear drag, $m\ddot z=-mg-k\dot z$. At terminal velocity $\ddot z=0$:
-
-$$0 = -mg-k\dot z_{term} \;\Rightarrow\; \therefore\ \dot z_{term}=-\frac{mg}{k} \qquad\blacksquare$$
-
-(see: [[APM01B1_Notes_S2_Dynamics#Setup and terminal velocity]])
-
-### Exponential solution of the linear drag equation
-
-#theorem
-
-(source: personal notebook)
-
-$$\frac{dz}{dt}=-kz+C \;\Rightarrow\; \frac{dz}{-kz+C}=dt$$
-
-Substitute $Z=-kz+C$, $dZ=-k\,dz$:
-
-$$-\frac1k\int\frac{dZ}{Z}=\int dt \;\Rightarrow\; Z=Ke^{-kt}$$
-
-$$\therefore\ z(t) = \frac Ck-\frac Kk e^{-kt} \qquad\blacksquare$$
-
-Any equation of the form $\dot z=-kz+(\text{const})$ produces an $e^{-kt}$ solution.
-
-(see: [[APM01B1_Notes_S2_Dynamics#Solving for $z(t)$: separation of variables]])
-
-### The v dv by dz reduction for a speed-dependent force
-
-#theorem
-
-(source: personal notebook)
-
-By the chain rule, with $v=\dot z$:
-
-$$a = \frac{dv}{dt} = \frac{dv}{dz}\cdot\frac{dz}{dt} = v\frac{dv}{dz}$$
-
-Applied to $\ddot z=-g-\frac km\dot z$:
-
-$$v\frac{dv}{dz} = -g-\frac km v \;\Rightarrow\; \int\frac{v\,dv}{g+\frac km v} = -\int dz$$
-
-Substitute $u=g+\frac km v$, $du=\frac km dv$, $v=\frac mk(u-g)$:
-
-$$\int\frac{v\,dv}{g+\frac km v} = \frac mk\int\left(1-\frac gu\right)du = \frac mk\big(u-g\ln u\big)$$
-
-$$\therefore\ \frac mk\left[g+\frac km v - g\ln\!\left(g+\frac km v\right)\right]_{v_0}^{v} = -(z-z_0) \qquad\blacksquare$$
-
-An implicit relation between $v$ and $z$. Not every $F(v)$ case reduces to an explicit closed form.
-
-(see: [[APM01B1_Notes_S2_Dynamics#Solving for $v(z)$: the $v\,dv/dz$ trick]])
-
-### Separable force of position and speed
-
-#theorem
-
-(source: personal notebook and ST2 2012 working)
-
-Claim: if $F_x=f_1(v_x)\,g_1(x)$ then $m\displaystyle\int\frac{v_x}{f_1(v_x)}\,dv_x=\int g_1(x)\,dx$.
-
-Newton's second law gives $m\ddot x=f_1(v_x)g_1(x)$. By the chain rule
-
-$$\ddot x=\frac{dv_x}{dt}=\frac{dv_x}{dx}\frac{dx}{dt}=v_x\frac{dv_x}{dx}$$
-
-so $m\,v_x\dfrac{dv_x}{dx}=f_1(v_x)g_1(x)$. Divide by $f_1(v_x)$ and integrate in $x$: the left side depends only on $v_x$ and the right side only on $x$. $\blacksquare$
-
-Turning point for $F_x=-cx^n$ ($f_1=1$):
-
-$$\tfrac12 m v_x^2=\tfrac12 m v_{0x}^2-\frac{c\,x^{n+1}}{n+1}, \qquad x^*=\left(\frac{(n+1)\,m\,v_{0x}^2}{2c}\right)^{1/(n+1)}$$
-
-Symbols: $c$ in N m$^{-n}$, $m$ in kg, $v_{0x}$ in m/s.
-
-(see: [[APM01B1_Notes_S2_Dynamics#(added) Force depending on both $v$ and $x$: the separable chain rule]])
+## Results already in the earlier proof files
+
+These derivations are not repeated here. Open the file named in each group.
+
+### Kinematics, from the ST1 proofs
+
+- [[APM01B1_Proofs_ST1#Time derivatives of $\hat r$ and $\hat\theta$]]
+- [[APM01B1_Proofs_ST1#Velocity and acceleration in polar coordinates]]
+- [[APM01B1_Proofs_ST1#Time derivatives of $\hat T$ and $\hat n$]]
+- [[APM01B1_Proofs_ST1#Acceleration in tangential-normal coordinates]]
+- [[APM01B1_Proofs_ST1#Product rule for the dot product]]
+- [[APM01B1_Proofs_ST1#Path equation from Newton's second law, constant force]]
+- [[APM01B1_Proofs_ST1#Angle identity from $\hat r,\hat\theta$ projections (Q4-style)]]
+
+### Dynamics, from the ST2 proofs
+
+- [[APM01B1_Proofs_ST2#General solution for a time-dependent force]]
+- [[APM01B1_Proofs_ST2#Terminal velocity from the force balance]]
+- [[APM01B1_Proofs_ST2#Separable-variables solution of $\dot z=-kz+C$]]
+- [[APM01B1_Proofs_ST2#$v\,dv/dz$ reduction for a speed-dependent force]]
+- [[APM01B1_Proofs_ST2#SHM ansatz, $\omega=\sqrt{k/m}$]]
+- [[APM01B1_Proofs_ST2#Conservation of angular momentum for a central force, $r^2\dot\theta=h$]]
+- [[APM01B1_Proofs_ST2#Energy conservation for the inverse-square (gravitational) central force]]
+- [[APM01B1_Proofs_ST2#Torque and angular momentum for a charge in a magnetic field]]
+- [[APM01B1_Proofs_ST2#Angular momentum theorem, $d\vec H/dt=\vec M$]]
+- [[APM01B1_Proofs_ST2#Variable-mass (rocket) equation of motion]]
+- [[APM01B1_Proofs_ST2#Impulse, $\Delta\vec p=\int\vec F\,dt$]]
+- [[APM01B1_Proofs_ST2#(added) Elastic collision formulas]]
+- [[APM01B1_Proofs_ST2#(added) Coupled two-mass spring system, reduced mass]]
+- [[APM01B1_Proofs_ST2#(added) Simple pendulum, $\ddot\theta=-\frac gl\sin\theta$]]
+- [[APM01B1_Proofs_ST2#(added) Angular impulse, $\vec J_O=\Delta\vec H_O$]]
+- [[APM01B1_Proofs_ST2#(added) Separable $v$ and $x$ force, $F_x=f_1(v_x)g_1(x)$]]
+
+## Dynamics results new in the final
 
 ### Cubic drag in time form
 
@@ -243,112 +64,6 @@ Units: $k$ in kg s m$^{-2}$, so that $k\dot x_0^2t$ has the units of $m$ (kg). I
 N.B the memo's kinetic energy at $t=10$ s is printed as $4.98\times10^5$ J. Adding $\dot y^2=(gt)^2\approx9621.6$ gives $T=\tfrac12m(\dot x^2+\dot y^2)\approx4.89\times10^5$ J, so the printed value looks like a swapped digit.
 
 (see: [[APM01B1_Notes_S3_MultivariableWorkEnergy#Force proportional to speed cubed]])
-
-### The simple harmonic motion ansatz
-
-#theorem
-
-(source: personal notebook)
-
-$\ddot\xi=-\frac km\xi$ with the origin shifted to the natural length. Guess $\xi(t)=A\cos\omega t+B\sin\omega t$:
-
-$$\ddot\xi = -\omega^2\xi$$
-
-Substitute into the original equation:
-
-$$-\omega^2(A\cos\omega t+B\sin\omega t) = -\frac km(A\cos\omega t+B\sin\omega t) \;\Rightarrow\; \frac km-\omega^2=0$$
-
-$$\therefore\ \omega=\sqrt{\frac km} \qquad\blacksquare$$
-
-$A$ and $B$ come from the initial conditions.
-
-(see: [[APM01B1_Notes_S2_Dynamics#The ansatz method]])
-
-### Conservation of angular momentum for a central force
-
-#theorem
-
-(source: personal notebook)
-
-A central force has no $\hat\theta$ component, so the $\hat\theta$ equation is $r\ddot\theta+2\dot r\dot\theta=0$. Recognise a product rule run backwards:
-
-$$\frac{d}{dt}(r^2\dot\theta) = r^2\ddot\theta+2r\dot r\dot\theta = r(r\ddot\theta+2\dot r\dot\theta) = 0$$
-
-$$\therefore\ r^2\dot\theta = h = \text{const} \qquad\blacksquare$$
-
-(see: [[APM01B1_Notes_S2_Dynamics#Worked example: central (inverse-square) force]])
-
-### Energy equation for the inverse-square central force
-
-#formula
-
-(source: personal notebook)
-
-From the radial equation with $h$ substituted, $\ddot r-\frac{h^2}{r^3}=-\frac{GM}{r^2}$. Multiply by $\dot r$ and use $\dot r\ddot r=v\,dv/dr$ with $v\equiv\dot r$:
-
-$$\frac{d}{dr}\!\left(\frac{v^2}{2}\right) = \frac{h^2}{r^3}-\frac{GM}{r^2} \;\Rightarrow\; \frac12v^2 = -\frac{h^2}{2r^2}+\frac{GM}{r}+C$$
-
-Multiply by $m$ and regroup:
-
-$$\therefore\ \left(\frac12mv^2+\frac{h^2m}{2r^2}\right)-\frac{GMm}{r} = E \qquad\blacksquare$$
-
-(see: [[APM01B1_Notes_S2_Dynamics#Worked example: central (inverse-square) force]])
-
-### Angular momentum theorem
-
-#theorem
-
-(source: personal notebook)
-
-With $\vec H=\vec r\times\vec p$:
-
-$$\frac{d\vec H}{dt} = \dot{\vec r}\times\vec p+\vec r\times\dot{\vec p} = (\vec r\times m\dot{\vec r})+\vec r\times\vec F$$
-
-The first term vanishes since $\dot{\vec r}\times\dot{\vec r}=\vec 0$:
-
-$$\therefore\ \frac{d\vec H}{dt} = \vec r\times\vec F = \vec M \qquad\blacksquare$$
-
-$\vec H$ and $\vec M$ must be measured about the same fixed point.
-
-(see: [[APM01B1_Notes_S2_Dynamics#Angular momentum and the rotational form of N2]])
-
-### Torque and angular momentum for a charge in a magnetic field
-
-#formula
-
-(source: personal notebook)
-
-$\vec F=q(\vec v\times\vec B)$ with $\vec B=B\hat z$ and $\vec v=\dot r\hat r+r\dot\theta\hat\theta$:
-
-$$\vec F = Bqr\dot\theta\,\hat r-Bq\dot r\,\hat\theta$$
-
-Moment about the origin:
-
-$$\vec M = \vec r\times\vec F = -Bqr\dot r\,(\hat r\times\hat\theta) = -Bqr\dot r\,\hat z$$
-
-With $\vec H=mr^2\dot\theta\,\hat z$ and $d\vec H/dt=\vec M$:
-
-$$\frac{d}{dt}(mr^2\dot\theta) = -Bqr\dot r = -\frac{Bq}{2}\frac{d}{dt}(r^2)$$
-
-$$\therefore\ mr^2\dot\theta+\frac{Bqr^2}{2} = C \qquad\blacksquare$$
-
-(see: [[APM01B1_Notes_S2_Dynamics#Further examples in polar coordinates: circular motion in a magnetic field]])
-
-### Variable-mass equation of motion
-
-#formula
-
-(source: personal notebook, $m(t)=m_0e^{-\lambda t}$, gravity only)
-
-Momentum form $\frac{d}{dt}(mv)=-mg$. Differentiate the product:
-
-$$m\dot v+\dot m v = -mg \;\Rightarrow\; \dot v = -\frac{\dot m}{m}v-g = \lambda v-g$$
-
-Integrating factor $e^{-\lambda t}$ gives $\frac{d}{dt}(ve^{-\lambda t})=-ge^{-\lambda t}$, so $ve^{-\lambda t}=\frac g\lambda e^{-\lambda t}+C$:
-
-$$\therefore\ v(t) = \frac g\lambda+\left(v_0-\frac g\lambda\right)e^{\lambda t} \qquad\blacksquare$$
-
-(see: [[APM01B1_Notes_S2_Dynamics#Worked example: rocket with exponentially decaying mass]])
 
 ### Rocket with thrust in tangential-normal coordinates
 
@@ -384,40 +99,6 @@ $$\therefore\ v(\vartheta)=C\csc\vartheta\,\tan^{\alpha}\!\left(\frac\vartheta2\
 
 The vertical-launch version with real thrust is worked in [[APM01B1_Extra_Examples_Dynamics]].
 
-### Impulse
-
-#formula
-
-(source: personal notebook)
-
-$$\frac{d\vec p}{dt} = \vec F(t) \;\Rightarrow\; \int_{\vec p_0}^{\vec p_1}d\vec p = \int_{t_0}^{t}\vec F(t')\,dt'$$
-
-$$\therefore\ \Delta\vec p = \int_{t_0}^{t}\vec F(t')\,dt' \qquad\blacksquare$$
-
-For a constant force $\Delta\vec p=\vec F\,\Delta t$.
-
-(see: [[APM01B1_Notes_S2_Dynamics#Impulse]])
-
-### Elastic collision formulas
-
-#formula
-
-(source: added in S2 to answer Tutorial 9, from momentum conservation plus the elastic assumption)
-
-Particle 1 (speed $u$) strikes stationary particle 2. Momentum and kinetic energy are both conserved:
-
-$$m_1u = m_1v_1+m_2v_2 \qquad\qquad m_1u^2 = m_1v_1^2+m_2v_2^2$$
-
-Rearranged: $m_1(u-v_1)=m_2v_2$ and $m_1(u-v_1)(u+v_1)=m_2v_2^2$. Dividing the second by the first (valid whenever $v_2\neq0$):
-
-$$u+v_1 = v_2$$
-
-Substitute back into the momentum equation:
-
-$$\therefore\ v_1 = \frac{m_1-m_2}{m_1+m_2}u, \qquad v_2 = \frac{2m_1}{m_1+m_2}u \qquad\blacksquare$$
-
-(see: [[APM01B1_Notes_S2_Dynamics#(added) Conservation of momentum for a system of two particles, and collisions]])
-
 ### Perfectly inelastic collision
 
 #formula
@@ -433,52 +114,6 @@ $$\Delta KE=\tfrac12m_1u^2-\tfrac12(m_1+m_2)v_f^2<0$$
 The same momentum balance with unequal speeds gives $\vec v_f=(m_1\vec v_1+m_2\vec v_2)/(m_1+m_2)$. For equal masses, $\vec v_f=(\vec p_1+\vec p_2)/(2m)$.
 
 (see: [[APM01B1_Notes_S2_Dynamics#(added) Conservation of momentum for a system of two particles, and collisions]])
-
-### Coupled two-mass spring system
-
-#formula
-
-(source: added in S2 to answer Tutorial 8)
-
-$$m_1\ddot x_1 = k(x_2-x_1-L_0), \qquad m_2\ddot x_2 = -k(x_2-x_1-L_0)$$
-
-Adding the two gives $\ddot x_c=0$ for the centre of mass. Define $x_d=x_2-x_1$ and subtract the first equation (divided by $m_1$) from the second (divided by $m_2$):
-
-$$\ddot x_d = -k\left(\frac1{m_1}+\frac1{m_2}\right)(x_d-L_0)$$
-
-With the reduced mass $\mu=\dfrac{m_1m_2}{m_1+m_2}$:
-
-$$\therefore\ \omega = \sqrt{\frac{k}{\mu}} = \sqrt{\frac{k(m_1+m_2)}{m_1m_2}}, \qquad T=2\pi\sqrt{\frac{m_1m_2}{k(m_1+m_2)}} \qquad\blacksquare$$
-
-(see: [[APM01B1_Notes_S2_Dynamics#(added) Worked example: two masses coupled by a spring]])
-
-### Simple pendulum
-
-#theorem
-
-(source: Chapter 4 course notes, via S2)
-
-Tension is always directed toward the pivot $O$, so it has no moment about $O$ and $\vec M_O=\vec r\times m\vec g=mgl\sin\theta\,(-\hat z)$. With $\vec H_O=ml^2\dot\theta\,\hat z$ and $\vec M_O=d\vec H_O/dt$:
-
-$$ml^2\ddot\theta = -mgl\sin\theta$$
-
-$$\therefore\ \ddot\theta = -\frac gl\sin\theta \qquad\blacksquare$$
-
-For small $\theta$, $\sin\theta\approx\theta$, giving $\omega=\sqrt{g/l}$ and $T=2\pi\sqrt{l/g}$.
-
-(see: [[APM01B1_Notes_S2_Dynamics#(added) Worked example: the simple pendulum]])
-
-### Angular impulse
-
-#formula
-
-(source: Chapter 4 course notes, via S2)
-
-$$\int_{t_1}^{t_2}\vec M_O\,dt = \vec H_O(t_2)-\vec H_O(t_1)$$
-
-$$\therefore\ \vec J_O \equiv \int_{t_1}^{t_2}\vec M_O\,dt = \Delta\vec H_O \qquad\blacksquare$$
-
-(see: [[APM01B1_Notes_S2_Dynamics#Angular impulse]])
 
 ### Beam in equilibrium with a pulley
 

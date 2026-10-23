@@ -509,7 +509,7 @@ $$\tfrac12 mv^2 + 0 = 0 + \tfrac12 kx_1^2 \;\Rightarrow\; v = x_1\sqrt{\frac{k}{
 
 If gravity acts as well, add both potentials, $V = \tfrac12 kx^2 + mgh$, since both forces are conservative.
 
-> [!tip] Energy differentiation (exam pattern)
+> [!note] Energy differentiation (exam pattern)
 > Write $E = \tfrac12 m\dot{x}^2 + \tfrac12 kx^2$ and differentiate with respect to time. Since $E$ is constant,
 > $$\frac{dE}{dt} = m\dot{x}\ddot{x} + kx\dot{x} = \dot{x}\,(m\ddot{x} + kx) = 0$$
 > so $m\ddot{x} = -kx$, which is NII again. This is the "differentiate the energy to recover NII" question.
@@ -837,7 +837,7 @@ $$\lambda = \frac{F_1}{F_2} = \frac{m_1 g\,(m_1 + m_2)}{4m_1m_2g} = \frac{m_1 + 
 
 Check: if $m_1 = m_2$ the pulley load is $2mg$ (the rope is static, $T_3 = mg$), and $\lambda = \dfrac{2m}{4m} = \tfrac12$, which matches $F_1 = mg$ against $F_2 = 2mg$. ✓
 
-> [!tip] Why the beam balances while $m_2$ accelerates
+> [!note] Why the beam balances while $m_2$ accelerates
 > The beam only feels the tension in the rope over the pulley, and that tension is constant while the masses move with constant acceleration, so the moment stays constant.
 
 ## Systems of particles

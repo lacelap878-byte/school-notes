@@ -61,6 +61,7 @@ Labels: `(source: past papers)` means taken from the 15 papers you supplied. `(s
   - [[#In the paper]]: timing, blanking, checking
 - [[#Tips]]: short takeaways from revision
 - [[#See also]]: the proof sheet and earlier summaries
+- [[#Last touches from 2022 Exam A]]: marks lost by topic, with rules and checks
 
 ## Definitions
 
@@ -394,3 +395,66 @@ All of the following are from the papers themselves (source: past papers). Count
 
 - [[MAT01B1_Proofs_Final]]
 - [[MAT01B1_Summary_ST1]] and [[MAT01B1_Summary_ST2]]
+
+## Last touches from 2022 Exam A
+
+(source: 2022 Exam A done under time and marked on 21 October 2026, about 47 out of 70, provisional because it was marked against my own solutions.) The 23 marks lost fall into the groups below. Orange items are still open.
+
+### Linear systems
+
+- Row echelon form: zero rows at the bottom, leading 1s stepping right as you go down. Reduced row echelon form: the same, plus zeros above and below every leading 1.
+- The last column of an augmented matrix is the right hand side, even when no line is drawn.
+- A row $[\,0\ 0\ 0\ |\ 5\,]$ says $0=5$, so there is no solution.
+- One equation with three unknowns: the first variable with a leading 1 is the leading variable, the others are free and get letters. Example: $x+2y-4z=13$ with $y=t$, $z=r$ gives $(x,y,z)=(13-2t+4r,\ t,\ r)$.
+- <span style="color:#f08c00">Open: arithmetic inside row operations.</span> Write the operation, then do each entry on its own line. Slips from the paper: $R_2-2R_1$ gave $-2-4=-6$, and $R_3-R_1$ gave $-1-1=-2$. To clear an entry use the right multiple, for example $R_2+\tfrac14R_3$, not $R_2-4R_3$.
+- Always plug the answer into the original equations. That system had the solution $(-\tfrac23,\ \tfrac13,\ 1)$.
+
+### Volumes
+
+- <span style="color:#f08c00">Open: washers or shells.</span> In 6(c) the axis was the $y$ axis and washers were used about the $x$ axis. Rule: strip parallel to the axis means shells, strip perpendicular to the axis means washers. The answer was $8\pi$, confirmed by shells, by washers in $dy$, and by cylinder minus inner solid. This is the same confusion as in ST2.
+- Before every volume question: draw the axis, draw one strip, decide the method. A volume cannot be negative.
+
+### Antiderivatives and signs
+
+Differentiate your antiderivative to check it.
+
+| Integrand | Antiderivative |
+|---|---|
+| $\cos x$ | $\sin x$ |
+| $-\sin x$ | $\cos x$ |
+| $\cos 2x$ | $\tfrac12\sin 2x$ |
+
+- Example with a number: $\int_0^{\pi/2}\cos 2x\,dx=\tfrac12\sin\pi-\tfrac12\sin0=0$, while the wrong $\tfrac12\cos 2x$ would give $-\tfrac12-\tfrac12=-1$.
+- Results from the paper: $V=\pi\left(2\sqrt2-\tfrac32\right)$, and in 8(a) $y=-\tfrac94\sin4x+K$ with the minus sign kept. In question 12 the coefficient was $-25344$, with its sign.
+
+### Finishing steps that earn marks
+
+- Improper integral: write the limit. Example: $\lim_{t\to2^-}2\ln|t-2|=-\infty$, so it diverges.
+- Optimisation: show it is a minimum. Example: $A''=1+\dfrac{120}{l^3}>0$.
+- Tangent slope question: find $t$ from the given point first ($t=0$), then substitute to get the slope ($-3$).
+
+### Linear differential equations
+
+- Multiply both sides by the integrating factor, not only the left side, and write $+C$.
+- Result from the paper: $y=\tfrac{2}{11}(x+1)^{7/2}+C(x+1)^{-2}$.
+
+### Curve sketching from clues
+
+- The clues (i), (ii) and (iii) describe one function. Cut the $x$ axis into zones and write rising or falling from $f'$ and cup or cap from $f''$.
+- $f''=0$ is an inflection only if the sign of $f''$ changes.
+- The curve in the paper: falling and cap, falling and cup, rising and cup, rising and cap, with a minimum at $5$ and inflections at $2$ and $8$. It is not a polynomial.
+
+### Theorems
+
+- Read which version is asked. Mean Value Theorem for derivatives: $f'(c)=\dfrac{f(b)-f(a)}{b-a}$. Mean Value Theorem for integrals: $f(c)=\dfrac1{b-a}\int_a^b f(x)\,dx$. In 1.9 the integral version was used by mistake, and the answer wanted was $c=\dfrac{3}{2\ln2}$.
+- Start the statement with "if $f$ is continuous on $[a,b]$, then there exists $c$ in $[a,b]$ such that".
+- Fermat proof: start from $f(c+h)\le f(c)$ for small $h$, not a strict inequality.
+
+### Identities
+
+- $1+\sinh^2x=\cosh^2x$, which makes the arc length integral in 7(a) come out as $\sinh2$.
+- $1+\cot^2t=\csc^2t$, which turns the parametric curve in 10(a) into $x^2-y^2=1$, a hyperbola. The word hyperbola is not in the notes, so learn the name.
+
+### What went well
+
+Integration by parts, trig substitution and $u$ substitution (question 2 full marks), partial fraction setup, surface area setup, Rolle's Theorem, optimisation setup, parametric slope, polar to Cartesian, finding a binomial term, and the washer and shell formulas once the axis is read correctly.
