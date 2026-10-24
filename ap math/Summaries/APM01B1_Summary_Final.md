@@ -34,7 +34,9 @@ tags: [exam-flagged]
   - [[#Which energy tool (added)]] work-energy or conservation
   - [[#Is the force conservative (added)]] curl then potential
   - [[#Which frame for a motion question (added)]] Cartesian, polar or intrinsic
-- [[#Exam procedure]] what the papers support
+- [[#Exam procedure]] what the lecturer and papers support
+  - [[#From the lecturer (source: email reply, 24 October)]] format, formula sheet, marking
+  - [[#From the supplied papers]] 2025 format and topics
 - [[#Tips]] question-dissection takeaways
 
 ## Definitions
@@ -153,7 +155,7 @@ Each entry is one representative example per principle. Answers were checked by 
 
 - **Average versus instantaneous speed** (source: 2025 Final Paper B memo, Q5). Cameras read 118 and 115 km/h at points 100 km apart (a semicircle, so the arc is $50\pi=157.08$ km) with 45 minutes between them. Average speed $157.08/0.75=209.44$ km/h, over the 120 km/h limit, so the driver must have sped up between the cameras.
 - **Intrinsic quantities at a point** (source: 2025 Final Paper C memo, Q3). For $\vec r=t^2\hat x+(3t^2-4t)\hat y$ at $t=1$: $\vec v=(2,2)$, $\vec a=(2,6)$, $\hat\tau=\frac{\hat x+\hat y}{\sqrt2}$, $\hat n=\hat z\times\hat\tau=\frac{-\hat x+\hat y}{\sqrt2}$, $a_\tau=4\sqrt2$, $a_n=2\sqrt2$, $\rho=v^2/a_n=2\sqrt2$ m. (see: [[APM01B1_Proofs_ST1#Acceleration in tangential-normal coordinates]])
-- **Two cars, do they collide** (source: 2025 Final Paper C memo, Q2). Split into two 1D problems. Car 1 reaches 40 m at $t=2+\frac{40-36}{6}=\frac83$ s. Car 2 reaches 22 m at $t=4+\frac{22-20}{10}=4.2$ s. The times differ, so no collision.
+- **Two cars, do they collide** (source: 2025 Final Paper C memo, Q2). Split into two 1D problems. Car 1 speeds up for 2 s to $v=6$ m/s having covered $\tfrac12(3)(2)^2=6$ m, then reaches 40 m at $t=2+\frac{40-6}{6}=\frac{23}{3}\approx7.67$ s. Car 2 reaches 10 m/s at $t=4$ s having covered 20 m, then reaches 22 m at $t=4+\frac{22-20}{10}=4.2$ s. The times differ, so no collision.
 - **Projectile from a roof** (source: composite, from the 2025 Final Paper A question statement, 40 m roof, 20 m/s at $\pi/6$). Integrate Newton's second law, with $y(t)=40+10t-\tfrac12gt^2$ and $x(t)=10\sqrt3\,t$. Time of flight from $y=0$ is $\approx4.052$ s, range $\approx70.17$ m, impact velocity $(17.32,\,-29.75)$ m/s. Covers: the standard "integrate, find $t$, then range and speed" sequence repeated across A and B.
 - **Skydiver with cubic drag** (source: 2025 Final Paper B memo, Q4). Vertical motion is free fall: after $10$ s, $\dot y=-98.1$ m/s and $y=3509.5$ m. Horizontal motion has $\ddot x=-\frac km\dot x^3$, giving $\dot x^2=\frac{m\dot x_0^2}{m+2k\dot x_0^2t}$. Kinetic energy at $10$ s is $\approx4.89\times10^5$ J. (see: [[APM01B1_Proofs_Final#Cubic drag in time form]])
 - **Work along an arc** (source: 2025 Final Paper B memo, Q2). $\vec F=3xy\hat x+2\hat y$ along the ellipse arc $(0,b)\to(a,0)$ with $\vec r=(a\cos s,b\sin s)$: $W=a^2b-2b$. Curl is $-3x\hat z\neq0$, so not conservative, yet the full-ellipse work is zero. (see: [[APM01B1_Proofs_Final#Zero work around a closed loop is not enough]])
@@ -188,7 +190,7 @@ Earlier lists are in [[APM01B1_Summary_ST1#Common mistakes]] and [[APM01B1_Summa
 
 ### Past-paper memo slips
 
-- Past-paper memo slips found by recomputing: Paper C Q1 prints $28.83$ m but its own working gives $5.766$ m. Paper C Q2 prints $4.5$ s for $4+\frac{22-20}{10}$, which is $4.2$ s (the conclusion stands). Paper B Q4(b) prints $4.98\times10^5$ J, recomputing gives $\approx4.89\times10^5$ J. Paper B Q2(b) drops a sign in the curl ($-3x$, not $3x$). Paper C Q6 writes the far-gravity potential as $+GMm/r$ instead of $-GMm/r$. The handwritten 2023 supplementary answer for the braking car is hard to read and the formula gives about $22.98$ m. Trust your own working.
+- Past-paper memo slips found by recomputing (the lecturer says such arithmetic errors are kept on purpose): Paper C Q1 prints $28.83$ m but its own working gives $5.766$ m. Paper C Q2 prints $4.5$ s for $4+\frac{22-20}{10}$, which is $4.2$ s, and gives the first car's distance in the first 2 s as $36$ m where $\tfrac12(3)(2)^2=6$ m, so its time to 40 m is $\frac{23}{3}$ s, not $\frac83$ s (the conclusion of no collision stands). Paper B Q4(b) prints $4.98\times10^5$ J, recomputing gives $\approx4.89\times10^5$ J. Paper B Q2(b) drops a sign in the curl ($-3x$, not $3x$). Paper C Q6 writes the far-gravity potential as $+GMm/r$ instead of $-GMm/r$. The handwritten 2023 supplementary answer for the braking car is hard to read and the formula gives about $22.98$ m. Trust your own working.
 
 ## Decision aids
 
@@ -224,13 +226,24 @@ The force-classification tree is the diagram at the end of the ST2 summary: [[AP
 
 ## Exam procedure
 
-Only what the supplied papers and test pages support. No account of how your earlier tests went was given, so nothing about your own sittings is claimed here.
+What the lecturer's email of 24 October and the supplied papers support. No account of how your earlier tests went was given, so nothing about your own sittings is claimed here.
 
-- The 2025 finals were 2 hours, 60 marks, six questions. Paper A had 10, 10, 10, 15, 10 and 5 marks; Paper B had 10, 15, 11, 14, 5 and 5; Paper C had 10, 7, 10, 15, 12 and 6. Check your own paper's format.
-- Question 1 of every 2025 paper was intrinsic quantities at a point, so it is a safe place to start and to collect marks.
-- Question 6 of every 2025 paper was the energy-differentiation question, worth 5 or 6 marks, so it is short.
-- The 2026 semester test 1 cover page says no books or notes are allowed and its formula sheet carries only the polar vector formulas and the vector differentiation and integration rules. Assume the energy and line-integral results must be known.
-- Memo answers contain slips (see Past-paper memo slips). Recompute the final arithmetic of your own answer before moving on.
+### From the lecturer (source: email reply, 24 October)
+
+- The exams are 40 marks from 3 questions. This differs from the 2025 finals, which were 60 marks from six questions, so use those papers for the style and topics, not the timing.
+- There is a formula sheet. It is not exhaustive and you must know some formulae.
+- The curl test is sufficient for deciding whether a force is conservative. Finding the potential is not required.
+- One past exam took its pulley question directly from the tutorials. It may or may not appear on Monday.
+- Marking is very lenient. Marks go to correct conceptual implementation, with minor penalties for arithmetic. An incorrect concept that is then mysteriously turned into the correct answer is marked incorrect.
+- A limiting case earns marks only when the question asks for one.
+- Arithmetic errors in memos are kept on purpose, away from the concepts, so you learn to question a memo. Recompute the final number.
+- The semester test 2 papers may only be on campus by Monday morning. A decision will be announced by Sunday.
+
+### From the supplied papers
+
+- The 2025 finals were 2 hours and 60 marks over six questions. Paper A had 10, 10, 10, 15, 10 and 5 marks; Paper B had 10, 15, 11, 14, 5 and 5; Paper C had 10, 7, 10, 15, 12 and 6. The lecturer's 40 marks from 3 questions is the format to expect, so check your own paper.
+- Question 1 of every 2025 paper was intrinsic quantities at a point, and Question 6 was the energy-differentiation question. Expect those topics, though not necessarily in that order.
+- The 2026 semester test 1 cover page says no books or notes are allowed, and its formula sheet carries only the polar vector formulas and the vector differentiation and integration rules. Learn the energy and line-integral results.
 
 ## Tips
 
