@@ -84,7 +84,7 @@ Four terms: $\ddot r$ radial, $r\ddot\theta$ angular, $-r\dot\theta^2$ centripet
 
 $$\hat T = \cos\psi\,\hat x+\sin\psi\,\hat y, \qquad \hat n=-\sin\psi\,\hat x+\cos\psi\,\hat y$$
 
-With respect to arc length: $\dfrac{d\hat T}{d\psi}=\hat n$, $\dfrac{d\hat n}{d\psi}=-\hat T$ (by the same cosine/sine differentiation pattern as $\hat r,\hat\theta$ above).
+With respect to the tangent angle $\psi$: $\dfrac{d\hat T}{d\psi}=\hat n$, $\dfrac{d\hat n}{d\psi}=-\hat T$ (by the same cosine/sine differentiation pattern as $\hat r,\hat\theta$ above).
 
 ```tikz
 \begin{document}
@@ -103,7 +103,7 @@ With respect to arc length: $\dfrac{d\hat T}{d\psi}=\hat n$, $\dfrac{d\hat n}{d\
 \end{document}
 ```
 
-Define curvature by $\dfrac{d\psi}{ds}=\dfrac{1}{\rho}$. By the chain rule:
+Define the radius of curvature $\rho$ by $\dfrac{d\psi}{ds}=\dfrac{1}{\rho}$ (curvature itself is $1/\rho$). By the chain rule:
 
 $$\frac{d\hat T}{dt} = \frac{d\hat T}{d\psi}\cdot\frac{d\psi}{ds}\cdot\frac{ds}{dt} = \hat n\cdot\frac{1}{\rho}\cdot v$$
 
@@ -178,3 +178,6 @@ $$\therefore \vec r(t) = t\,\hat x+2t\,\hat y+\left(3t-\tfrac12 gt^2\right)\hat 
 Proof not shown in source, statement only. The source material intentionally left this derivation as an exercise for the student, drawing on the projection technique from Velocity and acceleration in polar coordinates (see above); it was never itself worked on the page. A derivation exists in `APM01B1_Notes_S1_PolarIntrinsicCoordinates.md` under "(added) Deriving the Q4-style angle identity", built from taught material rather than transcribed from a lecture source, and is not exam-verified against the lecturer's own version.
 
 $$\theta = \arccos\!\left(\frac{a\dot r+b\,r\dot\theta}{v^2}\right), \qquad \theta = \arcsin\!\left(\frac{b\dot r-a\,r\dot\theta}{v^2}\right)$$
+
+## Amendments
+- Final pass (27 Oct 2026): $d\hat T/d\psi$ is with respect to the tangent angle $\psi$, not arc length; $\rho$ named as the radius of curvature. Matches the same fix in the S1 notes.

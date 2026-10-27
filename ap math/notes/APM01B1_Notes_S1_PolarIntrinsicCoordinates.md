@@ -163,10 +163,10 @@ $$\boxed{\vec a = \big(\ddot r - r\dot\theta^2\big)\hat r + \big(r\ddot\theta + 
 
 Four named terms:
 
-1. $\ddot r$ — radial acceleration
-2. $r\ddot\theta$ — angular acceleration
-3. $-r\dot\theta^2$ — centripetal acceleration
-4. $2\dot r\dot\theta$ — Coriolis acceleration
+1. $\ddot r$: radial acceleration
+2. $r\ddot\theta$: angular acceleration
+3. $-r\dot\theta^2$: centripetal acceleration
+4. $2\dot r\dot\theta$: Coriolis acceleration
 
 ## Worked example: circular spiral
 
@@ -186,7 +186,7 @@ $$\frac{\vec r}{r} = \cos t\,\hat x + \sin t\,\hat y \quad\Rightarrow\quad \thet
 
 $$\hat\theta = -\sin\theta\,\hat x+\cos\theta\,\hat y = -\sin t\,\hat x + \cos t\,\hat y$$
 
-Then, using $\vec r = r(\theta)\hat r$ with the chain rule $\dfrac{d\hat r}{dt} = \dfrac{dr}{d\theta}\dfrac{d\theta}{dt}\hat r + \dot\theta\,\hat r$ (setting up the general form used again in the Coriolis section below):
+Then, using $\vec r = r(\theta)\hat r$ with the chain rule $\dfrac{d\vec r}{dt} = \dfrac{dr}{d\theta}\dfrac{d\theta}{dt}\hat r + r\dot\theta\,\hat\theta$ (setting up the general form used again in the Coriolis section below):
 
 $$\frac{d\vec r}{dt} = \frac{dr}{dt}\hat r + r\frac{d\hat r}{dt}$$
 
@@ -204,11 +204,13 @@ left=-1.5; right=1.5; top=1.5; bottom=-1.5;
 
 $$\hat r(t) = \frac{\vec r}{|\vec r|} = \frac{\sin t\,\hat x + \sin(2t)\,\hat y}{\sqrt{\sin^2 t+\sin^2 2t}} = \frac{\hat x + 2\cos t\,\hat y}{\sqrt{1+4\cos^2 t}}$$
 
-$$\hat\theta(t) = \sin\theta\,\hat x+\cos\theta\,\hat y = \hat z\times\hat r = \frac{-2\cos t\,\hat x + \hat y}{\sqrt{1+(2\cos t)^2}}$$
+(added) The last step divides top and bottom by $\sin t$, so it holds where $\sin t>0$. Where $\sin t<0$ the whole vector flips sign.
+
+$$\hat\theta(t) = -\sin\theta\,\hat x+\cos\theta\,\hat y = \hat z\times\hat r = \frac{-2\cos t\,\hat x + \hat y}{\sqrt{1+(2\cos t)^2}}$$
 
 Transverse speed by projection:
 
-$$v_\theta = r\dot\theta = \vec v\cdot\hat\theta = (\cos t\,\hat x + 2\cos t\,\hat y)\cdot\frac{-2\cos t\,\hat x+\hat y}{\sqrt{1+(2\cos t)^2}} = \frac{-2\cos^2 t+2\cos 2t}{\sqrt{1+(2\cos t)^2}}$$
+$$v_\theta = r\dot\theta = \vec v\cdot\hat\theta = (\cos t\,\hat x + 2\cos 2t\,\hat y)\cdot\frac{-2\cos t\,\hat x+\hat y}{\sqrt{1+(2\cos t)^2}} = \frac{-2\cos^2 t+2\cos 2t}{\sqrt{1+(2\cos t)^2}}$$
 
 then $\dot\theta = v_\theta/r$, and radial acceleration follows from $a_r = \vec a\cdot\hat r = \ddot r - r\dot\theta^2$.
 
@@ -251,11 +253,11 @@ Let $\psi$ be the angle $\hat T$ makes with the $x$-axis:
 
 $$\hat T = \cos\psi\,\hat x + \sin\psi\,\hat y, \qquad \hat n = -\sin\psi\,\hat x + \cos\psi\,\hat y$$
 
-With respect to arc length $s$ (not time):
+With respect to the tangent angle $\psi$ (not time):
 
 $$\frac{d\hat T}{d\psi} = \hat n, \qquad \frac{d\hat n}{d\psi} = -\hat T$$
 
-For a general path, can $\Delta s$ (arc length) be treated as the arc of a circle as $\Delta\psi\to0$? Not in general. But define curvature $\rho$ by
+For a general path, can $\Delta s$ (arc length) be treated as the arc of a circle as $\Delta\psi\to0$? Not in general. But define the radius of curvature $\rho$ (curvature itself is $1/\rho$) by
 
 $$\frac{d\psi}{ds} = \frac{1}{\rho}$$
 
@@ -365,3 +367,8 @@ with $v^2=a^2+b^2$.
 - $\vec v_{ave}$ needs only endpoint positions, $\vec v_{mean}$ needs instantaneous velocity at each endpoint, they are not generally equal.
 - The two edge cases for $m\ddot{\vec r}=\vec F$ are told apart by which pair of conditions is given: $(\vec r(0),\vec v(0))$ for constant force, $(\vec r(0),\vec r(1))$ for time-dependent force.
 - Galilean invariance: $\vec F=m\vec a$ keeps its form under a frame change only if the two frames differ by a constant velocity.
+
+## Amendments
+- Final pass (27 Oct 2026): spiral example chain rule corrected to $\dfrac{d\vec r}{dt}=\dfrac{dr}{d\theta}\dot\theta\,\hat r+r\dot\theta\,\hat\theta$ (it was written as $d\hat r/dt$ with a wrong second term).
+- Final pass (27 Oct 2026): non-circular path example, $\hat\theta$ sign fixed to $-\sin\theta\,\hat x+\cos\theta\,\hat y$; $\vec v$ typo fixed to $\cos t\,\hat x+2\cos 2t\,\hat y$ (the final $v_\theta$ was already right); added the $\sin t>0$ condition on the simplified $\hat r$.
+- Final pass (27 Oct 2026): $d\hat T/d\psi$ is with respect to the tangent angle $\psi$, not arc length; $\rho$ named as the radius of curvature. Em dashes removed from the Coriolis term list (R8).
