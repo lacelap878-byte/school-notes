@@ -9,7 +9,7 @@ tags: [definition, worked-example, common-mistake, exam-flagged, struggle, added
 
 These notes cover the part of Lecture 8 that was taught in drill format, plus the exam-style version of the same code. Slide code is quoted as printed (slide numbers are the printed ones). Anything beyond the slides is marked (added). The slides use `nodeType`, `info`, `link` and `NULL`. The exam papers use a templated `Node<T>` with `data`, `next` and `nullptr`. Learn the exam style, recognise the slide style. #exam-flagged
 
-**Partial coverage, said plainly:** slides 29 to 50 (the linkedListType class, iterators, destroy, copy, the big three), 51 to 71 (unordered and ordered lists), 72 (print in reverse), 74 to 85 (doubly linked) and 87 to 88 (circular) were NOT taught. Several of those code slides did not read cleanly, so they are described in words only. Doubly linked and circular lists appear only in the 2018 and 2019 papers, not in 2021 to 2025.
+**Partial coverage, said plainly:** slides 29 to 50 (the linkedListType class, iterators, destroy, copy, the big three), 51 to 71 (unordered and ordered lists), 72 (print in reverse), 74 to 85 (doubly linked) and 87 to 88 (circular) were NOT taught in the drill. Amended S11: slides 42 to 61 and 71 have since been read as images and are summarised below (the earlier note that several of these were code slides that did not read cleanly was wrong; they contain no code). Slides 29 to 41, 62 to 70, 72 and 74 to 88 have not yet been re-checked. Doubly linked and circular lists appear only in the 2018 and 2019 papers, not in 2021 to 2025.
 
 ## What a linked list is
 A linked list is a collection of nodes. Each node holds data and a pointer to the next node. The last node points to nothing. #definition
@@ -55,6 +55,20 @@ Node<string> *head = nullptr;
 (added) `current = head;` copies the address. There is still one list. `current` is like a mailman: he carries an address and visits the houses, the houses do not move. You never need the names of the nodes, because every node is reached through the `next` of the one before it.
 
 Never walk with `head` itself. If you move `head`, the front of the list is lost. Copy it into `current` and walk with that.
+
+### Pointer or node (added, Amended S11)
+This is the point that caused the most argument in the S11 drill, so it is stated plainly. #struggle
+- A node is the whole struct: `data` plus a pointer `next`. It is created with `new`.
+- A pointer is a variable that holds an address. `head`, `current`, `previous`, `newNode` and every node's `next` are pointers. Test: the declaration has a `*`.
+- Having a pointer inside a node does not make the node a pointer, in the same way a business card that holds an address is not itself an address.
+- `Node<string> *head = n1;` creates no node. Only a line with `new` (or a declared `Node<string> x;`) makes a node. With five `new`s there are five nodes, however many pointers point at them.
+- `delete current;` destroys the node that `current` points at. The variable `current` stays, still holding the old address, which is why we write `current = nullptr;` or fix the node before it.
+- Every pointer that held the freed node's address needs fixing separately (`head` for the first node, the earlier node's `next` for a later one).
+- A node cannot hold a real node of its own type inside itself. g++ gives `field 'next' has incomplete type 'Node'`, because the size would be infinite. A pointer has a fixed size, and can also be `nullptr` to end the list.
+- Value nodes (`Node<string> n1, n2;`) work only for a fixed, known number of items; they disappear at the closing brace and cannot be deleted from the middle. The list uses `new` because its size changes while the program runs.
+- Working model that gives correct code: a pointer behaves like the node it points at, except in three places: `delete` (the node dies, the pointer stays), assignment of pointers (`a = b` copies the address, not the node), and `head = nullptr` (changes only the pointer).
+
+<span style="color:#f08c00">Open: node versus pointer. The user's own picture treated `head` as a node. The practical model above gives correct code, but the distinction has not been accepted yet.</span>
 
 ## Traversal (slides 13 and 14)
 ```cpp
@@ -202,6 +216,24 @@ else {
 ```
 The first node is a special case, because no node comes before it.
 
+(added, Amended S11) Delete last, the lecture's way: two pointers, `current` on the node to delete and a trailing pointer on the node before it. Slide 58 says: "update link field of the previous node to NULL". Slide 71 (the ordered list version) names the trailing pointer `trailCurrent`. The slides give this in words and pictures, not code. Compiled and run on lists of 0 to 5 nodes with no leaks:
+```cpp
+if (head == nullptr) return;
+else if (head->next == nullptr) { delete head; head = nullptr; }
+else {
+    Node<string> *previous = nullptr;
+    Node<string> *current = head;
+    while (current->next != nullptr)
+    {
+        previous = current;
+        current = current->next;
+    }
+    previous->next = nullptr;
+    delete current;
+}
+```
+`previous->next` and `current` hold the same address. Cut the earlier node loose first, then free the node. Setting `current = nullptr` instead would not fix `previous->next`, which would still hold the freed address. This does the same job as the `next->next` version above; use whichever you can hold in your head.
+
 (added) Delete the whole list:
 ```cpp
 Node<string> *current = head;
@@ -237,7 +269,29 @@ first = NULL;
 last = NULL;
 count = 0;
 ```
-Here `first` is what the drill called head, and `last` is a tail pointer so adding at the end needs no walk. The slides continue with iterators (36 to 39), the list operations (41 to 50), unordered lists (51 to 61) and ordered lists (62 to 71). Not covered.
+Here `first` is what the drill called head, and `last` is a tail pointer so adding at the end needs no walk. The slides continue with iterators (36 to 39), the list operations (41 to 50), unordered lists (51 to 61) and ordered lists (62 to 71).
+
+Amended S11: slides 41 to 50 read as images. They are words only, no code (source, slides as numbered):
+- 41 default constructor: initialises the list to the empty state.
+- 42 destroyList: traverses the list deallocating each node, then sets `first` and `last` to NULL and `count` to 0.
+- 43 initializeList: reinitialises an existing list to empty (the constructor already did this once).
+- 44 print: prints the data in each node, traversing with another pointer.
+- 45 length: returns the node count, using the `count` variable.
+- 46 front and back: return the info in the first or last node; the program terminates if the list is empty.
+- 47 begin and end: iterators; `end` is one past the last node.
+- 48 copyList: create a node called newNode, copy the info into it, insert newNode at the end of the list being created.
+- 49 the destructor calls destroyList; the copy constructor calls copyList.
+- 50 the overloaded assignment operator is similar to the copy constructor.
+
+## Unordered list operations (slides 51 to 61)
+(Amended S11, read as images. Words and diagrams, no code. Not taught in the drill.)
+- 51 and 52: the class unorderedLinkedList is derived from the abstract class linkedListType. It implements search, insertFirst, insertLast and deleteNode (UML diagram on slide 52: `+search(const Type&) const: bool`, `+insertFirst(const Type&): void`, `+insertLast(const Type&): void`, `+deleteNode(const Type&): void`, with an inheritance arrow to linkedListType).
+- 53 search: compare the search item with the current node; if its info is the same, stop; otherwise make the next node the current node; repeat until found or no data is left.
+- 54 insertFirst: create a new node, store the new item in it, insert it before `first`, increment `count`.
+- 55 insertLast: inserts a new node after `last`, similar to insertFirst.
+- 56 to 61 deleteNode, the cases: case 1 the list is empty (output an error message); case 2 the node to delete is the first (adjust `first` and `count`; if there are no other nodes set `first` and `last` to NULL); case 3 the node is not the first: 3a not the last (update the link field of the previous node), 3b the last node (update the link field of the previous node to NULL and update `last` to point to the previous node); case 4 the node is not in the list (no adjustment, output an error message). Slides 57 to 60 are diagrams of a list 28, 17, 37, 24, 54 before and after deleting 28, 37 and 54.
+The "previous node" in cases 3a and 3b is the trailing pointer described under Deletion. The exam list has only `head`, so there is no `last` to update.
+
 
 ## Doubly linked and circular (slides 74 to 88), not taught
 A doubly linked node has two pointers, and the lecture calls the backward one `back`, not `prev`. A circular list has the last node pointing at the first. Read slides 74 to 88 once if time allows. They are not in the 2021 to 2025 papers.
@@ -272,3 +326,6 @@ Insert before and search are the two never practised.
 ## See also
 - [[CSC01B1_Notes_S10_StacksAndQueues]]
 - [[CSC01B1_Notes_S6_OperatorOverloadingTemplates]]
+
+## Amendments
+S11: corrected the claim that slides 42 to 50 and 54 to 55 were code slides that did not read cleanly. They contain no code. Added summaries of slides 41 to 61 and 71, the lecture's previous-node method for delete last (compiled and run), and the Pointer or node section after the user's questions in the S11 drill.

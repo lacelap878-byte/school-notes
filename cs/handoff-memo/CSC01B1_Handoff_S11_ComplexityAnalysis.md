@@ -62,7 +62,7 @@ Memo written after the session-end check quiz. The Summary (Revise style) has be
 Practice insert BEFORE a value and search in a list (both in past papers, never practised)
 Doubly linked and circular lists: skim slides 74 to 88 (only in 2018 and 2019 papers)
 Sorting and searching slides 22 to 41: the Big-O table only is needed
-Several L8 code slides (42 to 44, 48 to 50, 54 to 55) did not read cleanly; code not captured
+Corrected 28 October: L8 slides 41 to 50 and 53 to 61 contain no code (words and diagrams); they were read as images and summarised in the S9 notes (Amended S11). Still to read and go over: L8 slides 29 to 40, 62 to 72, 74 to 88; L9 array stacks and queues (11 to 29, 69 to 89), postfix (46 to 58), print backward (59 to 65), simulation (97 to 105); complexity slides 6 to 9, 18 to 20, 22 to 41
 Big-O definition slides (complexity slides 6 to 9) not captured; re-read from the PDF
 Timed UML drill, 6 minute cap (the ST1 UML cost 45 minutes)
 Ask lecturers: will the Class Test line (the PM) change; ST2 live build and exception handling marks
