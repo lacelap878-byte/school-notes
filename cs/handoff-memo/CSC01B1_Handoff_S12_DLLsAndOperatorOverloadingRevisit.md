@@ -85,6 +85,32 @@ First drill next session (cold, blank page, before looking at any note): 2025-C 
 Plan to exam (Monday 2 November): Friday template and Q2.1 patterns, exceptions, Q3 file handling; Saturday Q1 theory and a timed 2025-A paper; Sunday timed 2025-B and 2025-C; a timed UML capped at 6 minutes; insert BEFORE and search; Big-O drill. Lecturer reply may change the plan for explicit linking, doubly and circular lists and sorts. The Final summary needs a refresh with the new marks and the S7 amendments (ask the user first).
 ```
 
+### Outstanding work list (read this first in the next chat)
+Logged 29 October at the user's request, because the S12 chat got too big. The next chat finishes this list.
+```
+A. To revise (struggled or came back wrong)
+   1. S12 retest list, struggle log section 5 items 1 to 6 (2025-C Q4.2 and Q4.3, module files, DLL batch file, member vs friend, default =, Q2.1 blanks)
+   2. Delete last and insert BEFORE with previous and current (missed in S9 and S11 drills)
+   3. Older open items in the struggle log: template layout and link error, post-increment return, [] const, seekg vs seekp, padding, .open() flags
+B. Done only once or not finished
+   4. Timed UML, 6 minute cap (one run on 28 Oct, not finished)
+   5. Insert BEFORE a value and search a list (one attempt, stop condition and not-found case missed)
+   6. Q4 DLL (done once: 2025-A Q4.3 and 2025-B Q4.3 attempts, 2025-C photos); needs a clean blank page repeat
+   7. Operator overloading Q2.1 (taught and drilled once, today)
+C. Not done yet
+   8. Q3.5 Big-O timed drill and the sorts and searches Big-O table
+   9. Exception handling and Q3 file handling revision (planned Friday)
+   10. Q1 theory pass (planned Saturday)
+   11. Timed full papers: 2025-A Saturday, 2025-B and 2025-C Sunday
+   12. Doubly linked and circular lists, skim only, depends on the lecturer reply
+   13. Skipped material in study mode (low frequency, last priority)
+D. Waiting on someone or to confirm
+   14. Lecturer reply: function pointers and explicit linking (2025-B Q4.1), doubly and circular lists and iterators, sorts and searches. No reply by Saturday: teach the typedef pattern as a fixed template.
+   15. PM line and ST2 marks question for the lecturers
+   16. Exam start time (user says 16:30, to confirm)
+   17. Final summary refresh (ask the user first)
+```
+
 ## 8. PROTOCOL VERSIONS
 ```
 file                                              | written with            | amended with
