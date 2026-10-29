@@ -85,6 +85,22 @@ Three assumptions                         | S11        | Could not recall the th
                                           |            | quiz answer was a gut feeling. Not memorised.              |
 Nested loop combining                     | S11        | Multiplied a term that should be added. Outer loop         | 1
                                           |            | overhead is added once per outer pass.                     |
+Delete last in drill (28 Oct)             | S11        | Loop current->next != nullptr then delete current; delete  | 2
+                                          |            | temp, so previous->next dangles. The loop must stop one    |
+                                          |            | BEFORE the last node (or use a trailing pointer).          |
+Node versus pointer, what head is         | S11        | Argued that head is a node and that every node is a        | 1
+                                          |            | pointer. Not accepted. Working model: a pointer behaves    |
+                                          |            | like the node it points at, except for delete, a = b       |
+                                          |            | (copies the address) and head = nullptr.                   |
+Second-guessing a correct line            | S11        | Crossed out a correct one-node case and replaced it with   | 1
+                                          |            | wrong code (delete head->next). Check against the rule     |
+                                          |            | before crossing out.                                       |
+Syntax slips in the 28 Oct drills         | S11        | int count == 0; Node *<string>; head = nullptr without     | 1
+                                          |            | braces after an else; counting loop with a data stop       |
+                                          |            | condition and the if outside; capital Template.            |
+Writing code from a hard-to-follow explanation| S11        | Could not memorise the peek-two-ahead delete-last because  | 1
+                                          |            | it was not understood. The lecture previous-pointer        |
+                                          |            | version (slides 58 and 71) works better for the user.      |
 ```
 
 All items stay open until answered correctly under retest.
@@ -107,6 +123,7 @@ These were checked in the same session as the correction, so they have the weake
 
 ## 3. NOTATION AND TERMINOLOGY STILL CAUSING TROUBLE
 Linked lists: `->` chains such as `current->next->next` (two hops, current moves one node per pass), and `Node<string> *` (what the <> and the star mean). Slide names (nodeType, info, link, NULL) differ from exam names (Node<T>, data, next, nullptr). Queue names: addQueue, deleteQueue. Doubly linked back pointer is `back`.
+Pointer versus node (S11): the user holds that head is a node. Do not argue definitions. Trace code by hand and drill from a blank page.
 DLL jargon from S7 remains unfixed.
 
 ## 4. PATTERNS ACROSS SESSIONS

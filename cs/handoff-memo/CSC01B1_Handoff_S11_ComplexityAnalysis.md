@@ -3,7 +3,7 @@ Supersedes S1 to S10. This is the only handoff file needed.
 ## 1. OBJECTIVE (this session)
 Cover the last three exam topics in the semester: linked lists (Lecture 8), stacks and queues (Lecture 9) and complexity analysis, in drill format, for the CSC01B1 exam on Monday 2 November 2026 (2 hour written theory paper). The session also covered the ST2 mark query and the PM/Class Test question for the lecturers.
 
-Exam context: semester mark 51 (tentative), so a pass needs about 49% in the exam. ST2 is 49 (unmoderated, capped for "no compile") and is being queried in person. Class Test 100 is very likely the PM. VPL in session practicals 1, 2, 3, 4 and 6 read 0 (compilation failed in the auto marker) and are being remarked. Goal: a 65% final for cum laude (needs about 79% in the exam).
+Exam context (updated 28 October): ST2 is 72 (after the remark), ST1 is 35 (14 of 40), Class Test 100 is very likely the PM. Semester mark = 10% PM + 25% ST1 + 65% ST2, about 65.5. Final = 50% semester + 50% exam, with at least 50% overall and at least 40% in the exam, so about 64.5% in the exam gives a 65% final (the cum laude goal; the module target is 65% or above). The PM line and the in-session practical (VPL) remark are still pending and could change the semester mark.
 
 ## 2. TOPIC LEDGER
 ```
@@ -15,9 +15,9 @@ S5 | Polymorphism (virtual functions, late binding, pure virtual and abstract cl
 S6 | Operator overloading (fundamentals, this pointer, friend functions, binary/stream/assignment/unary/increment/subscript overloads) and templates (function and class, header layout) | full | open struggle yes (8 items, quiz 0 of 8)
 S7 | File handling (secondary storage and streams, sequential file I/O, opening modes and flags, output formatting, random access, raw disk I/O, padding and #pragma pack, DLLs with implicit and explicit linking) | full | open struggle yes
 S8 | Exception handling (exception, assert, try/catch/throw, catch order, exception classes and what(), user-defined exception classes, rethrowing, throw clause, handling techniques, stack unwinding) | full | open struggle no (S6 and S7 items stay open)
-S9 | Linked lists, Lecture 8 (node, head, traversal, insert start/end/after, delete first/last/specific/whole list; exam style Node<T>) | partial (slides 29 to 88 not taught: list class, iterators, ordered/unordered lists, doubly linked, circular) | open struggle yes
-S10 | Stacks and queues, Lecture 9 (LIFO, FIFO, operations, linked stack and queue as list code) | partial (array stacks and queues, postfix, print backward, simulation not taught) | open struggle yes
-S11 | Complexity analysis (three assumptions, counting T(N), Big-O, results table for sorts and searches) | partial (counting taught; sorting and searching slides 22 to 41 not taught) | open struggle yes
+S9 | Linked lists, Lecture 8 (node, head, traversal, insert start/end/after, delete first/last/specific/whole list; exam style Node<T>) | full for the drilled part; amended 28 Oct (all slides read and written as presented, N.B. low frequency on slides 23 to 40 and 62 to 92) | open struggle yes | amended
+S10 | Stacks and queues, Lecture 9 (LIFO, FIFO, operations, linked stack and queue as list code) | full for the drilled part; amended 28 Oct (all 108 slides written as presented, N.B. low frequency on array versions, postfix, print backward, simulation) | open struggle yes | amended
+S11 | Complexity analysis (three assumptions, counting T(N), Big-O, results table for sorts and searches) | full for the counting method; amended 28 Oct (Big-O definition, recursion, every sort and search with slide code, N.B. low frequency) | open struggle yes | amended
 ```
 
 ## 3. NOTES INDEX
@@ -55,16 +55,15 @@ S9 to S11 covered in drill format, with the user writing code on paper from a bl
 S1 to S8 are one line each in the ledger. S6 and S7 items stay open (see the struggle log).
 
 ## 5. LAST POSITION
-Memo written after the session-end check quiz. The Summary (Revise style) has been requested and is next. No timed UML drill has been run yet. The user stopped for the night.
+Amended 28 October (evening): S9, S10 and S11 notes were amended with every unread slide (L8, L9 and the complexity deck), written as presented with N.B. lines saying low frequency means do not focus on them. The user then asked to go over the skipped material in study mode. Also on 28 October: pointer versus node was argued at length (see the struggle log), the delete-last lecture version (trailing pointer) was taught, and no timed UML, Big-O or insert BEFORE and search drill has been run yet. The Final summary is stale (old marks).
 
 ## 6. PARKED ITEMS
 ```
 Practice insert BEFORE a value and search in a list (both in past papers, never practised)
 Doubly linked and circular lists: skim slides 74 to 88 (only in 2018 and 2019 papers)
 Sorting and searching slides 22 to 41: the Big-O table only is needed
-Corrected 28 October: L8 slides 41 to 50 and 53 to 61 contain no code (words and diagrams); they were read as images and summarised in the S9 notes (Amended S11). Still to read and go over: L8 slides 29 to 40, 62 to 72, 74 to 88; L9 array stacks and queues (11 to 29, 69 to 89), postfix (46 to 58), print backward (59 to 65), simulation (97 to 105); complexity slides 6 to 9, 18 to 20, 22 to 41
-Big-O definition slides (complexity slides 6 to 9) not captured; re-read from the PDF
-Timed UML drill, 6 minute cap (the ST1 UML cost 45 minutes)
+Corrected 28 October: all unread slides have now been read as images and written into the notes (Amended S11). Still to GO OVER in study mode (priority): L8 slides 62 to 72, complexity slides 6 to 9 and 18 to 20, L9 postfix and print backward, then L8 29 to 40 and 74 to 88, then L9 array stacks and queues and the sorts and searches. All of it is low frequency.
+Timed UML drill, 6 minute cap (the ST1 UML cost 45 minutes). First run 28 Oct (2022-C Q1.1, Musical Instrument): not finished at 6 minutes; inheritance chain and overrides drawn well, but the Musician relationship (aggregation with the diamond on the Musician side, 0..* multiplicity, add and remove operations) was left out, the starting note was typed string not char, and the RGB colour record had no struct of its own. Redo with the order: boxes and names, then relationship lines, then attributes and operations. Exam on Monday 2 November; the user says it starts at 16:30 (to confirm)
 Ask lecturers: will the Class Test line (the PM) change; ST2 live build and exception handling marks
 ```
 
@@ -75,5 +74,6 @@ MODULE CODE CSC01B1
 Paste this handoff memo and CSC01B1_StruggleLog_S11_ComplexityAnalysis.md
 at the start of the next session.
 Run the session-start revision quiz first, from the RETEST FIRST list in the struggle log. Tell me first if the S9, S10 and S11 notes have not been re-read.
-Plan to exam (Monday 2 November): blank-page retrieval of the linked list operations first; skim doubly linked and circular lists; learn the sorts and searches Big-O table; a timed UML capped at 6 minutes; practise insert BEFORE and search; a timed full past paper on Sunday. Next step in this chat: the Summary (Revise style) of S1 to S11.
+First drill next session (cold, blank page, before looking at any note): insert S5 before the first S6 with previous and current (loop `current != nullptr && current->data != "S6"`, then three branches: not found, S6 first, middle or end), then delete a specific node and delete last, in mixed order. On 28 Oct the insert before drill was written in 5 minutes 26 seconds but missed the stop condition and the not-found case; both were then understood and the four-list check was answered correctly.
+Plan to exam (Monday 2 November): blank-page retrieval of the linked list operations first; skim doubly linked and circular lists; learn the sorts and searches Big-O table; a timed UML capped at 6 minutes; practise insert BEFORE and search; a timed full past paper on Sunday. Next steps: go over the skipped material, then Q3.5 Big-O drill, a timed UML (6 minute cap), the insert BEFORE and search drill; tomorrow Q4 DLL (dynamic link library) and the Q2.1 template operator; Sunday a timed full paper. The Final summary needs a refresh with the new marks (ask the user first).
 ```

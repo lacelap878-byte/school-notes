@@ -11,7 +11,7 @@ Built for the exam on Monday 2 November 2026 (2 hours, 100 marks, written), not 
 
 Scope: the whole module, S1 to S11. `cs` PROFILE has no proof content, so no Proofs file accompanies this one.
 
-Reliability: where this file and an older log disagree, the S9 to S11 session (27 October 2026) is the most recent record. Sessions S9, S10 and S11 are only partly covered (see Material covered, After ST2).
+Reliability: where this file and an older log disagree, the S9 to S11 session (27 and 28 October 2026) is the most recent record. Sessions S9, S10 and S11 were amended on 28 October 2026 with every lecture slide (see Material covered, After ST2).
 
 ## Contents
 
@@ -163,11 +163,11 @@ Summary: [[CSC01B1_Summary_ST2]].
 
 ### After ST2 (S9 to S11)
 
-These three were taught in drill format and are partial.
+These three were taught in drill format. On 28 October 2026 every remaining slide was read and written into the notes as presented, with N.B. lines saying they are low frequency.
 
-- [[CSC01B1_Notes_S9_LinkedLists]] linked lists. Taught: the node, head, traversal, insert at start, end and after a value, delete first, last, a specific node and the whole list. Not taught: the list class, iterators, ordered and unordered lists (slides 29 to 71), print in reverse, doubly linked and circular lists (74 to 88).
-- [[CSC01B1_Notes_S10_StacksAndQueues]] stacks and queues. Taught: the idea of each and the linked versions. Not taught: array stacks and queues, postfix evaluation, printing backward with a stack, the queue simulation.
-- [[CSC01B1_Notes_S11_ComplexityAnalysis]] complexity analysis. Taught: the counting method. Not taught: the sorting and searching slides (22 to 41); only their Big-O results are listed.
+- [[CSC01B1_Notes_S9_LinkedLists]] linked lists. Taught: the node, head, traversal, insert at start, end and after a value, delete first, last, a specific node and the whole list. Read but not taught, low frequency: the list class, iterators, ordered and unordered lists (slides 29 to 71), print in reverse, doubly linked and circular lists (74 to 88).
+- [[CSC01B1_Notes_S10_StacksAndQueues]] stacks and queues. Taught: the idea of each and the linked versions. Read but not taught, low frequency: array stacks and queues, postfix evaluation, printing backward with a stack, the queue simulation.
+- [[CSC01B1_Notes_S11_ComplexityAnalysis]] complexity analysis. Taught: the counting method. Read but not taught, low frequency: the Big-O definition, recursion and the sorting and searching slides (22 to 41), now with the slide code in the note.
 
 ## Condensed concept pass
 
@@ -286,30 +286,30 @@ T(N): operations counted for problem size N; the 4N is 4 operations in each of N
 
 ## What the tests showed
 
-This section records what the user reported, in their words. Nothing is inferred from outside that account. The ST2 account is incomplete: the user had not seen their ST2 submission again when it was given, and planned to look at it on 28 October 2026.
+This section records what the user reported, in their words. Nothing is inferred from outside that account. Updated 28 October 2026: the ST2 remark is done and the user reported the new marks (below).
 
 ### Semester test 1 (ST1)
 
-- The user reported: "i got 30% in my ST1".
+- The user reported 35% for ST1, 14 out of 40 (updated 28 October 2026; the user first said 30%).
 - The user reported that the test was 45 minutes and that the UML question took up the time: "it was the reason i wasted 45 minutes in my st1".
 - Question 4 and Question 5 were not done: "i couldnt do question 4 or 5 that was 20 marks down the drain and the uml was only 10 marks".
 
 ### Semester test 2 (ST2)
 
 - The paper: a 3 hour practical, marked by VPL (from [[CSC01B1_Summary_ST2#Paper shape]]).
-- The user reported the mark as 49%, unmoderated, and said the lecturers told them a submission that does not compile is capped at 49%.
+- The user first reported 49%, unmoderated, with the lecturers saying a submission that does not compile is capped at 49%. After the remark the user reported 72% on 28 October 2026: the compile flag was wrong, and the bonus, which had not been marked, gave 10 marks.
 - The user reported that the marker's remark said the code did not compile, and said: "i distinctly remember it did compile" and "i vividly remember checking my code for the final time not having any errors".
 - The user reported what the lecturers said at the query: the markers use their own batch file; from experience a "no compile" is likely still a "no compile" on remark, but it is an average; minor fixes can be made, and if the code does compile the marks are given. The user changed their own batch file.
 - The user reported that someone else's UML went from 4/10 to 10/10 on remark, and said they would query the exception handling bonus if they did not see 10 out of 10.
-- As of 27 October 2026 the ST2 remark was still pending.
+- As of 28 October 2026 the ST2 remark is done: 72%.
 
 ### Where the marks stand
 
-From the learning guide and the user's own screenshots on 27 October 2026. All can change after the ST2 remark.
+From the learning guide and the user's own reports, updated 28 October 2026. The Class Test line (PM) and the practical remark can still change it.
 
 - Rules: the semester mark is 10% PM, 25% ST1 and 65% ST2, and must be at least 40% to enter the exam. The final is 50% semester and 50% exam, with at least 50% overall and at least 40% in the exam.
-- Marks reported: ST2 49 (unmoderated), the Class Test 100 (the user was told it is very likely the PM), a tentative semester mark of 51.
-- Arithmetic from those rules: a 50% final needs about 49% in the exam, and a 65% final needs about 79%.
+- Marks reported: ST2 72 (after the remark), ST1 35, the Class Test 100 (the user was told it is very likely the PM). Semester mark = 10% x 100 + 25% x 35 + 65% x 72, about 65.5.
+- Arithmetic from those rules: the exam minimum of 40% is what binds for a pass, and a 65% final (the cum laude goal) needs about 64.5% in the exam.
 - In session practicals marked by VPL read 0 for compile failures (practicals 1, 2, 3, 4 and 6) and the lecturer said they are being remarked, on the basis that code which does not compile does not get the mark.
 
 ### Patterns across the tests
