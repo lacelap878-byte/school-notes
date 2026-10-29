@@ -68,6 +68,24 @@ void two(/*parameters*/)
 
 This access is exactly what lets a nonmember operator function reach into a class's private data, which is what decides whether an overloaded operator has to be a member or a friend.
 
+> [!question]- Struggle (added, S12): a friend has no `this`, so where is the left operand? #struggle
+> A member is called on an object, so `this` points to that object, the LEFT operand. In `a + b` written as a member, `this` is `a` and the parameter is `b`. A friend is an ordinary function, so there is no `this`. It takes both `a` and `b` as parameters. If you write the member form, you do not also pass the left object: the pointer already is the left object. Mixing the two (a member with two parameters, or a friend that uses `this`) is a compile error.
+
+### The three const positions (added)
+```cpp
+const Money operator+(const Money& rhs) const;
+//^ 1                 ^ 2               ^ 3
+```
+| Position | What it protects |
+|---|---|
+| 1. In front | The value that is returned cannot be changed |
+| 2. Inside the brackets | The right operand is not changed |
+| 3. Trailing | The left object, which is `this`, is not changed |
+
+- A trailing const exists only on a member. A friend has no `this`, so there is nothing to protect.
+- Assignment returns a reference to the left object, so it has no trailing const: `*this` is changed.
+- Mistake made in S12: choosing "the returned element cannot be changed" for the trailing const. That is position 1. The trailing one protects the object the function is called on.
+
 ## Operator Functions as Member vs Nonmember Functions
 
 Four operators can **only ever** be overloaded as a member of the class: `()`, `[]`, `->`, and `=`. #exam-flagged
@@ -510,6 +528,37 @@ In all three, the function definitions and the client code end up compiled toget
 > ```
 > Moving the definitions into the header fixed it, and the program printed `7` and `42`. The same failure happens for a function template and a class template.
 
+### Q2.1 blanks: what each one is (added)
+The Q2.1 questions in the 2025 A, B and C papers give a class template with words missing. The same blanks keep coming back:
+
+| Blank | Answer pattern | Why |
+|---|---|---|
+| Header line above the class | `template <typename T>` | Makes the class a template |
+| Copy constructor parameter | `const UJList<T>&` (the `<T>` is the part people forget) | The class name alone is not a complete type inside a template |
+| Assignment operator | `operator=` | Always a member |
+| Subscript return type | `T&` | So the caller can read and write through it |
+| Before `<<` and `>>` inside the class | `friend` | The left operand is a stream |
+| The operator itself | `<<` for output, `>>` for input | `cout << x` is output, `cin >> x` is input |
+| Template line before a friend | `template <typename E>`, and then `UJList<E>` | A friend template is a new template, so reusing `T` gives "shadows template parameter" |
+| `const` or `static` blank | read the sentence: a `const` object or function is not changed, a `static` member belongs to the class | Decide from what the code around it needs |
+| Pointer member | `T*` | A dynamic array of `T` is held through a `T*` |
+
+> [!warning] Check the member or friend blank by the left operand #exam-flagged
+> Missed twice in session S12. Ask what is on the left of the operator. A stream means friend. The class object, with `[]`, `=`, `()` or `->`, means member.
+
+### Friend operators inside a class template (added)
+A friend `<<` or `>>` declared inside `template <typename T> class UJList` is itself a template. Compiled and run natively, with `cout << a;` and `cin >> a;` working:
+```cpp
+template <typename E>
+friend std::ostream& operator<<(std::ostream& osLHS, const UJList<E>& objRHS);
+template <typename E>
+friend std::istream& operator>>(std::istream& isLHS, UJList<E>& objRHS);
+```
+- It needs its own `template <typename E>` line. Using `T` again is an error ("shadows template parameter").
+- Leaving the template line off gives a non-template friend warning, and the operator then does not match `UJList<int>`.
+- `<<` takes a `const` object, because it only reads. `>>` takes a non-const object, because it fills it in.
+- Both return the stream, so that `cout << a << b;` chains.
+
 ## Do Not Forget
 - Only `=` and `.` are free on a class; every other operator overload is a choice, except when pointer members force `=` + copy constructor + destructor together.
 - Five operators can never be overloaded: `.` `.*` `::` `?:` `sizeof`.
@@ -524,6 +573,11 @@ In all three, the function definitions and the client code end up compiled toget
 - `template <class Type>` covers exactly one declaration beneath it (one function, one class, or one out-of-class member definition); it never carries over to whatever comes next in the file.
 - Inside a class body, one `template <class Type>` line covers every inline member function. Outside the class body, each member function definition needs the header repeated, plus `ClassName<Type>::`.
 - `vector`, `map`, `string`, `max`, `sort` are ordinary templates, not language magic, the exact same `template <class Type>` mechanism covered in this lecture.
+- (added, S12) Member or friend is decided by the LEFT operand: if it is the class type, a member is possible; if not (`5.0 + m`, `cout << m`), it must be a friend. `()`, `[]`, `->`, `=` are always members.
+- (added, S12) `this` exists only in members and points to the LEFT operand. A friend has no `this`, so it takes both operands as parameters.
+- (added, S12) Three const positions: in front, the returned value cannot be changed; in the brackets, the right operand is not changed; trailing, the left object (`this`) is not changed. Assignment has no trailing const.
+- (added, S12) A default `=` always compiles. With pointer members it copies the address, so you get a leak and a double free at run time, not a compile error.
+- (added, S12) Inside a class template, each friend `<<` or `>>` needs its own `template <typename E>` line and must write `UJList<E>`, not reuse `T`.
 
 ## Operator Overloading Quick Reference
 
@@ -537,6 +591,14 @@ In all three, the function definitions and the client code end up compiled toget
 | `++` prefix | **Yes**, increments `*this`, then returns it | Member, typical | Yes | Member is simplest: no parameters needed, operand is `this` | `className operator++();`<br>`{ //increment the object`<br>`  return *this; }` |
 | `++` postfix | **Yes**, increments `*this`, but returns the pre-increment copy | Member, typical | Yes | Same tradeoff as prefix; the dummy `int` only exists to distinguish the signature | `className operator++(int u);`<br>`{ className temp = *this;`<br>`  //increment the object`<br>`  return temp; }` |
 | `<<` | No, the class object (`cObject`) is passed `const`, only the stream is touched | **Must be Non-Member (Friend)** | Yes, forced | Leftmost operand is `ostream`, never the class type | `friend ostream& operator<<(ostream&,`<br>`                            const className&);` |
+| `>>` | **Yes**, it fills the object from the stream, so the object is passed non-const | **Must be Non-Member (Friend)** | Yes, forced | Leftmost operand is `istream`, never the class type | `friend istream& operator>>(istream&,`<br>`                            className&);` (added, S12) |
+| `=` | **Yes**, it overwrites the left object (`*this`) | **Must be Member** | No, forced | Always a member, grouped with `()`, `[]`, `->`. Pointer members need it together with the copy constructor and destructor | `const className& operator=(const className&);`<br>`{ if (this != &rightObject)`<br>`  { /* free, allocate, copy */ }`<br>`  return *this; }` (added, S12) |
 
 > [!important] The one line to remember for `++`/`--` #exam-flagged
 > Prefix and postfix differ in exactly two places: the dummy `int` parameter in the signature, and what gets returned, prefix returns `*this` **after** mutating; postfix saves a `temp` copy **before** mutating and returns that instead.
+
+## Amendments
+S12: Added the left operand rule for member versus friend with the `this` explanation, the three const positions, friend `<<` and `>>` inside a class template (compiled and run), a table of the Q2.1 blanks, rows for `=` and `>>` in the quick reference, and five bullets in Do Not Forget. Existing text was not changed. Prompted by misses in the S12 drills and quiz: member versus friend (twice), trailing const, and the default `=` compiling but failing at run time.
+
+---
+*CDG version: written under an earlier version that was not recorded (S6); amended with CDG v10 (S12, 2026-10-29).*

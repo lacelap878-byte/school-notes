@@ -558,6 +558,9 @@ A class with a `virtual` function carries a hidden vtable pointer, whose alignme
 
 ## Reusable software components: DLLs (slides 42 to 51)
 
+> [!important] Module style is what is examined (amended S12) #exam-flagged
+> The lecturer said the exam uses module interface files only, as in the 2025 papers, and does not test header files for DLLs. This comes from the user's report of what the lecturer said, not from a slide. The header version later in this section (slides 45 to 47) stays as reference and is not examined. Explicit linking (slide 50) is on hold until the lecturer says whether it is examined.
+
 ### Why not just ship the source
 Programmers want to reuse tested components. You may not want to give the client programmer your `.h` and `.cpp` files. Even if you do, the functions are statically linked into the client's executable at compile time, so any update means a full recompile. What is wanted is library code that is loaded at runtime instead. Under Windows that is a Dynamic Link Library (DLL). Unix systems have DSOs (Dynamically Shared Objects).
 
@@ -724,6 +727,222 @@ This is like defining a class's methods outside the class. The declaration is in
 
 Turning `.impl.cpp` into `.o` is the normal process for any `.cpp`: preprocess, compile to machine code, write the object file. Two things are special for a DLL, and neither is in that step itself. `-DBUILDING_MYLIB` changes what the preprocessing produces, and the DLL file is only created afterwards by the linker because of `-shared`.
 
+### The module style, the files you write (added)
+This is the style the exam uses. The header file is replaced by a module interface file, and the names below come from the 2025 papers.
+
+| File | What it is | Becomes |
+|---|---|---|
+| `LibFilter.cpp` | The module interface file: declares what the DLL offers | An object file (`LibFilter.o`) plus a compiled module, needed by both builds |
+| `LibFilter.impl.cpp` | The implementation file: the function bodies | Part of the DLL |
+| `main.cpp` | The program that calls the function | `main.exe` |
+
+The DLL's own file name (for example `reading-filter.dll`) appears in neither source file. It is chosen in the build command.
+
+The interface file (source: T10 implicit-linking `Library.cpp`, with the 2025-A names):
+```cpp
+export module LibFilter;
+
+extern "C"
+{
+	export bool isInvalid(char arrReadings[], int intLength);
+}
+```
+- `export module LibFilter;` makes this file the public face of a module called `LibFilter`. A program reaches it with `import LibFilter;`.
+- `extern "C" { }` keeps the names inside exactly as typed. Normally C++ renames every function so that overloading works. "Exported without C++ name mangling" in a question means these braces.
+- `export` in front of the function makes it visible to any file that imports the module. It is a declaration only: no body, and a semicolon.
+
+The implementation file (source: T10 create `Library.impl.cpp`, with the 2025-A names and the body added):
+```cpp
+module LibFilter;
+
+extern "C"
+{
+	bool isInvalid(char arrReadings[], int intLength)
+	{
+		for (int i = 0; i < intLength; i++)
+		{
+			if (arrReadings[i] == '?')
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+}
+```
+- `module LibFilter;`, with no `export`, says this file belongs to the module and fills in its bodies. It needs no `#include` and no `import`.
+- The same `extern "C"` braces wrap the body.
+- A char is written with single quotes (`'?'`). Double quotes make a string, and comparing a `char` to a string does not compile.
+
+> [!warning] Three checks for the implementation file #exam-flagged
+> 1. `module Name;`, the same name as the interface, with no `.cpp` on the end.
+> 2. `extern "C" { ... }` around the function, with its closing brace.
+> 3. `'?'` for a char and `"?"` for a string.
+
+(added) What the compiler does with mistakes here (compiled with a MinGW g++ cross-compiler, 13.2, and not run on Windows):
+- With `extern "C"` missing in the implementation, g++ rejects it ("declaration conflicts with import").
+- With `module LibFilter.cpp;` it looks for a module of that name and stops.
+- With the closing brace missing it stops with "expected }".
+- With `"?"` it stops with "comparison between pointer and integer".
+- `import LibFilter;` as the first line was accepted in one test, but the tut and the course use `module Name;`, so use that.
+
+(added) The T10 `create` folder's copy of the interface leaves `export` off the function. It still builds the DLL, but no program could import the function from it: `main.cpp` fails with "not declared in this scope". Use the version with `export`.
+
+(added) A plain C++ `add` is stored in the object file as `_Z3addii`, and inside `extern "C"` as `add`.
+
+### Building the DLL with a batch file (added)
+A batch (`.bat`) file is a text file of command lines that Windows runs from top to bottom. Q4 asks for two kinds: one that builds the DLL, and one that builds a program that uses it.
+
+Reading one command:
+```
+g++ -std=c++23 -fmodules-ts -c Library.cpp
+```
+- `g++` is the compiler.
+- `-std=c++23` sets the language version. Modules need C++20 or newer.
+- `-fmodules-ts` switches modules on. All three flags start with a dash: `-std`, `-fmodules-ts`, `-c`. Without the leading dash g++ treats `fmodules-ts` as a file name and the `import` line fails.
+- `-c` means compile only: write a `.o` object file and do not link.
+- Compiling an interface file also writes the compiled module into a `gcm.cache` folder, which other files need before they can use `import` or `module`.
+
+Creating the DLL (source, T10 `create.bat`):
+```bat
+@echo off
+g++ -std=c++23 -fmodules-ts -c Library.cpp
+g++ -std=c++23 -fmodules-ts -c Library.impl.cpp
+g++ -shared -o Library.dll Library.o Library.impl.o
+pause
+```
+- Command 1 compiles the interface. It goes first because the implementation says `module Library;` and needs the compiled module that command 1 makes. Compiled in the wrong order, g++ stops with "failed to read compiled module".
+- Command 2 compiles the implementation.
+- Command 3 links both objects into a DLL. `-shared` means "build a DLL, not a program". The name after `-o` is the DLL's file name, which is where `util.dll` or `route-generator.dll` comes from.
+- `@echo off` hides the command echo and `pause` keeps the window open. Neither earns marks.
+
+> [!warning] The rule for "creates the DLL" #exam-flagged
+> 1. Compile the interface with `-c`.
+> 2. Compile the implementation with `-c`.
+> 3. `g++ -shared -o NAME.dll` followed by the two `.o` files, where `NAME.dll` is the DLL name in the question.
+>
+> `-shared` belongs only in this command.
+
+### Building a program that links implicitly (added)
+Implicit linking ties the program to the DLL when the program is built. The linker writes a note into the `.exe` saying which functions it needs from which DLL. When the `.exe` runs, Windows reads that note, looks for the DLL (first in the same folder) and loads it. If the DLL is missing, the program refuses to start. The client needs the DLL and the interface file.
+
+Building the program (source, T10 implicit-linking `compile.bat`):
+```bat
+@echo off
+g++ -std=c++23 -c -fmodules-ts Library.cpp
+
+g++ -c  -std=c++23 -fmodules-ts main.cpp
+
+g++ -o app.exe -L. -lLibrary Library.o main.o
+
+app.exe
+pause
+```
+- Command 1 compiles the interface file, so that `main.cpp` can `import` it. Without it, compiling `main.cpp` stops with "failed to read compiled module".
+- Command 2 compiles `main.cpp`.
+- Command 3 links. `-o app.exe` names the program, `-L.` means "look for libraries in the current folder", and `-lLibrary` means "link against the DLL called Library".
+- The line `app.exe` runs the program. The implementation file is not compiled here, because the function bodies live in the DLL.
+
+The `-l` name is the DLL's file name with `.dll` taken off: `util.dll` gives `-lutil`, and `em-calculator.dll` gives `-lem-calculator`.
+
+> [!warning] Three clues in the question become three flags #exam-flagged
+> 1. "called main.exe" gives `-o main.exe`.
+> 2. "stored in the same folder" gives `-L.`.
+> 3. "expects to link to util.dll" gives `-lutil`, with `.dll` removed.
+>
+> Then the two objects at the end. `-shared` never appears in this command: it builds a DLL, not a program.
+
+(added) Wrong forms, each compiled and checked with the cross-compiler: `-lutil.dll` fails with "cannot find -lutil.dll"; `-lutil` without `-L.` fails with "cannot find -lutil"; no `-l` at all fails with "undefined reference to isInvalid"; `-l.` fails with "cannot find -l."; and `-shared` in this command builds a DLL, not a program.
+
+### The three names that never match (added)
+Three names are separate things: the module name (the word after `module`), the interface file's name, and the DLL's file name. In the tut they all say `Library`, which hides that. In 2025-A the module is `LibFilter` and the DLL is `util.dll`.
+
+Example (composite)
+```
+module name:          Calc        (interface file Calc.cpp)
+DLL file:             maths.dll
+program source:       run.cpp
+program to build:     run.exe
+```
+```bat
+g++ -std=c++23 -c -fmodules-ts Calc.cpp
+g++ -std=c++23 -c -fmodules-ts run.cpp
+g++ -o run.exe -L. -lmaths Calc.o run.o
+```
+COVERS: the tut's single name `Library`, split into its separate roles.
+
+### How the 2025 Q4 questions map onto these files (added)
+| Paper | Asks for | Needs |
+|---|---|---|
+| 2025-A | 4.1 module interface (module LibFilter), 4.2 implementation, 4.3 batch file for an implicitly linked `main.exe` with `util.dll` | the two files, and the implicit link command |
+| 2025-B | 4.1 `main.cpp` that explicitly links to `route-generator.dll`, 4.3 batch file that creates the DLL from `RouteAPI.cpp` and `RouteAPI.impl.cpp` | explicit linking (on hold), and the DLL creation command |
+| 2025-C | 4.1 module interface (module CalcLibrary), 4.2 batch file that links implicitly to `em-calculator.dll`, 4.3 `main.cpp` with a dynamic array of 10 random reals | the interface file, the implicit link command, and ordinary C++ |
+
+Model answers (added). They were compiled with the cross-compiler and linked, and not run.
+
+2025-A Q4.3 (the paper does not name the interface file, so `LibFilter.cpp` is assumed):
+```bat
+g++ -std=c++23 -fmodules-ts -c LibFilter.cpp
+g++ -std=c++23 -fmodules-ts -c main.cpp
+g++ -o main.exe -L. -lutil LibFilter.o main.o
+```
+2025-B Q4.3:
+```bat
+g++ -std=c++23 -fmodules-ts -c RouteAPI.cpp
+g++ -std=c++23 -fmodules-ts -c RouteAPI.impl.cpp
+g++ -shared -o route-generator.dll RouteAPI.o RouteAPI.impl.o
+```
+2025-C Q4.1:
+```cpp
+export module CalcLibrary;
+
+extern "C"
+{
+	export double calculateEM(double* arrMarks);
+}
+```
+2025-C Q4.2 (the question does not name the program, so `main.exe` is a sensible choice):
+```bat
+g++ -std=c++23 -fmodules-ts -c CalcLibrary.cpp
+g++ -std=c++23 -fmodules-ts -c main.cpp
+g++ -o main.exe -L. -lem-calculator CalcLibrary.o main.o
+```
+2025-C Q4.3:
+```cpp
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+
+import CalcLibrary;
+
+using namespace std;
+
+int main()
+{
+	srand(time(0));
+
+	double* arrMarks = new double[10];
+	for (int i = 0; i < 10; i++)
+	{
+		arrMarks[i] = rand() / (double)RAND_MAX * 100;
+	}
+
+	cout << calculateEM(arrMarks) << endl;
+
+	delete[] arrMarks;
+	return 0;
+}
+```
+- `double* arr[10]` is an array of ten pointers, not a dynamic array of ten numbers. `new double[10]` gives one pointer to ten doubles.
+- A function cannot be written inside `main` (g++: "a function-definition is not allowed here"). The loop can call `rand()` directly.
+- `rand() % 100` gives whole numbers from 0 to 99. `rand() / (double)RAND_MAX * 100` gives real numbers from 0 to 100 (a test run of 100000 values gave 0.0002 to 99.9994).
+- Call `srand(time(0))` once, or every run gives the same numbers.
+
+
+
+> [!note] Header style, not examined (amended S12)
+> This example and the header based material down to the end of the slide 47 compile commands are the lecture's header version. They are kept as reference. The exam uses the module style (see: The module style, the files you write).
+
 ### The slide's example header (source, slide 45)
 Two functions inside `extern "C"`, one C++ only function, and a class.
 ```cpp
@@ -868,6 +1087,85 @@ TwoIntsToInt p2 = add;        //with the nickname
 ```
 Without the nickname, the cast above would read `(int (*)(int, int))GetProcAddress(hndlLibrary, "c_power")`.
 
+### Explicit linking, the exam pattern (added)
+Status: on hold, and probably not examined (the user's understanding, not yet confirmed). The user asked the lecturer to confirm whether explicit linking, and the function pointer `typedef` it needs, is examined. 2025-B Q4.1 (10 marks) asks for it, and 2025-A and 2025-C do not. Until the lecturer replies, treat it as unconfirmed. Function pointers are in the course material (see: [[CSC01B1_Notes_S1_Foundation-Topics#14. Function pointers|Function pointers]]), but the lecturers did not teach them. Those S1 notes were added for extra information only. To the user's knowledge function pointers are not examined in any form, and the email to the lecturer is a confirmation of that.
+
+The T10 version (source, T10 `explicit-linking/main.cpp`):
+```cpp
+#include <windows.h>
+
+#include <iostream>
+
+typedef int (*fun)(int, int);
+//using fun = int (*)(int, int);
+
+using namespace std;
+
+int main()
+{
+	fun add = nullptr;
+	HINSTANCE handleLibrary = LoadLibrary("Library.dll");
+	if (handleLibrary){
+		add = (fun)GetProcAddress(handleLibrary, "add");
+		if (add){
+			int sum = add(5, 7);
+
+			cout << "Result: " << sum << endl;
+		}else
+			cerr << "Failed to link to add function" << endl;
+
+		FreeLibrary(handleLibrary);
+	} else
+		cerr << "Failed to load the library" << endl;
+
+	return 0;
+}
+```
+It builds with `g++ -o program.exe main.cpp`: no module flags, no `-L.` and no `-l`. The DLL does not have to exist at build time. It must sit next to the `.exe` when the program runs.
+
+| | Implicit | Explicit |
+|---|---|---|
+| Interface file needed | yes | no |
+| First lines of main.cpp | `import Name;` | `#include <windows.h>` |
+| Build | `-o ... -L. -lname` and the objects | `g++ -o program.exe main.cpp` |
+| When the DLL is loaded | at start, and the program will not start without it | when the `LoadLibrary` line runs, and a missing DLL gives your own message |
+
+Three things must agree with the DLL: the `typedef` must match the function's signature (return type and each parameter type), the string in `GetProcAddress` must be the function's plain name in quotes (which works because of `extern "C"`), and the file name in `LoadLibrary` must be the DLL's exact file name. Leaving out the `(fun)` cast fails to compile ("invalid conversion from FARPROC").
+
+Example (composite)
+A DLL called shrink.dll exports, without name mangling, `double half(double dblValue);`. Load it explicitly and print the result of calling it with 9.
+```cpp
+#include <windows.h>
+#include <iostream>
+
+typedef double (*fun)(double);
+
+int main()
+{
+	fun half = nullptr;
+	HINSTANCE handleLibrary = LoadLibrary("shrink.dll");
+	if (handleLibrary)
+	{
+		half = (fun)GetProcAddress(handleLibrary, "half");
+		if (half)
+		{
+			std::cout << half(9.0) << std::endl;
+		}
+		else
+		{
+			std::cerr << "Failed to link to half function" << std::endl;
+		}
+		FreeLibrary(handleLibrary);
+	}
+	else
+	{
+		std::cerr << "Failed to load the library" << std::endl;
+	}
+	return 0;
+}
+```
+COVERS: the tut's `int add(int, int)` with a different function. Five things change: the `typedef` types, the variable's name, the DLL's file name, the quoted function name and the call. Everything else stays the same. This compiled with the cross-compiler and was not run.
+
 ### DllMain (source, slide 51)
 Should you wish to take certain actions at various stages of the DLL's life-cycle (for example when a program is linked to it), you may use the optional DLL entry point called `DllMain`. `(added)` The slide gives one line and no example, so none is shown here.
 
@@ -923,7 +1221,7 @@ Each item below appeared as a live mistake or a repeated question, and is logged
 - **Writing code from scratch.** Quiz answers were recognised, but writing the exercise began as a blank page. It was built up one line at a time from corrections. Retest by writing the four-step pattern (open with combined flags, write a record, seek to an index, read it back) without help.
 - **Padding.** Asked for again over several rounds: where the padding goes, why reordering changes the size, and how a compound member is aligned. Retest by working out `sizeof` by hand with the placement.
 - **reinterpret_cast.** Asked for twice: it relabels the pointer type and changes no bytes.
-- **DLL syntax and jargon.** The keywords, the macro switch, `extern "C"`, the two dots in `.impl.cpp`, and `typedef` on a function pointer all needed separate explanations. The concept of a DLL itself was understood.
+- **DLL syntax and jargon.** The keywords, the macro switch, `extern "C"`, the two dots in `.impl.cpp`, and `typedef` on a function pointer all needed separate explanations. The concept of a DLL itself was understood. (added, S12) Later misses in the module style: `module`/`import` as the impl first line, `extern "C"` in both files, `-L.` versus `-l.`, `-shared` only in the DLL command, the leading hyphen on `-fmodules-ts`, and the `-l` name being the DLL file name without `.dll`.
 
 ---
 
@@ -938,6 +1236,10 @@ Each item below appeared as a live mistake or a repeated question, and is logged
 - `#pragma pack(push)`, `pack(1)`, `pack(pop)` removes padding for the struct in between.
 - `reinterpret_cast<char*>(&x)` relabels the address only. The bytes are unchanged.
 - DLL build: `-DBUILDING_MYLIB` on the DLL compile only. Application build: link with `-L. -lmylib`, or load at runtime with `LoadLibrary`, `GetProcAddress`, `FreeLibrary`.
+- (added, S12) Module style DLL, the exam style: interface file `export module Name;` with `extern "C" { export ... }`, implementation file `module Name;` with the same `extern "C"` braces and the body. Header style is not examined.
+- (added, S12) Creating the DLL: compile the interface, compile the implementation, then `g++ -shared -o NAME.dll X.o Y.o`. `-shared` appears only here.
+- (added, S12) Building the program that links implicitly: compile the interface, compile main.cpp, then `g++ -o prog.exe -L. -lname X.o main.o`. The `-l` name is the DLL's file name without `.dll`. All three flags in `-std`, `-fmodules-ts` and `-c` start with a dash.
+- (added, S12) The module name, the interface file's name and the DLL's name are three separate names.
 - `extern "C"` keeps names plain, for functions only. Classes stay mangled.
 
 ---
@@ -945,3 +1247,9 @@ Each item below appeared as a live mistake or a repeated question, and is logged
 ## See also
 - [[CSC01B1_Notes_S1_Foundation-Topics]]
 - [[CSC01B1_Notes_S6_OperatorOverloadingTemplates]]
+
+## Amendments
+S12: Added the module style to the DLL section after the lecturer said, as reported by the user, that the exam uses module interface files only and does not test header files for DLLs. New sections: The module style, the files you write; Building the DLL with a batch file; Building a program that links implicitly; The three names that never match; How the 2025 Q4 questions map onto these files (with model answers for 2025-A Q4.3, 2025-B Q4.3 and 2025-C Q4); Explicit linking, the exam pattern. The header based material is kept and marked as not examined. Added bullets to Do not forget and an update to the DLL item under Struggle items. All code marked (added) was compiled with a MinGW g++ cross-compiler (13.2) and not run on Windows.
+
+---
+*CDG version: written under an earlier version that was not recorded (S7); amended with CDG v10 (S12, 2026-10-29).*
