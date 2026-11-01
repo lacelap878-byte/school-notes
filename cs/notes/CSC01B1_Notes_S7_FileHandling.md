@@ -1244,12 +1244,82 @@ Each item below appeared as a live mistake or a repeated question, and is logged
 
 ---
 
+## Text file template, getline then istringstream (S13)
+One template for every "read a text file" question. Compiled and run on a sample file (g++ 13.3, Linux). (added)
+```cpp
+ifstream fileIn("data.txt");
+string strLine;
+while (getline(fileIn, strLine)) {        // 1. one whole line per loop
+    istringstream issLine(strLine);       // 2. treat the line as a small stream
+    string strName;
+    int intValue;
+    issLine >> strName >> intValue;       // 3. pull the pieces out with >>
+    // 4. use strName and intValue here
+}
+fileIn.close();
+```
+- `getline` reads up to the end of the line and throws the newline away. `istringstream` lets you use `>>` on a string, so the text turns into ints and words for you (no manual string to int conversion).
+- Alternatives that also compile: `>>` for the first item and then `getline` for the rest of the line; `>>` in a loop when the shape is fixed. Reading one character at a time with `get` works but is not used in the practicals, so do not use it.
+- Variable width items (days of the week differ in length): read with `>>` or `getline`, never force a fixed width. A fixed width only exists in a binary record.
+- Reading a count of items per line (e.g. 1032 taps): loop with `>>` until it fails, do not hard code the number.
+
+<span style="color:#f08c00">Open: 3.1 was blank in the timed paper and shaky in the rerun. Drill it from a blank page.</span>
+
+## Flags, the recipe (S13)
+- "For all" questions: start the flag true, set it false when one item breaks the rule.
+- "At least one" questions: start the flag false, set it true when one item meets the rule.
+- The start value is the answer for an empty list. Never reset the flag inside the loop.
+- Example: all water clear starts `bool blnAllClear = true;` and any unclear tap sets it false. Any unclear starts `bool blnAnyUnclear = false;`.
+- A flag only remembers one yes or no for the whole loop. To remember it per line, use one flag per line, or print inside the loop instead.
+
+## Binary records, what I got wrong and the fixes (S13)
+- A packed struct (`#pragma pack(push, 1)` ... `pop`) uses exactly the sum of its members. Use `char` arrays for text, never `string` (a string holds a pointer, so its bytes are not the text). The sample record was 1050 bytes packed and 1052 unpacked. (added)
+- Number of records: `seekg(0, ios::end); long lngBytes = fileIn.tellg(); lngBytes / sizeof(Rec)`.
+- Read one record: `fileIn.read(reinterpret_cast<char*>(&rec), sizeof(Rec));`. Write is the same with `write`.
+- Record number n (starting at 0) sits at byte `n * sizeof(Rec)`: `seekg(n * sizeof(Rec), ios::beg)`. A header before the records shifts every offset by its size.
+- Comparing char arrays: use `strcmp` (equal when it returns 0), never `==` or `=`; copy with `strcpy`.
+- Compare the fields of a record you have read into a struct variable with `rec.field`, then decide (this is how 3.4 filters on a value).
+
+## File open flags, tested (S13)
+| Open with | Result |
+|---|---|
+| `ios::out` alone on an existing file | file is wiped |
+| `ios::binary` alone | opening fails |
+| `ios::in \| ios::out` | keeps the content, needs an existing file |
+| `ios::in \| ios::out \| ios::binary` | read and overwrite records in place |
+- `tellp` exists only on output streams. On an `fstream` it equals `tellg`, because there is one position. `ifstream` has no `tellp`.
+- Sequential access means the position moves by itself as you read or write. Random access means you move it yourself with `seekg` or `seekp`, which is why binary records of a fixed size are used.
+- Test the open with `if (!fileIn.fail())` or `if (fileIn)`.
+<span style="color:#f08c00">Open: overwrite a record in place with `seekp`, and the off by one record index, have not been retested.</span>
+
+## Explicit linking, the seven parts (S13)
+Windows only. Written from the 2025 questions; the call was checked against stand-in declarations because the Windows header is not available on Linux. (added)
+```cpp
+#include <windows.h>                                   // 1. header
+typedef int (*FnName)(int);                            // 2. pointer type: return type, (*Name), parameter types
+HINSTANCE hLib = LoadLibrary("MyLib.dll");             // 3. load the DLL
+FnName f = (FnName)GetProcAddress(hLib, "genRoute");   // 4. function name in quotes, cast to the typedef
+int result = f(10);                                    // 5. call through the pointer
+FreeLibrary(hLib);                                     // 6. release
+```
+- Part 2 is the return type and parameter types of the DLL function, copied from its prototype. The name in quotes in part 4 is the real function name.
+- Why the return type is needed: the pointer must know how to read the answer, and what to pass.
+- Explicit linking needs no special batch file. Implicit linking does (`-fmodules-ts` on every compile line, `-shared` only when building the DLL, `-lname` with the DLL name minus `.dll`).
+- A DLL is the Windows name; the Unix version is a DSO (L6 slide 44). Facts questions use words mentioned once in the slides (late binding, DSO).
+
+## Module files for a DLL, corrections (S13)
+- Interface: `export module Name; extern "C" { export int fn(int); }`
+- Implementation: `module Name; extern "C" { int fn(int x) { ... } }` with no `export` and the same parameter types.
+- g++ 13.3 fails without `-fmodules-ts` (`'module' does not name a type`).
+<span style="color:#f08c00">Open: module file basics and the batch flags were wrong in the Q4 rerun.</span>
+
 ## See also
 - [[CSC01B1_Notes_S1_Foundation-Topics]]
 - [[CSC01B1_Notes_S6_OperatorOverloadingTemplates]]
 
 ## Amendments
 S12: Added the module style to the DLL section after the lecturer said, as reported by the user, that the exam uses module interface files only and does not test header files for DLLs. New sections: The module style, the files you write; Building the DLL with a batch file; Building a program that links implicitly; The three names that never match; How the 2025 Q4 questions map onto these files (with model answers for 2025-A Q4.3, 2025-B Q4.3 and 2025-C Q4); Explicit linking, the exam pattern. The header based material is kept and marked as not examined. Added bullets to Do not forget and an update to the DLL item under Struggle items. All code marked (added) was compiled with a MinGW g++ cross-compiler (13.2) and not run on Windows.
+S13 (1 Nov 2026): added "Text file template, getline then istringstream", "Flags, the recipe", "Binary records, what I got wrong and the fixes", "File open flags, tested", "Explicit linking, the seven parts" and "Module files for a DLL, corrections". Prompted by 2025-A 3.1 to 3.4 and 4.1 to 4.3 and the follow up questions. File code compiled and run on g++ 13.3 (Linux); the LoadLibrary call was checked against stand-in declarations only. Existing text was not changed.
 
 ---
-*CDG version: written under an earlier version that was not recorded (S7); amended with CDG v10 (S12, 2026-10-29).*
+*CDG version not recorded | written S7 | amended S13 (v11) | 2026-11-01*

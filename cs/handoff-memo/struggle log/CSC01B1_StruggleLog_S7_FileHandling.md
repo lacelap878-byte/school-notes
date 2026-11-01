@@ -1,91 +1,76 @@
-Supersedes S1 to S6.
+Per session struggle log, restructured in S13 (1 Nov 2026). It holds only the items first seen in S7. Later evidence is added to each item as a Status line. The cumulative retest list is in the S13 log.
 
 ## 1. OPEN ITEMS (unresolved, oldest first)
-S6 items, carried in full from the S6 struggle log. All came from the S6 session-end quiz (0 of 8 correct) and were not retested in S7, so all stay open.
-```
-concept                                   | first seen | misconception                                              | sessions persisting
-------------------------------------------|------------|------------------------------------------------------------|--------------------
-Member vs friend, left operand not class  | S6         | Chose that 5.0 + m could be a member. A member is called   | 2
-                                          |            | on its left operand, so 5.0 + m must be a nonmember.      |
-Post-increment return value               | S6         | Thought returning *this fails for speed. The bug is that   | 2
-                                          |            | it returns the already-incremented object; return the     |
-                                          |            | saved copy (temp).                                         |
-[] on a const object                      | S6         | Thought a non-const-only overload compiles because the     | 2
-                                          |            | body only reads. The signature decides, so a const        |
-                                          |            | overload must exist.                                       |
-Copy constructor vs assignment trigger    | S6         | Chose a = b (both exist) as the copy constructor case.    | 2
-                                          |            | Copy constructor: new object from existing (Clock c = b). |
-Default = with a pointer member           | S6         | Thought it does not compile. It compiles and copies the   | 2
-                                          |            | address: a leak and a double free.                         |
-Scope of template <class Type>            | S6         | Thought it works when Type is int elsewhere. It covers    | 2
-                                          |            | only the one declaration beneath it.                       |
-Template definitions in a separate .cpp   | S6         | Thought it builds. It fails at LINK time with undefined   | 2
-                                          |            | reference (also for function templates).                   |
-Class template member defined outside    | S6         | Wrote Type Box::get() const. Needs its own template       | 2
-                                          |            | <class Type> line and Box<Type>::.                         |
-```
 
-S7 items.
-```
-concept                                   | first seen | misconception                                              | sessions persisting
-------------------------------------------|------------|------------------------------------------------------------|--------------------
-seekg vs seekp                            | S7         | Used seekp before a .read(). The read marker (seekg) and   | 1
-                                          |            | write marker (seekp) are independent; .read() uses seekg.  |
-Recognition vs production                 | S7         | Can pick the right answer in a quiz but could not write    | 1
-                                          |            | the code from scratch without guidance.                    |
-Padding placement and reordering          | S7         | Unsure where padding goes; padding is inserted before a    | 1
-                                          |            | member whose alignment the next offset fails, and          |
-                                          |            | reordering members changes the total size.                 |
-Alignment of a compound member            | S7         | Assumed it equals the member's sizeof; it is the largest   | 1
-                                          |            | alignment among its own members.                           |
-reinterpret_cast                          | S7         | Unsure what it does; it only relabels the pointer type,    | 1
-                                          |            | with no conversion and no check.                           |
-DLL syntax and jargon                     | S7         | Macro switch (dllexport/dllimport), extern "C", .impl.cpp  | 1
-                                          |            | naming, typedef on a function pointer, -D flag.            |
-.open() takes one mode argument           | S7         | Passed several flags as separate arguments; combine with   | 1
-                                          |            | | into one.                                                |
-ifstream vs fstream                       | S7         | Thought ios::out could make an ifstream writable; write    | 1
-                                          |            | ability belongs to the class.                              |
-!fail() check                             | S7         | Wrote if (!x.fail()), which reports an error on success.   | 1
-Assigning a char array with =             | S7         | Arrays cannot be assigned after declaration; use an        | 1
-                                          |            | initializer list.                                          |
-seekg call form and seek vs read          | S7         | Called seekg without a stream object and expected it to    | 1
-                                          |            | return the data; seeking only moves the marker.            |
-Off-by-one record index                   | S7         | "2nd record" is index 1.                                   | 1
-.read()/.write() direction                | S7         | Names describe what happens to the file, not the variable. | 1
-Header offset in record counting          | S7         | Record count and seek offsets must subtract/add the header | 1
-                                          |            | size.                                                      |
-```
+1. seekg versus seekp
+   - Used seekp before a .read(). The read marker (seekg) and the write marker (seekp) are independent; .read() uses seekg. Answered correctly in the S9 quiz (weakest evidence).
+   - S13 (30 Oct quick fire): the overwrite question was wrong: after a seek and a write the file should read A then AZZDEF, the answer given was ABCDEF. S13 (1 Nov): `tellp` does not exist on an `ifstream` (compiled: `has no member named 'tellp'; did you mean 'tellg'?`); on an `fstream` both agree, tellp = tellg = 10 after seeking to the end of a 10 byte file. The seekg and tellg calls in 3.4 were correct.
+   - Status: open for seekp and the overwrite behaviour. Closed for seekg and tellg when reading (see section 2).
 
-All items stay open until answered correctly under retest.
+2. Recognition versus production
+   - Can pick the right answer in a quiz but could not write the code from scratch without guidance (six live corrections in S7). Showed again in S9 drills and in S12 (module files and batch commands).
+   - S13: 2025-A 3.1 was left blank in the paper; the cold rerun stopped at `while (getline(is,`; 3.3 needed a skeleton of comments; 3.2 was right on the second try; 3.4 was right once the skeleton was seen. Answers improve when the shape is given.
+   - Status: open. The biggest exam risk, because the exam is written.
 
-## 2. RESOLVED THIS SESSION
-None.
+3. Alignment of a compound member
+   - Assumed it equals the member's sizeof; it is the largest alignment among its own members.
+   - Status: open. Not retested.
+
+4. Assigning a char array with =
+   - Arrays cannot be assigned after declaration; use an initializer list (or strcpy for text).
+   - Status: open. Not retested.
+
+5. Off by one record index
+   - "2nd record" is index 1.
+   - Status: open. The S13 worked examples state that records are numbered from 0; not retested.
+
+6. Header offset in record counting
+   - Record count and seek offsets must subtract and add the header size.
+   - Status: open. Not needed by the 2025 papers; not retested.
+
+## 2. RESOLVED (with the session that resolved it)
+```
+concept                                   | how it was closed
+------------------------------------------|--------------------------------------------------------------
+Padding placement and reordering          | S13: struct of char + int, two records is 16 bytes (30 Oct, one
+                                          | correct answer). 1 Nov: the packed struct for 3.2 was right on the
+                                          | second try (#pragma pack(push, 1) ... pop), measured 1050 bytes
+                                          | packed against 1052 unpacked (compiled).
+reinterpret_cast                          | S13: used correctly in the 3.3 answer
+                                          | (.read(reinterpret_cast<char*>(&rec), sizeof(WaterCheck))). It only
+                                          | relabels the address as char*; it converts nothing.
+.open() takes one mode argument           | S13: ios::binary | ios::in and ios::in | ios::binary in the 3.3 and
+                                          | 3.4 answers. Combine flags with | in a single argument.
+ifstream vs fstream                       | S13: the user prefers fstream with explicit flags. Compiled: ios::in
+                                          | with binary reads and cannot write; ios::out alone wipes the file
+                                          | (10 bytes to 0); ios::binary alone does not open (fail = 1).
+!fail() check                             | S13: if (istream.fail()) correct in the 3.3 and 3.4 answers and in
+                                          | the 3.1 attempts.
+seekg call form and seek vs read          | S13: istream.seekg(0, ios::end); then tellg() for the size, with a
+                                          | stream object. 3.4 correct, 5 of 5 (compiled: 4 records counted).
+.read()/.write() direction                | S13: read takes bytes FROM the file INTO the variable; used correctly
+                                          | in 3.3.
+DLL syntax and jargon (header style)      | Closed by scope. The lecturer said, as reported on 29 Oct, that the
+                                          | exam uses module style DLLs only. The dllexport and dllimport macro
+                                          | switch and the -D flag are no longer examined. The module style,
+                                          | explicit linking and batch commands continue in the S12 and S13 logs.
+Seek record index and seekg usage         | S9 quiz Q6 correct (weakest evidence; the user said it needed
+                                          | grinding). Backed up by the S13 answers above.
+```
 
 ## 3. NOTATION AND TERMINOLOGY STILL CAUSING TROUBLE
-Jargon in the DLL material (dllexport, dllimport, __stdcall, extern "C", HINSTANCE, .impl.cpp, -D, -Wl,--out-implib) caused the most trouble. Concepts were fine, keywords were not.
+Jargon in the DLL material (dllexport, dllimport, __stdcall, extern "C", HINSTANCE, .impl.cpp, -D, -Wl,--out-implib) caused the most trouble. Concepts were fine, keywords were not. For the exam, only the module style names matter (see the S12 log).
 
 ## 4. PATTERNS ACROSS SESSIONS
-Assuming two independent things are one shared thing: S5 (inheritance subobjects), S6 (= and copy constructor, template scope; still open), S7 (seekg and seekp). Watch any topic with parallel but independent mechanisms.
+Assuming two independent things are one shared thing: S5 (inheritance subobjects), S6 (= and copy constructor), S7 (seekg and seekp).
+Recognition versus production (item 2): close every session with a write it yourself exercise.
 
-Recognition versus production (S7): quiz answers were fine, but writing code from a blank page required six live corrections. Close future sessions with a write-it-yourself exercise.
+## 5. RETEST FIRST (ranked, from section 1)
+1. Write the 3.1 text file reading template from a blank page (open, getline loop, istringstream, flag, print).
+2. Which of seekg and seekp governs .read() and .write(), and what a write after seekp does to the old bytes.
+3. Calculate the padding of a struct by hand once more (the resolved item rests on one answer plus one production).
+4. Alignment of a struct member of struct type.
+5. Initialise a char array after declaration, and record index versus record number.
 
-## 5. RETEST FIRST (ranked)
-S6 slide-level items first (likeliest on ST2), then S7.
-S6a. Member vs friend when the left operand is not the class type.
-S6b. Post-increment return value.
-S6c. [] const and non-const overloads.
-S6d. Default = with a pointer member; copy constructor vs assignment trigger.
-S6e. Where template definitions must live and the link error; class template member outside the class; scope of template <class Type>.
-
-S7 items:
-1. Which of seekg and seekp governs .read() and which governs .write(), and does moving one move the other?
-2. Write from scratch: open a binary fstream with combined flags, write records, seek to an index, read one back.
-3. Calculate sizeof for a struct by hand, showing where padding goes, then reorder and recalculate.
-4. Given file size, header size and sizeof(Record), find the record count and the seek offset to a given record.
-5. What does reinterpret_cast<char*>(&x) do to the bytes of x?
-6. Explain the dllexport/dllimport macro switch and why -DBUILDING_MYLIB is set only on the DLL build.
-7. What does extern "C" change, and what does it not work on?
-8. Which alignment does a struct member of struct type get?
-9. What does typedef do in a function pointer declaration?
-10. Why does .open() take one mode argument, and why does if (!fail()) go wrong?
+---
+*CDG version: written under an earlier version that was not recorded (S7) | restructured S13 (v11) | 2026-11-01*

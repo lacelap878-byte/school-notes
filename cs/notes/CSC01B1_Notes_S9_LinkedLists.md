@@ -425,6 +425,80 @@ void printReverse(Node<string> *current)
 - Delete everything: temp, move, delete, then head = nullptr.
 - Practise insert BEFORE and search.
 
+## The 2025 list questions and verified model answers (S13)
+The 2025 papers use `_head` and `_tail` data members and `Node<T>` style names. A is singly, B is doubly (`DNode` with `next` and `back`), C is circular (`CNode`). All answers below were compiled and run on g++ 13.3 (Linux) with address and undefined behaviour checks. (added)
+
+### Edge cases to check on every list question
+| Case | Singly | Doubly | Circular |
+|---|---|---|---|
+| Empty list | `_head == nullptr` | same | same |
+| Only one node | head and tail are the same node | same, both links null | its next is itself |
+| First node | change `_head` | change `_head` and the new head's `back` | change `_head` and the last node's next |
+| Last node | change `_tail` | change `_tail` | find the last node by walking until `next == _head` |
+| Not found | do nothing, no crash | same | same |
+
+### Rules that decide the code
+- Doubly: every `next` you change may need a matching `back`. Fix both links at both ends of the change.
+- Circular: the end test is `current->next == _head`, or a do while that stops at `current != _head`. Never test for `nullptr`, it never happens.
+- Delete the whole list: walk with a saved `temp`, delete each node, and finish with `_head = nullptr; _tail = nullptr;` (forgetting this leaves dangling pointers; it was the regression in S9).
+- Use `previous` and `current` names for walking.
+
+### Head as a label on a box (the working model)
+`_head` is a label stuck on a box (a node). `_head->data` reaches into the box. `_head = newNode;` unsticks the label and puts it on a different box. The first node is not a different thing from head; head is the name currently stuck on it. Insert at the front: the new box points at the old first box (`newNode->next = _head`), then the label moves (`_head = newNode`). (added)
+
+### 2025-B 2.5, insert "N0" at the start (doubly), output `N0 N1 N2 N3` forward and `N3 N2 N1 N0` backward
+```cpp
+DNode<string>* newNode = new DNode<string>;
+newNode->data = "N0";
+newNode->back = nullptr;
+newNode->next = _bhead;
+_bhead->back = newNode;
+_bhead = newNode;
+```
+### 2025-B 2.6, delete the entire list (doubly), head and tail ended as null
+```cpp
+DNode<string>* current = _bhead;
+while (current != nullptr) {
+    DNode<string>* temp = current;
+    current = current->next;
+    delete temp;
+}
+_bhead = nullptr;
+_btail = nullptr;
+```
+### 2025-C 2.5, count how many "S6" (circular), result 1
+```cpp
+int count = 0;
+CNode<string>* cur = _chead;
+do {
+    if (cur->data == "S6") count++;
+    cur = cur->next;
+} while (cur != _chead);
+```
+### 2025-C 2.6, insert "S5" before the first "S6" (circular), previous and current
+```cpp
+CNode<string>* previous = _chead;
+CNode<string>* cur = _chead->next;
+while (cur != _chead && cur->data != "S6") {
+    previous = cur;
+    cur = cur->next;
+}
+if (cur->data == "S6") {
+    CNode<string>* n5 = new CNode<string>;
+    n5->data = "S5";
+    n5->next = cur;
+    previous->next = n5;
+}
+```
+Result on the test list: `S1 S2 S3 S4 S5 S5 S6`. (added)
+<span style="color:#f08c00">Open: the circular insert before the first node, the single node cases, and which of `_head` or `_tail` to fix, were shaky. Retest these cold.</span>
+
+## Do not forget (S13 additions)
+- ⚠️ Doubly: set `back` as well as `next`.
+- ⚠️ Circular: never test for `nullptr`.
+- ⚠️ Delete all ends with head and tail set to `nullptr`.
+- Head is a label on a box.
+
 ## See also
 - [[CSC01B1_Notes_S10_StacksAndQueues]]
 - [[CSC01B1_Notes_S6_OperatorOverloadingTemplates]]
@@ -432,3 +506,7 @@ void printReverse(Node<string> *current)
 ## Amendments
 S11: corrected the claim that slides 42 to 50 and 54 to 55 were code slides that did not read cleanly. They contain no code. Added summaries of slides 41 to 61 and 71, the lecture's previous-node method for delete last (compiled and run), and the Pointer or node section after the user's questions in the S11 drill.
 - 28 Oct (Amend S11, second pass): read slides 23 to 40, 62 to 72 and 74 to 92 as images and added them as presented: building a list forward and backward, the class version slide by slide (slides 33, 34 and 36 to 39 add the node struct, data members and UML diagrams), ordered lists, print in reverse with recursion, doubly linked and circular lists, and the summary slides. Added N.B. lines: low frequency, do not focus too much on these. (added) the `printReverse` code (compiled and run).
+S13 (1 Nov 2026): added "The 2025 list questions and verified model answers" with the edge case table, doubly and circular rules, the head as a label model, and compiled model answers for 2025-B 2.5 and 2.6 and 2025-C 2.5 and 2.6. Prompted by the 2025-B and 2025-C list attempts. Code compiled and run on g++ 13.3 (Linux). Existing text was not changed.
+
+---
+*CDG version not recorded | written S9 | amended S11 (v10), S13 (v11) | 2026-11-01*

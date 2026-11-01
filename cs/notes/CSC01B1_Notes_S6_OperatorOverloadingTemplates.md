@@ -597,8 +597,115 @@ friend std::istream& operator>>(std::istream& isLHS, UJList<E>& objRHS);
 > [!important] The one line to remember for `++`/`--` #exam-flagged
 > Prefix and postfix differ in exactly two places: the dummy `int` parameter in the signature, and what gets returned, prefix returns `*this` **after** mutating; postfix saves a `temp` copy **before** mutating and returns that instead.
 
+## The three const positions in plain words (S13)
+Revised after the S13 questions. Added content is marked (added) and was compiled with g++ 13.3 on Linux, with address and undefined behaviour checks. #exam-flagged #added
+
+const means look but do not touch. The compiler is the guard. It checks while compiling, so it costs nothing when the program runs. (added)
+
+| Where | Plain words | What the compiler refuses |
+|---|---|---|
+| At the end, `bool operator==(const Box& objRHS) const` | I do not change the object I am called on (the left object, this) | `assignment of member 'Box::_v' in read-only object` |
+| In the brackets, `const Box& objRHS` | I do not change what you gave me (the right operand) | the same error, if the function tries to change objRHS |
+| At the front, `const Box& operator=(...)` | You cannot write into what I hand back | `passing 'const Box' as 'this' argument discards qualifiers`, for example `(a = b).set(100);` |
+
+- The front const only does something when the return type has `&`. A returned reference is the real object, so the caller could write into it. A returned copy cannot damage the original. With a plain `Box&` return, `(a = b).set(100);` compiled and changed `a` (it printed `a now holds 100`). (added)
+- `a = b = c;` still works with the front const. It runs from the right: `b = c` hands back b, then `a = (that result)` only reads it, and its parameter is `const Box&`. Printed `a = 42, b = 42, c = 42`. (added)
+- After the assignment line ends, `a` is an ordinary variable again. The front const only locks the value handed back inside that one expression. (added)
+- Why it exists: it stops an accidental change. A getter, `==` or `<<` should only read, so with the end const a stray `_end = 0` inside it will not compile. A const object can only call const functions. (added)
+- Both styles appear: 2025-A prints `const UJList<T>& operator=(const UJList<T>& objRHS);` and the ST2 signature table has `UJImage& operator=(...)`. Copy exactly what the question prints. (added)
+
+> [!note] One sentence to keep
+> The front const stops anyone from writing into the result of an assignment by accident. It is a safety feature, not something the program needs.
+
+## Return types and chaining by operator (S13)
+| Operator | Return type | Why |
+|---|---|---|
+| `=` | `const T&` or `T&`, returning `*this` | hands back the real object, so `a = b = c` chains |
+| `<<` | `ostream&` | the next `<<` needs a stream on its left |
+| `>>` | `istream&` | the same, for input |
+| `==`, `!=`, `<` | `bool` | the answer is computed fresh, a yes or no |
+| `[]` as accessor and mutator | `T&` (`bool&` for a bool array, `double&` for a double array) | hands back the real element so `list[3] = x` changes it |
+| `[]` as accessor only | `T` (a plain `bool`) or `const T&` | read only |
+
+- `a == b == c` is evaluated from the left, `(a == b) == c`. With a class it fails (`no match for 'operator==' (operand types are 'bool' and 'Box')`). With ints it compiles but gives silly answers (`3 == 3 == 3` printed 0, `3 == 3 == 1` printed 1). So `==` returns `bool` and there is nothing to chain. (added)
+- `bool&` is never right for `==`. There is no existing bool to hand back, and a reference to a local variable is a bug (g++: `reference to local variable 'result' returned`). (added)
+- `bool&` IS the answer for `[]` on a bool array when the operator is also a mutator: 2022-A 1.6 and 2024-A 1.6; plain `bool` when it is accessor only: 2023-A 1.6; `double&` in 2025-A 1.6. The 2021 stem "operator chaining for ==" had the options Q1, Q1&, bool, void&, void; my reading is `bool` (no verified memo). (added)
+- A well designed list has two `[]` overloads: `T& operator[](int intIndex);` and `const T& operator[](int intIndex) const;`. The second is what a `const UJList<T>&` parameter can call. The 2025-A class prints only one, so for its blank (f) the answer is `T&`. Answer exactly what is asked; add the const version only when the question says const, read only or accessor only. (added)
+
+<span style="color:#f08c00">Open: the const `[]` overload has not been written from a blank page, and post-increment (return the saved copy) has not been retested since S6.</span>
+
+## Copy constructor or assignment operator, which one runs (S13)
+Ask one question: does the object on the left already exist, or is this line creating it? (added)
+
+| Statement | What runs (printed by a compiled test) |
+|---|---|
+| `Box c = a;` | copy constructor (c is created) |
+| `Box d(a);` | copy constructor |
+| `b = a;` | assignment operator (b already exists) |
+| `takesByValue(a);` | copy constructor (the parameter is a new copy) |
+
+Picture: the copy constructor photocopies onto a blank sheet, so there is nothing to clear. The assignment operator copies onto a sheet that already has writing, so it must throw away the old writing first. That is why operator= frees the old array and the copy constructor does not. You do not write one before the other; they cover two situations. A class that owns memory needs both, plus the destructor (the rule of three). 2025-A 1.8: the three most important member functions for a class that manages a dynamically allocated array are the copy constructor, the destructor and operator=. (added)
+
+<span style="color:#f08c00">Open: the trigger rule has been shown by a test but not retested.</span>
+
+## Writing operator= from a blank page (S13)
+Six steps, in this order (the default `=` copies only the address, which gives a leak and a double free). (added)
+```cpp
+const Scores& operator=(const Scores& other) {
+    if (this != &other) {            // 1. same object? compare ADDRESSES
+        delete[] marks;              // 2. free my old array
+        count = other.count;         // 3. copy the size
+        marks = new double[count];   // 4. new array of that size
+        for (int i = 0; i < count; i++) {
+            marks[i] = other.marks[i];   // 5. copy the contents
+        }
+    }
+    return *this;                    // 6. always return *this
+}
+```
+- Compiled and run on a test with `y = x;` and `y = y;` (the self assignment printed the same values). (added)
+- Step 1 is the common slip. `this` is a pointer, so it is compared with an address. `this != other` fails (pointer against object) and `*this != other` fails (object against object, no `!=` in the class). Both were compiled and rejected. (added)
+
+## Reading the Q2.1 blanks (S13)
+Decide the operator from the parameter and the return type. (added)
+
+| Clue in the line | The blank is |
+|---|---|
+| a parameter `int intIndex` | `[]`, returning `T&` |
+| a parameter that is another object of the same class, returning `const UJList<T>&` | `=` |
+| `ostream&` or `istream&` parameter, with `friend` | `<<` or `>>` |
+| `(j)* _data;`, the array's element type | `T` (not `<T>`, not `int`) |
+| `UJList(const UJList(d)& objOriginal)` | `<T>` |
+| `export (b) <(c) T> class` | `template`, `typename` |
+
+Blanks (e), (f) and (j) were wrong in both the timed paper and the cold rerun on 1 Nov, then right on a new class. <span style="color:#f08c00">Open: check them again.</span>
+
+## Class templates, what changed in S13
+- A class template does not have to overload any operator. It only needs the operations its own member functions use on `T`; a stack uses assignment, which `int`, `double`, `string` and ordinary classes already have. The 2025 `UJList` has overloaded operators because of how that class is designed, not because it is a template. A `search` that compares with `==` needs `==` on `T`; a print function needs `<<`. (added)
+- Every member defined outside the class needs its own template line and the class name with `<T>` in front of the function name, including constructors and destructors:
+```cpp
+template <typename T>
+void StackType<T>::push(T newItem) { ... }
+
+template <typename T>
+StackType<T>::StackType(int stackSize) { ... }
+
+template <typename T>
+StackType<T>::~StackType() { ... }
+```
+Compiled with a templated array stack used with `string` and `double`. Inside the class declaration the marker is not repeated. Keep the definitions in the same file as the class, or the program fails to link. (added)
+
+<span style="color:#f08c00">Open: scope of `template <class Type>`, the link error, and an out of class member from a blank page have not been retested since S6.</span>
+
+## Do not forget (S13 additions)
+- ⚠️ Const has three positions: front (what I hand back), brackets (what you gave me), end (the object I am called on).
+- ⚠️ `this != &other`: `this` is a pointer.
+- `==` returns `bool`; `[]` that can also assign returns `T&`.
+- The question decides: copy the signature that is printed.
+
 ## Amendments
 S12: Added the left operand rule for member versus friend with the `this` explanation, the three const positions, friend `<<` and `>>` inside a class template (compiled and run), a table of the Q2.1 blanks, rows for `=` and `>>` in the quick reference, and five bullets in Do Not Forget. Existing text was not changed. Prompted by misses in the S12 drills and quiz: member versus friend (twice), trailing const, and the default `=` compiling but failing at run time.
+S13 (1 Nov 2026): added the sections "The three const positions in plain words (S13)", "Return types and chaining by operator (S13)", "Copy constructor or assignment operator, which one runs (S13)", "Writing operator= from a blank page (S13)", "Reading the Q2.1 blanks (S13)", "Class templates, what changed in S13" and "Do not forget (S13 additions)". Prompted by the exam revision questions on const, chaining, == and bool&, the copy constructor trigger, the self check in operator=, and the 2025-A Q2.1 blanks. All code was compiled and run on g++ 13.3 (Linux). Existing text was not changed.
 
 ---
-*CDG version: written under an earlier version that was not recorded (S6); amended with CDG v10 (S12, 2026-10-29).*
+*CDG version not recorded | written S6 | amended S12 (v10), S13 (v11) | 2026-11-01*

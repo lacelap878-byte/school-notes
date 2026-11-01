@@ -399,5 +399,52 @@ Line by line:
 - Match the technique to the program: terminate, fix and continue, or log and continue.
 - The throw clause does not compile from C++17 on.
 
+## Exception pattern from 2025-A 2.2 and 2.3 (S13)
+Compiled and run on g++ 13.3 (Linux); the program printed `Index out of range`. (added)
+```cpp
+class Exception {
+public:
+    Exception(string strMsg) : msg(strMsg) {}
+    virtual string what() const { return msg; }
+private:
+    string msg;
+};
+class IndexException : public Exception {
+public:
+    IndexException() : Exception("Index out of range") {}
+};
+
+// the throw lives INSIDE operator[], where the check is
+T& operator[](int intIndex) {
+    if (intIndex < 0 || intIndex >= intSize) throw IndexException();
+    return _data[intIndex];
+}
+
+// the caller only has the try and catch
+try {
+    cout << list[99];
+} catch (IndexException& e) {
+    cerr << e.what();
+}
+```
+- The throw is written where the problem is detected (inside the class function). The try and catch are written where the function is called. They are never in the same function by default.
+- Catch by reference (`IndexException& e`), and put the most specific handler first, then the base class, then `catch (...)` last. The first handler that matches wins, so a base class handler placed first swallows the derived one.
+
+## Order of destructors when an exception leaves a scope (S13)
+- Objects created inside the try block are destroyed, in reverse order of creation, when the exception is thrown (stack unwinding), before the handler runs.
+- Reverse order means the last object created is destroyed first. Write the constructions down in order, then read the destructor output from the bottom up.
+<span style="color:#f08c00">Open: handler order and destructor order were both wrong in the timed paper. Retest with a trace.</span>
+
+## Do not forget (S13 additions)
+- Throw inside `operator[]`, try and catch at the call.
+- `catch (...)` goes last.
+- Destroy in reverse order of creation.
+
 ## See also
 - [[CSC01B1_Notes_S7_FileHandling]]
+
+## Amendments
+S13 (1 Nov 2026): added "Exception pattern from 2025-A 2.2 and 2.3", "Order of destructors when an exception leaves a scope" and "Do not forget (S13 additions)". This file had no Amendments section or footer before; both added now. Code compiled and run on g++ 13.3 (Linux). Existing text was not changed.
+
+---
+*CDG version not recorded | written S8 | amended S13 (v11) | 2026-11-01*

@@ -284,6 +284,53 @@ Recursion uses the call stack: each call is pushed, and each return pops. This i
 - Queue on a linked list: add at rear, delete from front, tail pointer avoids walking.
 - Answer stack versus queue questions from the rule, not from a real-world detail.
 
+## Stack and queue rules from the S13 drills (S13)
+All snippets compiled and run on g++ 13.3 (Linux). (added)
+
+### Lecturer scope (as reported by the user, 30 Oct 2026)
+Stacks and queues with linked lists or arrays are examined, the focus being how data goes in and out. Postfix expressions and simulation are unlikely. This comes from the user, not from a memo.
+
+### LIFO and FIFO in one table
+| | Stack (LIFO) | Queue (FIFO) |
+|---|---|---|
+| Put in | push: insert at the FRONT of a linked list | addQueue: insert at the REAR |
+| Take out | pop: delete the FIRST node | deleteQueue: delete the FIRST node |
+| Out first | the last one in | the first one in |
+- Delete is the same operation for both (delete the first node). What differs is where things go in.
+- A queue needs a `queueRear` pointer so inserting at the rear is quick. A doubly linked list is not needed.
+- Real life: a line at a shop is a queue; a pile of plates is a stack. A competition ranked by time is neither; it is sorted.
+- Trace habit: write the structure after each operation. The queue trace was first wrong, then right once the rear was drawn.
+
+### Array stack with `stackTop`
+- Empty when `stackTop == 0`; full when `stackTop == max`.
+- push: store at `list[stackTop]` and then increment. pop: decrement. The top element is at `stackTop - 1`.
+- A templated array stack works with `int`, `double` and `string` with no operators overloaded; each member defined outside the class needs `template <typename T>` and `StackType<T>::`.
+
+### Linked stack and queue snippets
+```cpp
+// push (insert at the front)
+Node<T>* newNode = new Node<T>;
+newNode->data = item;
+newNode->next = stackTop;
+stackTop = newNode;
+
+// pop (delete the first)
+Node<T>* temp = stackTop;
+stackTop = stackTop->next;
+delete temp;
+
+// addQueue (insert at the rear)
+newNode->next = nullptr;
+if (queueFront == nullptr) { queueFront = newNode; queueRear = newNode; }
+else { queueRear->next = newNode; queueRear = newNode; }
+```
+Empty-case check first (pop or delete on an empty structure is an error to be handled).
+<span style="color:#f08c00">Open: stack versus queue from the rule alone was weak; retest with a short trace.</span>
+
+## Do not forget (S13 additions)
+- Stack in at the front, queue in at the rear, both out at the front.
+- Array stack top is at `stackTop - 1`.
+
 ## See also
 - [[CSC01B1_Notes_S9_LinkedLists]]
 - [[CSC01B1_Notes_S11_ComplexityAnalysis]]
@@ -291,3 +338,7 @@ Recursion uses the call stack: each call is pushed, and each return pops. This i
 ## Amendments
 - 28 Oct (Amend S11): read every slide of Lecture 9 as an image and added them as presented: stack figures, the linked stack slide by slide, array stack (10 to 29), postfix (46 to 58), print backward (59 to 65), extra queue detail (67 and 68), array queue (69 to 89), linked queue (90 to 96), simulation (97 to 105) and the summary (107 and 108). Corrected the coverage paragraph and the wrong claim that slides 90 to 96 held code (they are words only). Replaced the `top` and assignment operator snippets with the full slide code. Added N.B. lines: low frequency, do not focus too much on the array versions, postfix, print backward and simulation.
 - (added) in this amendment: the array wrap formula, the print backward loops, the slide 94 versus slide 96 note, the pop figure remark.
+S13 (1 Nov 2026): added "Stack and queue rules from the S13 drills" (scope as reported by the user, LIFO and FIFO table, array stack rules, linked snippets) and "Do not forget (S13 additions)". Snippets compiled and run on g++ 13.3 (Linux). Existing text was not changed.
+
+---
+*CDG version not recorded | written S10 | amended S11 (v10), S13 (v11) | 2026-11-01*

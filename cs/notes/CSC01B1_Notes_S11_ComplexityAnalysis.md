@@ -77,6 +77,8 @@ Format for the exam: state the three assumptions, list the counted operations, s
 
 ## Recursion (slides 18 to 20, Amended S11)
 
+> [!warning] Not examined, per lecturer (as reported by the user, 30 Oct 2026). Kept for reference only.
+
 > N.B. Low frequency in past papers. The Q3.5 papers checked give iterative code. Do not focus on this section.
 
 Slide 18 code:
@@ -96,6 +98,8 @@ int power(int x, int n)
 - The algorithm is O(N) (slide 20).
 
 ## Sorting and searching (slides 22 to 41), results only
+
+> [!warning] Not examined, per lecturer (as reported by the user, 30 Oct 2026). Kept for reference only.
 
 > N.B. Low frequency in past papers: sorts and searches are never named in the 2021 to 2025 question text. The table below is the part worth knowing. The slide detail after it is for reading once, not for drilling. (The heading says "results only"; it is kept unchanged because the Final summary links to it. The slide detail was added in Amend S11.)
 
@@ -330,9 +334,48 @@ RETURNS: the index of the first match, or -1 if not found */
 - Drop constants and lower terms last.
 - Q3.5 is worth 10 marks. It is mostly counting.
 
+## Complexity notes, the method as used in the exam revision (S13)
+Written from the lecturer's slides 1 to 17 and the drills of 30 Oct to 1 Nov. Counts were checked by hand and by running the code. (added)
+
+### Scope
+Recursion (slide 18 on) and sorting and searching were reported by the user as NOT examined (lecturer, 30 Oct 2026, as reported, no memo). Counting a loop, producing T(N) and the Big-O is examined.
+
+### Assumptions, the wording to write
+1. Operations are a fair measure of time.
+2. Every operation takes the same time.
+3. N is the size of the problem.
+
+### The method
+`T(N) = outside + (header + body) x iterations`
+- Count each statement as one operation: assignment, comparison, arithmetic, array access, output, `new`, `delete`, a function call. State this rule in the answer.
+- A for loop header counts 3 per iteration (`=` once, `<` and `++` each time), by the slide convention. Slide 14 prints `3N` where `4N` is right and slide 17 prints `25N^2` where `5N^2` is right; trust your own count and state the rule.
+- Nested loops multiply the inner count by the outer iterations.
+- Check the formula by putting N = 1, 2, 3 in and counting the code by hand. If they disagree, the formula is wrong.
+- Final step: drop the constants and the smaller terms. `8N + 1` is O(N).
+
+### Worked results
+| Code | T(N) | Big-O |
+|---|---|---|
+| sumPositives | 8N + 1 | O(N) |
+| 2025-A resizeList | 12N + 6 (10N + 8 with the alternative rule for the header) | O(N) |
+T(1), T(2), T(3) for resizeList: 18, 30, 42.
+
+### Answer layout (exam)
+1. State the assumptions. 2. Mark the lines and their counts. 3. Write T(N). 4. Check with N = 1, 2, 3. 5. Write the Big-O.
+
+### My slips in the revision
+- Combining nested loops: forgetting the header of the inner loop is counted every time the inner loop runs.
+- A second `[]` access in a line is its own operation and was missed in Q3.5 (T(2) = 20 and T(3) = 26 did not fit `8n + 6`).
+- Counting a pointer or a node: a node access through a pointer is still one operation.
+<span style="color:#f08c00">Open: Q3.5 style counting (second array access, nested headers) has not been retested.</span>
+
 ## See also
 - [[CSC01B1_Notes_S10_StacksAndQueues]]
 - [[CSC01B1_Notes_S9_LinkedLists]]
 
 ## Amendments
 - 28 Oct (Amend S11): read slides 6 to 9, 18 to 20 and 22 to 41 as images and added them as presented (Big-O definition, recursion, every sort and search with the slide code and analysis). Corrected the partial-coverage paragraph. (added) Slide figures for Examples 1 to 3b, with two slide arithmetic slips flagged. Added N.B. lines: low frequency, do not focus too much on the Big-O definition, recursion and sorting and searching sections.
+S13 (1 Nov 2026): added "Complexity notes, the method as used in the exam revision" (scope, assumptions, method, worked results, layout, slips). Added scope markers under the recursion and sorting and searching headings. Added the footer that was missing. Existing text was not changed otherwise.
+
+---
+*CDG version not recorded | written S11 | amended S13 (v11) | 2026-11-01*
