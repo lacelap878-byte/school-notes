@@ -1,17 +1,19 @@
 Struggle log for S13, the exam revision (30 Oct to 1 Nov 2026, exam on Monday 2 Nov at 16:30). Per session logs started here: every earlier session has its own log, and this one holds the items first seen during the revision plus the cumulative retest list. Status words: open, resolved (with the evidence). Evidence is compiled or run output where code was involved. Where it was only marking by hand, the entry says the verdict rests on Claude's marking alone.
 
-Sources for this session: the 30 Oct afternoon carry over (quick fire drills, evidence recorded there), the 2025 paper A timed attempt (31 Oct, marked at about 63 of 100, no verified memo, marked by C++ rules and compiling where possible), and the drills of 31 Oct and 1 Nov.
+Sources for this session: the 30 Oct afternoon carry over (quick fire drills, evidence recorded there), the 2025 paper A timed attempt (31 Oct, marked at about 63 of 100, no verified memo, marked by C++ rules and compiling where possible), and the drills of 31 Oct and 1 Nov, including the 1 Nov evening drills (exceptions and the text file template, 18:50 to 19:25). The timed paper 2025-B was postponed by the user to the morning of 2 Nov.
 
 ## 1. OPEN ITEMS (unresolved, oldest first)
 
 1. Exceptions: handler order (30 Oct quick fire)
    - Q1 answered B; correct is A: handlers are tried top to bottom, the first match wins, and a base class handler placed before a derived class handler catches the derived exception. Q5 answered "compiles, prints any"; it does NOT compile (`'...' handler must be the last handler for its try block`), confirmed on the user's g++ 15.2.0 (only -fpermissive lets it through). R1 was right on the retest.
    - 1 Nov: the True or False item "catch(...) may come first" was answered correctly in the 12 question drill.
-   - Status: open (the drill is weak evidence).
+   - 1 Nov evening cold retest (Q1, a base class handler before a derived class handler and `catch (...)`): answered AD, correct. The base class handler is first, so it catches the derived exception and the derived handler is never reached.
+   - Status: resolved on this retest (one question, weak evidence).
 
 2. Exceptions: destructor order during unwinding (30 Oct quick fire)
    - Q4 answered ckd; correct is cdk: locals are destroyed before the handler runs. Retest R2 answered "c c k"; correct is c1 c2 d2 d1 k (destructors run in reverse order BEFORE the handler).
-   - Status: open.
+   - 1 Nov evening, three drills with the same struct K (constructor prints c plus the name, destructor prints d plus the name). Drill 1 (a1 and b2, then throw, then catch): answered `cdcdx`; correct `c1c2d2d1X`. The names were left out and each object was destroyed right after it was created. Drill 2 (x, an inner block with y, then z, then throw): answered `ABCZ`; correct `cAcBdBcCdCdAZ`. The c and d events were left out. Drill 3 (m in main, then P, Q, an inner block R, then throw): answered `SccPcQcrDrdPdQZSD`; correct `cScPcQcRdRdQdPZdS`. All nine events were found and the end of h() was nearly right; the slips were the letters written name first and `dP` written before `dQ`. What helped: writing a list of what is alive with one event per line, and the stack of plates image.
+   - Status: open but improving (wrong order of two destructors in the last drill).
 
 3. File handling: seekp overwrite and the eof loop (30 Oct quick fire)
    - ios::app adds to the end (taught after "don't know"). seekg is the read position and seekp the write position, and a write overwrites: R1 answered ABCDEF, correct A then AZZDEF. `while (!in.eof())` repeats the last value (1, 2, 3, 3); R3 answered "don't know", fix `while (in >> x)`. ios::app versus the default was not retested.
@@ -24,7 +26,8 @@ Sources for this session: the 30 Oct afternoon carry over (quick fire drills, ev
 5. Text file reading with lines of different lengths (2025-A 3.1)
    - Left blank in the timed paper. 1 Nov cold rerun: opening lines and the declarations were right (`ifstream`, fail check, `string strDay; int intHour; int intMinute; char chTap;`); it stopped at `while (getline(is,`. The user found `istringstream` confusing and had not used `get` before (checked: no `.get(` in any practical; the practicals read text with `>>` and use `getline` only to discard a header line). The user then said to skip it.
    - The template that stays (compiled): `getline(file, strLine)` in a while loop, `istringstream objLine(strLine);`, `objLine >> strDay >> intHour >> intMinute;`, a flag, `while (objLine >> chTap)`, print if the flag is set. Two other versions were compiled and offered: `>>` for the first three values then `getline(is, strTaps)` for the rest of the line, and `>>` with a loop of 1032 taps. Papers 2025-B and 2025-C have a 3.1 of the same kind.
-   - Status: open. High priority.
+   - 1 Nov evening (19:11 and 19:24), two cold reruns with new questions (rain.txt: print the cities whose total is above 50; scores.txt: print the names whose average is 60 or more). First attempt: `istream is("rain.txt", ios::in)` (should be `ifstream`), `getline(is, intRain)` (getline fills a string), no `istringstream`, `sum` not set to 0 and the test outside the loop. Second attempt (after the template was mapped onto his own lines and `iss` was explained as only a variable name): ifstream, fail check, getline, `istringstream iss`, `iss >> Name`, the inner `while (iss >> mark)`, the average and the test inside the outer loop, all in place. Slips: `total` declared once above the loop and never reset; the line variable declared as `strLine` but read as `Line`; `istringstream iss;` appears to lack `(strLine)` (as far as the handwriting can be read); the average was printed although only the name was asked; `>` or `>=` for "60 or more" not clear on the page. Marking is by hand only (not compiled). Estimated 4 of 5.
+   - Status: open, much improved. One more cold run tomorrow morning.
 
 6. Flags for "all" and "at least one"
    - Confusion between 3.1 (at least one `?`: flag starts false) and 3.3 (all taps are `?`: flag starts true, a tap that is not `?` makes it false). The user's own wording: "proof by contradiction", then "we check if it is clear but we start out assuming the water is clear" (a flag meaning "all clear"), which answers the opposite question. Recipe given: "all" starts true and one counterexample sets false; "at least one" starts false and one example sets true; the start value is the answer for an empty list.
@@ -71,6 +74,10 @@ Sources for this session: the 30 Oct afternoon carry over (quick fire drills, ev
     - Asked whether queueRear means a doubly linked list. It is a second pointer held by the queue to the last node (lecture slide 91), not a back pointer inside the nodes. Asked whether pop and deleteQueue are the same operation: on a linked list both remove the first node; the queue also fixes queueRear when it becomes empty; the real difference is where data is ADDED (stack at the front, queue at the end).
     - Status: resolved (discussion, weak evidence).
 
+16. Local objects follow a stack, not a queue (1 Nov evening)
+   - After the destructor drill the user asked why `dP` before `dQ` is wrong, because he thought "FIFO is the way this works". Local objects live on the call stack and are removed newest first (LIFO). Explained with socks and shoes and with the plates image; he then asked whether that is why the memory is called a stack, and it was confirmed (the function that was called last finishes first, and `new` memory is the heap, which is not a stack). A table was given: queue (first in first out, a shop line, deleteQueue) against stack (last in first out, push and pop, destructors, function calls).
+   - Status: resolved by discussion (weak evidence). Retested through item 2.
+
 ## 2. RESOLVED (with the session that resolved it)
 ```
 concept                                   | how it was closed
@@ -105,14 +112,14 @@ The user's learning preferences, stated in S13: a worked example before any ques
 
 ## 5. RETEST FIRST (ranked, cumulative; the home log of each item is in brackets)
 Blank paper, timed, in this order. Paper B and C versions of 3.1 reuse the same template.
-1. The 3.1 text file template from a blank page (S7 item 2; S13 item 5).
+1. The 3.1 text file template from a blank page (S7 item 2; S13 item 5). Evening 1 Nov: structure right, four slips; one more cold run.
 2. Doubly linked list: insert at the front and the back, and delete the whole list ending with `_head = nullptr; _tail = nullptr;` (S13 items 9; S9 item 5).
 3. Circular list: front insert (find the last node), back insert with an else, count with a do while (S13 item 10).
 4. Delete a specific node with previous and current (S9 item 1); insert BEFORE and search (S9 item 4).
 5. operator= with `this != &other`; post-increment; the `[]` const pair; copy constructor against assignment (S6 items 1 to 3, 4).
 6. Explicit linking cold: `typedef char* (*Name)(int);`, `"genRoute"` in quotes, a named handle (S13 item 11).
 7. Module interface and implementation files, `-fmodules-ts` on every compile line, and the 2025-C 4.3 main.cpp with the random array (S12 items 2 to 4).
-8. Exceptions: handler order, destructor order during unwinding (S13 items 1 and 2).
+8. Exceptions: destructor order during unwinding, newest first (S13 items 2 and 16). Handler order came right on the 1 Nov evening retest.
 9. seekp overwrite and `while (in >> x)` (S13 item 3).
 10. Q3.5 Big-O cold with the three assumptions, the counting rule stated, substitution computed from the formula (S13 item 14).
 11. The UML 1.1 operations with a 6 minute cap (S13 item 12); the Q2.1 blanks (e), (f), (j) (S13 item 13).
