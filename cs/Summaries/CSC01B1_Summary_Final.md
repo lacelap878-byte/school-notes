@@ -1,23 +1,25 @@
 ---
 module: CSC01B1
-topic: Final Summary (S1 to S11)
+topic: Final Summary (S1 to S13)
 test_label: Final
 tags: [summary]
 ---
 
-# CSC01B1 Final Summary (Sessions 1 to 11)
+# CSC01B1 Final Summary (Sessions 1 to 13)
 
 Built for the exam on Monday 2 November 2026 (2 hours, 100 marks, written), not for first learning. If something here does not click, follow the link back to the full session note. Earlier test summaries are linked, not copied: [[CSC01B1_Summary_ST1]] and [[CSC01B1_Summary_ST2]].
 
-Scope: the whole module, S1 to S11. `cs` PROFILE has no proof content, so no Proofs file accompanies this one.
+Scope: the whole module, S1 to S13, plus the exam day review of 2 November 2026: [[CSC01B1_Summary_ExamDayReview]]. `cs` PROFILE has no proof content, so no Proofs file accompanies this one.
 
 Reliability: where this file and an older log disagree, the S9 to S11 session (27 and 28 October 2026) is the most recent record. Sessions S9, S10 and S11 were amended on 28 October 2026 with every lecture slide (see Material covered, After ST2).
+
+Updated 2 November 2026 (S14): S12 and S13 added, the 1 November amendments to S6 to S11 linked, and what the 2025 practice papers showed. Where an older note and this file disagree about whether doubly and circular lists appear in the 2021 to 2025 papers, the 2025-B and 2025-C papers themselves are the record: paper B depicts a doubly linked list and paper C a circular one in Q2.4 to Q2.6.
 
 ## Contents
 
 Click a link to jump to it.
 
-- [[#CSC01B1 Final Summary (Sessions 1 to 11)]] title, scope and how reliable the sources are
+- [[#CSC01B1 Final Summary (Sessions 1 to 13)]] title, scope and how reliable the sources are, updated 2 November
 - [[#Definitions]] every term the file uses, with a labelled list anatomy
   - [[#Linked list terms]] node, head, current, nullptr, template, slide names against exam names
   - [[#Stack and queue terms]] LIFO, FIFO, push, top, pop, addQueue, deleteQueue, tail pointer
@@ -25,16 +27,18 @@ Click a link to jump to it.
   - [[#Class and object terms]] composition against aggregation, delegation, overloading against overriding
   - [[#File and DLL terms]] record, header, seekg and seekp, padding, DLL, implicit and explicit linking
   - [[#Exception terms]] throw, try, catch, what(), stack unwinding
-- [[#Material covered]] which notes belong to which test, and what S9 to S11 left out
+- [[#Material covered]] which notes belong to which test, what S9 to S11 left out, and S12 to S13
   - [[#Before ST1 (S1 to S4)]] S1 to S4 notes
   - [[#Between ST1 and ST2 (S5 to S8)]] S5 to S8 notes
   - [[#After ST2 (S9 to S11)]] S9 to S11 notes, taught and not taught
+  - [[#Revision (S12 to S13)]] S12 and S13, the 1 November amendments, the scope update, the exam day review
 - [[#Condensed concept pass]] one short entry per major result, linked
   - [[#Sessions 1 to 4]] pointers back to the ST1 summary and notes
   - [[#Sessions 5 to 8]] pointers back to the ST2 summary, plus templates and DLLs
   - [[#Linked lists]] node, head, loop stops, insert, delete
   - [[#Stacks and queues]] LIFO, FIFO and the linked versions
   - [[#Complexity analysis]] counting steps, nested loops, results table
+  - [[#Sessions 12 and 13]] const positions, operator=, file patterns, linking, lists, Big-O, one line each
 - [[#Worked example notebook]] list code and a Big-O count, with earlier examples linked
   - [[#Counting nodes in a list]] the traversal skeleton
   - [[#Inserting after a value]] stop ON the node, link order
@@ -45,6 +49,7 @@ Click a link to jump to it.
   - [[#Semester test 1 (ST1)]] the mark and the UML time loss, in the user's words
   - [[#Semester test 2 (ST2)]] the 49% cap, the remark and the query, in the user's words
   - [[#Where the marks stand]] the assessment rules and the exam mark needed
+  - [[#Practice papers, 2025]] what the user reported about papers B and C on 2 November
   - [[#Patterns across the tests]] what the user has and has not reported
 - [[#Common mistakes]] grouped by pattern, open items in orange
   - [[#Writing from a blank page]] recognition against production, signatures, the counting skeleton
@@ -54,7 +59,8 @@ Click a link to jump to it.
   - [[#Small copying slips]] names, missing lines, class name prefixes
   - [[#Jargon]] DLL words, padding, file stream traps
   - [[#Complexity]] assumptions, nested loops, unpractised operations
-- [[#Decision aids]] question map, loop stops, operation table, stack or queue, Big-O steps, DLL linking
+  - [[#Slips from the 2025 practice papers]] the open slips from 2 November, with a link to the full pairs
+- [[#Decision aids]] question map, loop stops, operation table, stack or queue, Big-O steps, DLL linking, text or binary
   - [[#Which question is this]] the paper map with marks and where to look
   - [[#Which loop test stops where]] the table for every list loop
   - [[#Linked list operations at a glance]] special cases and core lines
@@ -63,8 +69,9 @@ Click a link to jump to it.
   - [[#Counting steps and giving the Big-O]] the five steps and the results table
   - [[#Two class exception hierarchy]] base and derived exception code for Q2.2
   - [[#Implicit or explicit linking]] DLL client choice
-- [[#Exam procedure]] timing, the UML cap, a check before moving on
-- [[#Tips]] terminology traps and where to spend time
+  - [[#Text or binary file]] the first decision in a file handling question, with the patterns
+- [[#Exam procedure]] timing, the UML cap, the 2025 papers at a glance, a check before moving on
+- [[#Tips]] terminology traps, where to spend time, the updated scope
 
 ## Definitions
 
@@ -130,8 +137,11 @@ Node<string> *head = nullptr;
 - **seekg, seekp**: the read marker and the write marker. They are independent. Seeking only moves a marker; it reads nothing.
 - **Padding**: unused bytes the compiler inserts so each member sits at an address that suits its alignment. Reordering members changes the total size.
 - **DLL**: a file of ready-made functions that a program loads when it runs, instead of having the source built into it. Under Windows it is a Dynamic Link Library.
-- **Implicit linking**: the program is built against the DLL and its header; Windows loads the DLL when the program starts, and refuses to start if it is missing.
+- **Implicit linking**: the program is built against the DLL and its header; Windows loads the DLL when the program starts, and refuses to start if it is missing. It also needs the import library made when the DLL is built.
 - **Explicit linking**: the program loads the DLL itself with `LoadLibrary` and finds each function by name with `GetProcAddress`; it can carry on if the DLL is missing.
+- **Import library**: the small `.a` file made when the DLL is built with `-Wl,--out-implib,lib<name>.a`. A client links to it with `-L. -l<name>`. Only needed for implicit linking.
+- **Module interface file**: the `.cpp` that starts with `export module Name;` and declares what is exported. Compile it first, with `-fmodules-ts`.
+- **extern "C"**: turns off C++ name mangling, so the DLL function keeps its plain name.
 - **Exported function**: a function a DLL makes available. The header uses a macro that is `dllexport` when building the DLL and `dllimport` when using it.
 
 ### Exception terms
@@ -168,6 +178,16 @@ These three were taught in drill format. On 28 October 2026 every remaining slid
 - [[CSC01B1_Notes_S9_LinkedLists]] linked lists. Taught: the node, head, traversal, insert at start, end and after a value, delete first, last, a specific node and the whole list. Read but not taught, low frequency: the list class, iterators, ordered and unordered lists (slides 29 to 71), print in reverse, doubly linked and circular lists (74 to 88).
 - [[CSC01B1_Notes_S10_StacksAndQueues]] stacks and queues. Taught: the idea of each and the linked versions. Read but not taught, low frequency: array stacks and queues, postfix evaluation, printing backward with a stack, the queue simulation.
 - [[CSC01B1_Notes_S11_ComplexityAnalysis]] complexity analysis. Taught: the counting method. Read but not taught, low frequency: the Big-O definition, recursion and the sorting and searching slides (22 to 41), now with the slide code in the note.
+
+### Revision (S12 to S13)
+
+Updated 2 November 2026. These sessions taught no new syllabus topics. They drilled the exam papers and amended the earlier notes.
+
+- S12 has no notes file of its own. Module style DLLs and the Q2.1 operator patterns were taught into the S6 and S7 amendments: [[CSC01B1_Notes_S6_OperatorOverloadingTemplates#Reading the Q2.1 blanks (S13)]] and [[CSC01B1_Notes_S7_FileHandling#Module files for a DLL, corrections (S13)]].
+- [[CSC01B1_Notes_S13_ExamRevision]] exam procedure, multiple choice patterns, lecturer scope as reported, short rules for the morning of the exam.
+- S6 to S11 were amended on 1 November 2026. The new sections: [[CSC01B1_Notes_S6_OperatorOverloadingTemplates#The three const positions in plain words (S13)]], [[CSC01B1_Notes_S6_OperatorOverloadingTemplates#Writing operator= from a blank page (S13)]], [[CSC01B1_Notes_S7_FileHandling#Text file template, getline then istringstream (S13)]], [[CSC01B1_Notes_S7_FileHandling#Binary records, what I got wrong and the fixes (S13)]], [[CSC01B1_Notes_S7_FileHandling#Explicit linking, the seven parts (S13)]], [[CSC01B1_Notes_S8_ExceptionHandling#Order of destructors when an exception leaves a scope (S13)]], [[CSC01B1_Notes_S9_LinkedLists#The 2025 list questions and verified model answers (S13)]], [[CSC01B1_Notes_S10_StacksAndQueues#Stack and queue rules from the S13 drills (S13)]], [[CSC01B1_Notes_S11_ComplexityAnalysis#Complexity notes, the method as used in the exam revision (S13)]].
+- Scope update, as reported by the user on 1 November 2026 (no memo): explicit linking with function pointer basics is examined, doubly and circular lists are examined, stacks and queues are examined. Recursion, sorting and searching: not examined, per lecturer (as reported), 1 November 2026. The "Read but not taught" note for doubly and circular lists under After ST2 is out of date for that reason.
+- The exam day review, with every slip from the 2025 practice papers and checked code: [[CSC01B1_Summary_ExamDayReview]].
 
 ## Condensed concept pass
 
@@ -210,6 +230,21 @@ Entries for S1 to S8 point to the test summary that already holds them. S9 to S1
 - Count operations, not seconds, under the three assumptions. (see: [[CSC01B1_Notes_S11_ComplexityAnalysis#The three assumptions]])
 - Nested loops multiply the pass counts, sequential loops add, drop constants, keep the highest power, count the worst case. (see: [[CSC01B1_Notes_S11_ComplexityAnalysis#The method (added)]])
 - Sorting and searching results: [[CSC01B1_Notes_S11_ComplexityAnalysis#Sorting and searching (slides 22 to 41), results only]].
+
+### Sessions 12 and 13
+
+Updated 2 November 2026. The one line rules are in [[CSC01B1_Notes_S13_ExamRevision#Short rules to read on Monday morning]]. The detail is in the amended notes.
+
+- Const has three positions: the front is what I hand back, the brackets are what you gave me, the end is the object I am called on. (see: [[CSC01B1_Notes_S6_OperatorOverloadingTemplates#The three const positions in plain words (S13)]])
+- `operator=` is six steps, checks `this != &other`, and ends with `return *this`. The copy constructor runs when the object is being created, assignment when it already exists. (see: [[CSC01B1_Notes_S6_OperatorOverloadingTemplates#Writing operator= from a blank page (S13)]])
+- Text file: `getline`, then `istringstream is(line)`, with the counter set to 0 inside the loop. Binary file: `read(reinterpret_cast<char*>(&rec), sizeof(Rec))`. (see: [[CSC01B1_Notes_S7_FileHandling#Text file template, getline then istringstream (S13)]])
+- A flag for "all" starts true. A flag for "at least one" starts false. (see: [[CSC01B1_Notes_S7_FileHandling#Flags, the recipe (S13)]])
+- Explicit linking: typedef, `LoadLibrary`, `GetProcAddress` with the name in quotes and a cast, call, `FreeLibrary`. (see: [[CSC01B1_Notes_S7_FileHandling#Explicit linking, the seven parts (S13)]])
+- Module files for a DLL are compiled with `-fmodules-ts`, interface file first. (see: [[CSC01B1_Notes_S7_FileHandling#Module files for a DLL, corrections (S13)]])
+- Exceptions: handlers are tried in order, and objects are destroyed newest first. (see: [[CSC01B1_Notes_S8_ExceptionHandling#Order of destructors when an exception leaves a scope (S13)]])
+- Lists: in a doubly list, change `back` as well as `next`. In a circular list never test for `nullptr`, test `next == _head`. Deleting the whole list ends with head and tail set to `nullptr`. (see: [[CSC01B1_Notes_S9_LinkedLists#The 2025 list questions and verified model answers (S13)]])
+- Stacks and queues: a stack goes in at the front, a queue goes in at the rear, and both come out at the front. (see: [[CSC01B1_Notes_S10_StacksAndQueues#Stack and queue rules from the S13 drills (S13)]])
+- Big-O: T(N) = outside + (header + body) x iterations, checked with N = 1, 2, 3. (see: [[CSC01B1_Notes_S11_ComplexityAnalysis#Complexity notes, the method as used in the exam revision (S13)]])
 
 ## Worked example notebook
 
@@ -312,9 +347,18 @@ From the learning guide and the user's own reports, updated 28 October 2026. The
 - Arithmetic from those rules: the exam minimum of 40% is what binds for a pass, and a 65% final (the cum laude goal) needs about 64.5% in the exam.
 - In session practicals marked by VPL read 0 for compile failures (practicals 1, 2, 3, 4 and 6) and the lecturer said they are being remarked, on the basis that code which does not compile does not get the mark.
 
+### Practice papers, 2025
+
+Added 2 November 2026, from what the user said in the chat that day. Marks on practice papers were Claude's estimates, with no memo, so none are recorded here. The 2025-A estimate is in [[CSC01B1_Notes_S13_ExamRevision]].
+
+- The user sat paper 2025-B as a timed 2 hour paper, started at 09:56 and reported done at 11:20 without the UML question, then did the UML separately. The user said: "so it takes me 20 minutes to do a uml that is too much time".
+- The user left 3.3 and 3.4 of the 2025-C Question 3 out: "i couldnt do 3.3 and 3.4 so left them out". The user said that not knowing how many records the file held stopped them.
+- The user disagreed with Claude's estimate for the 2025-B UML: "i know for a fact i should 10/10 for the uml". The question is worth 5 marks and no memo exists, so this is open.
+- The user's target for the exam is about 80% (from the S13 handoff).
+
 ### Patterns across the tests
 
-The user has not reported a pattern across the two tests. The patterns in Common mistakes come from the practice logs, not from this account.
+The user has not reported a pattern across the two tests. The user reported the UML question as the time loss in ST1 (45 minutes) and again in 2025-B (20 minutes). The patterns in Common mistakes come from the practice logs, not from this account.
 
 ## Common mistakes
 
@@ -361,6 +405,22 @@ Merged across both test summaries and every struggle log, grouped by pattern. Op
 - <span style="color:#f08c00">Open:</span> the three assumptions are not memorised (the quiz answer was a gut feeling), and it is unclear why the third changes: N is whatever the problem size is in that code.
 - <span style="color:#f08c00">Open:</span> combining nested loops: the outer loop's own work is added once per outer pass, not multiplied by the inner loop.
 - <span style="color:#f08c00">Open:</span> insert BEFORE a value and search were never practised, and both are in past papers.
+
+### Slips from the 2025 practice papers
+
+Added 2 November 2026. All still open until answered correctly under a cold retest. The full wrong and right pairs, with checked code, are in [[CSC01B1_Summary_ExamDayReview#Mistakes by pattern]].
+
+- <span style="color:#f08c00">Open:</span> `istringstream is(strLine);` the line goes in the brackets. Slipped three times on 2 November, once right after answering it correctly.
+- <span style="color:#f08c00">Open:</span> counters, and the index `i`, are declared inside the line loop with `= 0`. Read the id or name from the stream before the marks.
+- <span style="color:#f08c00">Open:</span> a binary file is read with `read` and written with `write`, never `>>` or `<<`. Modes are joined with `|`. The address is `&rec`, and the count is `sizeof(Type)`.
+- <span style="color:#f08c00">Open:</span> when the number of records is unknown, loop until the read fails. This stopped the 2025-C 3.3 and 3.4 attempts.
+- <span style="color:#f08c00">Open:</span> inserting at the front of a doubly list: `newNode->prev = nullptr;`. Deleting a node: fix both neighbours, then `_head` and `_tail`, and `return true` on every success path.
+- <span style="color:#f08c00">Open:</span> explicit linking: `typedef char* (*Name)(int);`, the function name in quotes with a cast, and `FreeLibrary`.
+- <span style="color:#f08c00">Open:</span> batch file: `-fmodules-ts` on both compile lines, interface file first.
+- <span style="color:#f08c00">Open:</span> the copy constructor takes `const UJVector<T>&`, with the `&`. Exceptions are destroyed newest first.
+- <span style="color:#f08c00">Open:</span> Big-O: say it is the worst case, count `[]` as an operation, and write the final O(N) line.
+- <span style="color:#f08c00">Open:</span> UML: a real number is `double`, an accessible value needs a getter, a collection needs `0..*`, and values set during creation go into the constructor.
+- Resolved on 2 November: `seekg(Index * sizeof(Type), ios::beg)`, joining modes with `|`, deleting the whole list inside a loop, and reading until the read fails once it was shown.
 
 ## Decision aids
 
@@ -518,18 +578,36 @@ public:
 
 Explicit order: `LoadLibrary`, `GetProcAddress`, call through the pointer, `FreeLibrary`. (see: [[CSC01B1_Notes_S7_FileHandling#Explicit linking (source, slide 50)]])
 
+Making the DLL (updated 2 November 2026): compile each file with `-c`, adding `-fmodules-ts` for module files and compiling the interface file first, then `g++ -shared -o name.dll A.o B.o`. For a DLL that will be linked implicitly, add `-Wl,--out-implib,libname.a` to the last line, and the client then builds with `-L. -lname`. For explicit linking, nothing is added.
+
+The question wording tells them apart: "explicitly links" is the `LoadLibrary` main, "creates the DLL" is the compile and `-shared` lines, "implicitly link" is the client build with `-L.` and `-l`. Checked code is in [[CSC01B1_Summary_ExamDayReview#Code to know]].
+
+### Text or binary file
+
+Added 2 November 2026. Decide this first in any file handling question.
+
+- Text file: `getline`, then `istringstream is(strLine)`, with each counter set to 0 inside the loop.
+- Binary file, reading: open with `ios::in | ios::binary`, then `read(reinterpret_cast<char*>(&rec), sizeof(Rec))`.
+- Binary file, writing: open with `ios::out | ios::binary`, then `write(reinterpret_cast<const char*>(&rec), sizeof(Rec))`.
+- Record number `Index`: `seekg(Index * sizeof(Rec), ios::beg)`. Reading uses `seekg` and `tellg`, writing uses `seekp`.
+- Unknown number of records: `while (in.read(reinterpret_cast<char*>(&rec), sizeof(Rec)))`. Keep the last record, or count, inside the loop.
+- Last record by seeking: `int size = sizeof(Rec); in.seekg(-size, ios::end);` then read.
+
 ## Exam procedure
 
 From the past papers the user supplied (2023 A and 2025 C read for this section) and from the user's ST1 account. Items marked (added) are plans, not facts about the paper.
 
 - The paper is 2 hours and 100 marks. At 100 marks in 120 minutes that is 1.2 minutes per mark.
 - Question 1 starts with a UML diagram worth 5 marks (1.1 in both papers). (added) 5 marks is about 6 minutes at the rate above, so give the UML a 6 minute cap. In ST1 the UML question used the time that Question 4 and Question 5 needed.
-- (added) A budget that leaves 10 minutes spare: Q1 22 minutes, Q2 33, Q3 33, Q4 22. Write the finish time of each question at the top of the paper.
+- (added) A budget that leaves 8 minutes spare: Q1 22 minutes, Q2 34, Q3 34, Q4 22. Write the finish time of each question at the top of the paper. (Updated 2 November 2026 to match the S13 plan.)
 - (added) If a question stalls, write what you have, mark it, and move on. Come back with the spare time.
 - Multiple choice items in Q1 are lettered A to E; read the question's wording for "most correct".
 - Q2.4 to Q2.6 are about a depicted list. Read the picture first: the node's type comes from what the boxes hold (a string in the 2025 C and 2023 A papers).
 - The exam is on paper, so no compiler will catch slips. Before moving on, read the code once for: names copied exactly, the empty list case, `newNode->next = nullptr;`, `ClassName::` on out-of-class definitions, and a `return` where one is needed.
 - Q3.5 starts with the three assumptions and what N is; then the count.
+- The 2025 papers at a glance (read from papers B and C on 2 November 2026): each is 100 marks, with Q1 20, Q2 30, Q3 30 and Q4 20. Q2.4 to Q2.6 are the node structure, then two operations on a depicted list: singly in A, doubly in B, circular in C. Q3 is a text file (5), a packed struct (5), two binary file functions (5 each) and a Big-O count (10). Q4 is explicit linking and a batch file that creates the DLL in B, and a module interface file (5), a batch file for implicit linking (10) and a main with a random array (5) in C.
+- In a file handling question decide first whether the file is text or binary, then use the pattern in Text or binary file above.
+- (added) In 2025-B the UML was left until last and the rest was finished with time to spare. If the UML runs past 6 minutes, stop and come back.
 
 ## Tips
 
@@ -538,5 +616,9 @@ From the past papers the user supplied (2023 A and 2025 C read for this section)
 - Where a lecture slide states a soft rule, check what the compiler does before relying on it: the slide says `catch (...)` should be last, and g++ makes anything else a compile error.
 - Each operator's meaning is defined by the paper, not by C++. Read that line for every operator, and follow a provided declaration where it disagrees with the paper text. (from [[CSC01B1_Summary_ST2#Reading the paper]])
 - When a mechanism feels arbitrary, ask whether an earlier session showed the by-hand version: the self pointer before `this`, the node and `head` before a stack class. (from [[CSC01B1_Summary_ST1#Tips]])
-- Doubly linked and circular lists are only in the 2018 and 2019 papers, and sorting and searching are never named in the 2021 to 2025 questions. Spend the time on the list operations, DLLs and the Big-O count first.
-- Insert BEFORE a value and search are the two list tasks in the papers that were never practised.
+- Updated 2 November 2026: the 2025-B paper depicts a doubly linked list in Q2.4 to Q2.6 and the 2025-C paper a circular one, so doubly and circular lists do appear in recent papers, which matches what the lecturers reportedly said (as reported, no memo). Sorting and searching are not examined, per lecturer (as reported), 1 November 2026. Big-O questions analyse a short function such as `search` or `remove`. Spend the time on the list operations, DLLs and the Big-O count first.
+- Insert BEFORE a value (2025-C 2.6) was practised in S13 with a compiled model answer: [[CSC01B1_Notes_S9_LinkedLists#The 2025 list questions and verified model answers (S13)]]. Search as a list task was not.
+- Do not start new topics on exam day. The user reported that new material added stress on 2 November ("you are giving me more stress"). Use the time to read the short rules and the exam day review.
+
+---
+*CDG version not recorded | written S11 | amended S14 (v11) | 2026-11-02*
