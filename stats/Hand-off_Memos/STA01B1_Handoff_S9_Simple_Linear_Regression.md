@@ -3,9 +3,11 @@ Supersedes S1 to S8. This is the only handoff file needed.
 # STA01B1 Handoff S9 (Simple Linear Regression)
 
 ## 1. Objective (this session)
+
 Generate CDG v8 notes for Lecture 10 (simple linear regression, Chapter 12 as numbered on the slides) from Lecture 10.pdf: scatter plots, the probabilistic model, least squares, the total sum of squares and its split, r and r squared, the ANOVA table for regression, the t and F tests for the slope, cautions, residual diagnostics, and the confidence and prediction intervals at x0. The copy-ready pages were kept short on purpose (three parts, about 4 to 5 notebook pages) because the notebook is nearly full, and the notes file was written at full depth. Run the session-start revision quiz and the session-end check quiz. Then produce Memo.
 
 ## 2. Topic ledger
+
 ```
 S1 | Statistics and Sampling Distributions                    | full | open struggle no
 S2 | Point Estimation                                         | full | open struggle no
@@ -19,6 +21,7 @@ S9 | Simple Linear Regression                                 | full | open stru
 ```
 
 ## 3. Notes index
+
 ```
 S1 | Statistics and Sampling Distributions | STA01B1_Notes_S1_Statistics_and_Sampling_Distributions.md | statistic vs parameter, sampling distribution of Xbar and To, CLT, how large is large
 S2 | Point Estimation | STA01B1_Notes_S2_Point_Estimation.md | point estimators, unbiasedness, MVUE, standard error, p-hat as Xbar
@@ -32,6 +35,7 @@ S9 | Simple Linear Regression | STA01B1_Notes_S9_Simple_Linear_Regression.md | p
 ```
 
 ## 4. Content summary
+
 S1: compressed, unchanged in substance (sampling distributions, CLT, statistic vs parameter).
 S2: compressed, unchanged in substance (point estimation, unbiasedness, MVUE, standard error).
 S3: compressed, unchanged in substance (confidence intervals for a mean and a proportion, sample size planning, one-sided bounds).
@@ -64,15 +68,18 @@ Quizzes. Session-start revision quiz (6 questions on the S8 items): the user mis
 Notes: the page budget affects only the hand-copied parts. The notes.md stays full length or more expansive (user instruction this session).
 
 ## 5. Last position
+
 Part 3 of 3, "Diagnostics, confidence and prediction intervals". All slides 2 to 30 covered. Both quizzes run. Memo produced this message.
 
 ## 6. Parked items
+
 1. Choosing n for a worded subgroup proportion claim ("proportion of X within Y" vs "proportion of X who are Y"). Not in Lecture 10. Still parked (S5 to S9).
 2. Reading a P-value range off a printed t-table (fixed columns only). Lecture 10's t test has no worked numbers on the slides and the composite example used a rejection decision, so the chance to introduce it passed again. Still parked (S5 to S9).
 
 Resolved and closed by the lecturer (her written reply, recorded this session): use n > 40 throughout for a mean (S5 Case II slide's n > 30 is superseded; the S5 notes file was corrected); apply the two-proportion condition of 10 successes and 10 failures strictly (Example 9.11 fails it at n*q2hat = 8); the pooled t condition "m < 40 and/or n < 40" is intended; use the exam F table correctly at the stated alpha (the alpha .10 was a lecture-only workaround). The S8 handoff still listed these four as pending, because that file was written in a separate chat before the reply was carried over. They are closed here.
 
 Open actions, waiting on the lecturer:
+
 1. Slide 17 of Lecture 10: the formula under "Sum of squares for error" is blank. Probable omission. (The user said they will ping her.)
 2. Optional, to raise at the same time: slide 20 states H0 as "model is useful" (should be slope 0); slide 19 uses beta_0 for the hypothesised slope; slides 28 and 29 write the line of means with alpha and beta.
 3. Lecture numbering mixes Chapter 10, 11 and 12, and captions the oil-filter ANOVA table as Example 11.4 under a slide labelled Example 10.5. Is that intended? Low priority, carried from S8.
@@ -80,6 +87,7 @@ Open actions, waiting on the lecturer:
 To-do on a vault file: the S8 notes file (STA01B1_Notes_S8_Single_Factor_ANOVA_and_Tukey_Procedure.md) still says, under "Where the source is inconsistent", that the earlier cutoff questions are "still waiting on the lecturer's answer". They have been answered (see above). That sentence needs updating. Send the S8 notes file next session, or ask for it, and the line will be fixed.
 
 ## 7. Resume block
+
 ```
 I'm resuming a CDG protocol session for STA01B1. Please read the CDG
 protocol file (v8) and this handoff memo together with the S9 struggle log.

@@ -320,7 +320,7 @@ Tukey's intervals are different in one important way. They are not based on inde
 - Slide 18 uses $k$ for the number of populations where the rest of the lecture uses $I$.
 - The Breakfast Problem slides never state a scenario, a significance level or a decision.
 
-These join the earlier cutoff questions (30 versus 40, "and" versus "and/or", no stated proportion or F cutoffs), which are still waiting on the lecturer's answer. They are gaps in the source, not gaps in understanding.
+The earlier cutoff questions (30 versus 40, "and" versus "and/or", no stated proportion or F cutoffs) have since been answered by the lecturer (added, S10 amendment): use n > 40 throughout, apply the strict 10-and-10 rule for proportions, read the pooled t condition as "and/or", and use the exam F table at the stated alpha. The items listed above are gaps in the source, not gaps in understanding.
 
 ## Carried from earlier sessions #struggle
 
@@ -348,3 +348,10 @@ These links go to whole files, because the headings inside those files could not
 - [[STA01B1_Notes_S5_Hypothesis_Testing]] for rejection regions and the logic of testing.
 - [[STA01B1_Notes_S4_Intervals_Based_on_a_Normal_Population]] for the normal-population intervals behind the assumptions.
 - [[STA01B1_Notes_S3_Statistical_Intervals]] for confidence-level meaning and interpretation.
+
+## Amendments
+
+- S10: corrected the line under Where the source is inconsistent that said the cutoff questions were still waiting on the lecturer. They have been answered, and the line now says so.
+
+---
+*CDG version not recorded | written S8 | amended S10 (v11) | 2026-11-03*
