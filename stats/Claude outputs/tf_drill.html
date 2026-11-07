@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Revision</title>
+<style>
+body{font-family:system-ui,sans-serif;max-width:680px;margin:0 auto;padding:16px;background:#fafafa;color:#222}
+h1{font-size:18px;margin:0 0 8px}
+.bar{font-size:13px;color:#555;margin-bottom:12px}
+.card{background:#fff;border:1px solid #ddd;border-radius:10px;padding:16px;margin-bottom:12px}
+.tag{font-size:12px;color:#666;margin-bottom:6px}
+.stmt{font-size:18px;line-height:1.45;margin-bottom:14px}
+button{font-size:16px;padding:10px 20px;border-radius:8px;border:1px solid #888;background:#fff;cursor:pointer;margin-right:8px}
+button:disabled{opacity:.5;cursor:default}
+.res{margin-top:12px;font-size:15px;line-height:1.45}
+.ok{color:#1a7f37;font-weight:600}.bad{color:#b42318;font-weight:600}
+.row{margin:4px 0;font-size:14px}
+</style></head><body>
+<h1>Revision drill</h1>
+<div class="bar" id="bar"></div>
+<div id="main"></div>
+<script>
+// t = topic, s = statement, a = true/false, r = one-line reason
+var Q=[
+{t:"Sampling",s:"The standard error of the sample mean is σ/√n, so a larger n gives a smaller standard error.",a:true,r:"Averaging more observations makes the sample mean vary less from sample to sample."},
+{t:"Sampling",s:"Doubling the sample size halves the standard error.",a:false,r:"SE = σ/√n, so doubling n divides it by √2. You need 4 times the sample to halve it."},
+{t:"Sampling",s:"Making the sample 9 times as large divides the standard error by 3.",a:true,r:"√9 = 3."},
+{t:"Sampling",s:"The standard error describes how much individual observations vary around the mean.",a:false,r:"That is σ. The standard error describes how much the sample mean varies across samples."},
+{t:"Sampling",s:"V(x̄) = σ²/n, where n is the number of observations averaged into x̄.",a:true,r:"Variances of independent observations add to nσ², and dividing by n² gives σ²/n."},
+{t:"Sampling",s:"The sampling distribution of x̄ is the distribution of the individual observations.",a:false,r:"It is the distribution of the sample mean over repeated samples."},
+{t:"Sampling",s:"By the central limit theorem, x̄ is approximately normal for large n even if the data are skewed.",a:true,r:"The averaging smooths out the shape of the data."},
+{t:"Sampling",s:"The sampling distribution of x̄ is centred at μ.",a:true,r:"E(x̄) = μ, since x̄ is unbiased."},
+{t:"Sampling",s:"The t distribution has heavier tails than the normal and approaches it as df grows.",a:true,r:"Estimating σ by s adds uncertainty, which matters less as df increases."},
+{t:"Sampling",s:"We use t instead of z for a mean when σ is unknown and estimated by s.",a:true,r:"Replacing σ with s changes the distribution of the standardised mean to t."},
+{t:"Wording",s:"With SE = 2, a sample mean of 50 and a claimed mean of 47 give a test statistic of 1.5, meaning the sample mean is 1.5 standard errors above the claimed mean.",a:true,r:"(50 − 47)/2 compares the sample mean with the hypothesised value."},
+{t:"Wording",s:"A test statistic of 1.5 means a single observation is 1.5 standard errors from the population mean.",a:false,r:"It concerns the sample mean, not one observation, and the hypothesised value, not the unknown population mean."},
+{t:"Wording",s:"H0 is a statement about the sample mean.",a:false,r:"Hypotheses are about population parameters. The sample mean is data."},
+{t:"Wording",s:"In regression the null hypothesis is written H0: b1 = 0 using the sample slope.",a:false,r:"It is about the true slope β1. b1 is the sample estimate."},
+{t:"Wording",s:"b1 is a parameter and β1 is a statistic.",a:false,r:"The other way round: β1 is the parameter and b1 is the statistic."},
+{t:"Wording",s:"When we fail to reject H0 the correct wording is 'we accept H0'.",a:false,r:"Not rejecting means not enough evidence against H0, not that H0 is shown true."},
+{t:"Wording",s:"'There is insufficient evidence' is the honest wording for a non-rejection.",a:true,r:"A test only gives evidence. Not rejecting means the evidence is not strong enough."},
+{t:"Wording",s:"'Sufficient evidence' is the honest wording for a rejection because a test gives evidence, never proof.",a:true,r:"A rejection could still be a Type I error."},
+{t:"Wording",s:"In a hypothesis test the 5% is called the confidence level.",a:false,r:"It is the significance level α. Confidence level belongs to intervals."},
+{t:"Wording",s:"Failing to reject H0 shows that H0 is true.",a:false,r:"It may be true, or the sample may be too small or noisy to detect a difference."},
+{t:"Wording",s:"Rejecting H0 proves that H0 is false.",a:false,r:"It only means a result this extreme would be very unlikely if H0 were true. We could be wrong (Type I)."},
+{t:"Wording",s:"A very small p-value from a badly designed (biased) study shows the claim is false.",a:false,r:"The test assumes the study was done properly. A biased method puts the study in doubt, not only the claim."},
+{t:"Tests",s:"If the p-value is less than α we reject H0.",a:true,r:"A result this extreme is rarer than the risk we agreed to tolerate."},
+{t:"Tests",s:"A p-value of 0.034 leads to rejecting H0 at α = 0.01.",a:false,r:"0.034 is greater than 0.01, so we do not reject."},
+{t:"Tests",s:"A p-value of 0.034 leads to rejecting H0 at α = 0.05.",a:true,r:"0.034 is less than 0.05."},
+{t:"Tests",s:"The p-value is the probability that H0 is true.",a:false,r:"H0 is either true or not. The p-value is computed assuming H0 is true."},
+{t:"Tests",s:"The p-value is the probability of a result at least as extreme as ours if H0 were true.",a:true,r:"That is its definition."},
+{t:"Tests",s:"p = 0.000 in computer output means there is exactly zero probability that H0 is true.",a:false,r:"It means the p-value is below 0.0005 (rounded), and it is not the probability of H0."},
+{t:"Tests",s:"A two-sided test at level α puts α/2 in each tail.",a:true,r:"Extreme values in either direction count as evidence against H0."},
+{t:"Tests",s:"In the z test of H0: p1 = p2 the standard error uses the pooled proportion.",a:true,r:"If H0 holds, both samples share one common proportion, so we pool to estimate it."},
+{t:"Tests",s:"A one-sided lower confidence bound uses t(α; df) rather than t(α/2; df).",a:true,r:"All of α sits in one tail."},
+{t:"Errors",s:"A Type I error is possible only when we reject H0.",a:true,r:"It means rejecting a true H0."},
+{t:"Errors",s:"A Type II error is possible only when we fail to reject H0.",a:true,r:"It means failing to reject a false H0."},
+{t:"Errors",s:"α is the probability of rejecting H0 when H0 is true.",a:true,r:"That is the Type I error probability."},
+{t:"Errors",s:"β = 1 − α.",a:false,r:"They come from different distributions. β depends on the true value, n and the standard error."},
+{t:"Errors",s:"Power equals 1 − α.",a:false,r:"Power = 1 − β, the chance of rejecting a false H0."},
+{t:"Errors",s:"With n fixed, lowering α makes β smaller.",a:false,r:"Lowering α moves the cut-off outward, which makes β larger."},
+{t:"Errors",s:"Increasing n with α fixed reduces β.",a:true,r:"A larger n shrinks the standard error and separates the two distributions."},
+{t:"ANOVA",s:"In a Tukey line diagram, two means joined by a line are shown to be equal.",a:false,r:"Joined means are only 'not shown to differ'. The relation is not transitive."},
+{t:"Intervals",s:"A 99% confidence interval is wider than a 95% interval from the same data.",a:true,r:"A higher confidence level needs a larger multiplier."},
+{t:"Intervals",s:"Other things equal, a larger sample gives a narrower confidence interval.",a:true,r:"The standard error shrinks with n."},
+{t:"Intervals",s:"A two-sided 95% z interval uses the value 1.645.",a:false,r:"1.96. The value 1.645 is for 90% two-sided."},
+{t:"Intervals",s:"A 90% two-sided z interval uses 1.645.",a:true,r:"5% sits in each tail."},
+{t:"Intervals",s:"'There is a 95% probability that this particular computed interval contains μ.'",a:false,r:"95% describes the method over repeated samples. A computed interval either contains μ or it does not."},
+{t:"Intervals",s:"The confidence interval for a single proportion uses pooled proportions.",a:false,r:"No pooling for an interval. It uses p̂(1 − p̂)/n."},
+{t:"Estimation",s:"x̄ is an unbiased estimator of μ.",a:true,r:"E(x̄) = μ."},
+{t:"Estimation",s:"The sample variance with denominator n − 1 is unbiased for σ².",a:true,r:"Dividing by n − 1 corrects for using x̄ in place of μ."},
+{t:"Estimation",s:"p̂² is an unbiased estimator of p².",a:false,r:"E(p̂²) = V(p̂) + p² = p² + pq/n, which is not p²."},
+{t:"Estimation",s:"An unbiased estimator always has the smallest variance among estimators.",a:false,r:"Unbiased only says the average is right. Another estimator may vary less."},
+{t:"Estimation",s:"E(p̂1 − p̂2) = p1 − p2.",a:true,r:"Each p̂ is unbiased for its own p."},
+{t:"Estimation",s:"V(p̂1 − p̂2) = p1q1/n − p2q2/m.",a:false,r:"For independent samples variances add: p1q1/n + p2q2/m."},
+{t:"Estimation",s:"For independent X and Y, V(X − Y) = V(X) − V(Y).",a:false,r:"V(X − Y) = V(X) + V(Y). The minus sign is squared away."},
+{t:"Two sample",s:"A paired t test on 8 pairs has df = 7.",a:true,r:"It is a one-sample test on the 8 differences, so df = 8 − 1."},
+{t:"Two sample",s:"A paired test analyses the differences d, as one sample.",a:true,r:"Pairing removes subject-to-subject variation."},
+{t:"Two sample",s:"Independent samples are the right design when the same subjects are measured before and after.",a:false,r:"Same subjects before and after is paired."},
+{t:"Two sample",s:"The pooled two-sample t test has df = n1 + n2 − 2.",a:true,r:"One df is lost for each sample mean."},
+{t:"ANOVA",s:"With 5 groups of 6 observations each, the error df is 25.",a:true,r:"N − k = 30 − 5."},
+{t:"ANOVA",s:"The treatment df with k groups is k − 1.",a:true,r:"The k group means are compared to one overall mean."},
+{t:"ANOVA",s:"F = MSTr/MSE, where MSE = SSE/(N − k).",a:true,r:"It compares between-group variation with within-group variation."},
+{t:"ANOVA",s:"SST = SSTr + SSE.",a:true,r:"Total variation splits into between and within, because the cross term is zero."},
+{t:"ANOVA",s:"SSE measures variation between group means.",a:false,r:"SSE is within groups: Σ Σ (x_ij − x̄_i·)². SSTr is the between-groups piece."},
+{t:"ANOVA",s:"SSTr = J Σ (x̄_i· − x̄··)² with the sum over groups i.",a:true,r:"It uses group means only, and each group mean stands for J observations."},
+{t:"ANOVA",s:"In the SST proof the cross term vanishes because deviations of a group's values from that group's own mean sum to zero.",a:true,r:"Σ_j (x_ij − x̄_i·) = 0 for each group."},
+{t:"ANOVA",s:"ANOVA assumes independent observations, normality within groups and equal variances.",a:true,r:"These are the assumptions behind the F distribution."},
+{t:"ANOVA",s:"A significant ANOVA F test tells us which groups differ.",a:false,r:"It only says at least one mean differs. A follow-up such as Tukey identifies which."},
+{t:"ANOVA",s:"The Tukey multiple-comparison value uses Q(α; k, N − k).",a:true,r:"k is the number of groups and N − k is the error df."},
+{t:"ANOVA",s:"The ANOVA F test rejects for large values of F (upper tail).",a:true,r:"A large ratio means the between-group variation is big compared with the within-group variation."},
+{t:"Regression",s:"In simple regression the slope t test and the model F test give the same decision at the same α.",a:true,r:"F = t², and they test the same thing, whether the slope is zero."},
+{t:"Regression",s:"If t = −3 for the slope, then F = 9.",a:true,r:"Squaring removes the sign."},
+{t:"Regression",s:"In simple regression F has df 1 and n − 2.",a:true,r:"One predictor, and n − 2 for the error."},
+{t:"Regression",s:"The slope t test in simple regression has df = n − 1.",a:false,r:"It is n − 2: two parameters (intercept and slope) are estimated."},
+{t:"Regression",s:"R² = SSR/SST.",a:true,r:"The share of total variation explained by the regression."},
+{t:"Regression",s:"R² in a regression with an intercept can be negative.",a:false,r:"SSR ≥ 0 and SST > 0, so R² lies between 0 and 1."},
+{t:"Regression",s:"The strongest linear relationship corresponds to the largest correlation, so 0.65 beats −0.72.",a:false,r:"Strength is the absolute value, so −0.72 is stronger than 0.65."},
+{t:"Regression",s:"Rejecting H0: β1 = 0 proves that x causes y.",a:false,r:"It gives evidence of a linear relationship, not proof, and not causation."},
+{t:"Regression",s:"A funnel shape (spread widening) in the residual plot suggests non-constant variance.",a:true,r:"Constant spread around zero with no pattern is what we want."},
+{t:"Regression",s:"A good residual plot shows a clear curved pattern.",a:false,r:"A curve means the straight-line model does not fit. No pattern is good."},
+{t:"Regression",s:"A normal probability plot of the residuals checks that the residuals are approximately normal.",a:true,r:"Points should fall close to a straight line."},
+{t:"Regression",s:"The residual plot is the tool used to check normality.",a:false,r:"The normal probability plot checks normality. The residual plot checks constant variance and linearity."},
+{t:"Regression",s:"SE(b1) = s/√Sxx.",a:true,r:"The slope varies less when the x values are more spread out."},
+{t:"Regression",s:"With an intercept in the model, the least-squares residuals sum to zero.",a:true,r:"This follows from the normal equations."},
+{t:"Chi-square",s:"For an independence test, the expected count is (row total × column total)/grand total.",a:true,r:"It is what we would see if rows and columns were independent."},
+{t:"Chi-square",s:"For an r × c table, the independence test has df = (r − 1)(c − 1).",a:true,r:"Row and column totals are fixed."},
+{t:"Chi-square",s:"A goodness-of-fit test with k categories and no estimated parameters has df = k − 1.",a:true,r:"The counts must add up to n."},
+{t:"Chi-square",s:"The chi-square statistic is Σ (O − E)²/E.",a:true,r:"Large gaps between observed and expected give a large value."},
+{t:"Chi-square",s:"The chi-square statistic can be negative.",a:false,r:"Every term is a square divided by a positive count."},
+{t:"Chi-square",s:"The chi-square tests reject for large values of the statistic (upper tail).",a:true,r:"Big differences between O and E are evidence against H0."},
+{t:"Chi-square",s:"In goodness of fit, the expected counts are computed from the observed counts.",a:false,r:"They are computed from the proportions claimed in H0 times n."},
+{t:"Chi-square",s:"A significant independence test shows association, not causation.",a:true,r:"The test only looks at whether the variables are related."},
+{t:"Chi-square",s:"Chi-square tests are usually trusted when expected counts are at least 5.",a:true,r:"The chi-square distribution is only an approximation, and it is poor when expected counts are small."},
+{t:"Sampling",s:"Increasing the sample size reduces the population standard deviation σ.",a:false,r:"σ is a property of the population. A larger n only reduces the standard error σ/√n."},
+{t:"Two sample",s:"A paired t test requires the two sets of measurements to be independent of each other.",a:false,r:"The pairs are linked (same subject), which is why we work with the differences."},
+{t:"ANOVA",s:"The error df in one-way ANOVA is k − 1.",a:false,r:"k − 1 is the treatment df. The error df is N − k."},
+{t:"ANOVA",s:"SSE = J Σ (x̄_i· − x̄··)².",a:false,r:"That is SSTr (means only, between groups). SSE uses x_ij and x̄_i·, within groups."},
+{t:"Tests",s:"If the p-value is greater than α we reject H0.",a:false,r:"We reject when p < α. A large p-value means a result like ours is not unusual if H0 is true."},
+{t:"Wording",s:"Rejecting H0 means a result this extreme is very unlikely if H0 were true, so we act as if H0 is false, knowing we could be wrong with probability α.",a:true,r:"That is the logic of a rejection, and the 'could be wrong' part is the Type I error."},
+{t:"Chi-square",s:"In a test of independence, the expected count for a cell can be larger than the total of its row.",a:false,r:"E = (row total × column total)/n, and the column total is at most n, so E can never exceed the row total (or the column total)."},
+{t:"Two sample",s:"The pooled variance in the two-sample t test is a weighted average of the two sample variances, weighted by their degrees of freedom.",a:true,r:"Sp² = ((n1 − 1)S1² + (n2 − 1)S2²)/(n1 + n2 − 2), so the larger sample counts for more."},
+{t:"Two sample",s:"The F test for two population variances uses the ratio of the two sample variances as its statistic.",a:true,r:"Under H0 (equal variances) S1²/S2² follows an F distribution with the two df."},
+{t:"Two sample",s:"For the large-sample z test of μ1 − μ2 with unknown variances, both samples must be larger than 40 in this course.",a:true,r:"The lecturer's ruling is n > 40 throughout (not 30)."}
+];
+var order=[],pos=0,log=[],score=0,answered=false;
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function start(){order=[];for(var i=0;i<Q.length;i++)order.push(i);shuffle(order);pos=0;log=[];score=0;show();}
+function bar(){document.getElementById('bar').textContent="Question "+Math.min(pos+1,Q.length)+" of "+Q.length+"   |   correct so far: "+score+" / "+log.length;}
+function show(){
+ bar();answered=false;
+ if(pos>=Q.length){return done();}
+ var q=Q[order[pos]];
+ var m=document.getElementById('main');
+ m.innerHTML='<div class="card"><div class="tag">'+q.t+'</div><div class="stmt">'+q.s+'</div>'+
+ '<button id="bt">True</button><button id="bf">False</button><div class="res" id="res"></div></div>'+
+ '<button id="dl2">Save results so far</button>';
+ document.getElementById('bt').onclick=function(){ans(true)};
+ document.getElementById('bf').onclick=function(){ans(false)};
+ document.getElementById('dl2').onclick=save;
+}
+function ans(v){
+ if(answered)return;answered=true;
+ var q=Q[order[pos]];var ok=(v===q.a);if(ok)score++;
+ log.push({n:order[pos]+1,t:q.t,s:q.s,mine:v,right:q.a,ok:ok,r:q.r});
+ document.getElementById('bt').disabled=true;document.getElementById('bf').disabled=true;
+ var r=document.getElementById('res');
+ r.innerHTML='<div class="'+(ok?'ok':'bad')+'">'+(ok?'Correct':'Wrong')+' — the statement is '+(q.a?'TRUE':'FALSE')+'.</div><div>'+q.r+'</div><br><button id="nx">Next</button>';
+ document.getElementById('nx').onclick=function(){pos++;show();};
+ bar();
+}
+function done(){
+ var m=document.getElementById('main');
+ var by={};log.forEach(function(x){by[x.t]=by[x.t]||{c:0,n:0};by[x.t].n++;if(x.ok)by[x.t].c++;});
+ var h='<div class="card"><div class="stmt">Finished: '+score+' / '+log.length+'</div>';
+ Object.keys(by).forEach(function(k){h+='<div class="row">'+k+': '+by[k].c+' / '+by[k].n+'</div>';});
+ h+='</div><button id="dl">Save results (.txt)</button> <button id="again">Start again</button>';
+ m.innerHTML=h;
+ document.getElementById('dl').onclick=save;document.getElementById('again').onclick=start;
+ bar();
+}
+function save(){
+ var L=[];L.push("True/false drill results");L.push("Date: "+new Date().toString());
+ L.push("Answered: "+log.length+" of "+Q.length+"   Correct: "+score);L.push("");
+ var by={};log.forEach(function(x){by[x.t]=by[x.t]||{c:0,n:0};by[x.t].n++;if(x.ok)by[x.t].c++;});
+ L.push("By topic:");Object.keys(by).forEach(function(k){L.push("  "+k+": "+by[k].c+"/"+by[k].n);});
+ L.push("");L.push("WRONG ANSWERS:");
+ log.forEach(function(x){if(!x.ok){L.push("#"+x.n+" ["+x.t+"] "+x.s);L.push("   I said: "+(x.mine?"True":"False")+"   Correct: "+(x.right?"True":"False"));L.push("   Reason: "+x.r);L.push("");}});
+ L.push("CORRECT ANSWERS (numbers only): "+log.filter(function(x){return x.ok;}).map(function(x){return x.n;}).join(", "));
+ var blob=new Blob([L.join("\n")],{type:"text/plain"});
+ var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download="tf_results.txt";document.body.appendChild(a);a.click();document.body.removeChild(a);
+}
+start();
+</script></body></html>
