@@ -118,6 +118,7 @@ $Q$ from the studentised range table, $\alpha$ the overall level, $I$ the number
 (c) If two sample means differ by more than $W$, the two **population** means are judged significantly different.
 
 ## B7. Regression, $n=20$ (6)
+**Scope note (7 Nov, from the user): regression is interpretation only. In the exam the printout gives $t$, the degrees of freedom and the $p$-value, so you read them and do not calculate them. The calculation below only shows where the printed number comes from.**
 (a) $H_0:\beta_1=0$ versus $H_a:\beta_1\ne0$. Test statistic:
 $$t=\frac{b_1}{SE(b_1)}=\frac{4.5}{1.2}=3.75,\qquad df=n-2=18$$
 $|3.75|>2.101$, so reject $H_0$. At the 5% level there is sufficient evidence of a linear relationship between study hours and exam mark.
