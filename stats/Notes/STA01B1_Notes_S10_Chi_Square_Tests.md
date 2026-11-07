@@ -332,6 +332,9 @@ Example (source: Solution 11, Tutorial 11 question 44). A table of 485 people by
 
 ## The test of homogeneity (source, slides 18 and 19)
 
+> [!note] Not examined, per lecturer (as reported), 2026-11-07
+> Dr Hildebrand (Moodle, 7 Nov): the test of homogeneity is not in this year's textbook and not in her papers, so leave it out. She adds that it works exactly like the test of independence; the only difference is that the sample sizes for the categories of one variable were fixed in the design. Kept as reference only, do not drill.
+
 Sometimes researchers design the experiment so that the number of units falling in one set of categories is fixed in advance. Example on the slides: an experimenter selects 900 patients who have been treated for flu prevention, 300 from each of three types: no vaccine, one shot, two shots. The column totals are fixed in advance.
 
 | | No vaccine | One shot | Two shots | Row total |
@@ -484,7 +487,8 @@ These are gaps in the source, not gaps in understanding.
 
 ## Amendments
 
+- 2026-11-07: added a scope marker to The test of homogeneity (not examined, per lecturer as reported). No content removed.
 - S10, later the same day: added the section Proofs that may be asked (the proof of the expected count, in the order the lecturer used it, and the proof of the computational formula for chi-square), and one line in Do not forget. Added at the student's request after they pointed out that the lecturer likes to set proofs that are not on the slides.
 
 ---
-*CDG v11 | written S10 | amended S10 (v11) | 2026-11-03*
+*CDG v11 | written S10 | amended S10 (v11), 2026-11-07 (v11) | 2026-11-07*

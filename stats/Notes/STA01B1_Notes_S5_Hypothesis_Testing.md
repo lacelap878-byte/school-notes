@@ -160,6 +160,9 @@ $z\ge1.645 \iff \bar{x}-1.5\ge(.0354)(1.645) \iff \bar{x}\ge1.56$. $\beta$ is th
 
 ## Tests about a population mean
 
+> [!note] Not examined, per lecturer (as reported), 2026-11-07
+> The one-sample tests in this section (Case I, Case II, Examples 8.6 and 8.8) are out of scope: Dr Hildebrand says only two-sample tests are examined. Kept as reference only, do not drill. What stays in scope from this note: the errors section, the standardising example (it feeds the Type II error and sample size calculations on a single mean), the confidence bound link to tests, and the tail wording table below.
+
 ### Case I: known variance (exam-flagged)
 Normal population, $\sigma$ known, any $n$. Test statistic:
 $$Z = \frac{\bar{X}-\mu_0}{\sigma/\sqrt{n}}$$
@@ -202,6 +205,9 @@ N.B the three rejection regions from [[#Case I: known variance (exam-flagged)]] 
 
 ## Which case, and which tail
 
+> [!note] Not examined, per lecturer (as reported), 2026-11-07
+> The Case I and Case II table below belongs to the one-sample tests that are out of scope. The wording to hypothesis form table after it still applies to the two-sample tests.
+
 **Case I/Case II, from this lecture's source only**
 
 | Condition | Test statistic | Distribution | Case |
@@ -239,3 +245,10 @@ N.B this lecture never produces a p-value, every decision is cutoff versus compu
 - [[STA01B1_Notes_S3_Statistical_Intervals]] — the $z_{\alpha/2}$ and $z_\alpha$ critical value conventions and the $S$-for-$\sigma$ large-sample substitution, both carried over directly into this note.
 - [[STA01B1_Notes_S4_Intervals_Based_on_a_Normal_Population]] — the $t$ distribution, not used in this lecture but the natural next step for a small-sample unknown-$\sigma$ test.
 - [[STA01B1_Notes_S6_Inferences_Based_on_Two_Samples]] — extends the Case I/II fork and the seven step procedure from one sample to two, and adds the pooled $t$ test for small samples.
+
+## Amendments
+
+- 2026-11-07: added scope markers to Tests about a population mean and Which case, and which tail (one-sample tests not examined, per lecturer as reported). No content removed.
+
+---
+*CDG version not recorded | written S5 | amended 2026-11-07 (v11) | 2026-11-07*
