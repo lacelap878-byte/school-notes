@@ -55,10 +55,15 @@ Also: the 15 copies of x̄ are already inside x²../IJ in ANOVA; a negative SS i
 - c is a vertical line in the overlap of the two curves, between μ0 and μ' (halfway only if α = β). It is the x̄ whose p-value is exactly α.
 - Direction decides the picture: H_a: μ < μ0 → rejection region left of c, β to the right. H_a: μ > μ0 → rejection right of c, β to the left. Two-sided: α/2 in each tail (z_{α/2}); β uses the true mean's curve and the nearer boundary.
 - Given a rejection region (e.g. X̄ > 32, true mean 31): Type II = P(X̄ ≤ 32 | μ = 31).
-- **Find n, both ways (derive, no formula given):**
-  - Lower-tailed: c = μ0 − z_α σ/√n and c = μ' + z_β σ/√n. Equate: n = [σ(z_α + z_β)/(μ0 − μ')]², round up. Upper-tailed mirrors the signs. Two-sided: use z_{α/2} + z_β.
-  - Each z pairs with the standard error of the curve it is measured on.
-  - Proportion: n = [(z_α√(p0q0) + z_β√(p'q'))/(p' − p0)]².
+- **Find n (derive it, no formula given).** Start at μ0 and walk toward μ' by z_α·se; start at μ' and walk toward μ0 by z_β·se. Both reach c, so equate and solve. Round n up.
+
+| H_a | c from α | c from β | n |
+|---|---|---|---|
+| μ < μ0 | $\mu_0 - z_\alpha\frac{\sigma}{\sqrt n}$ | $\mu' + z_\beta\frac{\sigma}{\sqrt n}$ | $\left[\frac{\sigma(z_\alpha+z_\beta)}{\mu_0-\mu'}\right]^2$ |
+| μ > μ0 | $\mu_0 + z_\alpha\frac{\sigma}{\sqrt n}$ | $\mu' - z_\beta\frac{\sigma}{\sqrt n}$ | $\left[\frac{\sigma(z_\alpha+z_\beta)}{\mu'-\mu_0}\right]^2$ |
+| μ ≠ μ0 | use $z_{\alpha/2}$ and the boundary nearer μ' | | $\left[\frac{\sigma(z_{\alpha/2}+z_\beta)}{\lvert\mu'-\mu_0\rvert}\right]^2$ |
+
+  Key: μ0 = H0 mean, μ' = the true mean asked about, se = σ/√n, c = cut-off in x̄ units, z_α and z_β = the z leaving α or β to its right (always positive). Proportion: same, with √(p0q0) beside z_α and √(p'q') beside z_β, over (p' − p0).
 - Worked check (Set C B5): c = 47.5325, β(47) = 0.3594, n = 34.2 → 35.
 
 ## 6. Pooled t and paired t (S6, S7)
