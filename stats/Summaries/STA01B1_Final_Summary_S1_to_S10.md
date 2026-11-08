@@ -4,82 +4,82 @@ Read tonight, read again tomorrow morning. Built from your own ST1/ST2 summaries
 
 ## Definitions
 
-Each term has a **Short** version (one line) and a **Long** version (3 to 4 sentences, the size Dr H asks for). Alphabetical order.
+Each term has a **Short** version (one line) and a **Long** version (3 to 4 sentences, the size Dr H asks for). The Long versions say what the thing is and why it matters, not how it is calculated. Alphabetical order.
 
 ### Analysis of variance (ANOVA)
 **Short:** A test of whether three or more population means are all equal, made by comparing the variation between the group means with the variation within the groups.
 
-**Long:** ANOVA tests $H_0:\mu_1=\mu_2=\dots=\mu_I$ against $H_a$: at least two of the means differ. It splits the total variation as $SST=SSTr+SSE$, where $SSTr$ is the variation between the group means and $SSE$ is the variation within the groups. Dividing each by its degrees of freedom gives $MSTr$ and $MSE$, and $F=MSTr/MSE$ is compared with $F_{\alpha,I-1,I(J-1)}$, so a large $F$ means the group means differ by more than chance alone. It assumes normal populations with equal variances, and if $H_0$ is rejected, Tukey's procedure shows which means differ.
+**Long:** ANOVA is a hypothesis test for comparing the means of three or more populations at the same time, where $H_0$ says that all the population means are equal. It asks whether the differences between the group averages are bigger than the ordinary variation among the individual observations inside each group. We use one overall test instead of many two-sample tests because it keeps the risk of a false alarm under control. A significant result tells us that at least two means differ, but not which ones.
 
 ### Bias
 **Short:** The gap between the average value of an estimator and the true parameter: $\text{bias}(\hat\theta)=E(\hat\theta)-\theta$.
 
-**Long:** An estimator gives a different value for every sample, so we look at its average over all possible samples. Bias is the gap between that average and the true value, $\text{bias}(\hat\theta)=E(\hat\theta)-\theta$. A positive bias means the estimator overestimates on average and a negative bias means it underestimates; for example, dividing by $n$ instead of $n-1$ gives bias $-\sigma^2/n$ for $\sigma^2$. Bias is a technical gap, not a value judgement, and it joins the variance in $MSE(\hat\theta)=V(\hat\theta)+[\text{bias}(\hat\theta)]^2$.
+**Long:** Bias describes whether an estimator is aimed at the right target. If we could use the estimator on every possible sample, bias is the gap between the average of all those estimates and the true value of the parameter. A positive bias means the estimator tends to be too high, a negative bias means it tends to be too low, and zero means it hits the target on average. It describes systematic error only, so an estimator with zero bias can still be far off for the one sample we have.
 
 ### Central Limit Theorem
 **Short:** For a large random sample from any population, the sample mean (and the sample total) is approximately normal.
 
-**Long:** Let $X_1,\dots,X_n$ be a random sample from any population with mean $\mu$ and variance $\sigma^2$. When $n$ is large ($n>40$ for Dr H), $\bar X$ is approximately $N\!\left(\mu,\frac{\sigma^2}{n}\right)$, and the total $T_0$ is approximately $N(n\mu,\,n\sigma^2)$. If the population is itself normal, this is exactly true for any $n$. It matters because confidence intervals and tests for $\mu$ use $Z=\frac{\bar X-\mu}{\sigma/\sqrt n}$, which needs $\bar X$ to be (approximately) normal.
+**Long:** The Central Limit Theorem says that the average of a large random sample behaves in a predictable, bell-shaped way, whatever the shape of the population it came from. It tells us that $\bar X$ is approximately normal with mean $\mu$ and variance $\frac{\sigma^2}{n}$, and that the total $T_0$ is approximately normal with mean $n\mu$ and variance $n\sigma^2$. In this course "large" means $n>40$, and if the population is already normal then $\bar X$ is exactly normal for any $n$. It is the reason we can use normal probabilities for confidence intervals and tests about $\mu$ without knowing the shape of the population.
 
 ### Chi-square, t and F distributions, how they are built
 **Short:** All three are built from standard normal variables: $\chi^2$ from squared normals, $t$ from a normal divided by the root of a chi-square, $F$ from a ratio of two chi-squares.
 
-**Long:** If $Z_1,\dots,Z_\nu$ are independent $N(0,1)$, then $\sum Z_i^2\sim\chi^2_\nu$. If $Z\sim N(0,1)$ and $X\sim\chi^2_\nu$ are independent, then $T=\frac{Z}{\sqrt{X/\nu}}\sim t_\nu$. If $X_1\sim\chi^2_{\nu_1}$ and $X_2\sim\chi^2_{\nu_2}$ are independent, then $F=\frac{X_1/\nu_1}{X_2/\nu_2}\sim F_{\nu_1,\nu_2}$. Independence of the pieces is a stated condition each time, and, for example, $\frac{(n-1)S^2}{\sigma^2}\sim\chi^2_{n-1}$ is what turns $\frac{\bar X-\mu}{S/\sqrt n}$ into a $t_{n-1}$.
+**Long:** These are three families of probability distributions that all come from standard normal random variables. A chi-square variable is a sum of squared independent standard normals, a $t$ variable is a standard normal divided by the square root of an independent chi-square over its degrees of freedom, and an $F$ variable is the ratio of two independent chi-squares, each over its degrees of freedom. They matter because they are the sampling distributions of the quantities we use most: $\frac{(n-1)S^2}{\sigma^2}$ is chi-square, $\frac{\bar X-\mu}{S/\sqrt n}$ is $t$, and the ANOVA statistic is $F$. In every case the pieces being combined must be independent.
 
 ### Confidence interval
 **Short:** A range of plausible values for a parameter, built so that a stated percentage of such intervals would contain the true value.
 
-**Long:** A confidence interval has the form estimate $\pm$ (critical value)(standard error), for example $\bar x\pm z_{\alpha/2}\frac{\sigma}{\sqrt n}$. The confidence level, such as 95%, describes the long-run success rate of the method: if we repeated the sampling many times, about 95% of the intervals would contain the true parameter. It is not the probability that the one interval we computed contains the parameter, because that interval either does or does not. A larger $n$ or a lower confidence level gives a narrower interval.
+**Long:** A confidence interval is a range of values that we report for an unknown population parameter instead of a single number. The confidence level, such as 95%, is a statement about the method: if we repeated the sampling many times, about 95% of the intervals built this way would contain the true value. It is not the probability that the one interval we have contains the parameter, because the parameter is fixed and the interval either contains it or it does not. The width of the interval shows how precise our estimate is, since a narrow interval means a precise estimate and a wide one means a lot of uncertainty.
 
 ### Hypothesis testing
 **Short:** A procedure that uses sample data to decide between two competing claims about a population parameter.
 
-**Long:** The null hypothesis $H_0$ is assumed true until the data contradict it, and is usually a claim of no difference or no effect. The alternative $H_a$ is the claim we want evidence for. We compute a test statistic from the sample and reject $H_0$ if it falls in the rejection region, which is the same as rejecting when the $p$-value is at most the significance level $\alpha$. The only conclusions are "reject $H_0$" or "not sufficient evidence against $H_0$", and we never say $H_0$ is proven.
+**Long:** Hypothesis testing is a way of using sample data to decide between two competing claims about a population parameter. The null hypothesis $H_0$ is the claim we keep unless the data give strong evidence against it, usually "no difference" or "no effect", and the alternative $H_a$ is the claim we are trying to find evidence for. The test asks how likely data like ours would be if $H_0$ were true, and if that is very unlikely, at most the significance level $\alpha$, we reject $H_0$. Because a sample can mislead us, the conclusion is only ever "sufficient evidence against $H_0$" or "not sufficient evidence against $H_0$", and never that $H_0$ is proven.
 
 ### Least squares regression line
 **Short:** The straight line $\hat y=b_0+b_1x$ that makes the sum of the squared vertical distances from the data points as small as possible.
 
-**Long:** Each observed $y_i$ differs from its fitted value $\hat y_i$ by a residual $y_i-\hat y_i$. Least squares picks $b_0$ and $b_1$ to minimise $SSE=\sum(y_i-\hat y_i)^2$, which gives $b_1=\frac{S_{xy}}{S_{xx}}$ and $b_0=\bar y-b_1\bar x$, so the line passes through $(\bar x,\bar y)$. It estimates the population line of means $E(y)=\beta_0+\beta_1x$. The slope $b_1$ is the average change in $y$ for each one-unit increase in $x$, and predictions are safe only inside the range of the data.
+**Long:** The least squares regression line is the straight line that best describes how a response variable $y$ changes with an explanatory variable $x$. "Best" means that it makes the total of the squared vertical gaps between the observed points and the line as small as possible. It is our estimate of the true population line $E(y)=\beta_0+\beta_1x$, which gives the average value of $y$ at each value of $x$. Its slope is the average change in $y$ for each one-unit increase in $x$, and the line can be trusted for predictions only inside the range of the data.
 
 ### Point estimation
 **Short:** Using one number calculated from the sample, a point estimate, to estimate an unknown population parameter.
 
-**Long:** The rule or formula is the point estimator $\hat\theta$, a random variable because the sample is random, and the number it gives for real data is the point estimate. Examples are $\bar X$ for $\mu$, $S^2$ for $\sigma^2$ and $\hat p=\frac{X}{n}$ for $p$. We judge an estimator by whether it is unbiased and by how small its variance (its standard error) is, which $MSE(\hat\theta)=V(\hat\theta)+[\text{bias}(\hat\theta)]^2$ combines. Among unbiased estimators we prefer the one with the smaller variance.
+**Long:** Point estimation is the problem of using sample data to give one best guess for an unknown population parameter. The rule or formula is the point estimator $\hat\theta$, which is a random variable because it changes from sample to sample, and the number we get from our own data is the point estimate. Examples are $\bar X$ for $\mu$, $S^2$ for $\sigma^2$ and $\hat p$ for $p$. Because many rules are possible, we judge an estimator by whether it is unbiased and by how little it varies, and the mean squared error combines the two.
 
 ### R squared
 **Short:** The percentage of the variation in $y$ that is explained by the linear relationship with $x$.
 
-**Long:** In simple linear regression, $R^2=\frac{SSR}{SST}$ is the proportion of the total variation in the response that the regression on $x$ explains. In the exam it must be written in the words of the question, for example "82.8% of the variation in monthly electricity cost is explained by the linear relationship with floor area". The part not explained is $100\%-R^2$. It does not show that $x$ causes $y$, and a high $R^2$ alone does not show that a straight line is the right model.
+**Long:** $R^2$ measures how much of the variation in the response $y$ is accounted for by its straight-line relationship with $x$. It is the proportion of the total variation that the regression explains, so it lies between $0\%$ and $100\%$. In the exam it must be stated in the words of the question, for example "82.8% of the variation in monthly electricity cost is explained by the linear relationship with floor area", and the rest, $100\%-R^2$, is not explained. It does not show that $x$ causes $y$, and a high $R^2$ alone does not show that a straight line is the right model.
 
 ### Sample size for a confidence interval
 **Short:** The $n$ needed so that a confidence interval has the half-width $E$ you want.
 
-**Long:** The error bound of the interval is $E=z_{\alpha/2}\frac{\sigma}{\sqrt n}$, where $\alpha$ sets the confidence level. Solving for $n$ gives $n=\left(\frac{z_{\alpha/2}\,\sigma}{E}\right)^2$ for a mean, and $n=\frac{z_{\alpha/2}^2\,\hat p\hat q}{E^2}$ for a proportion, using $\hat p=0.5$ when there is no estimate. "Within" means the half-width $E$, "width" means $2E$, and $n$ is always rounded up.
+**Long:** This is the number of observations we need to collect so that a confidence interval comes out as precise as we want it to be. The precision is set by the half-width $E$, the largest error we are willing to accept, and the confidence level is set through $\alpha$. A more precise interval or a higher confidence level always needs a larger sample, and so does a more variable population (a larger $\sigma$). "Within" a value means the half-width $E$, "width" means $2E$, and the answer is always rounded up to a whole number.
 
 ### Sample size from alpha and beta
 **Short:** The $n$ needed so that a test with significance level $\alpha$ also has Type II error $\beta$ at a stated true value.
 
-**Long:** The cut-off $c$ must satisfy two conditions: it lies $z_\alpha$ standard errors from $\mu_0$ (the $\alpha$ condition) and $z_\beta$ standard errors from the true mean $\mu'$ (the $\beta$ condition). Setting the two expressions for $c$ equal and solving gives $n=\left[\frac{\sigma(z_\alpha+z_\beta)}{\lvert\mu_0-\mu'\rvert}\right]^2$ for a mean, rounded up. For a proportion the same steps put $\sqrt{p_0q_0}$ beside $z_\alpha$ and $\sqrt{p'q'}$ beside $z_\beta$, all over $p'-p_0$.
+**Long:** This is the number of observations needed so that a hypothesis test has both of its error risks under control at once: a chance of Type I error of $\alpha$, and a chance of Type II error of only $\beta$ when the true value is a stated $\mu'$. It exists because $\alpha$ and $\beta$ pull against each other for a fixed sample size, and only a larger $n$ can make both small. The further the true value $\mu'$ is from $\mu_0$, the smaller the sample needed, and the more variable the population, the larger. It applies to a single mean or a single proportion, and the answer is always rounded up.
 
 ### Sampling distribution
 **Short:** The probability distribution of a statistic, describing how its value varies from sample to sample.
 
-**Long:** A statistic such as $\bar X$ is calculated from a random sample, so before the data are collected it is a random variable, and its distribution is called its sampling distribution. In repeated sampling, if we drew every possible sample of the same size and calculated the statistic each time, the sampling distribution would describe the mean, the spread (the standard error) and the shape of those values. For example $\bar X$ has mean $\mu$ and variance $\frac{\sigma^2}{n}$, and is normal if the population is normal, or approximately normal by the Central Limit Theorem when $n$ is large. It stays a full distribution for every $n$ and only narrows as $n$ grows, and test statistics and confidence intervals are built from it.
+**Long:** A sampling distribution is the probability distribution of a statistic, such as $\bar X$, across all the samples we could possibly draw. It exists because a statistic is calculated from a random sample, so before the data are collected it is itself a random variable whose value changes from sample to sample. It describes the centre, the spread (the standard error) and the shape of those values; for example $\bar X$ has mean $\mu$ and variance $\frac{\sigma^2}{n}$. It stays a full distribution for every $n$ and only narrows as $n$ grows, and it is the foundation of confidence intervals and tests.
 
 ### Type I error
 **Short:** Rejecting $H_0$ when $H_0$ is true.
 
-**Long:** Its probability is the significance level, $\alpha=P(\text{reject }H_0\mid H_0\text{ true})$. On the picture it is the area of the $H_0$ curve inside the rejection region. We choose $\alpha$ in advance, for example 0.05, and that fixes the rejection region. For a fixed $n$, making $\alpha$ smaller makes a Type I error less likely but a Type II error more likely.
+**Long:** A Type I error is a false alarm: the data lead us to reject $H_0$ even though $H_0$ is actually true. The probability of making it is the significance level $\alpha$, which we choose before looking at the data, commonly $0.05$. With $\alpha=0.05$ we accept that about 5 in every 100 tests of a true $H_0$ would wrongly reject it. We can lower $\alpha$ to make false alarms rarer, but for a fixed sample size that makes Type II errors more likely.
 
 ### Type II error
 **Short:** Failing to reject $H_0$ when $H_0$ is false.
 
-**Long:** Its probability is $\beta$, and it depends on the true value: $\beta(\mu')=P(\text{fail to reject }H_0\mid\mu=\mu')$. On the picture it is the area of the true-mean curve on the side of $c$ that is not the rejection region. $\beta$ gets smaller when the true mean is further from $\mu_0$, when $n$ is larger, or when $\alpha$ is larger. In words, the test misses a real difference.
+**Long:** A Type II error is a miss: the data fail to lead us to reject $H_0$ even though $H_0$ is actually false. Its probability is $\beta$, and unlike $\alpha$ it depends on what the true value is, so we always state it at a particular value such as $\beta(47)$. $\beta$ is smaller when the true value is further from the hypothesised one, when the sample is larger, or when $\alpha$ is larger. In words, $\beta$ is the chance that the test misses a real difference.
 
 ### Unbiased estimator
 **Short:** An estimator whose average value over all possible samples equals the parameter: $E(\hat\theta)=\theta$.
 
-**Long:** To check, find $E(\hat\theta)$ using $E(aX+bY)=aE(X)+bE(Y)$ and $E(X^2)=V(X)+[E(X)]^2$, then compare it with $\theta$. If they are equal the estimator is unbiased, and if not the bias is $E(\hat\theta)-\theta$. Known results are that $\bar X$ is unbiased for $\mu$, $\hat p=\frac{X}{n}$ is unbiased for $p$, and $S^2$ with divisor $n-1$ is unbiased for $\sigma^2$. Unbiased means correct on average, not correct for the one sample in hand, so among unbiased estimators we choose the one with the smallest variance.
+**Long:** An unbiased estimator is one that is correct on average: if we used it on every possible sample, the average of its values would equal the true parameter, $E(\hat\theta)=\theta$. Being unbiased says nothing about any single sample, which can still be well off the target. Known examples are $\bar X$ for $\mu$, $\hat p$ for $p$, and $S^2$ with divisor $n-1$ for $\sigma^2$. Among unbiased estimators we prefer the one with the smallest variance, because it is the most likely to be close to the truth.
 
 ## 0. Your five slips (never again)
 1. Standard error is $\frac{\sigma}{\mathbf{\sqrt n}}$, not $\frac{\sigma}{n}$. Write $E(\bar X)=\mu$ with the symbol, then the number.
