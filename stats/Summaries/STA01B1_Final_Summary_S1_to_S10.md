@@ -1,6 +1,38 @@
-# STA01B1 Final: Revise S1 to S10 (Mon 9 Nov, 08:30)
+# STA01B1 Final, Revise S1 to S10 (Mon 9 Nov, 08:30)
 
 Read tonight, read again tomorrow morning. Built from your own ST1/ST2 summaries, proofs and S10 notes, re-scoped for the final. Dr H gives no formulas on the proofs and no formula for $n$. One- or two-sided is decided by the board on the day.
+
+## Contents
+
+- [[#Definitions]] fifteen terms, each with a short and a long version, alphabetical
+  - [[#Analysis of variance (ANOVA)]] comparing three or more means
+  - [[#Bias]] the gap between an estimator's average and the truth
+  - [[#Central Limit Theorem]] why the sample mean is approximately normal
+  - [[#Chi-square, t and F distributions, how they are built]] all three come from standard normals
+  - [[#Confidence interval]] a range of plausible values and what 95 percent means
+  - [[#Hypothesis testing]] deciding between two claims with data
+  - [[#Least squares regression line]] the best straight line through the points
+  - [[#Point estimation]] one number as the best guess for a parameter
+  - [[#R squared]] the share of variation explained
+  - [[#Sample size for a confidence interval]] n for the precision you want
+  - [[#Sample size from alpha and beta]] n for a test with both error risks controlled
+  - [[#Sampling distribution]] how a statistic varies from sample to sample
+  - [[#Type I error]] the false alarm
+  - [[#Type II error]] the miss
+  - [[#Unbiased estimator]] correct on average
+- [[#0. Your five slips (never again)]] the five mistakes to stop making
+- [[#1. Sampling distribution of the sample mean (S1)]] mean, variance, CLT, standardising
+- [[#2. Point estimation (S2)]] bias, MSE, estimate versus estimator
+- [[#3. Proofs (skeletons, write every symbol, a mark per missing dot or bar)]] one line outline of each proof
+- [[#4. Confidence intervals (S3, S4, S6, S7)]] the table of intervals and sample size for width
+- [[#5. Type I, Type II, sample size (S5, the concept you cracked)]] alpha, beta, the cut-off and n for each direction
+- [[#6. Pooled t and paired t (S6, S7)]] which one to use and why
+- [[#7. ANOVA and Tukey (S8)]] sums of squares, F and the Tukey step
+- [[#8. Regression, interpretation only (S9, Practical 10)]] slope, R squared, prediction and plots
+- [[#9. Chi-square (S10)]] goodness of fit, independence and the answer routine
+- [[#10. Wording bank]] ready sentences for conclusions
+- [[#11. Out of scope (do not spend time)]] what not to study
+- [[#12. Tomorrow morning, in this order (20 minutes)]] the morning routine
 
 ## Definitions
 
@@ -155,7 +187,7 @@ Also: the 15 copies of $\bar x$ are already inside $\frac{x_{\cdot\cdot}^2}{IJ}$
 - df: $I-1$, $I(J-1)$, $IJ-1$. $MSTr=\frac{SSTr}{I-1}$, $MSE=\frac{SSE}{I(J-1)}$, $F=\frac{MSTr}{MSE}$; reject if $F\ge F_{\alpha,I-1,I(J-1)}$.
 - Tukey only after rejecting: $w=Q_{\alpha,I,I(J-1)}\sqrt{\frac{MSE}{J}}$. The second subscript is $I$, not $I-1$; the third is the error df. Means differing by more than $w$ differ; joined means are "not shown to differ", not "equal".
 
-## 8. Regression: interpretation only (S9, Practical 10)
+## 8. Regression, interpretation only (S9, Practical 10)
 - Slope $b_1$: "for each one-unit increase in $x$, $y$ changes by $b_1$ on average" (use variable names and units).
 - $R^2$: "$R^2$% of the variation in $y$ is explained by the linear relationship with $x$"; **not explained $=100\%-R^2$**.
 - $t$, df and $p$ are on the printout; $F=t^2$ for the slope.
@@ -179,6 +211,7 @@ Also: the 15 copies of $\bar x$ are already inside $\frac{x_{\cdot\cdot}^2}{IJ}$
 - Reject: "At the [$\alpha$] level there is sufficient evidence that ..."
 - Fail to reject: "At the [$\alpha$] level there is not sufficient evidence that ..."
 - CI meaning: "We are [95]% confident that the true [parameter] lies between $a$ and $b$."
+- Prediction interval: "We are [95]% confident that one future [observation] will be between $a$ and $b$" (or "at most $b$", or "at least $a$" for a one-sided bound). A confidence interval is about the true mean; a prediction interval is about a single future value.
 - ANOVA: "At least two population means differ"; Tukey: "[A] and [B] differ significantly."
 
 ## 11. Out of scope (do not spend time)

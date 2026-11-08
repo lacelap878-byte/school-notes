@@ -1,6 +1,25 @@
-# STA01B1 Final: Proofs (S1 to S10)
+# STA01B1 Final, Proofs (S1 to S10)
 
 Notation: $V(\cdot)$ for variance, $E(\cdot)$ for expectation, $\sigma^2=V(X)$, $q=1-p$. Every symbol written out, every dot and bar kept. Each proof ends with the line you can copy as the conclusion.
+
+## Contents
+
+- [[#P1. Mean squared error equals variance plus bias squared]] the add and subtract proof
+- [[#P2. The expected value of S squared is sigma squared]] the expected value of S squared
+- [[#P3. Divisor n: the bias of the variance estimator]] the bias when dividing by n
+- [[#P4. X bar squared minus S squared over n is unbiased for mu squared]] an unbiased estimator of mu squared
+- [[#P5. Bias of p hat squared]] bias of p hat squared
+- [[#P6. Mean and variance of p hat one minus p hat two]] mean and variance of a difference of proportions
+- [[#P7. A linear combination of two observations]] a weighted combination, unbiased and compared
+- [[#P8. The pooled variance is unbiased for sigma squared]] the pooled variance is unbiased
+- [[#P9. Confidence interval for mu one minus mu two, variances known]] interval for a difference of means, variances known
+- [[#P10. SST equals SSTr plus SSE]] the dots and bars proof, the high mark loser
+- [[#P11. Expected count in a two-way table]] expected counts in a two-way table
+- [[#P12. The short form of the chi-square statistic]] the short form of chi-square
+- [[#P13. Sample size n from alpha and beta]] n from alpha and beta, derived
+- [[#P14. Sample size for a confidence interval of half-width E]] n for a confidence interval
+- [[#P15. Building chi-square, t and F (Practical 2)]] how chi-square, t and F are built
+- [[#Quick checks for a blank-page sit]] which proofs to write first and what loses marks
 
 Facts used throughout:
 - (F1) $V(X)=E(X^2)-[E(X)]^2$, so $E(X^2)=V(X)+[E(X)]^2$.
