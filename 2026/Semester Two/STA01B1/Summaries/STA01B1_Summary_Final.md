@@ -1,10 +1,18 @@
-# STA01B1 Final, Revise S1 to S10 (Mon 9 Nov, 08:30)
+---
+module: STA01B1
+topic: Final exam summary
+test: Final
+range: S1 to S10
+tags: [definition, formula, theorem, worked-example, common-mistake, exam-flagged, struggle]
+---
 
-Read tonight, read again tomorrow morning. Built from your own ST1/ST2 summaries, proofs and S10 notes, re-scoped for the final. Dr H gives no formulas on the proofs and no formula for $n$. One- or two-sided is decided by the board on the day.
+# STA01B1 Summary (Final, sessions S1 to S10)
+
+The whole module in one place. Written for the final on Monday 9 November 2026, 08:30 (Dr A Hildebrand, 75 marks on the information sheet, tables printed with the paper), and rebuilt to CDG v12 on 10 November 2026 with the exam-night content kept. Every derivation is in [[STA01B1_Proofs_Final]]; every worked example is in [[STA01B1_Worked_Examples_Final]].
 
 ## Contents
 
-- [[#Definitions]] fifteen terms, each with a short and a long version, alphabetical
+- [[#Definitions]] fifteen terms, a short and a long version each, alphabetical
   - [[#Analysis of variance (ANOVA)]] comparing three or more means
   - [[#Bias]] the gap between an estimator's average and the truth
   - [[#Central Limit Theorem]] why the sample mean is approximately normal
@@ -20,19 +28,45 @@ Read tonight, read again tomorrow morning. Built from your own ST1/ST2 summaries
   - [[#Type I error]] the false alarm
   - [[#Type II error]] the miss
   - [[#Unbiased estimator]] correct on average
-- [[#0. Your five slips (never again)]] the five mistakes to stop making
-- [[#1. Sampling distribution of the sample mean (S1)]] mean, variance, CLT, standardising
-- [[#2. Point estimation (S2)]] bias, MSE, estimate versus estimator
-- [[#3. Proofs (skeletons, write every symbol, a mark per missing dot or bar)]] one line outline of each proof
-- [[#4. Confidence intervals (S3, S4, S6, S7)]] the table of intervals and sample size for width
-- [[#5. Type I, Type II, sample size (S5, the concept you cracked)]] alpha, beta, the cut-off and n for each direction
-- [[#6. Pooled t and paired t (S6, S7)]] which one to use and why
-- [[#7. ANOVA and Tukey (S8)]] sums of squares, F and the Tukey step
-- [[#8. Regression, interpretation only (S9, Practical 10)]] slope, R squared, prediction and plots
-- [[#9. Chi-square (S10)]] goodness of fit, independence and the answer routine
-- [[#10. Wording bank]] ready sentences for conclusions
-- [[#11. Out of scope (do not spend time)]] what not to study
-- [[#12. Tomorrow morning, in this order (20 minutes)]] the morning routine
+- [[#Material covered]] every notes, summary and proofs file, grouped by test
+  - [[#Up to ST1 (S1 to S5)]] sampling distributions to hypothesis testing
+  - [[#ST1 to ST2 (S6 to S9)]] two samples, ANOVA, regression
+  - [[#After ST2 (S10)]] chi-square
+  - [[#Practice for the final]] proofs, worked examples, question sets
+- [[#Condensed concept pass]] each topic in a few lines
+  - [[#Sampling distribution of the sample mean (S1)]] mean, variance, CLT, standardising
+  - [[#Point estimation (S2)]] bias, MSE, estimate versus estimator
+  - [[#Confidence intervals (S3, S4, S6, S7)]] the table of intervals and sample size for width
+  - [[#Type I, Type II and sample size (S5)]] alpha, beta, the cut-off and n in each direction
+  - [[#Pooled t and paired t (S6, S7)]] which one and why
+  - [[#ANOVA and Tukey (S8)]] sums of squares, F and the Tukey step
+  - [[#Regression, interpretation only (S9)]] slope, R squared, prediction, plots
+  - [[#Chi-square (S10)]] goodness of fit, independence, the answer routine
+- [[#Worked example notebook]] one link per principle to the worked examples
+- [[#What the tests showed]] each test in your words and from the marked script
+  - [[#ST1 (SA1)]] about 87 percent, where the marks went
+  - [[#ST2 (SA2)]] 60 percent, where the marks went
+  - [[#Practical test]] your advice on preparing
+  - [[#Final exam (9 November 2026)]] what came up, from your account
+  - [[#Patterns you reported]] time and pressure
+- [[#Common mistakes]] grouped by pattern
+  - [[#The five slips flagged the night before]] the open list going into the exam
+  - [[#Choosing the formula]] pooled, unpooled, paired
+  - [[#Degrees of freedom and table look-ups]] df and the right table value
+  - [[#Definitions and names]] bias, significance level, statistic
+  - [[#Expectation algebra]] variance plus mean squared, expand first
+  - [[#Answering the whole question]] verdicts, interpretations, the right hypotheses
+  - [[#Arithmetic and copying]] right method, wrong digit
+- [[#Decision aids]] proof outlines, wording, choosing a test
+  - [[#Proof skeletons]] one line outline of each proof
+  - [[#Wording bank]] ready sentences for conclusions
+  - [[#Choosing the procedure]] link to the ST2 decision table
+- [[#Exam sheet]] why there is none for this exam
+- [[#Tips]] your advice, scope, the morning routine
+  - [[#Your advice to yourself]] in your words
+  - [[#Practicals]] practise weeks ahead
+  - [[#Scope as confirmed by the lecturer]] what was out
+  - [[#The morning routine used for the final]] four steps
 
 ## Definitions
 
@@ -113,38 +147,47 @@ Each term has a **Short** version (one line) and a **Long** version (3 to 4 sent
 
 **Long:** An unbiased estimator is one that is correct on average: if we used it on every possible sample, the average of its values would equal the true parameter, $E(\hat\theta)=\theta$. Being unbiased says nothing about any single sample, which can still be well off the target. Known examples are $\bar X$ for $\mu$, $\hat p$ for $p$, and $S^2$ with divisor $n-1$ for $\sigma^2$. Among unbiased estimators we prefer the one with the smallest variance, because it is the most likely to be close to the truth.
 
-## 0. Your five slips (never again)
-1. Standard error is $\frac{\sigma}{\mathbf{\sqrt n}}$, not $\frac{\sigma}{n}$. Write $E(\bar X)=\mu$ with the symbol, then the number.
-2. Reject iff **$p\le\alpha$** for every $H_a$. Only the side of the curve changes (upper tail: area to the right, lower tail: area to the left, two-sided: double the smaller tail).
-3. $\beta$ is the area of the **true-mean curve** on the side of $c$ that is **not** the rejection region. $\alpha$ is the area of the $H_0$ curve inside the rejection region.
-4. Chi-square goodness of fit: **$df=k-1$** ($k$ groups, never $n-1$). Expected counts come from $H_0$: $E_i=n\,p_{i0}$.
-5. After a non-rejection write: "not sufficient evidence that ..." at the stated level, with context. Never "accept $H_0$", never "the alternative is rejected", and a significance level is not a confidence level.
+## Material covered
 
-Also: the 15 copies of $\bar x$ are already inside $\frac{x_{\cdot\cdot}^2}{IJ}$ in ANOVA; a negative $SS$ is an alarm.
+### Up to ST1 (S1 to S5)
+- [[STA01B1_Summary_ST1]] and [[STA01B1_Proofs_ST1]]
+- [[STA01B1_Notes_S1_Statistics_and_Sampling_Distributions]]
+- [[STA01B1_Notes_S2_Point_Estimation]]
+- [[STA01B1_Notes_S3_Statistical_Intervals]]
+- [[STA01B1_Notes_S4_Intervals_Based_on_a_Normal_Population]]
+- [[STA01B1_Notes_S5_Hypothesis_Testing]]
 
-## 1. Sampling distribution of the sample mean (S1)
+### ST1 to ST2 (S6 to S9)
+- [[STA01B1_Summary_ST2]] and [[STA01B1_Proofs_ST2]]
+- [[STA01B1_Notes_S6_Inferences_Based_on_Two_Samples]]
+- [[STA01B1_Notes_S7_Paired_Data_Proportions_and_Variances]]
+- [[STA01B1_Notes_S8_Single_Factor_ANOVA_and_Tukey_Procedure]]
+- [[STA01B1_Notes_S9_Simple_Linear_Regression]]
+
+### After ST2 (S10)
+- [[STA01B1_Notes_S10_Chi_Square_Tests]]
+
+### Practice for the final
+- [[STA01B1_Proofs_Final]]: 15 proofs for a blank-page sit
+- [[STA01B1_Worked_Examples_Final]]: 27 worked examples with interpretations
+- [[STA01B1_Set_C_Questions]] and [[STA01B1_Worked_Answers_SetA_SetB]]
+
+## Condensed concept pass
+
+### Sampling distribution of the sample mean (S1)
 - $E(\bar X)=\mu$, $V(\bar X)=\frac{\sigma^2}{n}$, $\text{sd}=\frac{\sigma}{\sqrt n}$. Total $T_0$: mean $n\mu$, sd $\sqrt n\,\sigma$.
 - Normal population: $\bar X$ is exactly normal. Otherwise the CLT: $\bar X$ is approximately normal when $n>40$ (Dr H's cut, the tutor says 30).
 - Standardise: $Z=\frac{\bar X-\mu}{\sigma/\sqrt n}$. For the probability of a range for $\bar X$, use the sd of $\bar X$, never the sd of $X$.
+- Fuller version: [[STA01B1_Summary_ST1#From probability to a sampling distribution (S1)|ST1 summary]].
 
-## 2. Point estimation (S2)
+### Point estimation (S2)
 - $\text{Bias}=E(\hat\theta)-\theta$. Unbiased means bias $0$. $MSE=V(\hat\theta)+[\text{bias}]^2$.
 - Point estimate means a number from the data; point estimator means the random variable (the formula). This is a true or false trap.
 - Compare two unbiased estimators: choose the smaller variance.
 - Useful: $V(\hat p)=\frac{pq}{n}$, $V(\hat p_1-\hat p_2)=\frac{p_1q_1}{m}+\frac{p_2q_2}{n}$, $E(\hat p_1-\hat p_2)=p_1-p_2$.
+- Fuller version: [[STA01B1_Summary_ST1#Building and judging a point estimate (S2)|ST1 summary]].
 
-## 3. Proofs (skeletons, write every symbol, a mark per missing dot or bar)
-- **MSE equals variance plus bias squared:** add and subtract $E(\hat\theta)$, square, and the cross term has $E[\hat\theta-E(\hat\theta)]=0$.
-- **$E(S^2)=\sigma^2$:** $\sum(X_i-\bar X)^2=\sum X_i^2-n\bar X^2$; $E(X_i^2)=\sigma^2+\mu^2$ and $E(\bar X^2)=\frac{\sigma^2}{n}+\mu^2$; this gives $(n-1)\sigma^2$. Divisor $n$ gives bias $-\frac{\sigma^2}{n}$.
-- **$\bar X^2-\frac{S^2}{n}$ is unbiased for $\mu^2$:** $E(\bar X^2)=\mu^2+\frac{\sigma^2}{n}$ and $E\!\left(\frac{S^2}{n}\right)=\frac{\sigma^2}{n}$.
-- **Bias of $\hat p^2$:** $E(\hat p^2)=p^2+\frac{pq}{n}$, so bias $=\frac{pq}{n}$.
-- **$S_p^2$ is unbiased:** weights $(m-1)$ and $(n-1)$, each $S^2$ is unbiased, and the weights sum to $m+n-2$.
-- **CI for $\mu_1-\mu_2$ (known $\sigma$):** $\bar X_1-\bar X_2\sim N\!\left(\mu_1-\mu_2,\frac{\sigma_1^2}{m}+\frac{\sigma_2^2}{n}\right)$, standardise, $P(-z\le Z\le z)=1-\alpha$, rearrange.
-- **$SST=SSTr+SSE$:** add and subtract $\bar x_{i\cdot}$, expand, the cross term is $\sum_i(\bar x_{i\cdot}-\bar x_{\cdot\cdot})\sum_j(x_{ij}-\bar x_{i\cdot})=0$, and the two ends become $SSE$ and $SSTr$ (the one carrying the $J$). Dots: $x_{ij}$ none, $\bar x_{i\cdot}$ one, $\bar x_{\cdot\cdot}$ two. The grand mean has a bar, the grand total does not.
-- **Chi-square:** $E_{ij}=\frac{n_{i\cdot}\,n_{\cdot j}}{n}$ (independence gives $p_{i\cdot}\,p_{\cdot j}$, times $n$). $\chi^2=\sum\frac{O^2}{E}-n$ (expand the square, $\sum O=\sum E=n$).
-- **Building distributions (Practical 2):** $\chi^2_\nu=\sum Z_i^2$ ($\nu$ standard normals squared); $t=\frac{Z}{\sqrt{X/\nu}}$; $F=\frac{X_1/\nu_1}{X_2/\nu_2}$. Independence of numerator and denominator is a condition.
-
-## 4. Confidence intervals (S3, S4, S6, S7)
+### Confidence intervals (S3, S4, S6, S7)
 | Parameter | Interval | Notes |
 |---|---|---|
 | $\mu$, $\sigma$ known | $\bar x\pm z_{\alpha/2}\frac{\sigma}{\sqrt n}$ | |
@@ -159,8 +202,9 @@ Also: the 15 copies of $\bar x$ are already inside $\frac{x_{\cdot\cdot}^2}{IJ}$
 
 - Sample size for width: $n=\left(\frac{z_{\alpha/2}\sigma}{E}\right)^2$ for a mean; $n=\frac{z_{\alpha/2}^2\,\hat p\hat q}{E^2}$ for a proportion ($\hat p=0.5$ if unknown). "Within" means $E$; "width" means $2E$. Round up.
 - df rule from Dr H: if the exact df is not in the table, use the closest listed value.
+- Fuller versions: [[STA01B1_Summary_ST1#Wrapping the estimate in an interval (S3)|ST1 summary]] and [[STA01B1_Summary_ST2#Every confidence interval, bound and prediction interval|ST2 summary]].
 
-## 5. Type I, Type II, sample size (S5, the concept you cracked)
+### Type I, Type II and sample size (S5)
 - $\alpha=P(\text{reject }H_0\mid H_0\text{ true})$ = area of the $H_0$ curve in the rejection region.
 - $\beta=P(\text{fail to reject}\mid H_0\text{ false at the true value }\mu')$ = area of the $\mu'$ curve in the **complement** of the rejection region.
 - $c$ is a vertical line in the overlap of the two curves, between $\mu_0$ and $\mu'$ (halfway only if $\alpha=\beta$). It is the $\bar x$ whose $p$-value is exactly $\alpha$.
@@ -176,18 +220,20 @@ Also: the 15 copies of $\bar x$ are already inside $\frac{x_{\cdot\cdot}^2}{IJ}$
 
   Key: $\mu_0$ is the $H_0$ mean, $\mu'$ is the true mean asked about, $se=\frac{\sigma}{\sqrt n}$, $c$ is the cut-off in $\bar x$ units, and $z_\alpha$ and $z_\beta$ are the $z$ values leaving $\alpha$ or $\beta$ to the right (always positive). Proportion: the same, with $\sqrt{p_0q_0}$ beside $z_\alpha$ and $\sqrt{p'q'}$ beside $z_\beta$, over $(p'-p_0)$.
 - Worked check (Set C, question B5): $c=47.5325$, $\beta(47)=0.3594$, $n=34.2$, so $n=35$.
+- Fuller version: [[STA01B1_Summary_ST1#Testing a claim rather than estimating (S5)|ST1 summary]].
 
-## 6. Pooled t and paired t (S6, S7)
+### Pooled t and paired t (S6, S7)
 - Pooled $t$: $H_0:\mu_1-\mu_2=\Delta_0$, $df=m+n-2$, assumptions: equal variances (sample sds within a factor of 2) and normality.
 - Paired: two measurements on the same unit, so take differences and do a one-sample $t$ on $\bar d$ with $df=n-1$. Independent groups: pooled. State which, and why.
+- Fuller version: [[STA01B1_Summary_ST2#Choosing the procedure|ST2 summary]].
 
-## 7. ANOVA and Tukey (S8)
+### ANOVA and Tukey (S8)
 - $H_0:\mu_1=\dots=\mu_I$; $H_a$: at least two differ. Assumptions (say both): normal populations, equal variances (largest sd not more than $2\times$ the smallest).
 - $SST=\sum x^2-\frac{x_{\cdot\cdot}^2}{IJ}$; $SSTr=\frac{\sum x_{i\cdot}^2}{J}-\frac{x_{\cdot\cdot}^2}{IJ}$; $SSE=SST-SSTr$. Order check: grand piece $<$ group piece $<$ every-value piece.
 - df: $I-1$, $I(J-1)$, $IJ-1$. $MSTr=\frac{SSTr}{I-1}$, $MSE=\frac{SSE}{I(J-1)}$, $F=\frac{MSTr}{MSE}$; reject if $F\ge F_{\alpha,I-1,I(J-1)}$.
 - Tukey only after rejecting: $w=Q_{\alpha,I,I(J-1)}\sqrt{\frac{MSE}{J}}$. The second subscript is $I$, not $I-1$; the third is the error df. Means differing by more than $w$ differ; joined means are "not shown to differ", not "equal".
 
-## 8. Regression, interpretation only (S9, Practical 10)
+### Regression, interpretation only (S9)
 - Slope $b_1$: "for each one-unit increase in $x$, $y$ changes by $b_1$ on average" (use variable names and units).
 - $R^2$: "$R^2$% of the variation in $y$ is explained by the linear relationship with $x$"; **not explained $=100\%-R^2$**.
 - $t$, df and $p$ are on the printout; $F=t^2$ for the slope.
@@ -195,7 +241,7 @@ Also: the 15 copies of $\bar x$ are already inside $\frac{x_{\cdot\cdot}^2}{IJ}$
 - Residuals against fitted values: constant variance. Normal probability plot: normality.
 - No hand-calculated coefficients, no scatter plots.
 
-## 9. Chi-square (S10)
+### Chi-square (S10)
 - Counts in categories only. Statistic $\chi^2=\sum\frac{(O-E)^2}{E}$, upper tail, reject if $\chi^2\ge\chi^2_{\alpha,df}$.
 - **Goodness of fit:** $H_0:p_i=p_{i0}$; $E_i=n\,p_{i0}$; $df=k-1$.
 - **Independence:** $H_0$: the two classifications are independent; $E=\frac{\text{row total}\times\text{column total}}{n}$; $df=(I-1)(J-1)$.
@@ -205,7 +251,95 @@ Also: the 15 copies of $\bar x$ are already inside $\frac{x_{\cdot\cdot}^2}{IJ}$
 - Table A.7 prints $3.843$ ($df=1$) and $5.992$ ($df=2$) in the $.05$ column. Homogeneity is out.
 - Example: $52,38,21,9$ against $40,30,20,10\%$ of $120$ gives $E=48,36,24,12$ and $\chi^2=1.57<7.815$ with $df=3$, so do not reject.
 
-## 10. Wording bank
+## Worked example notebook
+
+One link per principle. The full working and the interpretation are in [[STA01B1_Worked_Examples_Final]]. The earlier notebooks: [[STA01B1_Summary_ST1#Worked example notebook|ST1]] and [[STA01B1_Summary_ST2#Worked example notebook|ST2]].
+
+- Sampling distribution and the CLT: [[STA01B1_Worked_Examples_Final#Example 1. Sampling distribution of the sample mean and the total|Example 1]], [[STA01B1_Worked_Examples_Final#Example 26. The Central Limit Theorem with a non-normal population|Example 26]]
+- Unbiasedness, bias and MSE: [[STA01B1_Worked_Examples_Final#Example 2. Checking whether an estimator is unbiased|Example 2]], [[STA01B1_Worked_Examples_Final#Example 25. Numerical bias and MSE|Example 25]]
+- Intervals for one sample: [[STA01B1_Worked_Examples_Final#Example 3. Confidence interval for a mean, sigma unknown|Example 3]], [[STA01B1_Worked_Examples_Final#Example 4. Confidence interval for a proportion|Example 4]], [[STA01B1_Worked_Examples_Final#Example 20. Confidence interval for a mean with sigma known, and a bound|Example 20]], [[STA01B1_Worked_Examples_Final#Example 21. Confidence interval for a variance|Example 21]]
+- Prediction interval and its wording: [[STA01B1_Worked_Examples_Final#Example 22. Prediction interval for one new value|Example 22]]
+- Sample size for an interval: [[STA01B1_Worked_Examples_Final#Example 11. Sample size for a confidence interval|Example 11]]
+- Two samples (pooled, paired, large-sample, proportions, variances): [[STA01B1_Worked_Examples_Final#Example 5. Pooled t confidence interval for two means|Example 5]], [[STA01B1_Worked_Examples_Final#Example 6. Paired t test|Example 6]], [[STA01B1_Worked_Examples_Final#Example 16. Pooled t test for two means|Example 16]], [[STA01B1_Worked_Examples_Final#Example 17. z test and interval for two means, large samples|Example 17]], [[STA01B1_Worked_Examples_Final#Example 18. Two-proportion z test and interval|Example 18]], [[STA01B1_Worked_Examples_Final#Example 19. F test for two variances|Example 19]]
+- Type I and Type II error, the cut-off and $n$: [[STA01B1_Worked_Examples_Final#Example 7. Type I and Type II error from a given rejection region|Example 7]], [[STA01B1_Worked_Examples_Final#Example 8. Finding the cut-off and beta from alpha, upper-tailed|Example 8]], [[STA01B1_Worked_Examples_Final#Example 9. Sample size from alpha and beta for a mean|Example 9]], [[STA01B1_Worked_Examples_Final#Example 10. Type II error for a proportion|Example 10]], [[STA01B1_Worked_Examples_Final#Example 23. Sample size from alpha and beta for a proportion|Example 23]], [[STA01B1_Worked_Examples_Final#Example 24. Two-sided beta and the sample size|Example 24]]
+- Reading a p-value: [[STA01B1_Worked_Examples_Final#Example 27. Reading a p-value|Example 27]]
+- ANOVA and Tukey: [[STA01B1_Worked_Examples_Final#Example 12. ANOVA and Tukey|Example 12]]
+- Chi-square: [[STA01B1_Worked_Examples_Final#Example 13. Chi-square goodness of fit|Example 13]], [[STA01B1_Worked_Examples_Final#Example 14. Chi-square test of independence|Example 14]]
+- Regression from a printout: [[STA01B1_Worked_Examples_Final#Example 15. Regression printout, interpretation and prediction|Example 15]]
+
+## What the tests showed
+
+Each test in your own words first, then what the marked script shows (read 10 November 2026).
+
+### ST1 (SA1)
+- Your words: "st1 was fine", about 85%; "i finished in time but i think i barely scrapped it".
+- From the script: about 55 of 67 on the pages shown, plus 3 marks on a page not shown, so about 58 of 67 (87%). Full marks on the four proofs (CI for a proportion, $\hat\mu$ unbiased, $S^2$ biased with divisor $n$, $S_p^2$ unbiased), the intervals, the sample size, the hypothesis test and the true or false block.
+- Marks lost: degrees of freedom missing on the $t$, $F$ and chi-square answers; bias defined as $E(\hat\theta)=\theta$; significance level defined as a statistic in the acceptance region; CLT without "how large" ($n>40$); $SE(\bar X_1-\bar X_2)$ written $\sqrt{s_1^2+s_2^2}$ without $m$ and $n$; changing $\alpha$ to 0.01 said to change the conclusion ($2.60>2.575$, it does not); Type I or II error not interpreted in the narrative.
+
+### ST2 (SA2)
+- Your words on the pooled mix-up: "i honeslty cant even explain i only realised when i got my paper back i would have gotten way more if i practised more i think it was because at the heat of the moment i just wrote what came to my mind i also think i didnt have enough time for it".
+- On time: "st2 though i wasted too much time i could not go over my paper but i finished it".
+- From the script: 34 of 57 (60%). ANOVA table and $F$ test full marks; regression prediction, residual, correlation and p-value full marks.
+- Marks lost: pooled and unpooled the wrong way round twice (two proportions needs the pooled $\hat p$ for the test, two small samples need $s_p^2$); paired data tested with a two-sample formula and df 22 instead of $\bar d/(s_d/\sqrt n)$ with df 11, and "equal variances" given as the paired assumption; a two-sided interval where a 92% bound was asked; Tukey $w$ worked out as 1.26 instead of about 0.40, and one Tukey part unfinished; the equal-variance check done but no verdict; "can be explained" written where the question asked what cannot be; slope not interpreted; $H_0$ written as the model equation instead of $\beta_1=0$.
+
+### Practical test
+- Your words: "for the practicals i would advice myself to always practice weeks in advance the time we have to prepare for a prac is not enough to get the mark i want to get".
+
+### Final exam (9 November 2026)
+- Your account the next morning: six questions, out of 78; paper B, but you are not sure of the letter.
+- What came up: the MSE proof; $\alpha$, $\beta$ and $n$ with the cut-off given ($\bar x>31\,800$, $\mu_0=30\,000$, $\mu'=32\,000$, $H_a:\mu>30\,000$, $n$ for $\beta=1\%$; you got about 19.08, so 20); state the CLT; the principle of ANOVA; explain a 95% confidence interval; the independence question, the same as in the notes; two proportions, where you remembered to pool. No regression.
+- Result: not yet known.
+
+### Patterns you reported
+- Time: barely finished ST1, no time to check ST2.
+- Under pressure you wrote what came to mind first, and practice was the missing piece.
+
+## Common mistakes
+
+Grouped by pattern, across both tests, the practice sits and the struggle logs.
+
+### The five slips flagged the night before
+1. <span style="color:#f08c00">Open:</span> Standard error is $\frac{\sigma}{\mathbf{\sqrt n}}$, not $\frac{\sigma}{n}$. Write $E(\bar X)=\mu$ with the symbol, then the number.
+2. <span style="color:#f08c00">Open:</span> Reject iff **$p\le\alpha$** for every $H_a$. Only the side of the curve changes (upper tail: area to the right, lower tail: area to the left, two-sided: double the smaller tail).
+3. <span style="color:#f08c00">Open:</span> $\beta$ is the area of the **true-mean curve** on the side of $c$ that is **not** the rejection region. $\alpha$ is the area of the $H_0$ curve inside the rejection region.
+4. <span style="color:#f08c00">Open:</span> Chi-square goodness of fit: **$df=k-1$** ($k$ groups, never $n-1$). Expected counts come from $H_0$: $E_i=n\,p_{i0}$.
+5. <span style="color:#f08c00">Open:</span> After a non-rejection write: "not sufficient evidence that ..." at the stated level, with context. Never "accept $H_0$", never "the alternative is rejected", and a significance level is not a confidence level.
+
+Also: the 15 copies of $\bar x$ are already inside $\frac{x_{\cdot\cdot}^2}{IJ}$ in ANOVA; a negative $SS$ is an alarm.
+
+### Choosing the formula
+- Pooled or unpooled: two proportions, test uses the pooled $\hat p$, the interval does not; two means with a small sample uses $s_p^2$ (ST2 Q2, Q3). Done right on the final (your account).
+- Paired or independent: same people measured twice means differences and one-sample $t$ with $n-1$ df (ST2 Q1, the 2023 Paper A sit Q3, struggle logs S7 to S9).
+
+### Degrees of freedom and table look-ups
+- df left off a named distribution (ST1 Q1). ANOVA error df $I(J-1)$, Tukey $Q_{\alpha,I,I(J-1)}$, 90% uses $1.645$ (2023 Paper A sit). Copy the printed table value.
+
+### Definitions and names
+- Bias $=E(\hat\theta)-\theta$; significance level $=P(\text{reject }H_0\mid H_0\text{ true})$; a statistic is a random variable computed from the sample (ST1). Name each quantity in one phrase before using it (struggle log, 6 Nov).
+
+### Expectation algebra
+- $E(Y^2)=V(Y)+[E(Y)]^2$, never minus; expand inside first, then take $E$; $V(X)=npq$ for a binomial count, $V(\hat p)=\frac{pq}{n}$ (Set C, 8 Nov).
+
+### Answering the whole question
+- Interpret in the story, give the verdict on an assumption, read "cannot be explained", interpret the slope, write $H_0:\beta_1=0$ (ST1 Q9d, ST2 Q4c and Q6).
+
+### Arithmetic and copying
+- Right method, wrong digit: Tukey $w$ (ST2 Q5), $21.24$ for $21.42$, $4.46$ for $4.26$ (struggle logs). A glance back after each step.
+
+## Decision aids
+
+### Proof skeletons
+- **MSE equals variance plus bias squared:** add and subtract $E(\hat\theta)$, square, and the cross term has $E[\hat\theta-E(\hat\theta)]=0$.
+- **$E(S^2)=\sigma^2$:** $\sum(X_i-\bar X)^2=\sum X_i^2-n\bar X^2$; $E(X_i^2)=\sigma^2+\mu^2$ and $E(\bar X^2)=\frac{\sigma^2}{n}+\mu^2$; this gives $(n-1)\sigma^2$. Divisor $n$ gives bias $-\frac{\sigma^2}{n}$.
+- **$\bar X^2-\frac{S^2}{n}$ is unbiased for $\mu^2$:** $E(\bar X^2)=\mu^2+\frac{\sigma^2}{n}$ and $E\!\left(\frac{S^2}{n}\right)=\frac{\sigma^2}{n}$.
+- **Bias of $\hat p^2$:** $E(\hat p^2)=p^2+\frac{pq}{n}$, so bias $=\frac{pq}{n}$.
+- **$S_p^2$ is unbiased:** weights $(m-1)$ and $(n-1)$, each $S^2$ is unbiased, and the weights sum to $m+n-2$.
+- **CI for $\mu_1-\mu_2$ (known $\sigma$):** $\bar X_1-\bar X_2\sim N\!\left(\mu_1-\mu_2,\frac{\sigma_1^2}{m}+\frac{\sigma_2^2}{n}\right)$, standardise, $P(-z\le Z\le z)=1-\alpha$, rearrange.
+- **$SST=SSTr+SSE$:** add and subtract $\bar x_{i\cdot}$, expand, the cross term is $\sum_i(\bar x_{i\cdot}-\bar x_{\cdot\cdot})\sum_j(x_{ij}-\bar x_{i\cdot})=0$, and the two ends become $SSE$ and $SSTr$ (the one carrying the $J$). Dots: $x_{ij}$ none, $\bar x_{i\cdot}$ one, $\bar x_{\cdot\cdot}$ two. The grand mean has a bar, the grand total does not.
+- **Chi-square:** $E_{ij}=\frac{n_{i\cdot}\,n_{\cdot j}}{n}$ (independence gives $p_{i\cdot}\,p_{\cdot j}$, times $n$). $\chi^2=\sum\frac{O^2}{E}-n$ (expand the square, $\sum O=\sum E=n$).
+- **Building distributions (Practical 2):** $\chi^2_\nu=\sum Z_i^2$ ($\nu$ standard normals squared); $t=\frac{Z}{\sqrt{X/\nu}}$; $F=\frac{X_1/\nu_1}{X_2/\nu_2}$. Independence of numerator and denominator is a condition.
+
+### Wording bank
 - Slope: "On average, each additional [$x$ unit] is associated with a change of [$b_1$] [$y$ unit]."
 - $R^2$: "[$R^2$]% of the variation in [$y$] is explained by the linear relationship with [$x$]."
 - Reject: "At the [$\alpha$] level there is sufficient evidence that ..."
@@ -214,11 +348,26 @@ Also: the 15 copies of $\bar x$ are already inside $\frac{x_{\cdot\cdot}^2}{IJ}$
 - Prediction interval: "We are [95]% confident that one future [observation] will be between $a$ and $b$" (or "at most $b$", or "at least $a$" for a one-sided bound). A confidence interval is about the true mean; a prediction interval is about a single future value.
 - ANOVA: "At least two population means differ"; Tukey: "[A] and [B] differ significantly."
 
-## 11. Out of scope (do not spend time)
+### Choosing the procedure
+- The full table and decision tree: [[STA01B1_Summary_ST2#Choosing the procedure|ST2 summary]].
+
+## Exam sheet
+
+No separate exam sheet was built for this exam (CDT v4, which builds one, came the day after). The morning routine that was used is kept under Tips.
+
+## Tips
+
+### Your advice to yourself
+> "finish notes early, do more examples make more mistakes its fine to not understand something its fine too feel lost its fine to not understand everything on your first try your tenth try even the day before the exam lastly get your confidence up lastly be patient with you claude because i think you are perfect i hold you up to an incredibly high standard also dont rely on claude too much sometimes i should do it on my own"
+
+### Practicals
+- Practise weeks in advance (your words above, under Practical test).
+
+### Scope as confirmed by the lecturer
 One-sample hypothesis tests (Lecture 6, Tutorial 6), chi-square homogeneity, hand-calculated regression coefficients, scatter plots.
 
-## 12. Tomorrow morning, in this order (20 minutes)
-1. Section 0, aloud.
+### The morning routine used for the final
+1. The five slips, aloud.
 2. Draw the two curves for a lower-tailed and an upper-tailed test, shade $\alpha$ and $\beta$, write both descriptions of $c$.
 3. Write the $SST=SSTr+SSE$ and $E(S^2)=\sigma^2$ proofs from a blank page.
 4. Tables A.3, A.5, A.7, A.9, A.10: find one value in each.

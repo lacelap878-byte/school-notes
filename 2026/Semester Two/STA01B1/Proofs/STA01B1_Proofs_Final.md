@@ -1,19 +1,29 @@
-# STA01B1 Final, Proofs (S1 to S10)
+---
+module: STA01B1
+topic: Final exam proofs
+test: Final
+range: S1 to S10
+tags: [theorem, formula, exam-flagged, added]
+---
+
+# STA01B1 Proofs (Final, sessions S1 to S10)
 
 Notation: $V(\cdot)$ for variance, $E(\cdot)$ for expectation, $\sigma^2=V(X)$, $q=1-p$. Every symbol written out, every dot and bar kept. Each proof ends with the line you can copy as the conclusion.
+
+Results already proved in [[STA01B1_Proofs_ST1]] and [[STA01B1_Proofs_ST2]] are kept here in short exam form, with a link to the longer version. New results are marked as new.
 
 ## Contents
 
 - [[#P1. Mean squared error equals variance plus bias squared]] the add and subtract proof
 - [[#P2. The expected value of S squared is sigma squared]] the expected value of S squared
-- [[#P3. Divisor n: the bias of the variance estimator]] the bias when dividing by n
+- [[#P3. Divisor n, the bias of the variance estimator]] the bias when dividing by n
 - [[#P4. X bar squared minus S squared over n is unbiased for mu squared]] an unbiased estimator of mu squared
 - [[#P5. Bias of p hat squared]] bias of p hat squared
 - [[#P6. Mean and variance of p hat one minus p hat two]] mean and variance of a difference of proportions
 - [[#P7. A linear combination of two observations]] a weighted combination, unbiased and compared
 - [[#P8. The pooled variance is unbiased for sigma squared]] the pooled variance is unbiased
 - [[#P9. Confidence interval for mu one minus mu two, variances known]] interval for a difference of means, variances known
-- [[#P10. SST equals SSTr plus SSE]] the dots and bars proof, the high mark loser
+- [[#P10. SST equals SSTr plus SSE]] the dots and bars proof
 - [[#P11. Expected count in a two-way table]] expected counts in a two-way table
 - [[#P12. The short form of the chi-square statistic]] the short form of chi-square
 - [[#P13. Sample size n from alpha and beta]] n from alpha and beta, derived
@@ -29,6 +39,9 @@ Facts used throughout:
 ---
 
 ## P1. Mean squared error equals variance plus bias squared
+#theorem
+Longer version: [[STA01B1_Proofs_ST1#6. Mean squared error decomposition|ST1 proofs, 6]]
+
 $MSE(\hat\theta)=E[(\hat\theta-\theta)^2]$.
 1. Add and subtract $E(\hat\theta)$: $\hat\theta-\theta=[\hat\theta-E(\hat\theta)]+[E(\hat\theta)-\theta]$.
 2. Square: $(\hat\theta-\theta)^2=[\hat\theta-E(\hat\theta)]^2+2[\hat\theta-E(\hat\theta)][E(\hat\theta)-\theta]+[E(\hat\theta)-\theta]^2$.
@@ -38,6 +51,9 @@ $MSE(\hat\theta)=E[(\hat\theta-\theta)^2]$.
 **Therefore $MSE(\hat\theta)=V(\hat\theta)+[\text{bias}(\hat\theta)]^2$.**
 
 ## P2. The expected value of S squared is sigma squared
+#theorem
+Longer version: [[STA01B1_Proofs_ST1#4. The sample variance is unbiased for the population variance|ST1 proofs, 4]]
+
 $S^2=\frac{\sum(X_i-\bar X)^2}{n-1}$.
 1. $\sum(X_i-\bar X)^2=\sum X_i^2-2\bar X\sum X_i+n\bar X^2=\sum X_i^2-2n\bar X^2+n\bar X^2=\sum X_i^2-n\bar X^2$.
 2. $E(X_i^2)=\sigma^2+\mu^2$ (F1). $E(\bar X^2)=V(\bar X)+\mu^2=\frac{\sigma^2}{n}+\mu^2$.
@@ -46,13 +62,19 @@ $S^2=\frac{\sum(X_i-\bar X)^2}{n-1}$.
 
 **Therefore $E(S^2)=\sigma^2$, so $S^2$ is unbiased for $\sigma^2$.**
 
-## P3. Divisor n: the bias of the variance estimator
+## P3. Divisor n, the bias of the variance estimator
+#theorem
+Longer version: [[STA01B1_Proofs_ST1#5. The divisor-n variance estimator is biased|ST1 proofs, 5]]
+
 Here $\hat\sigma^2=\frac{\sum(X_i-\bar X)^2}{n}$.
 1. From P2 step 3: $E\!\left[\sum(X_i-\bar X)^2\right]=(n-1)\sigma^2$.
 2. $E(\hat\sigma^2)=\frac{(n-1)\sigma^2}{n}=\sigma^2-\frac{\sigma^2}{n}$.
 3. $\text{bias}=E(\hat\sigma^2)-\sigma^2=\mathbf{-\frac{\sigma^2}{n}}$. It underestimates $\sigma^2$, and the bias shrinks as $n$ grows (asymptotically unbiased).
 
 ## P4. X bar squared minus S squared over n is unbiased for mu squared
+#theorem #added
+New for the final (revision, November 2026).
+
 1. $E(\bar X^2)=V(\bar X)+[E(\bar X)]^2=\frac{\sigma^2}{n}+\mu^2$.
 2. $E\!\left(\frac{S^2}{n}\right)=\frac{E(S^2)}{n}=\frac{\sigma^2}{n}$ (P2).
 3. $E\!\left(\bar X^2-\frac{S^2}{n}\right)=\frac{\sigma^2}{n}+\mu^2-\frac{\sigma^2}{n}=\mu^2$.
@@ -60,18 +82,27 @@ Here $\hat\sigma^2=\frac{\sum(X_i-\bar X)^2}{n}$.
 **Therefore $\bar X^2-\frac{S^2}{n}$ is unbiased for $\mu^2$.** ($\bar X^2$ alone has bias $\frac{\sigma^2}{n}$.)
 
 ## P5. Bias of p hat squared
+#theorem #exam-flagged
+New for the final: 2022 Paper C question 11.
+
 Here $\hat p=\frac{X}{n}$ and $X\sim\text{Bin}(n,p)$.
 1. $E(\hat p)=p$ and $V(\hat p)=\frac{pq}{n}$.
 2. $E(\hat p^2)=V(\hat p)+[E(\hat p)]^2=\frac{pq}{n}+p^2$.
 3. $\text{bias}=E(\hat p^2)-p^2=\mathbf{\frac{pq}{n}}$. $\hat p^2$ overestimates $p^2$.
 
 ## P6. Mean and variance of p hat one minus p hat two
+#theorem
+Longer version: [[STA01B1_Proofs_ST2#5. Mean and variance of p̂1 − p̂2|ST2 proofs, 5]]
+
 Independent samples of size $m$ and $n$.
 1. $E(\hat p_1)=p_1$ and $E(\hat p_2)=p_2$, so $E(\hat p_1-\hat p_2)=\mathbf{p_1-p_2}$ (unbiased).
 2. $V(\hat p_1)=\frac{p_1q_1}{m}$ and $V(\hat p_2)=\frac{p_2q_2}{n}$.
 3. The samples are independent, so $V(\hat p_1-\hat p_2)=V(\hat p_1)+(-1)^2V(\hat p_2)=\mathbf{\frac{p_1q_1}{m}+\frac{p_2q_2}{n}}$.
 
 ## P7. A linear combination of two observations
+#theorem #added
+New for the final (revision, November 2026).
+
 Here $\hat\theta_1=\frac{X_1+3X_2}{4}$, with $X_1,X_2$ independent, each with mean $\mu$ and variance $\sigma^2$.
 1. $E(\hat\theta_1)=\frac{\mu+3\mu}{4}=\mu$: unbiased.
 2. $V(\hat\theta_1)=\frac{1}{16}(\sigma^2+9\sigma^2)=\frac{10\sigma^2}{16}=\frac{5\sigma^2}{8}$.
@@ -80,11 +111,17 @@ Here $\hat\theta_1=\frac{X_1+3X_2}{4}$, with $X_1,X_2$ independent, each with me
 Rule: weights summing to $1$ keep it unbiased; the variance is $\sum(\text{weight}^2)\,\sigma^2$.
 
 ## P8. The pooled variance is unbiased for sigma squared
+#theorem
+Longer version: [[STA01B1_Proofs_ST2#4. The pooled variance is an unbiased estimator of σ²|ST2 proofs, 4]]
+
 $S_p^2=\frac{(m-1)S_1^2+(n-1)S_2^2}{m+n-2}$, with both samples from populations with common variance $\sigma^2$.
 1. $E(S_1^2)=E(S_2^2)=\sigma^2$ (P2).
 2. $E(S_p^2)=\frac{(m-1)\sigma^2+(n-1)\sigma^2}{m+n-2}=\frac{(m+n-2)\sigma^2}{m+n-2}=\mathbf{\sigma^2}$.
 
 ## P9. Confidence interval for mu one minus mu two, variances known
+#theorem
+Longer version: [[STA01B1_Proofs_ST2#2. Building a confidence interval for μ1 − μ2 from the pivot|ST2 proofs, 2]]
+
 Independent normal samples with known $\sigma_1^2$ and $\sigma_2^2$.
 1. $\bar X_1\sim N\!\left(\mu_1,\frac{\sigma_1^2}{m}\right)$ and $\bar X_2\sim N\!\left(\mu_2,\frac{\sigma_2^2}{n}\right)$, independent.
 2. $\bar X_1-\bar X_2\sim N\!\left(\mu_1-\mu_2,\ \frac{\sigma_1^2}{m}+\frac{\sigma_2^2}{n}\right)$.
@@ -97,6 +134,9 @@ Independent normal samples with known $\sigma_1^2$ and $\sigma_2^2$.
 (One-sample version: the same steps with $Z=\frac{\bar X-\mu}{\sigma/\sqrt n}$, giving $\bar X\pm z_{\alpha/2}\frac{\sigma}{\sqrt n}$. With $\sigma$ unknown, replace $\sigma$ by $S$ and $z$ by $t_{\alpha/2,n-1}$.)
 
 ## P10. SST equals SSTr plus SSE
+#theorem #exam-flagged
+Longer version: [[STA01B1_Proofs_ST2#8. SST = SSTr + SSE|ST2 proofs, 8]]
+
 $I$ groups, $J$ values each; $\bar x_{i\cdot}$ is the group mean and $\bar x_{\cdot\cdot}$ is the grand mean.
 
 $$SST=\sum_i\sum_j(x_{ij}-\bar x_{\cdot\cdot})^2,\qquad SSTr=J\sum_i(\bar x_{i\cdot}-\bar x_{\cdot\cdot})^2,\qquad SSE=\sum_i\sum_j(x_{ij}-\bar x_{i\cdot})^2$$
@@ -114,12 +154,18 @@ Computing forms (totals, no bars):
 $$SST=\sum\sum x_{ij}^2-\frac{x_{\cdot\cdot}^2}{IJ},\qquad SSTr=\frac{\sum x_{i\cdot}^2}{J}-\frac{x_{\cdot\cdot}^2}{IJ}$$
 
 ## P11. Expected count in a two-way table
+#theorem
+Source: [[STA01B1_Notes_S10_Chi_Square_Tests]] (the lecturer's route).
+
 1. Under $H_0$ (independence): $P(\text{row }i\text{ and column }j)=P(\text{row }i)\,P(\text{column }j)=p_{i\cdot}\,p_{\cdot j}$.
 2. Expected count $=n\times p_{i\cdot}\,p_{\cdot j}$.
 3. Estimate $p_{i\cdot}$ by $\frac{n_{i\cdot}}{n}$ and $p_{\cdot j}$ by $\frac{n_{\cdot j}}{n}$.
 4. $E_{ij}=n\cdot\frac{n_{i\cdot}}{n}\cdot\frac{n_{\cdot j}}{n}=\mathbf{\frac{n_{i\cdot}\,n_{\cdot j}}{n}}$ (row total times column total, divided by the grand total).
 
 ## P12. The short form of the chi-square statistic
+#formula
+Source: [[STA01B1_Notes_S10_Chi_Square_Tests]].
+
 1. $\frac{(O-E)^2}{E}=\frac{O^2}{E}-2O+E$.
 2. Sum over all cells: $\sum\frac{(O-E)^2}{E}=\sum\frac{O^2}{E}-2\sum O+\sum E$.
 3. $\sum O=\sum E=n$, so $-2n+n=-n$.
@@ -127,6 +173,9 @@ $$SST=\sum\sum x_{ij}^2-\frac{x_{\cdot\cdot}^2}{IJ},\qquad SSTr=\frac{\sum x_{i\
 **Therefore $\sum\frac{(O-E)^2}{E}=\sum\frac{O^2}{E}-n$.**
 
 ## P13. Sample size n from alpha and beta
+#formula #exam-flagged
+New for the final; it came up on the paper (your account, 10 November).
+
 Lower-tailed: $H_0:\mu=\mu_0$, true mean $\mu'<\mu_0$, $\sigma$ known. Rejection region: $\bar X\le c$.
 1. $\alpha$: $P(\bar X\le c\mid\mu_0)=\alpha$, so $\frac{c-\mu_0}{\sigma/\sqrt n}=-z_\alpha$, that is $\mathbf{c=\mu_0-z_\alpha\frac{\sigma}{\sqrt n}}$.
 2. $\beta$: $P(\bar X>c\mid\mu')=\beta$, so $\frac{c-\mu'}{\sigma/\sqrt n}=z_\beta$, that is $\mathbf{c=\mu'+z_\beta\frac{\sigma}{\sqrt n}}$.
@@ -140,11 +189,17 @@ $$\mathbf{n=\left[\frac{\sigma(z_\alpha+z_\beta)}{\mu_0-\mu'}\right]^2,\ \text{r
 - Proportion: $c=p_0-z_\alpha\sqrt{\frac{p_0q_0}{n}}=p'+z_\beta\sqrt{\frac{p'q'}{n}}$, so $n=\left[\frac{z_\alpha\sqrt{p_0q_0}+z_\beta\sqrt{p'q'}}{p'-p_0}\right]^2$.
 
 ## P14. Sample size for a confidence interval of half-width E
+#formula
+Longer version: [[STA01B1_Proofs_ST1#11. Sample size formulas|ST1 proofs, 11]]
+
 1. Error bound: $E=z_{\alpha/2}\frac{\sigma}{\sqrt n}$.
 2. Solve: $\sqrt n=\frac{z_{\alpha/2}\sigma}{E}$, so $\mathbf{n=\left(\frac{z_{\alpha/2}\sigma}{E}\right)^2}$, rounded up.
 3. Proportion: $E=z_{\alpha/2}\sqrt{\frac{\hat p\hat q}{n}}$, so $\mathbf{n=\frac{z_{\alpha/2}^2\,\hat p\hat q}{E^2}}$ ($\hat p=0.5$ when unknown, since $\hat p\hat q\le0.25$).
 
 ## P15. Building chi-square, t and F (Practical 2)
+#theorem
+Source: Practical 2, how the three distributions are built.
+
 - **$\chi^2_\nu$:** if $Z_1,\dots,Z_\nu$ are independent $N(0,1)$, then $\sum Z_i^2\sim\chi^2_\nu$. Example: $\frac{(n-1)S^2}{\sigma^2}\sim\chi^2_{n-1}$.
 - **$t_\nu$:** if $Z\sim N(0,1)$ and $X\sim\chi^2_\nu$ are independent, then $T=\frac{Z}{\sqrt{X/\nu}}\sim t_\nu$. Example: $Z=\frac{\bar X-\mu}{\sigma/\sqrt n}$ and $X=\frac{(n-1)S^2}{\sigma^2}$ with $\nu=n-1$, so $T=\frac{\bar X-\mu}{S/\sqrt n}$.
 - **$F_{\nu_1,\nu_2}$:** if $X_1\sim\chi^2_{\nu_1}$ and $X_2\sim\chi^2_{\nu_2}$ are independent, then $F=\frac{X_1/\nu_1}{X_2/\nu_2}\sim F_{\nu_1,\nu_2}$. Example: ANOVA, $F=\frac{MSTr}{MSE}$.
