@@ -24,7 +24,7 @@ Checked: every snippet comes from programs compiled with g++ 13 (`-std=c++23 -Wa
 | 4 | `<  <=  >=  >` |
 | 5 | `==  !=` |
 | 6 | `&&` |
-| 7 | `\|\|` |
+| 7 | or (two vertical bars) |
 | last | `=` |
 
 - Equal levels go left to right; brackets override.

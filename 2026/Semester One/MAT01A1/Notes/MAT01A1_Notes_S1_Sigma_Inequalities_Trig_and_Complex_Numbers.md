@@ -32,7 +32,7 @@ $$\sum_{i=1}^{n} 1 = n \qquad \sum_{i=1}^{n} c = nc \qquad \sum_{i=1}^{n} i = \f
 
 $$\sum_{i=1}^{n} i^2 = \frac{n(n+1)(2n+1)}{6} \qquad \sum_{i=1}^{n} i^3 = \left[\frac{n(n+1)}{2}\right]^2$$
 
-- Proofs use a telescoping sum: a sum that looks long but collapses, because each term cancels part of the next. For $\sum i^2$, add up $(1 + i)^3 - i^3 = 3i^2 + 3i + 1$ for $i = 1$ to $n$; the left side collapses to $(1 + n)^3 - 1$, then solve for $\sum i^2$.
+- Proofs use a telescoping sum: a sum that looks long but collapses, because each term cancels part of the next. For $\sum i^2$ (added, the notes leave the working to the lecture), add up $(1 + i)^3 - i^3 = 3i^2 + 3i + 1$ for $i = 1$ to $n$; the left side collapses to $(1 + n)^3 - 1$, then solve for $\sum i^2$.
 
 Example (source: Appendix E notes)
 Find $\displaystyle\lim_{n \to \infty} \sum_{i=1}^{n} \frac{3}{n}\left[\left(\frac{i}{n}\right)^2 + 1\right]$.
